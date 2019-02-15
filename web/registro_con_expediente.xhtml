@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>S I A E C</title>
+        <link href="#{request.contextPath}/resources/css/bootstrap.min.css" type="text/css" media="screen" rel="stylesheet"  />
+        <!-- Archivo smiling.css, incluira los css del sistema personalizado-->
+        <link href="#{request.contextPath}/resources/css/estilosaldana.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/resources/css/smiling.css" type="text/css" media="screen" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/micss.css" type="text/css" media="screen" rel="stylesheet"/>
+        <link href="#{request.contextPath}/resources/css/w3.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/resources/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" media="screen"/>
+        <link href="#{request.contextPath}/resources/images/icono.png" rel="shortcut icon" type="image/x-icon"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
+    </h:head>    
+
+    <h:body class="contenedor">
+
+        <!-- Para referencia a la sección Banner -->
+        <div id="banner">
+            <ui:insert name="banner">
+                <ui:include src="templates/partials/banner.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <!-- Barra de título -->
+        <div class="banda1"><b>REGISTRO DE USUARIO</b></div>
+        <br/>
+
+        <h:form id="registro">
+
+            <p:focus for="expediente"/>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-1">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-10">
+                    
+                    <p:panel id="panel1" rendered="#{homeBean.panel1}" style="border: solid 2px #D5D5D5; border-radius: 10px; height: 350pt; text-align: center">
+                        
+                        <br/>
+                        <img src="resources/images/logo.png" alt="" align="center"/>
+                        <br/><br/>
+                        <h6><b>Ingresa tu número de expediente</b></h6>
+                        <p:inputNumber id="expediente" value="#{homeBean.expediente}" maxlength="4" decimalPlaces="0" maxValue="9999" thousandSeparator="" emptyValue="empty" required="true" requiredMessage="Número de expediente requerido." class="tamanionumber"/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+                            <p:message for="expediente" style="width: 85%"/>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="right" style="padding-right: 10%">
+                            <h:commandLink type="submit" class="btn btn-default" action="#{homeBean.buscaExpediente()}"
+                                           style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                <i class="glyphicon glyphicon-share-alt"></i> Siguiente
+                            </h:commandLink>
+                        </div>
+
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="justify" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">¿No conoces tú número de expediente? Puedes solicitarlo poniendote en contacto con la Clínica Dental Smiling.</font>
+                        </div>
+
+                        <br/><br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="left" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">
+                            <a href="login.xhtml"><u>Volver al login</u></a></font>
+                        </div>
+                                                
+                    </p:panel>
+                    
+                    <p:panel id="panel2" rendered="#{homeBean.panel2}" style="border: solid 2px #D5D5D5; border-radius: 10px; height: 350pt; text-align: center">
+                        
+                        <br/>
+                        <img src="resources/images/logo.png" alt="" align="center"/>
+                        <br/><br/>
+                        <h6><b>Ingresa tú código de seguridad</b></h6>
+                        <p:inputNumber id="codigo" value="#{homeBean.codigo}" maxlength="4" decimalPlaces="0" maxValue="9999" thousandSeparator="" emptyValue="empty" required="true" requiredMessage="Código requerido." class="tamanionumber"/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+                            <p:message for="codigo" style="width: 85%"/>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="right" style="padding-right: 10%">
+                            <h:commandLink type="submit" class="btn btn-default" action="#{homeBean.buscaCodigo()}"
+                                           style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                <i class="glyphicon glyphicon-share-alt"></i> Siguiente
+                            </h:commandLink>
+                        </div>
+
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="justify" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">Se ha enviado un código de 4 dígitos a la dirección de correo "#{homeBean.pacienteConsultar.pacienteCorreo}". Si ya no tienes acceso a esta dirección de correo, ponte en contacto con la Clínica Dental Smiling.</font>
+                        </div>
+
+                        <br/><br/><br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="left" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">
+                            <a href="login.xhtml"><u>Volver al login</u></a></font>
+                        </div>
+                                                
+                    </p:panel>
+                    
+                    <p:panel id="panel3" rendered="#{homeBean.panel3}" style="border: solid 2px #D5D5D5; border-radius: 10px; height: 350pt; text-align: center">
+                        
+                        <br/>
+                        <img src="resources/images/logo.png" alt="" align="center"/>
+                        <br/><br/>
+                        <h6><b>El número de expediente ingresado no exite</b></h6>
+                        <p:inputNumber id="expediente2" value="#{homeBean.expediente}" maxlength="4" decimalPlaces="0" maxValue="9999" thousandSeparator="" emptyValue="empty" required="true" requiredMessage="Número de expediente requerido." class="tamanionumber"/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+                            <p:message for="expediente2" style="width: 85%"/>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="right" style="padding-right: 10%">
+                            <h:commandLink type="submit" class="btn btn-default" action="#{homeBean.buscaExpediente()}"
+                                           style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                <i class="glyphicon glyphicon-share-alt"></i> Siguiente
+                            </h:commandLink>
+                        </div>
+
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="justify" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">¿No conoces tú número de expediente? Puedes solicitarlo poniendote en contacto con la Clínica Dental Smiling.</font>
+                        </div>
+
+                        <br/><br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="left" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">
+                            <a href="login.xhtml"><u>Volver al login</u></a></font>
+                        </div>
+                                                
+                    </p:panel>
+                    
+                    <p:panel id="panel4" rendered="#{homeBean.panel4}" style="border: solid 2px #D5D5D5; border-radius: 10px; height: 350pt; text-align: center">
+                        
+                        <br/>
+                        <img src="resources/images/logo.png" alt="" align="center"/>
+                        <br/><br/>
+                        <h6><b>El código ingresado es incorrecto</b></h6>
+                        <p:inputNumber id="codigo2" value="#{homeBean.codigo}" maxlength="4" decimalPlaces="0" maxValue="9999" thousandSeparator="" emptyValue="empty" required="true" requiredMessage="Número de expediente requerido." class="tamanionumber"/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+                            <p:message for="expediente2" style="width: 85%"/>
+                        </div>
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="right" style="padding-right: 10%">
+                            <h:commandLink type="submit" class="btn btn-default" action="#{homeBean.buscaCodigo()}"
+                                           style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                <i class="glyphicon glyphicon-share-alt"></i> Siguiente
+                            </h:commandLink>
+                        </div>
+
+                        <br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="justify" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">Se ha enviado un código de 4 dígitos a la dirección de correo "#{homeBean.pacienteConsultar.pacienteCorreo}". Si ya no tienes acceso a esta dirección de correo, ponte en contacto con la Clínica Dental Smiling.</font>
+                        </div>
+
+                        <br/><br/><br/><br/>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="left" style="padding-left: 10%; padding-right: 10%">
+                            <font size="2" style="color:#84878B">
+                            <a href="login.xhtml"><u>Volver al login</u></a></font>
+                        </div>
+                                                
+                    </p:panel>
+                    
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-1">
+                </div>
+            </div>
+
+        </h:form>
+
+
+        <p:spacer height="50"/>
+        <!-- Para referencia a la sección Pie de Página -->
+        <div id="bottom">
+            <ui:insert name="bottom">
+                <ui:include src="templates/partials/pie_pagina.xhtml"/>
+            </ui:insert>
+        </div>
+
+        <!-- Para referencia a archivos Java Scripts de Bootstrap -->
+        <script src="#{request.contextPath}/resources/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+        <ui:insert name="scripts"/>
+    </h:body>
+
+</html>

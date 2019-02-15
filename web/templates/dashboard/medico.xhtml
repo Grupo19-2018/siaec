@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES</b></div>
+    <br/>
+    <div class="container" style="background-color: white"> 
+        <div class="row">
+            <div class="text-center">
+                <h1>#{dashboardMedico.medicoNombre()} </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                #{dashboardMedico.cantidadCitasDia()}
+            </div>
+        </div>
+
+        <div class="row">
+            <!--Solo se mostraran las citas Reservadas para el dia y las restantes del medico -->
+            <!--El maximo de citas que puede tener son 9 citas dentro del sistema se pueden poner mas
+                para ello, necesitamos parametrizar el valor de las horas  de apertura y cierre de las 
+                clinicas. -->
+            <div>
+                <br/>
+                <ui:repeat value="#{dashboardMedico.citasDelDia()}" var="citas">
+                    <div class="col-lg-12" >
+                        <div style="border-top-color: black; border-top-style: ridge; ">
+                            Paciente: <span style="font-weight: bold">#{citas.citaNombres} #{citas.citaApellidos}</span><br/>
+                            Tel.: #{citas.citaTelefono} <br/>
+                            Hora: <span style="font-weight: bold"> #{citas.citaHora.hours} : 00 </span><br/>
+                            Motivo: #{citas.citaMotivo}<br/>
+                            Sucursal: #{citas.clinicaId.clinicaNombre} <br/>
+                           <!-- #{citas.usuarioUsuario.usuarioUsuario}-->
+
+                            <h:form>
+                                <h:commandLink action="cita_paciente_consultar_aprobada.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                    <!--<f:setPropertyActionListener value="#{cita}" target="#{citasBean1.citaConsultar}"/>-->
+                                </h:commandLink> &nbsp;
+                                <h:commandLink action="/views/2_expedientes/paciente_expediente_consultar.xhtml" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
+                                    <!--<f:setPropertyActionListener value="#{paciente}" target="#{expedientesBean.pacienteConsultar}"/>-->
+                                    <f:actionListener binding="#{expedientesBean.dashboarExpedienteConsultar(citas.usuarioUsuario.usuarioUsuario)}"/>
+                                    <f:actionListener binding="#{expedientesBean.direccionPaciente()}"/>
+                                    <f:actionListener binding="#{expedientesBean.setTabIndex(0)}"/>
+                                </h:commandLink> &nbsp;
+                                <h:commandLink action="/views/2_expedientes/consultas_plantilla_nuevo.xhtml" class="btn btn-default glyphicon glyphicon-pushpin btn-sm btn-tabla-expediente2" title="Consultar">
+                                    <!--<f:setPropertyActionListener value="#{cita}" target="#{citasBean1.citaConsultar}"/>-->
+                                    <!--<f:setPropertyActionListener value="#{pac}" target="#{expedientesBean.pacienteEditar}"/>-->
+                                    <f:actionListener binding="#{expedientesBean.dashboarExpedienteEditar(citas.usuarioUsuario.usuarioUsuario)}"/>
+                                    <f:actionListener binding="#{expedientesBean.setTabIndex(2)}"/>
+                                </h:commandLink> &nbsp;
+                            </h:form>
+                        </div>
+                        <br/><br/>
+                    </div>
+                </ui:repeat>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+        </div>
+
+
+    </div>
+
+</html>
+

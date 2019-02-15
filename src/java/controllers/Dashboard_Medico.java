@@ -1,0 +1,140 @@
+/*
+Controlador para el Dashboard del Paciente 
+Opciones:
+-Crear una cita de forma rápida. 
+-Informar de si tiene citas para el día. 
+ */
+package controllers;
+
+import dao.CitasFacade;
+import dao.MedicosFacade;
+import dao.PacientesFacade;
+import entities.Citas;
+import entities.Medicos;
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
+/**
+ *
+ * @author user
+ */
+//@Named(value = "dashboardView")
+@ManagedBean(name = "dashboardMedico")
+//@ViewScoped
+@SessionScoped
+public class Dashboard_Medico implements Serializable {
+
+//****************************************************************************//
+//                          Declaración de variables                          //
+//****************************************************************************//
+    @EJB
+    private CitasFacade citasfacade;
+    
+    @EJB
+    private MedicosFacade medicosFacade;
+    private Medicos medico;
+    
+    String usuario = "Diana";
+    
+    //Cargar al usuario que inicia sesion dentro del controlador vista. 
+    //Esta Funciona conjunto con AppSession.java y SesionBean.java
+    @ManagedProperty(value = "#{appSession}")
+    private AppSession appSession;
+
+//****************************************************************************//
+//                         Métodos para obtener entidades                     //
+//****************************************************************************//
+    //Metodo para encontrar al medico 
+    //Usado para saludar al medico
+    //Usado en 
+    private Medicos usuarioMedico(){
+        if(appSession.getUsuario() != null){
+            return getMedicosFacade().medico(appSession.getUsuario().getUsuarioUsuario());
+        }
+        return null;
+    }
+    
+//****************************************************************************//
+//                 Métodos Get para obtener datos de entidades                //
+//****************************************************************************//
+    public CitasFacade getCitasfacade() {
+        return citasfacade;
+    }
+
+    public MedicosFacade getMedicosFacade() {
+        return medicosFacade;
+    }
+    
+
+//****************************************************************************//
+//                             Métodos Get y SET                              //
+//****************************************************************************// 
+    public AppSession getAppSession() {
+        return appSession;
+    }
+
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+
+    public Medicos getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Medicos medico) {
+        this.medico = medico;
+    }
+    
+
+//****************************************************************************//
+//                                   Métodos                                  //
+//****************************************************************************//  
+    
+    //Metodo para saludar a la doctora.
+    //Usado en medico.xhtml
+    public String medicoNombre(){
+        if (appSession.getUsuario() != null) {
+            medico = usuarioMedico();
+            String nombre="";
+            if(medico.getMedicoSexo()){
+                //Masculino si es true.
+                nombre = "BIENVENIDO Dr. "+ medico.getMedicoPrimerNombre()+" " + medico.getMedicoPrimerApellido();
+                return nombre.toUpperCase();
+            }else{
+                //Femenino.
+                nombre = "BIENVENIDA Dra. "+ medico.getMedicoPrimerNombre()+" " + medico.getMedicoPrimerApellido(); 
+                return nombre.toUpperCase();
+            }
+        }
+        return "";
+    }
+    
+    //Mostrar citas a atende en el Dia. 
+    //Usado en: medico.xhtml
+    public List<Citas> citasDelDia(){
+        if(appSession.getUsuario() !=  null){
+            return getCitasfacade().citasDelDiaMedico(medico.getMedicoId());
+        }
+        return null;
+    }
+    //Mostrar citas en el Dia.
+    //Usado en: medico.xhtml
+    public String cantidadCitasDia(){
+            if(!citasDelDia().isEmpty()){
+                return "Tiene " + citasDelDia().size() + " citas este día";
+            }else{
+                return "No tiene citas este día";
+            }
+    }
+    
+    //Mostrar la cantidad de citas en este mes.
+    //Mostrar la cantidad de citas en el mes siguiente. 
+}

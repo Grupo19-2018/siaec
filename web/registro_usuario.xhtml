@@ -98,18 +98,14 @@
                                 <h6><b>Contraseña</b></h6>
                                 <p:password id="contrasenia" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" match="confirmar" maxlength="20" style="width: 100%" feedback="true"
                                             promptLabel="Ingrese una contraseña" weakLabel="Seguridad baja" goodLabel="Seguridad media" strongLabel="Seguridad alta"
-                                            required="true" requiredMessage="Ingrese una contraseña." validatorMessage="Contraseñas no coinciden.">
+                                            required="true" requiredMessage="Ingrese una contraseña." validatorMessage="Contraseñas no coinciden o es muy corta.">
                                     <f:validateRegex pattern="^(.{6,20})*$"/>
                                 </p:password>
                                 <p:message for="contrasenia"/>
                             </div>
                             <div class="col-md-6">
                                 <h6><b>Confirmar contraseña</b></h6>
-                                <p:password id="confirmar" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" maxlength="20" style="width: 100%"
-                                            validatorMessage="Mínimo 6 caracteres.">
-                                    <f:validateRegex pattern="^(.{6,20})*$"/>
-                                </p:password>
-                                <p:message for="confirmar"/>
+                                <p:password id="confirmar" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" maxlength="20" style="width: 100%"/>
                             </div>
                         </div><br/>
 

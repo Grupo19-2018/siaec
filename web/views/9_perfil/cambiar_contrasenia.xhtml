@@ -12,9 +12,171 @@
             <div class="banda1"><b>CAMBIAR CONTRASEÑA</b></div>
             <br/>
 
-            <br/><br/><br/><br/><br/>
-            <h1 align="CENTER"><B>PANTALLA EN DESARROLLO</B></h1>
-            
+            <h:form id="formContrasenia" class="form-horizontal">
+                
+                <p:focus context="panel1"/>
+                <h:panelGroup id="panel1" rendered="#{perfilBean.banderaPanel1}">
+                    <!-- Panel "Fecha de Observación y Observación" -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10">
+                            <div class="col-xs-1"/>
+                            <div class="col-xs-10">
+                                <!-- Panel -->
+                                <div class="panel panel-default" style="border-radius: 10px; border: solid 1px #D5D5D5">
+                                    <div class="panel-body" style="height: 120pt"><br/>
+                                        <!-- Fecha de Observación -->
+                                        <div class="row">
+                                            <div class="col-xs-5" align="right">
+                                                <Label>Contraseña actual</Label>
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <p:password id="contrasenia" value="#{perfilBean.contraseniaActual}" style="width: 90%; margin-bottom: 12pt">
+                                                </p:password>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-1"/>
+                                            <div class="col-xs-9" align="center">
+                                                <h:messages id="mensaje1" style="width: 100%"></h:messages>
+                                            </div>
+                                            <div class="col-xs-2"/>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12" align="center">
+                                                <h:commandLink type="submit" class="btn btn-default botonNaranja" action="#{perfilBean.validaContrasenia()}"
+                                                               style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                                    <i class="glyphicon glyphicon-share-alt"></i> Validar
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                    </div>
+                </h:panelGroup>
+
+                <p:focus context="panel2"/>
+                <h:panelGroup id="panel2" rendered="#{perfilBean.banderaPanel2}">
+                    <!-- Panel "Fecha de Observación y Observación" -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10">
+                            <div class="col-xs-1"/>
+                            <div class="col-xs-10">
+                                <!-- Panel -->
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="height: 120pt"><br/>
+                                        <!-- Fecha de Observación -->
+                                        <div class="row">
+                                            <div class="col-xs-5" align="right">
+                                                <label>Nueva contraseña</label>
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <p:password id="nueva1" value="#{perfilBean.contraseniaNueva1}" required="true" requiredMessage="Introduzca una contraseña." feedback="true" style="width: 90%; margin-bottom: 12pt"
+                                                            promptLabel="Introduzca una contraseña" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta">
+                                                </p:password>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-0"/>
+                                            <div class="col-xs-12" align="center">
+                                                <h:messages id="mensaje2" style="width: 100%"></h:messages>
+                                            </div>
+                                            <div class="col-xs-0"/>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12" align="center">
+                                                <h:commandLink type="submit" class="btn btn-default botonNaranja" action="#{perfilBean.nuevaContrasenia()}"
+                                                               style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                                    <i class="glyphicon glyphicon-share-alt"></i> Aceptar
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                    </div>
+                </h:panelGroup>
+
+                <p:focus context="panel3"/>
+                <h:panelGroup id="panel3" rendered="#{perfilBean.banderaPanel3}">
+                    <!-- Panel "Fecha de Observación y Observación" -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10">
+                            <div class="col-xs-1"/>
+                            <div class="col-xs-10">
+                                <!-- Panel -->
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="height: 120pt"><br/>
+                                        <!-- Fecha de Observación -->
+                                        <div class="row">
+                                            <div class="col-xs-5" align="right">
+                                                <label>Repita la contraseña</label>
+                                            </div>
+                                            <div class="col-xs-7">
+                                                <p:password id="nueva2" value="#{perfilBean.contraseniaNueva2}" required="true" requiredMessage="Introduzca una contraseña." style="width: 90%; margin-bottom: 12pt">
+                                                </p:password>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-0"/>
+                                            <div class="col-xs-11" align="center">
+                                                <h:messages id="mensaje3" style="width: 100%"></h:messages>
+                                            </div>
+                                            <div class="col-xs-1"/>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12" align="center">
+                                                <h:commandLink type="submit" class="btn btn-default botonNaranja" action="#{perfilBean.actualizarContrasenia()}"
+                                                               style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                                    <i class="glyphicon glyphicon-share-alt"></i> Aceptar
+                                                </h:commandLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup id="panel4" rendered="#{perfilBean.banderaPanel4}">
+                    <!-- Panel "Fecha de Observación y Observación" -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-10">
+                            <div class="col-xs-1"/>
+                            <div class="col-xs-10">
+                                <!-- Panel -->
+                                <div class="panel panel-default">
+                                    <div class="panel-body" style="height: 120pt"><br/>
+                                        <!-- Fecha de Observación -->
+                                        <p:spacer height="20" />
+                                        <div class="row">
+                                            <h4><font color="#066EAD"><center><b>La contraseña se actualizó exitosamente.</b></center></font></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-1"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-2 col-xs-1"/>
+                    </div>
+                </h:panelGroup> 
+
+            </h:form>
+            <p:spacer height="50" />
+
         </ui:define>
     </ui:composition>
 </html>

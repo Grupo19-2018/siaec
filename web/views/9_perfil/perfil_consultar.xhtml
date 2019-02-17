@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <div class="banda1"><b>PERFIL DE USUARIO</b></div>
+            <br/>
+
+            <h:form id="formAprobacion" class="form-horizontal">
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0">
+                        <label></label>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
+                        <!-- Panel -->
+                        <div class="panel panel-default" style="margin-left: 15pt; margin-right: 15pt; border-radius: 10px; border: solid 1px #D5D5D5">
+                            <div class="panel-body">
+                                
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label>Nombre</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <p:inputText value="#{perfilBean.usuarioLogueado.usuarioPrimerNombre} #{perfilBean.usuarioLogueado.usuarioSegundoNombre}" readonly="true" style="width: 100%; margin-bottom: 12pt"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label>Apellidos</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <p:inputText value="#{perfilBean.usuarioLogueado.usuarioPrimerApellido} #{perfilBean.usuarioLogueado.usuarioSegundoApellido}" readonly="true" style="width: 100%; margin-bottom: 12pt"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label>Rol</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <p:inputText value="#{perfilBean.usuarioLogueado.rolId.rolNombre}" readonly="true" style="width: 100%; margin-bottom: 12pt"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label>Correo</label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <p:inputText id="correo" value="#{perfilBean.usuarioLogueado.usuarioCorreo}" required="true" readonly="#{perfilBean.banderaCorreo}"
+                                                     style="width: 90%; margin-bottom: 12pt" validatorMessage="Correo no válido." requiredMessage="Correo es requerido.">
+                                            <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
+                                        </p:inputText>
+                                        <h:commandLink value="" style="text-decoration:none;color:#066EAD" class="glyphicon glyphicon-pencil">
+                                            <f:setPropertyActionListener value="false" target="#{perfilBean.banderaCorreo}"/>
+                                            <f:setPropertyActionListener value="true" target="#{perfilBean.banderaBoton}"/>
+                                            <p:ajax update="correo"/>
+                                            <f:ajax render="boton"/>
+                                        </h:commandLink>
+                                        <p:message for="correo"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label>Teléfono</label>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <p:inputMask id="telefono" value="#{perfilBean.usuarioLogueado.usuarioTelefono}" mask="9999-9999" readonly="#{perfilBean.banderaTelefono}"
+                                                     style="width: 75%; margin-bottom: 12pt" required="true" requiredMessage="Teléfono es requerido."/>
+                                        <h:commandLink value="" style="text-decoration:none;color:#066EAD" class="glyphicon glyphicon-pencil">
+                                            <f:setPropertyActionListener value="false" target="#{perfilBean.banderaTelefono}"/>
+                                            <f:setPropertyActionListener value="true" target="#{perfilBean.banderaBoton}"/>
+                                            <p:ajax update="telefono"/>
+                                            <f:ajax render="boton"/>
+                                        </h:commandLink>
+                                        <p:message for="telefono"/>
+                                    </div>
+                                    <div class="col-xs-4"/>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <label>Fecha Creación</label>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <p:inputText value="#{perfilBean.usuarioLogueado.usuarioFechaCreacion}" readonly="true" style="width: 75%; margin-bottom: 12pt">
+                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="col-xs-4" align="right">
+                                        <h:panelGroup id="boton">
+                                            <h:commandLink rendered="#{perfilBean.banderaBoton}" type="submit" class="btn btn-default" actionListener="#{perfilBean.actualizarUsuario()}" style="width: 75pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                                <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
+                                            </h:commandLink>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-2 col-xs-0"/>
+                </div>
+
+            </h:form>
+            <p:spacer height="50" />
+        </ui:define>
+    </ui:composition>
+</html>

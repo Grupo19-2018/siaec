@@ -10,6 +10,7 @@
 
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Patologías')}"/>
                 <f:viewParam name="patologia" value="#{catalogosBean.patologiaId}"/>
                 <f:event type="preRenderView" listener="#{catalogosBean.cargarPatologia()}"/>
             </f:metadata>

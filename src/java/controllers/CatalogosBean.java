@@ -19,9 +19,11 @@ import entities.Insumos;
 import entities.Municipios;
 import entities.Medicos;
 import entities.Patologias;
+import entities.Submenus;
 import entities.TiposInsumos;
 import entities.Tratamientos;
 import entities.UnidadesMedidas;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +34,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 
 /* @author Equipo 19-2018 FIA-UES */
@@ -147,6 +151,10 @@ public class CatalogosBean implements Serializable {
     
     public List<Insumos> todosInsumosDisponibles(){
         return getInsumosFacade().insumosDisponibles(Boolean.TRUE);
+    }
+    
+    public List<Submenus> todosSubmenusDisponibles(){
+        return appSession.getUsuario().getRolId().getSubmenusList();
     }
     
 //****************************************************************************//
@@ -655,22 +663,121 @@ public class CatalogosBean implements Serializable {
     }
     
     
+    private int usuarioId;
+    private int sucursalId;
+    private int medicoId;
+    private int tratamientoId;
     private int patologiaId;
-
+    private int tipoInsumoId;
+    private int unidadMedidaId;
+    
     public int getPatologiaId() {
         return patologiaId;
     }
     public void setPatologiaId(int patologiaId) {
         this.patologiaId = patologiaId;
     }
-    
-    public void cargarPatologia(){
-        System.out.println("Entra al método.");
-        System.out.println("patologiaId = " + patologiaId);
-        patologiaEditar = getPatologiasFacade().find(patologiaId);
-        System.out.println("PatologisEditar = "+ patologiaEditar.getPatologiaNombre());
-        
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public int getSucursalId() {
+        return sucursalId;
+    }
+    public void setSucursalId(int sucursalId) {
+        this.sucursalId = sucursalId;
+    }
+
+    public int getMedicoId() {
+        return medicoId;
+    }
+    public void setMedicoId(int medicoId) {
+        this.medicoId = medicoId;
+    }
+
+    public int getTratamientoId() {
+        return tratamientoId;
+    }
+    public void setTratamientoId(int tratamientoId) {
+        this.tratamientoId = tratamientoId;
+    }
+
+    public int getTipoInsumoId() {
+        return tipoInsumoId;
+    }
+    public void setTipoInsumoId(int tipoInsumoId) {
+        this.tipoInsumoId = tipoInsumoId;
+    }
+
+    public int getUnidadMedidaId() {
+        return unidadMedidaId;
+    }
+    public void setUnidadMedidaId(int unidadMedidaId) {
+        this.unidadMedidaId = unidadMedidaId;
     }
     
-    
+    //Método para cargar sucursal seleccionada para editar. (cat_sucursales_editar.xhtml)
+    public void cargarSucursal(){
+        sucursalEditar = getClinicasFacade().find(sucursalId);
+    }
+        
+    //Método para cargar medico seleccionado para editar. (cat_medicos_editar.xhtml)
+    public void cargarMedico(){
+        medicoEditar = getMedicosFacade().find(medicoId);
+    }
+        
+    //Método para cargar tratamiento seleccionado para editar. (cat_tratamientos_editar.xhtml)
+    public void cargarTratamiento(){
+        tratamientoEditar = getTratamientosFacade().find(tratamientoId);
+    }
+        
+    //Método para cargar patología seleccionada para editar. (cat_patologias_editar.xhtml)
+    public void cargarPatologia(){
+        patologiaEditar = getPatologiasFacade().find(patologiaId);
+    }
+        
+    //Método para cargar tipo de insumo seleccionado para editar. (cat_tipoinsumos_editar.xhtml)
+    public void cargarTipoInsumo(){
+        tipoInsumoEditar = getTiposInsumosFacade().find(tipoInsumoId);
+    }
+        
+    //Método para cargar unidad de medida seleccionada para editar. (cat_unidadesmedidas_editar.xhtml)
+    public void cargarUnidadMedida(){
+        unidadMedidaEditar = getUnidadesMedidasFacade().find(unidadMedidaId);
+    }
+        
+    //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
+    public void verificaAcceso(String pagina){
+        System.out.println("Entra al método del usuario.");
+        boolean acceso = false;
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+            String contextPath = origRequest.getContextPath();
+
+            if(appSession.getUsuario() == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+            else{
+                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
+                    for (Submenus submenu : todosSubmenusDisponibles()){
+                        System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        if(submenu.getSumbenuNombre().equals(pagina)){
+                            acceso = true;
+                        }
+                    }
+                }
+            }
+            if(!acceso){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+        } catch(IOException e){
+            System.out.println("La variable appSession es nula.");
+        }
+        
+    }
 }

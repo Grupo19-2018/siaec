@@ -7,6 +7,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        
+        <ui:define name="meta-data">
+            <f:metadata>
+                <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Médicos')}"/>
+                <f:viewParam name="medicoeditar" value="#{catalogosBean.medicoId}"/>
+                <f:event type="preRenderView" listener="#{catalogosBean.cargarMedico()}"/>
+            </f:metadata>
+        </ui:define>
+        
         <ui:define name="content">
 
             <div class="banda1"><b>EDITAR MÉDICO</b></div>

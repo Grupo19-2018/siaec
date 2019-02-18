@@ -7,9 +7,16 @@
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"        
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-        <ui:composition template="./../../templates/layout/plantilla.xhtml">
-            <ui:define name="content">
-                <!-- Barra de título -->
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Unidades de Medida')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>LISTADO DE UNIDADES DE MEDIDAS</b></div>
             <br/>
 
@@ -49,9 +56,9 @@
                                             <td>#{unidad.unidadmedidaNombre}</td>
                                             <td>#{unidad.unidadmedidaAbreviatura}</td>
                                             <td align="center">
-                                                <h:commandLink action="cat_unidadesmedidas_editar.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                    <f:setPropertyActionListener value="#{unidad}" target="#{catalogosBean.unidadMedidaEditar}"/>
-                                                </h:commandLink> &nbsp;
+                                                <h:link outcome="UnidadesMedidasEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                    <f:param name="unidadmedida" value="#{unidad.unidadmedidaId}"/>
+                                                </h:link> &nbsp;
                                                 <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                pt:data-toggle="modal" pt:data-target="#eliminarUnidadmedida">
                                                     <f:setPropertyActionListener value="#{unidad}" target="#{catalogosBean.unidadMedidaEditar}"/>
@@ -107,11 +114,11 @@
 
             </p:panel>
             <p:spacer height="50"/>
-            </ui:define>
+        </ui:define>
 
-            <!-- Script para funcionalidades de la tabla -->
-            <ui:define name="scripts">
-                <script>
+        <!-- Script para funcionalidades de la tabla -->
+        <ui:define name="scripts">
+            <script>
                 $(document).ready(function () {
                     var t = $('#tabla').DataTable({
                         "columnDefs": [{
@@ -165,9 +172,9 @@
                     );
                 }
             </script>
-            </ui:define>
+        </ui:define>
 
-        </ui:composition>
+    </ui:composition>
 
-    
+
 </html>

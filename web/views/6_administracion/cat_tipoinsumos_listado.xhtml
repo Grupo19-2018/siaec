@@ -10,6 +10,12 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Tipo de Insumo')}"/>
+                </f:metadata>
+            </ui:define>
+
             <!-- Barra de título -->
             <div class="banda1"><b>LISTADO DE TIPO DE INSUMOS</b></div>
             <br/>
@@ -50,9 +56,9 @@
                                             <td>#{tipo.tipoinsumoNombre}</td>
                                             <td>#{tipo.tipoinsumoDescripcion}</td>
                                             <td align="center">
-                                                <h:commandLink action="cat_tipoinsumos_editar.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                    <f:setPropertyActionListener value="#{tipo}" target="#{catalogosBean.tipoInsumoEditar}"/>
-                                                </h:commandLink> &nbsp;
+                                                <h:link outcome="TipoInsumosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                    <f:param name="tipoinsumo" value="#{tipo.tipoinsumoId}"/>
+                                                </h:link> &nbsp;
                                                 <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                pt:data-toggle="modal" pt:data-target="#eliminarTipoinsumo">
                                                     <f:setPropertyActionListener value="#{tipo}" target="#{catalogosBean.tipoInsumoEditar}"/>

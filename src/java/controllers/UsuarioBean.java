@@ -131,10 +131,13 @@ public class UsuarioBean  implements Serializable {
             if(appSession.getUsuario() == null){
                 FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
             }
-            /*else{
-                Aquí va la validación si se tiene acceso a la página consultada. 
-                Si no hay acceso se envía al login. Caso contrario se muestra la página.
-            }*/
+            else{
+                if(appSession.getUsuario().getRolId().getSubmenusList().isEmpty()){
+                    FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+                }
+                else{
+                }
+            }
             
         } catch(IOException e){
             e.printStackTrace();

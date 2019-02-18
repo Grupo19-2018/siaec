@@ -7,6 +7,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
+
+        <ui:define name="meta-data">
+            <f:metadata>
+                <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Unidades de Medida')}"/>
+                <f:viewParam name="unidadmedida" value="#{catalogosBean.unidadMedidaId}"/>
+                <f:event type="preRenderView" listener="#{catalogosBean.cargarUnidadMedida()}"/>
+            </f:metadata>
+        </ui:define>
+
         <ui:define name="content">
 
             <div class="banda1"><b>EDITAR UNIDAD DE MEDIDA</b></div>
@@ -18,7 +27,7 @@
                 <h:form id="editarunidadmedida">
 
                     <p:focus for="nombreunidadeditar"/>
-                    
+
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-1">
                         </div>

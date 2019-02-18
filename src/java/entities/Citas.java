@@ -58,7 +58,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.findCitaPorSucursalReport", query = "SELECT c FROM Citas c WHERE c.citaFechaCreacion between :fechainicio and :fechafin and c.clinicaId.clinicaId = :clinicaId AND c.citaEstado = :estadoId"),
 
     @NamedQuery(name = "Citas.citaDelDia", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha = :dia"),
-    @NamedQuery(name = "Citas.citaDelDiaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha = :dia"),
+    //Estado: Usado
+    //Actualizado: 18/febrero/2019
+    //Agregando los estados 1 y 2
+    @NamedQuery(name = "Citas.citaDelDiaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha = :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)" ),
 
     //JPQL para buscar las citas del dia confirmadas.
     @NamedQuery(name = "Citas.citaDelDiaConfirmadas", query = "SELECT c FROM Citas c WHERE c.citaFecha = :dia AND c.citaEstado = 2"),

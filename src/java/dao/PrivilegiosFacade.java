@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Privilegios;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,10 @@ public class PrivilegiosFacade extends AbstractFacade<Privilegios> {
 
     public PrivilegiosFacade() {
         super(Privilegios.class);
+    }
+    
+    public List<Privilegios> privilegiosPorSubmenu(int submenuId){
+        return getEntityManager().createNamedQuery("Privilegios.findBySubmenuId").setParameter("submenuId", submenuId).getResultList();
     }
     
 }

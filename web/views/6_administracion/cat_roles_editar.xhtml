@@ -48,6 +48,7 @@
                             <h6><b>Agenda</b></h6>
                             <p:selectManyCheckbox value="#{AdministracionBean.submenu1}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(1)}" var="submenu1" itemLabel="#{submenu1.sumbenuNombre}" itemValue="#{submenu1}"/>
+                                <p:ajax update="permisosSubmenu1"/>
                             </p:selectManyCheckbox>
                         </div>
 
@@ -62,6 +63,7 @@
                             <h6><b>Insumos</b></h6>
                             <p:selectManyCheckbox value="#{AdministracionBean.submenu3}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(3)}" var="submenu3" itemLabel="#{submenu3.sumbenuNombre}" itemValue="#{submenu3}"/>
+                                <p:ajax update="permisosSubmenu3"/>
                             </p:selectManyCheckbox>
                         </div>
 
@@ -69,6 +71,7 @@
                             <h6><b>Promociones</b></h6>
                             <p:selectManyCheckbox value="#{AdministracionBean.submenu4}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(4)}" var="submenu4" itemLabel="#{submenu4.sumbenuNombre}" itemValue="#{submenu4}"/>
+                                <p:ajax update="permisosSubmenu4"/>
                             </p:selectManyCheckbox>
                         </div>
                     </div>
@@ -86,6 +89,7 @@
                             <h6><b>Administración</b></h6>
                             <p:selectManyCheckbox value="#{AdministracionBean.submenu6}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(6)}" var="submenu6" itemLabel="#{submenu6.sumbenuNombre}" itemValue="#{submenu6}"/>
+                                <p:ajax update="permisosSubmenu6"/>
                             </p:selectManyCheckbox>
                         </div>
 
@@ -105,6 +109,109 @@
                     </div>
 
                     <br/>
+                    <!-- Inicio de permisos especiales -->
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h6><b>Permisos Especiales</b></h6>
+                            <hr style="border: solid 1px #D5D5D5"/>
+                        </div>
+                        <p:panel id="permisosSubmenu1">
+                            <h:panelGroup  rendered="#{not empty AdministracionBean.submenu1}">
+                                <h6><b>Agenda</b></h6>
+                                <h:panelGroup  rendered="#{AdministracionBean.getsCitasAprobadas()}">
+                                    <h6><b>Citas Aprobadas Clinica</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.citasAprobadas}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(2)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{AdministracionBean.getsCitasPendientes()}">
+                                    <h6><b>Citas Pendiente Clinica</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.citasPendientes}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(3)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:panel>
+
+                        <!--Permisos  especiales de Insumos  -->
+                        <p:panel id="permisosSubmenu3">
+                            <h:panelGroup  rendered="#{not empty AdministracionBean.submenu3}">
+                                <h6><b>Insumos</b></h6>
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarInsumos()}">
+                                    <h6><b>Gestionar Insumos</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarInsumos}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(13)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:panel>
+                        
+                        <!--Permisos  especiales de Promociones  -->
+                        <p:panel id="permisosSubmenu4">
+                            <h:panelGroup  rendered="#{not empty AdministracionBean.submenu4}">
+                                <h6><b>Promociones</b></h6>
+                                <h:panelGroup rendered="#{AdministracionBean.getsListadoPromociones()}">
+                                    <h6><b>Listado de Promociones</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.listadoPromociones}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(19)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:panel>
+                        
+                        <!--Permisos  especiales de Administracion  -->
+                        <p:panel id="permisosSubmenu6">
+                            <h:panelGroup  rendered="#{not empty AdministracionBean.submenu6}">
+                                <h6><b>Administracion</b></h6>
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarSucursales()}">
+                                    <h6><b>Gestionar Sucursales</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarSucursales}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(34)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                                
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarMedicos()}">
+                                    <h6><b>Gestionar Medicos</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarMedicos}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(35)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                                
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarTratamientos()}">
+                                    <h6><b>Gestionar Tratamientos</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarTratamientos}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(36)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                                
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarPatologias()}">
+                                    <h6><b>Gestionar Patologias</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarPatologias}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(37)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                                
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarTipoInsumo()}">
+                                    <h6><b>Gestionar Tipo de Insumo</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarTipoInsumo}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(38)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                                
+                                <h:panelGroup rendered="#{AdministracionBean.getsGestionarUnidadMedida()}">
+                                    <h6><b>Gestionar Unidades de Medida</b></h6>
+                                    <p:selectManyCheckbox value="#{AdministracionBean.gestionarUnidadMedida}">
+                                        <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(39)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    </p:selectManyCheckbox>
+                                </h:panelGroup>
+                            </h:panelGroup>
+                        </p:panel>
+                        
+                        
+                        
+                    </div>
+                    <!--Fin de permisos especiales -->
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-12" align="right">

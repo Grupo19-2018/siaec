@@ -1,9 +1,11 @@
 package controllers;
 
 import dao.MenusFacade;
+import dao.PrivilegiosFacade;
 import dao.RolesFacade;
 import dao.SubmenusFacade;
 import entities.Menus;
+import entities.Privilegios;
 import entities.Roles;
 import entities.Submenus;
 import java.io.Serializable;
@@ -17,18 +19,35 @@ import javax.faces.model.SelectItemGroup;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 
+/*
+Notas de Actualizacion:
+-Fecha: 19/febrero/2019
+-Metodos faltantes
+ */
 @Named(value = "AdministracionBean")
 @SessionScoped
 public class AdministracionBean implements Serializable {
-
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
+
     @EJB
     private RolesFacade rolesFacade;
     private Roles rolNuevo = new Roles();
     private Roles rolConsultar = new Roles();
     private Roles rolEditar = new Roles();
+
+    @EJB
+    private MenusFacade menusFacades;
+
+    @EJB
+    private SubmenusFacade subMenusFacades;
+    private List<SelectItem> privilegios = new ArrayList<SelectItem>();
+
+    @EJB
+    private PrivilegiosFacade privilegiosFacade;
+
+//*************************SubMenus *******************************************//
     private List<Submenus> submenu1 = new ArrayList<>();
     private List<Submenus> submenu2 = new ArrayList<>();
     private List<Submenus> submenu3 = new ArrayList<>();
@@ -38,17 +57,54 @@ public class AdministracionBean implements Serializable {
     private List<Submenus> submenu7 = new ArrayList<>();
     private List<Submenus> submenu8 = new ArrayList<>();
 
-    @EJB
-    private MenusFacade menusFacades;
+//*******************************Permisos **************************************
+//*******************************Menu Agenda ***********************************
+//*******************************Pantalla Citas Aprobadas***********************
+    private List<Privilegios> citasAprobadas = new ArrayList<>();
+    private Boolean sCitasAprobadas = false;
 
-    @EJB
-    private SubmenusFacade subMenusFacades;
+//*******************************Pantalla Citas Pendientes**********************
+    private List<Privilegios> citasPendientes = new ArrayList<>();
+    private Boolean sCitasPendientes = false;
 
-    private List<SelectItem> privilegios = new ArrayList<SelectItem>();
+//*******************************Menu Insumos **********************************
+//*******************************Pantalla Gestionar Insumos*********************
+    private List<Privilegios> gestionarInsumos = new ArrayList<>();
+    private Boolean sGestionarInsumos = false;
+
+//*******************************Menu Promociones ******************************
+//*******************************Pantalla Listado de Promociones ***************
+    private List<Privilegios> listadoPromociones = new ArrayList<>();
+    private Boolean sListadoPromociones = false;
+
+//********************************Menu Administracions  ************************
+//********************************Pantalla Gestionar Sucursales ****************
+    private List<Privilegios> gestionarSucursales = new ArrayList<>();
+    private Boolean sGestionarSucursales = false;
+
+//********************************Pantalla Gestionar Medicos *******************
+    private List<Privilegios> gestionarMedicos = new ArrayList<>();
+    private Boolean sGestionarMedicos = false;
+
+//********************************Pantalla Gestionar Tratamientos **************
+    private List<Privilegios> gestionarTratamientos = new ArrayList<>();
+    private Boolean sGestionarTratamientos = false;
+
+//******************************** Pantalla Gestionar Patologias ***************
+    private List<Privilegios> gestionarPatologias = new ArrayList<>();
+    private Boolean sGestionarPatologias = false;
+
+//********************************Pantalla GestionarTipoInsumo *****************
+    private List<Privilegios> gestionarTipoInsumo = new ArrayList<>();
+    private Boolean sGestionarTipoInsumo = false;
+
+//*******************************Pantalla Gestionar Unidades de Medida *********
+    private List<Privilegios> gestionarUnidadMedida = new ArrayList<>();
+    private Boolean sGestionarUnidadMedida = false;
+
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-
     public List<Roles> todosRolesActivos() {
         return getRolesFacade().findAll();
     }
@@ -59,6 +115,10 @@ public class AdministracionBean implements Serializable {
 
     public List<Submenus> subMenusPorMenu(Integer menu_id) {
         return getSubMenusFacades().subMenuPorMenu(menu_id);
+    }
+
+    public List<Privilegios> permisosPorSubMenu(int submenu_id) {
+        return getPrivilegiosFacade().privilegiosPorSubmenu(submenu_id);
     }
 
 //****************************************************************************//
@@ -74,6 +134,10 @@ public class AdministracionBean implements Serializable {
 
     public SubmenusFacade getSubMenusFacades() {
         return subMenusFacades;
+    }
+
+    public PrivilegiosFacade getPrivilegiosFacade() {
+        return privilegiosFacade;
     }
 
 //****************************************************************************//
@@ -108,6 +172,17 @@ public class AdministracionBean implements Serializable {
     }
 
     public void setSubmenu1(List<Submenus> submenu1) {
+        sCitasAprobadas = false;
+        sCitasPendientes = false;
+        for (Submenus submenus : submenu1) {
+            if (submenus.getSubmenuId() == 2) {
+                sCitasAprobadas = true;
+            }
+
+            if (submenus.getSubmenuId() == 3) {
+                sCitasPendientes = true;
+            }
+        }
         this.submenu1 = submenu1;
     }
 
@@ -124,6 +199,12 @@ public class AdministracionBean implements Serializable {
     }
 
     public void setSubmenu3(List<Submenus> submenu3) {
+        sGestionarInsumos = false;
+        for (Submenus submenus : submenu3) {
+            if (submenus.getSubmenuId() == 13) {
+                sGestionarInsumos = true;
+            }
+        }
         this.submenu3 = submenu3;
     }
 
@@ -132,6 +213,12 @@ public class AdministracionBean implements Serializable {
     }
 
     public void setSubmenu4(List<Submenus> submenu4) {
+        sListadoPromociones = false;
+        for (Submenus submenus : submenu4) {
+            if (submenus.getSubmenuId() == 19) {
+                sListadoPromociones = true;
+            }
+        }
         this.submenu4 = submenu4;
     }
 
@@ -148,6 +235,37 @@ public class AdministracionBean implements Serializable {
     }
 
     public void setSubmenu6(List<Submenus> submenu6) {
+        sGestionarSucursales = false;
+        sGestionarMedicos = false;
+        sGestionarTratamientos = false;
+        sGestionarPatologias = false;
+        sGestionarTipoInsumo = false;
+        sGestionarUnidadMedida = false;
+        for (Submenus submenus : submenu6) {
+            if (submenus.getSubmenuId() == 34) {
+                sGestionarSucursales = true;
+            }
+
+            if (submenus.getSubmenuId() == 35) {
+                sGestionarMedicos = true;
+            }
+
+            if (submenus.getSubmenuId() == 36) {
+                sGestionarTratamientos = true;
+            }
+
+            if (submenus.getSubmenuId() == 37) {
+                sGestionarPatologias = true;
+            }
+
+            if (submenus.getSubmenuId() == 38) {
+                sGestionarTipoInsumo = true;
+            }
+
+            if (submenus.getSubmenuId() == 39) {
+                sGestionarUnidadMedida = true;
+            }
+        }
         this.submenu6 = submenu6;
     }
 
@@ -167,10 +285,181 @@ public class AdministracionBean implements Serializable {
         this.submenu8 = submenu8;
     }
 
+    //********************** Pantalla Citas Aprobadas **************************
+    public List<Privilegios> getCitasAprobadas() {
+        return citasAprobadas;
+    }
+
+    public void setCitasAprobadas(List<Privilegios> citasAprobadas) {
+        this.citasAprobadas = citasAprobadas;
+    }
+
+    public Boolean getsCitasAprobadas() {
+        return sCitasAprobadas;
+    }
+
+    public void setsCitasAprobadas(Boolean sCitasAprobadas) {
+        this.sCitasAprobadas = sCitasAprobadas;
+    }
+
+    //********************** Pantalla Citas Pendientes *************************
+    public List<Privilegios> getCitasPendientes() {
+        return citasPendientes;
+    }
+
+    public void setCitasPendientes(List<Privilegios> citasPendientes) {
+        this.citasPendientes = citasPendientes;
+    }
+
+    public Boolean getsCitasPendientes() {
+        return sCitasPendientes;
+    }
+
+    public void setsCitasPendientes(Boolean sCitasPendientes) {
+        this.sCitasPendientes = sCitasPendientes;
+    }
+
+    //********************** Pantalla Gestionar Insumo *************************
+    public List<Privilegios> getGestionarInsumos() {
+        return gestionarInsumos;
+    }
+
+    public void setGestionarInsumos(List<Privilegios> gestionarInsumos) {
+        this.gestionarInsumos = gestionarInsumos;
+    }
+
+    public Boolean getsGestionarInsumos() {
+        return sGestionarInsumos;
+    }
+
+    public void setsGestionarInsumos(Boolean sGestionarInsumos) {
+        this.sGestionarInsumos = sGestionarInsumos;
+    }
+
+    //********************** Pantalla Listado Promociones **********************
+    public List<Privilegios> getListadoPromociones() {
+        return listadoPromociones;
+    }
+
+    public void setListadoPromociones(List<Privilegios> listadoPromociones) {
+        this.listadoPromociones = listadoPromociones;
+    }
+
+    public Boolean getsListadoPromociones() {
+        return sListadoPromociones;
+    }
+
+    public void setsListadoPromociones(Boolean sListadoPromociones) {
+        this.sListadoPromociones = sListadoPromociones;
+    }
+
+    //********************** Pantalla Gestionar Sucursales *********************
+    public List<Privilegios> getGestionarSucursales() {
+        return gestionarSucursales;
+    }
+
+    public void setGestionarSucursales(List<Privilegios> gestionarSucursales) {
+        this.gestionarSucursales = gestionarSucursales;
+    }
+
+    public Boolean getsGestionarSucursales() {
+        return sGestionarSucursales;
+    }
+
+    public void setsGestionarSucursales(Boolean sGestionarSucursales) {
+        this.sGestionarSucursales = sGestionarSucursales;
+    }
+
+    //********************** Pantalla Gestionar Medicos ************************
+    public List<Privilegios> getGestionarMedicos() {
+        return gestionarMedicos;
+    }
+
+    public void setGestionarMedicos(List<Privilegios> gestionarMedicos) {
+        this.gestionarMedicos = gestionarMedicos;
+    }
+
+    public Boolean getsGestionarMedicos() {
+        return sGestionarMedicos;
+    }
+
+    public void setsGestionarMedicos(Boolean sGestionarMedicos) {
+        this.sGestionarMedicos = sGestionarMedicos;
+    }
+
+    //**********************Pantalla Gestionar Tratamientos ********************
+    public List<Privilegios> getGestionarTratamientos() {
+        return gestionarTratamientos;
+    }
+
+    public void setGestionarTratamientos(List<Privilegios> gestionarTratamientos) {
+        this.gestionarTratamientos = gestionarTratamientos;
+    }
+
+    public Boolean getsGestionarTratamientos() {
+        return sGestionarTratamientos;
+    }
+
+    public void setsGestionarTratamientos(Boolean sGestionarTratamientos) {
+        this.sGestionarTratamientos = sGestionarTratamientos;
+    }
+
+    //********************** Pantalla Gestionar Patologia **********************
+    public List<Privilegios> getGestionarPatologias() {
+        return gestionarPatologias;
+    }
+
+    public void setGestionarPatologias(List<Privilegios> gestionarPatologias) {
+        this.gestionarPatologias = gestionarPatologias;
+    }
+
+    public Boolean getsGestionarPatologias() {
+        return sGestionarPatologias;
+    }
+
+    public void setsGestionarPatologias(Boolean sGestionarPatologias) {
+        this.sGestionarPatologias = sGestionarPatologias;
+    }
+
+    //********************** Pantalla Gestionar Tipo Insumo ********************
+    public List<Privilegios> getGestionarTipoInsumo() {
+        return gestionarTipoInsumo;
+    }
+
+    public void setGestionarTipoInsumo(List<Privilegios> gestionarTipoInsumo) {
+        this.gestionarTipoInsumo = gestionarTipoInsumo;
+    }
+
+    public Boolean getsGestionarTipoInsumo() {
+        return sGestionarTipoInsumo;
+    }
+
+    public void setsGestionarTipoInsumo(Boolean sGestionarTipoInsumo) {
+        this.sGestionarTipoInsumo = sGestionarTipoInsumo;
+    }
+
+    //********************** Pantalla Gestionar Unidad de Medida ***************
+    public List<Privilegios> getGestionarUnidadMedida() {
+        return gestionarUnidadMedida;
+    }
+
+    public void setGestionarUnidadMedida(List<Privilegios> gestionarUnidadMedida) {
+        this.gestionarUnidadMedida = gestionarUnidadMedida;
+    }
+
+    public Boolean getsGestionarUnidadMedida() {
+        return sGestionarUnidadMedida;
+    }
+
+    public void setsGestionarUnidadMedida(Boolean sGestionarUnidadMedida) {
+        this.sGestionarUnidadMedida = sGestionarUnidadMedida;
+    }
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//    
     //Metodo usado en configuracion_roles_nuevo.xhtml
+    //Estado:
     public void guardarRol() {
         try {
             List<Submenus> temp = new ArrayList<>();
@@ -224,7 +513,7 @@ public class AdministracionBean implements Serializable {
                 }
                 tempMenu.add(getMenusFacades().find(submenu7.get(0).getMenuId().getMenuId()));
             }
-            
+
             if (!submenu8.isEmpty()) {
                 for (Submenus list : submenu8) {
                     temp.add(list);
@@ -232,8 +521,7 @@ public class AdministracionBean implements Serializable {
                 tempMenu.add(getMenusFacades().find(submenu8.get(0).getMenuId().getMenuId()));
             }
             System.out.println("Curisoso");
-            
-            
+
             System.out.println("Curisoso");
             rolNuevo.setMenusList(tempMenu);
             rolNuevo.setSubmenusList(temp);
@@ -243,10 +531,12 @@ public class AdministracionBean implements Serializable {
             limpiandoNuevoRol();
         } catch (Exception e) {
             mensajeError("Error al guardar el rol.");
-            System.out.println("controllers.AdministracionBean.guardarRol()" + e);        }
+            System.out.println("controllers.AdministracionBean.guardarRol()" + e);
+        }
     }
 
     //Metodo usado en la tabla de listas roles, en la opcion de editar.
+    //Estado:
     public void establecerPrivilegiosRolEditar() {
         if (rolEditar != null) {
             submenu1.clear();
@@ -351,7 +641,8 @@ public class AdministracionBean implements Serializable {
         rolNuevo = new Roles();
     }
 
-    //Metodo usado en configuracion_roles_editar.xhtml
+    //Metodo usado en cat_roles_editar.xhtml
+    //Estado: --
     public void editarRol() {
         try {
             List<Submenus> temp = new ArrayList<>();

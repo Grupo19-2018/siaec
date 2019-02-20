@@ -28,7 +28,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Privilegios.findAll", query = "SELECT p FROM Privilegios p"),
     @NamedQuery(name = "Privilegios.findByPrivilegioId", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.privilegioId = :privilegioId"),
     @NamedQuery(name = "Privilegios.findBySubmenuId", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.submenuId = :submenuId"),
-    @NamedQuery(name = "Privilegios.findByPrivilegioAccion", query = "SELECT p FROM Privilegios p WHERE p.privilegioAccion = :privilegioAccion")})
+    @NamedQuery(name = "Privilegios.findByPrivilegioAccion", query = "SELECT p FROM Privilegios p WHERE p.privilegioAccion = :privilegioAccion"),
+    @NamedQuery(name = "Privilegio.privilegio", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.privilegioId = :id_accion")})
 public class Privilegios implements Serializable {
 
     private static final long serialVersionUID = 1L;

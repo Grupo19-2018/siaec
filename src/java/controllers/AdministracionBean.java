@@ -10,6 +10,7 @@ import entities.Roles;
 import entities.Submenus;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -535,8 +536,9 @@ public class AdministracionBean implements Serializable {
         }
     }
 
-    //Metodo usado en la tabla de listas roles, en la opcion de editar.
-    //Estado:
+    //Establece los valores del rol a la pantalla
+    //Estado: Activo
+    //Usado en: cat_roles_listado.xhtml
     public void establecerPrivilegiosRolEditar() {
         if (rolEditar != null) {
             submenu1.clear();
@@ -579,6 +581,79 @@ public class AdministracionBean implements Serializable {
                     }
                 }
             }
+            sCitasAprobadas = false;
+            sCitasPendientes = false;
+            sGestionarInsumos = false;
+            sListadoPromociones = false;
+            sGestionarSucursales = false;
+            sGestionarMedicos = false;
+            sGestionarTratamientos = false;
+            sGestionarPatologias = false;
+            sGestionarTipoInsumo = false;
+            sGestionarUnidadMedida = false;
+            /*for (Privilegios privilegio : rolEditar.getPrivilegiosList()) {
+                System.out.println("Privilegio" + privilegio.getPrivilegiosPK().getPrivilegioId());
+            }*/
+            //Recorriendo los privilegios
+            for (Privilegios privilegio : rolEditar.getPrivilegiosList()) {
+                switch (privilegio.getPrivilegiosPK().getPrivilegioId()) {
+                    case 1:
+                    case 2:
+                    case 3:
+                        sCitasAprobadas = true;
+                        citasAprobadas.add(privilegio);
+                    case 4:
+                    case 5:
+                    case 6:
+                        sCitasPendientes = true;
+                        citasPendientes.add(privilegio);
+                        break;
+                    case 13:
+                    case 14:
+                    case 15:
+                        sGestionarInsumos = true;
+                        gestionarInsumos.add(privilegio);
+                    case 16:
+                    case 17:
+                    case 18:
+                        sListadoPromociones = true;
+                        listadoPromociones.add(privilegio);
+                        break;
+                    case 19:
+                    case 20:
+                    case 21:
+                        sGestionarSucursales = true;
+                        gestionarSucursales.add(privilegio);
+                        break;
+                    case 22:
+                    case 23:
+                    case 24:
+                        sGestionarMedicos = true;
+                        gestionarMedicos.add(privilegio);
+                        break;
+                    case 25:
+                    case 26:
+                        sGestionarTratamientos = true;
+                        gestionarTratamientos.add(privilegio);
+                        break;
+                    case 27:
+                    case 28:
+                        sGestionarPatologias = true;
+                        gestionarPatologias.add(privilegio);
+                        break;
+                    case 29:
+                    case 30:
+                        sGestionarTipoInsumo = true;
+                        gestionarTipoInsumo.add(privilegio);
+                        break;
+                    case 31:
+                    case 32:
+                        sGestionarUnidadMedida = true;
+                        gestionarUnidadMedida.add(privilegio);
+                        break;
+                }
+            }
+
         }
     }
 
@@ -641,20 +716,37 @@ public class AdministracionBean implements Serializable {
         rolNuevo = new Roles();
     }
 
+    //Objetivo: Guarda los submenus y privilegios
     //Metodo usado en cat_roles_editar.xhtml
-    //Estado: --
+    //Estado: Usado
     public void editarRol() {
         try {
             List<Submenus> temp = new ArrayList<>();
             List<Menus> tempMenu = new ArrayList<>();
+            List<Privilegios> tempPrivilegios = new ArrayList<>();
 
+            //Menu: Agenda
             if (!submenu1.isEmpty()) {
                 for (Submenus list : submenu1) {
+                    //Pantalla: Citas Aprobadas
+                    if (list.getSubmenuId() == 2) {
+                        for (Privilegios p : citasAprobadas) {
+                            tempPrivilegios.add(p);
+                        }
+                    }
+
+                    //Pantalla: Cita Pendiente
+                    if (list.getSubmenuId() == 3) {
+                        for (Privilegios pri : citasPendientes) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
                     temp.add(list);
                 }
                 tempMenu.add(getMenusFacades().find(submenu1.get(0).getMenuId().getMenuId()));
             }
 
+            //Menu: Paciente
             if (!submenu2.isEmpty()) {
                 for (Submenus list : submenu2) {
                     temp.add(list);
@@ -662,15 +754,29 @@ public class AdministracionBean implements Serializable {
                 tempMenu.add(getMenusFacades().find(submenu2.get(0).getMenuId().getMenuId()));
             }
 
+            //Menu: Insumos
             if (!submenu3.isEmpty()) {
                 for (Submenus list : submenu3) {
+                    //Pantalla: Gestionar Insumos
+                    if (list.getSubmenuId() == 13) {
+                        for (Privilegios pri : gestionarInsumos) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
                     temp.add(list);
                 }
                 tempMenu.add(getMenusFacades().find(submenu3.get(0).getMenuId().getMenuId()));
             }
 
+            //Menu: Promociones
             if (!submenu4.isEmpty()) {
                 for (Submenus list : submenu4) {
+                    //Pantalla: Listado de Promociones
+                    if (list.getSubmenuId() == 19) {
+                        for (Privilegios pri : listadoPromociones) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
                     temp.add(list);
                 }
                 tempMenu.add(getMenusFacades().find(submenu4.get(0).getMenuId().getMenuId()));
@@ -683,13 +789,51 @@ public class AdministracionBean implements Serializable {
                 tempMenu.add(getMenusFacades().find(submenu5.get(0).getMenuId().getMenuId()));
             }
 
+            //Menu 6: Administracion
             if (!submenu6.isEmpty()) {
                 for (Submenus list : submenu6) {
+                    //Pantalla: Gestionar Sucursales
+                    if (list.getSubmenuId() == 34) {
+                        for (Privilegios pri : gestionarSucursales) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
+                    //Pantalla: Gestionar Medicos
+                    if (list.getSubmenuId() == 35) {
+                        for (Privilegios pri : gestionarMedicos) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
+                    //Pantalla: Gestionar Tratamientos
+                    if (list.getSubmenuId() == 36) {
+                        for (Privilegios pri : gestionarTratamientos) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
+                    //Pantalla: Gestionar Tipo de Insumo
+                    if (list.getSubmenuId() == 37) {
+                        for (Privilegios pri : gestionarPatologias) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
+                    //Pantalla: Gestionar Tipo de Insumo
+                    if (list.getSubmenuId() == 38) {
+                        for (Privilegios pri : gestionarTipoInsumo) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
+                    //Pantalla: Gestionar Tipo de Insumo
+                    if (list.getSubmenuId() == 39) {
+                        for (Privilegios pri : gestionarUnidadMedida) {
+                            tempPrivilegios.add(pri);
+                        }
+                    }
                     temp.add(list);
                 }
                 tempMenu.add(getMenusFacades().find(submenu6.get(0).getMenuId().getMenuId()));
             }
 
+            //Menu Configuracion
             if (!submenu7.isEmpty()) {
                 for (Submenus list : submenu7) {
                     temp.add(list);
@@ -705,13 +849,17 @@ public class AdministracionBean implements Serializable {
             }
             rolEditar.getMenusList().clear();
             rolEditar.getSubmenusList().clear();
+            rolEditar.getPrivilegiosList().clear();
             rolEditar.setMenusList(tempMenu);
             rolEditar.setSubmenusList(temp);
+            rolEditar.setPrivilegiosList(tempPrivilegios);
+            //  rolEditar.setPrivilegiosList(tempPrivilegios);
 
             getRolesFacade().edit(rolEditar);
             mensajeGuardado("Rol actualizado adecuadamente.");
         } catch (Exception e) {
             mensajeError("Error al actualizar rol.");
+            System.err.println("" + e);
         }
     }
 

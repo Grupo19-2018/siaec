@@ -54,7 +54,7 @@ public class PrivilegiosConvertidor implements Converter, Serializable{
             System.out.println("converters.PrivilegiosConvertidor.getAsString()");
             return null;
         }
-        System.out.println("convertersgetAsString() retorno");
+        //System.out.println("convertersgetAsString() retorno");
         return String.valueOf(((Privilegios) value).getPrivilegiosPK().getPrivilegioId());
     }
 

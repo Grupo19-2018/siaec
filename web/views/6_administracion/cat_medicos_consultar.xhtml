@@ -12,7 +12,7 @@
             <f:metadata>
                 <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Médicos')}"/>
                 <f:viewParam name="medicoconsultar" value="#{catalogosBean.medicoId}"/>
-                <f:event type="preRenderView" listener="#{catalogosBean.cargarMedico()}"/>
+                <f:event type="preRenderView" listener="#{catalogosBean.cargarMedicoConsultar()}"/>
             </f:metadata>
         </ui:define>
         

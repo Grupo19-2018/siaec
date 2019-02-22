@@ -9,6 +9,12 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Usuarios')}"/>
+                </f:metadata>
+            </ui:define>
+            
             <div class="banda1"><b>LISTADO DE USUARIOS</b></div>
             <br/>
 

@@ -98,8 +98,9 @@ public class CatalogosBean implements Serializable {
     private Medicos medicoConsultar = new Medicos();
     private Medicos medicoEditar = new Medicos();
 
-    private Integer tabindex = 0;
+    private Integer tabIndex = 0;
     private int departamentoId;
+    private int municipioId;
     private Date fechaActual = new Date();
     
     //Session
@@ -276,7 +277,7 @@ public class CatalogosBean implements Serializable {
         return sucursalConsultar;
     }
     public void setSucursalConsultar(Clinicas sucursalConsultar) {
-        this.direccionConsultar = getDireccionesFacade().direccionPorSucursal(sucursalConsultar.getClinicaId());
+        //this.direccionConsultar = getDireccionesFacade().direccionPorSucursal(sucursalConsultar.getClinicaId());
         this.sucursalConsultar = sucursalConsultar;
     }
 
@@ -293,6 +294,13 @@ public class CatalogosBean implements Serializable {
     public void setDepartamentoId(int departamentoId) {
         this.departamentoId = departamentoId;
     }
+
+    public int getMunicipioId() {
+        return municipioId;
+    }
+    public void setMunicipioId(int municipioId) {
+        this.municipioId = municipioId;
+    }
     
     public Direcciones getDireccionConsultar() {
         return direccionConsultar;
@@ -305,7 +313,7 @@ public class CatalogosBean implements Serializable {
         return sucursalEditar;
     }
     public void setSucursalEditar(Clinicas sucursalEditar) {
-        this.direccionEditar = getDireccionesFacade().direccionPorSucursal(sucursalEditar.getClinicaId());
+        //this.direccionEditar = getDireccionesFacade().direccionPorSucursal(sucursalEditar.getClinicaId());
         this.sucursalEditar = sucursalEditar;
     }
 
@@ -313,6 +321,7 @@ public class CatalogosBean implements Serializable {
         return direccionEditar;
     }
     public void setDireccionEditar(Direcciones direccionEditar) {
+        this.departamentoId = direccionEditar.getMunicipioId().getDepartamentoId().getDepartamentoId();
         this.direccionEditar = direccionEditar;
     }
        
@@ -323,11 +332,11 @@ public class CatalogosBean implements Serializable {
         this.medicoNuevo = medicoNuevo;
     }
 
-    public Integer getTabindex() {
-        return tabindex;
+    public Integer getTabIndex() {
+        return tabIndex;
     }
-    public void setTabindex(Integer tabindex) {
-        this.tabindex = tabindex;
+    public void setTabIndex(Integer tabIndex) {
+        this.tabIndex = tabIndex;
     }
     
     public Medicos getMedicoConsultar() {
@@ -496,7 +505,7 @@ public class CatalogosBean implements Serializable {
             sucursalNuevo = new Clinicas();
             direccionNuevo = new Direcciones();
             departamentoId = 0;
-            tabindex = 0;
+            tabIndex = 0;
             mensajeConfirmacion("La sucursal se ha guardado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarSucursal.");
@@ -506,9 +515,11 @@ public class CatalogosBean implements Serializable {
     //Método para editar una Sucursal (cat_sucursales_editar.xhtml)
     public void editarSucursal(){
         try{
+            System.out.println("Entra al método");
             sucursalEditar.setClinicaUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             sucursalEditar.setClinicaFechaModificacion(new Date());
             getClinicasFacade().edit(sucursalEditar);
+            System.out.println("Entra al método y actualiza");
             mensajeConfirmacion("La sucursal se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarSucursal.");
@@ -589,7 +600,7 @@ public class CatalogosBean implements Serializable {
             medicoNuevo = new Medicos();
             direccionNuevo = new Direcciones();
             departamentoId = 0;
-            tabindex = 0;
+            tabIndex = 0;
             mensajeConfirmacion("El medico se ha guardado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarMedico.");
@@ -720,13 +731,28 @@ public class CatalogosBean implements Serializable {
         this.unidadMedidaId = unidadMedidaId;
     }
     
-    //Método para cargar sucursal seleccionada para editar. (cat_sucursales_editar.xhtml)
-    public void cargarSucursal(){
-        sucursalEditar = getClinicasFacade().find(sucursalId);
+    //Método para cargar sucursal seleccionada para consultar. (cat_sucursales_consultar.xhtml)
+    public void cargarSucursalConsultar(){
+        sucursalConsultar = getClinicasFacade().find(sucursalId);
+        this.direccionConsultar = getDireccionesFacade().direccionPorSucursal(sucursalConsultar.getClinicaId());
     }
         
-    //Método para cargar medico seleccionado para editar. (cat_medicos_editar.xhtml)
-    public void cargarMedico(){
+    //Método para cargar sucursal seleccionada para editar. (cat_sucursales_editar.xhtml)
+    public void cargarSucursalEditar(){
+        sucursalEditar = getClinicasFacade().find(sucursalId);
+        this.direccionEditar = getDireccionesFacade().direccionPorSucursal(sucursalEditar.getClinicaId());
+        //this.departamentoId = direccionEditar.getMunicipioId().getDepartamentoId().getDepartamentoId();
+        this.municipioId = direccionEditar.getMunicipioId().getMunicipioId();
+    }
+        
+    //Método para cargar médico seleccionado para consultar. (cat_medicos_consultar.xhtml)
+    public void cargarMedicoConsultar(){
+        medicoConsultar = getMedicosFacade().find(medicoId);
+        this.direccionConsultar = getDireccionesFacade().direccionPorMedico(medicoConsultar.getMedicoId());
+    }
+        
+    //Método para cargar médico seleccionado para editar. (cat_medicos_ediltar.xhtml)
+    public void cargarMedicoEditar(){
         medicoEditar = getMedicosFacade().find(medicoId);
     }
         

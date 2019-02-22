@@ -8,6 +8,12 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
+            
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Patologías')}"/>
+                </f:metadata>
+            </ui:define>
 
             <div class="banda1"><b>NUEVA PATOLOGÍA</b></div>
             <br/>

@@ -9,12 +9,18 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Sucursales')}"/>
+                </f:metadata>
+            </ui:define>
+            
             <div class="banda1"><b>NUEVA SUCURSAL</b></div>
             <br/>
 
             <h:form id="form" >
                 
-                <p:tabView styleClass="registro" activeIndex="#{catalogosBean.tabindex}" style="margin-left: 10px; margin-right: 10px; border: solid 1px #D5D5D5">
+                <p:tabView styleClass="registro" activeIndex="#{catalogosBean.tabIndex}" style="margin-left: 10px; margin-right: 10px; border: solid 1px #D5D5D5">
                     <p:tab title="Datos generales" disabled="true">
 
                         <p:focus for="nombresucursalnuevo"/>
@@ -75,7 +81,7 @@
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-12" align="right">
-                                <p:commandButton  value="Siguiente" ajax="onTabChange" action="#{catalogosBean.setTabindex(1)}" styleClass="btn-expediente-alternativa" icon="ui-icon-arrowreturnthick-1-e">
+                                <p:commandButton  value="Siguiente" ajax="onTabChange" action="#{catalogosBean.setTabIndex(1)}" styleClass="btn-expediente-alternativa" icon="ui-icon-arrowreturnthick-1-e">
                                     <f:param name="datos" value="true"/>
                                 </p:commandButton>
                                 &nbsp;
@@ -149,7 +155,7 @@
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-12" align="right">
-                                <p:commandButton type="sumbit" value="Volver" ajax="onTabChange" action="#{catalogosBean.setTabindex(0)}" styleClass="btn-expediente-alternativa" icon="ui-icon-arrowreturnthick-1-w"/>
+                                <p:commandButton type="sumbit" value="Volver" ajax="onTabChange" action="#{catalogosBean.setTabIndex(0)}" styleClass="btn-expediente-alternativa" icon="ui-icon-arrowreturnthick-1-w"/>
                                 &nbsp;
                                 <p:commandButton type="sumbit" value="Guardar"  ajax="" update="msg growl" styleClass="btn-expediente-alternativa" icon="ui-icon-disk">
                                     <f:param name="direccion" value="true"/>

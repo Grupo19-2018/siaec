@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.TimeZone;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -102,6 +101,14 @@ public class CatalogosBean implements Serializable {
     private int departamentoId;
     private int municipioId;
     private Date fechaActual = new Date();
+    
+    private int usuarioId;
+    private int sucursalId;
+    private int medicoId;
+    private int tratamientoId;
+    private int patologiaId;
+    private int tipoInsumoId;
+    private int unidadMedidaId;
     
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -277,7 +284,6 @@ public class CatalogosBean implements Serializable {
         return sucursalConsultar;
     }
     public void setSucursalConsultar(Clinicas sucursalConsultar) {
-        //this.direccionConsultar = getDireccionesFacade().direccionPorSucursal(sucursalConsultar.getClinicaId());
         this.sucursalConsultar = sucursalConsultar;
     }
 
@@ -313,7 +319,6 @@ public class CatalogosBean implements Serializable {
         return sucursalEditar;
     }
     public void setSucursalEditar(Clinicas sucursalEditar) {
-        //this.direccionEditar = getDireccionesFacade().direccionPorSucursal(sucursalEditar.getClinicaId());
         this.sucursalEditar = sucursalEditar;
     }
 
@@ -321,7 +326,6 @@ public class CatalogosBean implements Serializable {
         return direccionEditar;
     }
     public void setDireccionEditar(Direcciones direccionEditar) {
-        this.departamentoId = direccionEditar.getMunicipioId().getDepartamentoId().getDepartamentoId();
         this.direccionEditar = direccionEditar;
     }
        
@@ -343,7 +347,6 @@ public class CatalogosBean implements Serializable {
         return medicoConsultar;
     }
     public void setMedicoConsultar(Medicos medicoConsultar) {
-        this.direccionConsultar = getDireccionesFacade().direccionPorMedico(medicoConsultar.getMedicoId());
         this.medicoConsultar = medicoConsultar;
     }
     
@@ -351,7 +354,6 @@ public class CatalogosBean implements Serializable {
         return medicoEditar;
     }
     public void setMedicoEditar(Medicos medicoEditar) {
-        this.direccionEditar = getDireccionesFacade().direccionPorMedico(medicoEditar.getMedicoId());
         this.medicoEditar = medicoEditar;
     }
 
@@ -375,6 +377,55 @@ public class CatalogosBean implements Serializable {
     }
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
+    }
+    
+    public int getPatologiaId() {
+        return patologiaId;
+    }
+    public void setPatologiaId(int patologiaId) {
+        this.patologiaId = patologiaId;
+    }
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public int getSucursalId() {
+        return sucursalId;
+    }
+    public void setSucursalId(int sucursalId) {
+        this.sucursalId = sucursalId;
+    }
+
+    public int getMedicoId() {
+        return medicoId;
+    }
+    public void setMedicoId(int medicoId) {
+        this.medicoId = medicoId;
+    }
+
+    public int getTratamientoId() {
+        return tratamientoId;
+    }
+    public void setTratamientoId(int tratamientoId) {
+        this.tratamientoId = tratamientoId;
+    }
+
+    public int getTipoInsumoId() {
+        return tipoInsumoId;
+    }
+    public void setTipoInsumoId(int tipoInsumoId) {
+        this.tipoInsumoId = tipoInsumoId;
+    }
+
+    public int getUnidadMedidaId() {
+        return unidadMedidaId;
+    }
+    public void setUnidadMedidaId(int unidadMedidaId) {
+        this.unidadMedidaId = unidadMedidaId;
     }
     
 //****************************************************************************//
@@ -656,81 +707,6 @@ public class CatalogosBean implements Serializable {
         return "Sin teléfono";
     }
     
-    //Método para mostrar mensaje de guardado/actualizado/eliminado.
-    public void mensajeConfirmacion(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-    
-    //Método para mostrar mensaje de error en el sistema.
-    public void mensajeError(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-    
-    //Método para mostrar hora local (cat_sucursales_listado.xhtml)
-    public TimeZone getHoraLocal() {
-        return TimeZone.getDefault();
-    }
-    
-    
-    private int usuarioId;
-    private int sucursalId;
-    private int medicoId;
-    private int tratamientoId;
-    private int patologiaId;
-    private int tipoInsumoId;
-    private int unidadMedidaId;
-    
-    public int getPatologiaId() {
-        return patologiaId;
-    }
-    public void setPatologiaId(int patologiaId) {
-        this.patologiaId = patologiaId;
-    }
-
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public int getSucursalId() {
-        return sucursalId;
-    }
-    public void setSucursalId(int sucursalId) {
-        this.sucursalId = sucursalId;
-    }
-
-    public int getMedicoId() {
-        return medicoId;
-    }
-    public void setMedicoId(int medicoId) {
-        this.medicoId = medicoId;
-    }
-
-    public int getTratamientoId() {
-        return tratamientoId;
-    }
-    public void setTratamientoId(int tratamientoId) {
-        this.tratamientoId = tratamientoId;
-    }
-
-    public int getTipoInsumoId() {
-        return tipoInsumoId;
-    }
-    public void setTipoInsumoId(int tipoInsumoId) {
-        this.tipoInsumoId = tipoInsumoId;
-    }
-
-    public int getUnidadMedidaId() {
-        return unidadMedidaId;
-    }
-    public void setUnidadMedidaId(int unidadMedidaId) {
-        this.unidadMedidaId = unidadMedidaId;
-    }
-    
     //Método para cargar sucursal seleccionada para consultar. (cat_sucursales_consultar.xhtml)
     public void cargarSucursalConsultar(){
         sucursalConsultar = getClinicasFacade().find(sucursalId);
@@ -742,7 +718,7 @@ public class CatalogosBean implements Serializable {
         sucursalEditar = getClinicasFacade().find(sucursalId);
         this.direccionEditar = getDireccionesFacade().direccionPorSucursal(sucursalEditar.getClinicaId());
         //this.departamentoId = direccionEditar.getMunicipioId().getDepartamentoId().getDepartamentoId();
-        this.municipioId = direccionEditar.getMunicipioId().getMunicipioId();
+        //this.municipioId = direccionEditar.getMunicipioId().getMunicipioId();
     }
         
     //Método para cargar médico seleccionado para consultar. (cat_medicos_consultar.xhtml)
@@ -754,6 +730,7 @@ public class CatalogosBean implements Serializable {
     //Método para cargar médico seleccionado para editar. (cat_medicos_ediltar.xhtml)
     public void cargarMedicoEditar(){
         medicoEditar = getMedicosFacade().find(medicoId);
+        this.direccionEditar = getDireccionesFacade().direccionPorMedico(medicoEditar.getMedicoId());
     }
         
     //Método para cargar tratamiento seleccionado para editar. (cat_tratamientos_editar.xhtml)
@@ -778,7 +755,7 @@ public class CatalogosBean implements Serializable {
         
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
     public void verificaAcceso(String pagina){
-        System.out.println("Entra al método del usuario.");
+        //System.out.println("Entra al método del usuario.");
         boolean acceso = false;
         try{
             FacesContext context = FacesContext.getCurrentInstance();
@@ -791,7 +768,7 @@ public class CatalogosBean implements Serializable {
             else{
                 if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
                     for (Submenus submenu : todosSubmenusDisponibles()){
-                        System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
                         if(submenu.getSumbenuNombre().equals(pagina)){
                             acceso = true;
                         }
@@ -804,6 +781,23 @@ public class CatalogosBean implements Serializable {
         } catch(IOException e){
             System.out.println("La variable appSession es nula.");
         }
-        
     }
+    
+    //Método para mostrar mensaje de guardado/actualizado/eliminado.
+    public void mensajeConfirmacion(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+    
+    //Método para mostrar mensaje de error en el sistema.
+    public void mensajeError(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+    
+    //Método para mostrar hora local (cat_sucursales_listado.xhtml)
+    public TimeZone getHoraLocal() {
+        return TimeZone.getDefault();
+    }
+    
 }

@@ -58,7 +58,8 @@
                                             <td align="center">
                                                 <h:link outcome="TipoInsumosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
                                                     <f:param name="tipoinsumo" value="#{tipo.tipoinsumoId}"/>
-                                                </h:link> &nbsp;
+                                                </h:link>
+                                                &nbsp;
                                                 <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                pt:data-toggle="modal" pt:data-target="#eliminarTipoinsumo">
                                                     <f:setPropertyActionListener value="#{tipo}" target="#{catalogosBean.tipoInsumoEditar}"/>

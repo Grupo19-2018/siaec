@@ -58,7 +58,8 @@
                                             <td align="center">
                                                 <h:link outcome="TratamientosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
                                                     <f:param name="tratamiento" value="#{tratamiento.tratamientoId}"/>
-                                                </h:link> &nbsp;
+                                                </h:link>
+                                                &nbsp;
                                                 <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                pt:data-toggle="modal" pt:data-target="#eliminarTratamiento">
                                                     <f:setPropertyActionListener value="#{tratamiento}" target="#{catalogosBean.tratamientoEditar}"/>

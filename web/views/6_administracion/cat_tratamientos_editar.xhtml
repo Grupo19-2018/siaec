@@ -7,7 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
-        
+        <ui:define name="content">
+            
         <ui:define name="meta-data">
             <f:metadata>
                 <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Tratamientos')}"/>
@@ -16,8 +17,6 @@
             </f:metadata>
         </ui:define>
         
-        <ui:define name="content">
-
             <div class="banda1"><b>EDITAR TRATAMIENTO</b></div>
             <br/>
 

@@ -7,16 +7,15 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
-        
-        <ui:define name="meta-data">
-            <f:metadata>
-                <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Sucursales')}"/>
-                <f:viewParam name="sucursalconsultar" value="#{catalogosBean.sucursalId}"/>
-                <f:event type="preRenderView" listener="#{catalogosBean.cargarSucursalConsultar()}"/>
-            </f:metadata>
-        </ui:define>
-        
         <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Sucursales')}"/>
+                    <f:viewParam name="sucursalconsultar" value="#{catalogosBean.sucursalId}"/>
+                    <f:event type="preRenderView" listener="#{catalogosBean.cargarSucursalConsultar()}"/>
+                </f:metadata>
+            </ui:define>
 
             <div class="banda1"><b>VER SUCURSAL</b></div>
             <br/>
@@ -110,7 +109,7 @@
                     </div>
                 </div>
                 <br/><br/>
-                
+
                 <div class="row" style="margin-left: 5px; margin-right: 5px">
                     <div class="col-lg-12" align="right">
                         <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt"

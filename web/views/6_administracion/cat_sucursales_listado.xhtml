@@ -75,15 +75,11 @@
                                                 <h:link outcome="SucursalesConsultar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
                                                     <f:param name="sucursalconsultar" value="#{sucursal.clinicaId}"/>
                                                 </h:link>
-                                                <!--<h:commandLink action="cat_sucursales_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <f:setPropertyActionListener value="#{sucursal}" target="#{catalogosBean.sucursalConsultar}"/>
-                                                </h:commandLink>--> &nbsp;
+                                                &nbsp;
                                                 <h:link outcome="SucursalesEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
                                                     <f:param name="sucursaleditar" value="#{sucursal.clinicaId}"/>
                                                 </h:link>
-                                                <!--<h:commandLink action="cat_sucursales_editar.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                    <f:setPropertyActionListener value="#{sucursal}" target="#{catalogosBean.sucursalEditar}"/>
-                                                </h:commandLink>--> &nbsp;
+                                                &nbsp;
                                                 <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                pt:data-toggle="modal" pt:data-target="#eliminarSucursales">
                                                     <f:setPropertyActionListener value="#{sucursal}" target="#{catalogosBean.sucursalEditar}"/>

@@ -7,14 +7,13 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
-
         <ui:define name="content">
 
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Sucursales')}"/>
                     <f:viewParam name="sucursaleditar" value="#{catalogosBean.sucursalId}"/>
-                    <f:event type="preRenderView" listener="#{catalogosBean.cargarSucursalEditar()}"/>
+                    <f:viewAction action="#{catalogosBean.cargarSucursalEditar()}"/>
                 </f:metadata>
             </ui:define>
 
@@ -137,7 +136,7 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Departamento</b></h6>
-                                <p:selectOneMenu id="depto" value="#{catalogosBean.direccionEditar.municipioId.departamentoId.departamentoId}" style="width: 100%">
+                                <p:selectOneMenu value="#{catalogosBean.direccionEditar.municipioId.departamentoId.departamentoId}" style="width: 100%">
                                     <f:selectItems value="#{catalogosBean.todosDepartamentos()}" var="departamento" 
                                                    itemLabel="#{departamento.departamentoNombre}" itemValue="#{departamento.departamentoId}" />
                                     <p:ajax update="municipiosucursaleditar"/>
@@ -145,10 +144,10 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Municipio *</b></h6>
-                                <p:selectOneMenu id="municipiosucursaleditar" value="#{catalogosBean.direccionEditar.municipioId.municipioId}" required="true"
-                                                 requiredMessage="Municipio es requerido." style="width: 100%">
+                                <p:selectOneMenu id="municipiosucursaleditar" value="#{catalogosBean.direccionEditar.municipioId}" required="true"
+                                                 converter="#{municipioConvertidor}" requiredMessage="Municipio es requerido." style="width: 100%">
                                     <f:selectItems value="#{catalogosBean.todosMunicipiosPorDepartamentoEditar()}" var="municipio"
-                                                   itemLabel="#{municipio.municipioNombre}" itemValue="#{municipio.municipioId}" />
+                                                   itemLabel="#{municipio.municipioNombre}" itemValue="#{municipio}" />
                                 </p:selectOneMenu>
                                 <p:message for="municipiosucursaleditar"/>
                             </div>

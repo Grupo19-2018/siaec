@@ -9,6 +9,13 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{promocionesBean.verificaAcceso('Registrar Promoción')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>NUEVA PROMOCIÓN</b></div>
             <br/>
 

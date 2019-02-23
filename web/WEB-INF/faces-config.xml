@@ -59,6 +59,17 @@
             <from-outcome>InsumoControl</from-outcome>
             <to-view-id>/views/3_insumos/insumo_control.xhtml</to-view-id>
         </navigation-case>
+    
+        <!-- Módulo Insumos -->
+        <navigation-case>
+            <from-outcome>PromocionConsultar</from-outcome>
+            <to-view-id>/views/4_promociones/promocion_consultar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>PromocionEditar</from-outcome>
+            <to-view-id>/views/4_promociones/promocion_editar.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
 </faces-config>
 

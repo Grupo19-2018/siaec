@@ -56,3 +56,6 @@ delete from public.sub_menus_por_roles where rol_id = 5 and submenu_id=7;
 update public.submenus set submenu_url = '/mantenimiento.xhtml' where submenu_id=32;
 update public.submenus set submenu_url = '/views/6_administracion/cat_roles_listado.xhtml' where submenu_id=32;
 
+--Corrección de submenu ya que se cambió el nombre del archivo shtml
+update public.submenus set submenu_url = '/views/4_promociones/promocion_listado.xhtml' where submenu_id=19;
+

@@ -9,13 +9,22 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{promocionesBean.verificaAcceso('Listado de Promociones')}"/>
+                    <f:viewParam name="promocioneditar" value="#{promocionesBean.promocionId}"/>
+                    <f:viewAction action="#{promocionesBean.cargarPromocionEditar()}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>EDITAR PROMOCIÓN</b></div>
             <br/>
 
             <!-- Panel color blanco -->
             <p:panel id="panelpromocion" style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
 
-                <h:form id="editarpromocion" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
+                <h:form id="form" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
 
                     <p:focus for="nombrepromocioneditar"/>
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
@@ -110,7 +119,7 @@
                                 <f:param name="promo" value="true"/>
                             </h:commandLink>
                             &nbsp;
-                            <button type="reset" class="btn btn-default buttonPopupLevel2" onclick="window.location.href = 'promociones_listado.xhtml'"
+                            <button type="reset" class="btn btn-default buttonPopupLevel2" onclick="window.location.href = 'promocion_listado.xhtml'"
                                     style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:Gray; font-weight:bold; border:solid 1px Gray; -webkit-appearance:none; border-radius: 5px">
                                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
                             </button>

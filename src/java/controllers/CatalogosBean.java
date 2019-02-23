@@ -727,7 +727,7 @@ public class CatalogosBean implements Serializable {
         this.direccionConsultar = getDireccionesFacade().direccionPorMedico(medicoConsultar.getMedicoId());
     }
         
-    //Método para cargar médico seleccionado para editar. (cat_medicos_ediltar.xhtml)
+    //Método para cargar médico seleccionado para editar. (cat_medicos_editar.xhtml)
     public void cargarMedicoEditar(){
         medicoEditar = getMedicosFacade().find(medicoId);
         this.direccionEditar = getDireccionesFacade().direccionPorMedico(medicoEditar.getMedicoId());

@@ -2,28 +2,35 @@ package controllers;
 
 import dao.PromocionesFacade;
 import entities.Promociones;
+import entities.Submenus;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 
 /* @author Equipo 19-2018 FIA-UES */
-@Named(value = "promocionesBean")
-@SessionScoped
+@ManagedBean
+@ViewScoped
 public class PromocionesBean implements Serializable {
+
+//****************************************************************************//
+//                          Declaración de variables                          //
+//****************************************************************************//
 
     @EJB
     private PromocionesFacade promocionesFacade;
@@ -33,9 +40,18 @@ public class PromocionesBean implements Serializable {
     
     private UploadedFile file;
     private Date fechaSistema = new Date();
+    private int promocionId;
     
+    //Session
+    @ManagedProperty(value = "#{appSession}")
+    private AppSession appSession;
+        
     public PromocionesBean() {
     }
+
+//****************************************************************************//
+//                  Métodos para obtener listas por entidades                 //
+//****************************************************************************//
 
     public List<Promociones> todasPromocionesDisponibles(){
         return getPromocionesFacade().promocionesDisponibles(Boolean.TRUE);
@@ -45,10 +61,22 @@ public class PromocionesBean implements Serializable {
         return getPromocionesFacade().promocionesActivas(Boolean.TRUE);
     }
     
+    public List<Submenus> todosSubmenusDisponibles(){
+        return appSession.getUsuario().getRolId().getSubmenusList();
+    }
+    
+//****************************************************************************//
+//                 Métodos Get para obtener datos de entidades                //
+//****************************************************************************//
+
     public PromocionesFacade getPromocionesFacade() {
         return promocionesFacade;
     }
     
+//****************************************************************************//
+//                             Métodos Get y SET                              //
+//****************************************************************************//
+
     public Promociones getPromocionNuevo() {
         return promocionNuevo;
     }
@@ -83,7 +111,25 @@ public class PromocionesBean implements Serializable {
     public void setFechaSistema(Date fechaSistema) {
         this.fechaSistema = fechaSistema;
     }
+
+    public int getPromocionId() {
+        return promocionId;
+    }
+    public void setPromocionId(int promocionId) {
+        this.promocionId = promocionId;
+    }
     
+    public AppSession getAppSession() {
+        return appSession;
+    }
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+    
+//****************************************************************************//
+//                                  Métodos                                   //
+//****************************************************************************//
+
     //Método para inicializar los valores de fechas para promoción de tipo cumpleaños (promocion_nuevo.xhtml).
     public void inicializaFechasNuevo(){
         try{
@@ -328,6 +374,46 @@ public class PromocionesBean implements Serializable {
         }
     }
     
+    //Método para cargar promoción seleccionada para consultar. (promocion_consultar.xhtml)
+    public void cargarPromocionConsultar(){
+        promocionConsultar = getPromocionesFacade().find(promocionId);
+    }
+        
+    //Método para cargar promoción seleccionada para editar. (promocion_editar.xhtml)
+    public void cargarPromocionEditar(){
+        promocionEditar = getPromocionesFacade().find(promocionId);
+    }
+        
+    //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
+    public void verificaAcceso(String pagina){
+        //System.out.println("Entra al método del usuario.");
+        boolean acceso = false;
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+            String contextPath = origRequest.getContextPath();
+
+            if(appSession.getUsuario() == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+            else{
+                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
+                    for (Submenus submenu : todosSubmenusDisponibles()){
+                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        if(submenu.getSumbenuNombre().equals(pagina)){
+                            acceso = true;
+                        }
+                    }
+                }
+            }
+            if(!acceso){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+        } catch(IOException e){
+            System.out.println("La variable appSession es nula.");
+        }
+    }
+    
     //Método para mostrar mensaje de guardado/actualizado.
     public void mensajeGuardado(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
@@ -339,5 +425,5 @@ public class PromocionesBean implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-        
+    
 }

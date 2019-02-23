@@ -9,6 +9,15 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{promocionesBean.verificaAcceso('Listado de Promociones')}"/>
+                    <f:viewParam name="promocionconsultar" value="#{promocionesBean.promocionId}"/>
+                    <f:event type="preRenderView" listener="#{promocionesBean.cargarPromocionConsultar()}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>VER PROMOCIÓN</b></div>
             <br/>
 
@@ -76,8 +85,7 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-md-12" align="right">
-
-                            <h:commandLink class="btn btn-default buttonPopupLevel2" action="promociones_listado.xhtml"
+                            <h:commandLink class="btn btn-default buttonPopupLevel2" action="promocion_listado.xhtml"
                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:Gray; font-weight:bold; border:solid 1px Gray; -webkit-appearance:none; border-radius: 5px">
                                 <i class="glyphicon glyphicon-share-alt"></i> Regresar
                             </h:commandLink>

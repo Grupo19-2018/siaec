@@ -10,13 +10,18 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{insumosBean.verificaAcceso('Control de Insumos')}"/>
+                </f:metadata>
+            </ui:define>
+
             <!-- Barra de título -->
             <div class="banda1"><b>CONTROL DE INSUMOS</b></div>
             <br/>
 
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-
                 <br/>
 
                 <h:form id="listaControl">
@@ -47,9 +52,9 @@
                                             </td>
                                             <td>#{insumo.unidadmedidaId.unidadmedidaNombre}</td>
                                             <td align="center">
-                                                <h:commandLink action="insumo_control.xhtml" class="btn btn-default glyphicon glyphicon-sort btn-sm btn-tabla-expediente2" actionListener="#{insumosBean.inicializaControl()}" title="Control">
-                                                    <f:setPropertyActionListener value="#{insumo}" target="#{insumosBean.insumoSeleccionado}"/>
-                                                </h:commandLink>
+                                                <h:link outcome="InsumoControl" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-sort" title="Control">
+                                                    <f:param name="insumocontrol" value="#{insumo.insumoId}"/>
+                                                </h:link>
                                             </td>
                                         </tr>
                                     </ui:repeat>

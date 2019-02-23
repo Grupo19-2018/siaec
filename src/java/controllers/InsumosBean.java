@@ -10,21 +10,25 @@ import entities.Clinicas;
 import entities.Existencias;
 import entities.Insumos;
 import entities.Movimientos;
+import entities.Submenus;
 import entities.TiposInsumos;
 import entities.UnidadesMedidas;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 
 /* @author Equipo 19-2018 FIA-UES */
-@Named(value = "insumosBean")
-@SessionScoped
+@ManagedBean
+@ViewScoped
 public class InsumosBean implements Serializable {
 
 //****************************************************************************//
@@ -57,6 +61,11 @@ public class InsumosBean implements Serializable {
     private Movimientos movimientoNuevo = new Movimientos();
     
     private int sucursalId;
+    private int insumoId;
+    
+    //Session
+    @ManagedProperty(value = "#{appSession}")
+    private AppSession appSession;
     
     public InsumosBean() {
     }
@@ -110,6 +119,10 @@ public class InsumosBean implements Serializable {
         return getClinicasFacade().clinicasDisponibles(Boolean.TRUE);
     }
     
+    public List<Submenus> todosSubmenusDisponibles(){
+        return appSession.getUsuario().getRolId().getSubmenusList();
+    }
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//    
@@ -141,6 +154,7 @@ public class InsumosBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
+    
     public Insumos getInsumoNuevo() {
         return insumoNuevo;
     }
@@ -196,7 +210,21 @@ public class InsumosBean implements Serializable {
     public void setExistenciaNueva(Existencias existenciaNueva) {
         this.existenciaNueva = existenciaNueva;
     }
-    
+
+    public AppSession getAppSession() {
+        return appSession;
+    }
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+
+    public int getInsumoId() {
+        return insumoId;
+    }
+    public void setInsumoId(int insumoId) {
+        this.insumoId = insumoId;
+    }
+        
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -262,12 +290,6 @@ public class InsumosBean implements Serializable {
         return cantidad;
     }
     
-    //Método para inicializar objeto Movimientos (insumo_control.xhtml).
-    public void inicializaControl(){
-        movimientoNuevo = new Movimientos();
-        sucursalId = 0;
-    }
-    
     //Método para guardar una Entrada/Salida de Insumo (insumo_control.xhtml)
     public void guardarMovimiento() {
         try{
@@ -324,6 +346,53 @@ public class InsumosBean implements Serializable {
         }
         else{
             return getExistenciasFacade().existenciaPorInsumoClinica(sucursalId, insumoSeleccionado.getInsumoId()).getExistenciaCantidad();
+        }
+    }
+    
+    //Método para cargar insumo seleccionado para consultar. (insumo_consultar.xhtml)
+    public void cargarInsumoConsultar(){
+        insumoConsultar = getInsumosFacade().find(insumoId);
+    }
+        
+    //Método para cargar insumo seleccionado para editar. (insumo_editar.xhtml)
+    public void cargarInsumoEditar(){
+        insumoEditar = getInsumosFacade().find(insumoId);
+    }
+        
+    //Método para inicializar objeto Movimientos (insumo_control.xhtml).
+    public void cargarInsumoControl(){
+        insumoSeleccionado = getInsumosFacade().find(insumoId);
+        movimientoNuevo = new Movimientos();
+        sucursalId = 0;
+    }
+    
+    //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
+    public void verificaAcceso(String pagina){
+        //System.out.println("Entra al método del usuario.");
+        boolean acceso = false;
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+            String contextPath = origRequest.getContextPath();
+
+            if(appSession.getUsuario() == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+            else{
+                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
+                    for (Submenus submenu : todosSubmenusDisponibles()){
+                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        if(submenu.getSumbenuNombre().equals(pagina)){
+                            acceso = true;
+                        }
+                    }
+                }
+            }
+            if(!acceso){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+        } catch(IOException e){
+            System.out.println("La variable appSession es nula.");
         }
     }
     

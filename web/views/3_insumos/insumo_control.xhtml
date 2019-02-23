@@ -9,13 +9,22 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{insumosBean.verificaAcceso('Control de Insumos')}"/>
+                    <f:viewParam name="insumocontrol" value="#{insumosBean.insumoId}"/>
+                    <f:viewAction action="#{insumosBean.cargarInsumoControl()}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>CONTROL DE INSUMO</b></div>
             <br/>
 
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
 
-                <h:form id="editarinsumo">
+                <h:form id="form">
 
                     <p:focus for="sucursalinsumocontrol"/>
 

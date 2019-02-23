@@ -7,6 +7,8 @@
     version="2.1">
     
     <navigation-rule>
+        
+        <!-- Módulo Administración -->
         <navigation-case>
             <from-outcome>MedicosEditar</from-outcome>
             <to-view-id>/views/6_administracion/cat_medicos_editar.xhtml</to-view-id>
@@ -44,7 +46,19 @@
             <to-view-id>/views/6_administracion/cat_unidadesmedidas_editar.xhtml</to-view-id>
         </navigation-case>
                       
-        
+        <!-- Módulo Insumos -->
+        <navigation-case>
+            <from-outcome>InsumoConsultar</from-outcome>
+            <to-view-id>/views/3_insumos/insumo_consultar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>InsumoEditar</from-outcome>
+            <to-view-id>/views/3_insumos/insumo_editar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>InsumoControl</from-outcome>
+            <to-view-id>/views/3_insumos/insumo_control.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
 

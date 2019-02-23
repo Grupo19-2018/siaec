@@ -9,6 +9,15 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{insumosBean.verificaAcceso('Gestionar Insumos')}"/>
+                    <f:viewParam name="insumoeditar" value="#{insumosBean.insumoId}"/>
+                    <f:event type="preRenderView" listener="#{insumosBean.cargarInsumoEditar()}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>EDITAR INSUMO</b></div>
             <br/>
 

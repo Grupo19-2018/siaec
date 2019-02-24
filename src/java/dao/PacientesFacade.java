@@ -78,4 +78,9 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
         return getEntityManager().createNamedQuery("Pacientes.usuarioUsuario").setParameter("usuario", usuario).getResultList();
     }
     
+    //Lo ocupo en reportes
+    public List<Pacientes> pacientesDisponibles(boolean pacienteEstado){
+        return getEntityManager().createNamedQuery("Pacientes.findByPacienteEstado").setParameter("pacienteEstado", pacienteEstado).getResultList();
+    }
+    
 }

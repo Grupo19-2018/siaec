@@ -33,7 +33,7 @@ public abstract class AbstractBaseReportBean {
         PDF, HTML, EXCEL, RTF
     }
     protected List objetosReporte = new ArrayList();;
-    protected String nombArch;
+    protected String nombreArchivo;
     private ExportOption exportOption;
     protected String reportDir;
     private Boolean imprimir = false;
@@ -51,7 +51,7 @@ public abstract class AbstractBaseReportBean {
         ServletContext context = (ServletContext) externalContext.getContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
-        File reportFile = new File(ReportUtil.getJasperFilePath(context, getReportDir(), getNombArch() + ".jasper"));
+        File reportFile = new File(ReportUtil.getJasperFilePath(context, getReportDir(), getNombreArchivo() + ".jasper"));
         //Verificamos si es un informe con sql puro o con JRDataSource
         jasperPrint = objetosReporte.isEmpty() ? generarInforme(reportFile, jasperPrint) : ReportUtil.fillReport(reportFile, getReportParameters(), getJRDataSource());
         if (getExportOption().equals(ExportOption.HTML)) {
@@ -92,11 +92,11 @@ public abstract class AbstractBaseReportBean {
         this.exportOption = exportOption;
     }
 
-    public String getNombArch() {
-        return this.nombArch;
+    public String getNombreArchivo() {
+        return this.nombreArchivo;
     }
-    public void setNombArch(String NOMBRE_ARCHIVO) {
-        this.nombArch = NOMBRE_ARCHIVO;
+    public void setNombreArchivo(String NOMBRE_ARCHIVO) {
+        this.nombreArchivo = NOMBRE_ARCHIVO;
     }
 
     protected Map<String, Object> getReportParameters() {

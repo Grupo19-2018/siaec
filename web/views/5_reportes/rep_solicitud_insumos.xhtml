@@ -9,6 +9,13 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{reportesBean.verificaAcceso('Listado de Insumos Médicos Próximos a Agotarse')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>LISTADO DE INSUMOS MÉDICOS PRÓXIMOS A AGOTARSE</b></div>
             <br/>
 
@@ -22,7 +29,7 @@
                             <h6  align="center"><b>Seleccione una clínica *</b></h6>
                             <p:selectOneMenu id="sucursalnombre" value="#{reportesBean.clinicaId}" title="sucursal" style="width:100%" required="true" requiredMessage="Clínica es requerida.">
                                 <f:selectItem itemLabel="Seleccionar..." itemValue="#{null}"/>
-                                <f:selectItems value="#{catalogosBean.todosSucursalesDisponibles()}" var="sucursal" itemLabel="#{sucursal.clinicaNombre}" itemValue="#{sucursal.clinicaId}" />
+                                <f:selectItems value="#{reportesBean.todasSucursalesDisponibles()}" var="sucursal" itemLabel="#{sucursal.clinicaNombre}" itemValue="#{sucursal.clinicaId}" />
                             </p:selectOneMenu>
                             <p:message for="sucursalnombre"/>
                         </div>
@@ -33,10 +40,10 @@
 
                     <div class="row">
                         <div class="col-lg-12" align="center">
-                            <h:commandLink action="#{reportesBean.repInsumosAgotados()}" class="btn btn-default buttonLevel1"
+                            <h:commandLink action="#{reportesBean.repSolicitudInsumos()}" class="btn btn-default buttonLevel1"
                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                 <i class="glyphicon glyphicon-search"></i> Ver reporte
-                                <f:setPropertyActionListener value="rep_listadoinsumos_agotados" target="#{reportesBean.nombArch}"/>
+                                <f:setPropertyActionListener value="rep_solicitud_insumos" target="#{reportesBean.nombreArchivo}"/>
                             </h:commandLink>
                         </div>
                     </div>

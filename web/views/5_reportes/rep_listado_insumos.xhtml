@@ -9,6 +9,13 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{reportesBean.verificaAcceso('Listado de Insumos Médicos')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>REPORTE DE INSUMOS MÉDICOS</b></div>
             <br/>
 
@@ -18,10 +25,10 @@
                 <h:form id="reporteinsumos">
                     <div class="row">
                         <div class="col-lg-12" align="center">
-                            <h:commandLink action="#{reportesBean.repInsumos()}" class="btn btn-default buttonLevel1"
+                            <h:commandLink action="#{reportesBean.repListadoInsumos()}" class="btn btn-default buttonLevel1"
                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                 <i class="glyphicon glyphicon-search"></i> Ver reporte
-                                <f:setPropertyActionListener value="rep_listado_insumos" target="#{reportesBean.nombArch}"/>
+                                <f:setPropertyActionListener value="rep_listado_insumos" target="#{reportesBean.nombreArchivo}"/>
                             </h:commandLink>
                         </div>
                     </div>

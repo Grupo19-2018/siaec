@@ -56,6 +56,14 @@ delete from public.sub_menus_por_roles where rol_id = 5 and submenu_id=7;
 update public.submenus set submenu_url = '/mantenimiento.xhtml' where submenu_id=32;
 update public.submenus set submenu_url = '/views/6_administracion/cat_roles_listado.xhtml' where submenu_id=32;
 
---Corrección de submenu ya que se cambió el nombre del archivo shtml
+--Corrección de submenu ya que se cambió el nombre del archivo xhtml
 update public.submenus set submenu_url = '/views/4_promociones/promocion_listado.xhtml' where submenu_id=19;
 
+--Corrección de submenu y url de reportes
+update public.submenus set submenu_url = '/views/5_reportes/rep_promociones_demandadas.xhtml' where submenu_id=20;
+update public.submenus set sumbenu_nombre = 'Tratamientos Demandados' where submenu_id=21;
+update public.submenus set sumbenu_nombre = 'Listado de Insumos Médicos Próximos a Agotarse' where submenu_id=23;
+update public.submenus set submenu_url = '/views/5_reportes/rep_solicitud_insumos.xhtml' where submenu_id=23;
+update public.submenus set sumbenu_nombre = 'Listado de Pacientes por Médico' where submenu_id=24;
+update public.submenus set submenu_url = '/views/5_reportes/rep_pacientes_por_medico.xhtml' where submenu_id=24;
+update public.submenus set submenu_url = '/views/5_reportes/rep_tratamientos_paciente.xhtml' where submenu_id=25;

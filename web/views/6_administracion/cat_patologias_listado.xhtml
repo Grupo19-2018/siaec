@@ -54,15 +54,19 @@
                                             <td align="center"></td>
                                             <td>#{pato.patologiaNombre}</td>
                                             <td align="center">
-                                                <h:link outcome="PatologiasEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
-                                                    <f:param name="patologia" value="#{pato.patologiaId}"/>
-                                                </h:link>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(27)}">
+                                                    <h:link outcome="PatologiasEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                        <f:param name="patologia" value="#{pato.patologiaId}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
                                                 &nbsp;
-                                                <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
-                                                               pt:data-toggle="modal" pt:data-target="#eliminarPatologia">
-                                                    <f:setPropertyActionListener value="#{pato}" target="#{catalogosBean.patologiaEditar}"/>
-                                                    <p:ajax process="@this" update=":listaPatologias:eliminar"/>
-                                                </h:commandLink>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(28)}">
+                                                    <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
+                                                                   pt:data-toggle="modal" pt:data-target="#eliminarPatologia">
+                                                        <f:setPropertyActionListener value="#{pato}" target="#{catalogosBean.patologiaEditar}"/>
+                                                        <p:ajax process="@this" update=":listaPatologias:eliminar"/>
+                                                    </h:commandLink>
+                                                </h:panelGroup>
                                             </td>
                                         </tr>
                                     </ui:repeat>

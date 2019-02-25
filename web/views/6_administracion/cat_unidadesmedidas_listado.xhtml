@@ -56,15 +56,19 @@
                                             <td>#{unidad.unidadmedidaNombre}</td>
                                             <td>#{unidad.unidadmedidaAbreviatura}</td>
                                             <td align="center">
-                                                <h:link outcome="UnidadesMedidasEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
-                                                    <f:param name="unidadmedida" value="#{unidad.unidadmedidaId}"/>
-                                                </h:link>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(31)}">
+                                                    <h:link outcome="UnidadesMedidasEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                        <f:param name="unidadmedida" value="#{unidad.unidadmedidaId}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
                                                 &nbsp;
-                                                <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
-                                                               pt:data-toggle="modal" pt:data-target="#eliminarUnidadmedida">
-                                                    <f:setPropertyActionListener value="#{unidad}" target="#{catalogosBean.unidadMedidaEditar}"/>
-                                                    <p:ajax process="@this" update=":listaUnidadesMedidas:eliminar"/>
-                                                </h:commandLink>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(32)}">
+                                                    <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
+                                                                   pt:data-toggle="modal" pt:data-target="#eliminarUnidadmedida">
+                                                        <f:setPropertyActionListener value="#{unidad}" target="#{catalogosBean.unidadMedidaEditar}"/>
+                                                        <p:ajax process="@this" update=":listaUnidadesMedidas:eliminar"/>
+                                                    </h:commandLink>
+                                                </h:panelGroup>
                                             </td>
                                         </tr>
                                     </ui:repeat>

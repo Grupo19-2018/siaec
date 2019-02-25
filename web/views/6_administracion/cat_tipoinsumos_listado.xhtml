@@ -56,15 +56,19 @@
                                             <td>#{tipo.tipoinsumoNombre}</td>
                                             <td>#{tipo.tipoinsumoDescripcion}</td>
                                             <td align="center">
-                                                <h:link outcome="TipoInsumosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
-                                                    <f:param name="tipoinsumo" value="#{tipo.tipoinsumoId}"/>
-                                                </h:link>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(29)}">
+                                                    <h:link outcome="TipoInsumosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                        <f:param name="tipoinsumo" value="#{tipo.tipoinsumoId}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
                                                 &nbsp;
-                                                <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
-                                                               pt:data-toggle="modal" pt:data-target="#eliminarTipoinsumo">
-                                                    <f:setPropertyActionListener value="#{tipo}" target="#{catalogosBean.tipoInsumoEditar}"/>
-                                                    <p:ajax process="@this" update=":listaTiposInsumos:eliminar"/>
-                                                </h:commandLink>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(30)}">
+                                                    <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
+                                                                   pt:data-toggle="modal" pt:data-target="#eliminarTipoinsumo">
+                                                        <f:setPropertyActionListener value="#{tipo}" target="#{catalogosBean.tipoInsumoEditar}"/>
+                                                        <p:ajax process="@this" update=":listaTiposInsumos:eliminar"/>
+                                                    </h:commandLink>
+                                                </h:panelGroup>
                                             </td>
                                         </tr>
                                     </ui:repeat>

@@ -26,6 +26,7 @@ public class AdministracionBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
+
     @EJB
     private RolesFacade rolesFacade;
     private Roles rolNuevo = new Roles();
@@ -141,6 +142,7 @@ public class AdministracionBean implements Serializable {
     public Roles getRolConsultar() {
         return rolConsultar;
     }
+
     public void setRolConsultar(Roles rolConsultar) {
         this.rolConsultar = rolConsultar;
     }
@@ -148,6 +150,7 @@ public class AdministracionBean implements Serializable {
     public Roles getRolEditar() {
         return rolEditar;
     }
+
     public void setRolEditar(Roles rolEditar) {
         this.rolEditar = rolEditar;
     }
@@ -155,6 +158,7 @@ public class AdministracionBean implements Serializable {
     public Roles getRolNuevo() {
         return rolNuevo;
     }
+
     public void setRolNuevo(Roles rolNuevo) {
         this.rolNuevo = rolNuevo;
     }
@@ -162,16 +166,18 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu1() {
         return submenu1;
     }
+
     public void setSubmenu1(List<Submenus> submenu1) {
         sCitasAprobadas = false;
         sCitasPendientes = false;
         for (Submenus submenus : submenu1) {
-            if (submenus.getSubmenuId() == 2) {
-                sCitasAprobadas = true;
-            }
-
-            if (submenus.getSubmenuId() == 3) {
-                sCitasPendientes = true;
+            switch (submenus.getSubmenuId()) {
+                case 2:
+                    sCitasAprobadas = true;
+                    break;
+                case 3:
+                    sCitasPendientes = true;
+                    break;
             }
         }
         this.submenu1 = submenu1;
@@ -180,6 +186,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu2() {
         return submenu2;
     }
+
     public void setSubmenu2(List<Submenus> submenu2) {
         this.submenu2 = submenu2;
     }
@@ -187,6 +194,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu3() {
         return submenu3;
     }
+
     public void setSubmenu3(List<Submenus> submenu3) {
         sGestionarInsumos = false;
         for (Submenus submenus : submenu3) {
@@ -200,6 +208,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu4() {
         return submenu4;
     }
+
     public void setSubmenu4(List<Submenus> submenu4) {
         sListadoPromociones = false;
         for (Submenus submenus : submenu4) {
@@ -213,6 +222,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu5() {
         return submenu5;
     }
+
     public void setSubmenu5(List<Submenus> submenu5) {
         this.submenu5 = submenu5;
     }
@@ -220,6 +230,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu6() {
         return submenu6;
     }
+
     public void setSubmenu6(List<Submenus> submenu6) {
         sGestionarSucursales = false;
         sGestionarMedicos = false;
@@ -228,27 +239,25 @@ public class AdministracionBean implements Serializable {
         sGestionarTipoInsumo = false;
         sGestionarUnidadMedida = false;
         for (Submenus submenus : submenu6) {
-            if (submenus.getSubmenuId() == 34) {
-                sGestionarSucursales = true;
-            }
-            if (submenus.getSubmenuId() == 35) {
-                sGestionarMedicos = true;
-            }
-
-            if (submenus.getSubmenuId() == 36) {
-                sGestionarTratamientos = true;
-            }
-
-            if (submenus.getSubmenuId() == 37) {
-                sGestionarPatologias = true;
-            }
-
-            if (submenus.getSubmenuId() == 38) {
-                sGestionarTipoInsumo = true;
-            }
-
-            if (submenus.getSubmenuId() == 39) {
-                sGestionarUnidadMedida = true;
+            switch (submenus.getSubmenuId()) {
+                case 34:
+                    sGestionarSucursales = true;
+                    break;
+                case 35:
+                    sGestionarMedicos = true;
+                    break;
+                case 36:
+                    sGestionarTratamientos = true;
+                    break;
+                case 37:
+                    sGestionarPatologias = true;
+                    break;
+                case 38:
+                    sGestionarTipoInsumo = true;
+                    break;
+                case 39:
+                    sGestionarUnidadMedida = true;
+                    break;
             }
         }
         this.submenu6 = submenu6;
@@ -257,6 +266,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu7() {
         return submenu7;
     }
+
     public void setSubmenu7(List<Submenus> submenu7) {
         this.submenu7 = submenu7;
     }
@@ -264,6 +274,7 @@ public class AdministracionBean implements Serializable {
     public List<Submenus> getSubmenu8() {
         return submenu8;
     }
+
     public void setSubmenu8(List<Submenus> submenu8) {
         this.submenu8 = submenu8;
     }
@@ -272,6 +283,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getCitasAprobadas() {
         return citasAprobadas;
     }
+
     public void setCitasAprobadas(List<Privilegios> citasAprobadas) {
         this.citasAprobadas = citasAprobadas;
     }
@@ -279,6 +291,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsCitasAprobadas() {
         return sCitasAprobadas;
     }
+
     public void setsCitasAprobadas(Boolean sCitasAprobadas) {
         this.sCitasAprobadas = sCitasAprobadas;
     }
@@ -287,6 +300,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getCitasPendientes() {
         return citasPendientes;
     }
+
     public void setCitasPendientes(List<Privilegios> citasPendientes) {
         this.citasPendientes = citasPendientes;
     }
@@ -294,6 +308,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsCitasPendientes() {
         return sCitasPendientes;
     }
+
     public void setsCitasPendientes(Boolean sCitasPendientes) {
         this.sCitasPendientes = sCitasPendientes;
     }
@@ -302,6 +317,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarInsumos() {
         return gestionarInsumos;
     }
+
     public void setGestionarInsumos(List<Privilegios> gestionarInsumos) {
         this.gestionarInsumos = gestionarInsumos;
     }
@@ -309,6 +325,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarInsumos() {
         return sGestionarInsumos;
     }
+
     public void setsGestionarInsumos(Boolean sGestionarInsumos) {
         this.sGestionarInsumos = sGestionarInsumos;
     }
@@ -317,6 +334,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getListadoPromociones() {
         return listadoPromociones;
     }
+
     public void setListadoPromociones(List<Privilegios> listadoPromociones) {
         this.listadoPromociones = listadoPromociones;
     }
@@ -324,6 +342,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsListadoPromociones() {
         return sListadoPromociones;
     }
+
     public void setsListadoPromociones(Boolean sListadoPromociones) {
         this.sListadoPromociones = sListadoPromociones;
     }
@@ -332,6 +351,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarSucursales() {
         return gestionarSucursales;
     }
+
     public void setGestionarSucursales(List<Privilegios> gestionarSucursales) {
         this.gestionarSucursales = gestionarSucursales;
     }
@@ -339,6 +359,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarSucursales() {
         return sGestionarSucursales;
     }
+
     public void setsGestionarSucursales(Boolean sGestionarSucursales) {
         this.sGestionarSucursales = sGestionarSucursales;
     }
@@ -347,6 +368,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarMedicos() {
         return gestionarMedicos;
     }
+
     public void setGestionarMedicos(List<Privilegios> gestionarMedicos) {
         this.gestionarMedicos = gestionarMedicos;
     }
@@ -354,6 +376,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarMedicos() {
         return sGestionarMedicos;
     }
+
     public void setsGestionarMedicos(Boolean sGestionarMedicos) {
         this.sGestionarMedicos = sGestionarMedicos;
     }
@@ -362,6 +385,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarTratamientos() {
         return gestionarTratamientos;
     }
+
     public void setGestionarTratamientos(List<Privilegios> gestionarTratamientos) {
         this.gestionarTratamientos = gestionarTratamientos;
     }
@@ -369,6 +393,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarTratamientos() {
         return sGestionarTratamientos;
     }
+
     public void setsGestionarTratamientos(Boolean sGestionarTratamientos) {
         this.sGestionarTratamientos = sGestionarTratamientos;
     }
@@ -377,6 +402,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarPatologias() {
         return gestionarPatologias;
     }
+
     public void setGestionarPatologias(List<Privilegios> gestionarPatologias) {
         this.gestionarPatologias = gestionarPatologias;
     }
@@ -384,6 +410,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarPatologias() {
         return sGestionarPatologias;
     }
+
     public void setsGestionarPatologias(Boolean sGestionarPatologias) {
         this.sGestionarPatologias = sGestionarPatologias;
     }
@@ -392,6 +419,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarTipoInsumo() {
         return gestionarTipoInsumo;
     }
+
     public void setGestionarTipoInsumo(List<Privilegios> gestionarTipoInsumo) {
         this.gestionarTipoInsumo = gestionarTipoInsumo;
     }
@@ -399,6 +427,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarTipoInsumo() {
         return sGestionarTipoInsumo;
     }
+
     public void setsGestionarTipoInsumo(Boolean sGestionarTipoInsumo) {
         this.sGestionarTipoInsumo = sGestionarTipoInsumo;
     }
@@ -407,6 +436,7 @@ public class AdministracionBean implements Serializable {
     public List<Privilegios> getGestionarUnidadMedida() {
         return gestionarUnidadMedida;
     }
+
     public void setGestionarUnidadMedida(List<Privilegios> gestionarUnidadMedida) {
         this.gestionarUnidadMedida = gestionarUnidadMedida;
     }
@@ -414,6 +444,7 @@ public class AdministracionBean implements Serializable {
     public Boolean getsGestionarUnidadMedida() {
         return sGestionarUnidadMedida;
     }
+
     public void setsGestionarUnidadMedida(Boolean sGestionarUnidadMedida) {
         this.sGestionarUnidadMedida = sGestionarUnidadMedida;
     }
@@ -816,18 +847,17 @@ public class AdministracionBean implements Serializable {
             //Menu: Agenda
             if (!submenu1.isEmpty()) {
                 for (Submenus list : submenu1) {
-                    //Pantalla: Citas Aprobadas
-                    if (list.getSubmenuId() == 2) {
-                        for (Privilegios p : citasAprobadas) {
-                            tempPrivilegios.add(p);
-                        }
-                    }
-
-                    //Pantalla: Cita Pendiente
-                    if (list.getSubmenuId() == 3) {
-                        for (Privilegios pri : citasPendientes) {
-                            tempPrivilegios.add(pri);
-                        }
+                    switch (list.getSubmenuId()) {
+                        case 2: //Pantalla: Citas Aprobadas
+                            for (Privilegios p : citasAprobadas) {
+                                tempPrivilegios.add(p);
+                            }
+                            break;
+                        case 3: //Pantalla: Cita Pendiente
+                            for (Privilegios pri : citasPendientes) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
                     }
                     temp.add(list);
                 }
@@ -870,6 +900,7 @@ public class AdministracionBean implements Serializable {
                 tempMenu.add(getMenusFacades().find(submenu4.get(0).getMenuId().getMenuId()));
             }
 
+            //Reportes
             if (!submenu5.isEmpty()) {
                 for (Submenus list : submenu5) {
                     temp.add(list);
@@ -880,41 +911,37 @@ public class AdministracionBean implements Serializable {
             //Menu 6: Administracion
             if (!submenu6.isEmpty()) {
                 for (Submenus list : submenu6) {
-                    //Pantalla: Gestionar Sucursales
-                    if (list.getSubmenuId() == 34) {
-                        for (Privilegios pri : gestionarSucursales) {
-                            tempPrivilegios.add(pri);
-                        }
-                    }
-                    //Pantalla: Gestionar Medicos
-                    if (list.getSubmenuId() == 35) {
-                        for (Privilegios pri : gestionarMedicos) {
-                            tempPrivilegios.add(pri);
-                        }
-                    }
-                    //Pantalla: Gestionar Tratamientos
-                    if (list.getSubmenuId() == 36) {
-                        for (Privilegios pri : gestionarTratamientos) {
-                            tempPrivilegios.add(pri);
-                        }
-                    }
-                    //Pantalla: Gestionar Tipo de Insumo
-                    if (list.getSubmenuId() == 37) {
-                        for (Privilegios pri : gestionarPatologias) {
-                            tempPrivilegios.add(pri);
-                        }
-                    }
-                    //Pantalla: Gestionar Tipo de Insumo
-                    if (list.getSubmenuId() == 38) {
-                        for (Privilegios pri : gestionarTipoInsumo) {
-                            tempPrivilegios.add(pri);
-                        }
-                    }
-                    //Pantalla: Gestionar Tipo de Insumo
-                    if (list.getSubmenuId() == 39) {
-                        for (Privilegios pri : gestionarUnidadMedida) {
-                            tempPrivilegios.add(pri);
-                        }
+                    switch (list.getSubmenuId()) {
+                        case 34: //Pantalla: Gestionar Sucursales
+                            for (Privilegios pri : gestionarSucursales) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
+                        case 35: //Pantalla: Gestionar Medicos
+                            for (Privilegios pri : gestionarMedicos) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
+                        case 36: //Pantalla: Gestionar Tratamientos
+                            for (Privilegios pri : gestionarTratamientos) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
+                        case 37: //Pantalla: Gestionar Tipo de Insumo
+                            for (Privilegios pri : gestionarPatologias) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
+                        case 38: //Pantalla: Gestionar Tipo de Insumo
+                            for (Privilegios pri : gestionarTipoInsumo) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
+                        case 39: //Pantalla: Gestionar Tipo de Insumo
+                            for (Privilegios pri : gestionarUnidadMedida) {
+                                tempPrivilegios.add(pri);
+                            }
+                            break;
                     }
                     temp.add(list);
                 }
@@ -951,7 +978,6 @@ public class AdministracionBean implements Serializable {
         }
     }
 
-    
     //Método para mostrar mensaje de guardado/actualizado.
     public void mensajeGuardado(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);

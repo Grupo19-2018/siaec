@@ -56,15 +56,19 @@
                                             <td>#{tratamiento.tratamientoNombre}</td>
                                             <td>#{tratamiento.tratamientoDescripcion}</td>
                                             <td align="center">
-                                                <h:link outcome="TratamientosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
-                                                    <f:param name="tratamiento" value="#{tratamiento.tratamientoId}"/>
-                                                </h:link>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(25)}">
+                                                    <h:link outcome="TratamientosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                        <f:param name="tratamiento" value="#{tratamiento.tratamientoId}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
                                                 &nbsp;
-                                                <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
-                                                               pt:data-toggle="modal" pt:data-target="#eliminarTratamiento">
-                                                    <f:setPropertyActionListener value="#{tratamiento}" target="#{catalogosBean.tratamientoEditar}"/>
-                                                    <p:ajax process="@this" update=":listaTratamientos:eliminar"/>
-                                                </h:commandLink>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(26)}">
+                                                    <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
+                                                                   pt:data-toggle="modal" pt:data-target="#eliminarTratamiento">
+                                                        <f:setPropertyActionListener value="#{tratamiento}" target="#{catalogosBean.tratamientoEditar}"/>
+                                                        <p:ajax process="@this" update=":listaTratamientos:eliminar"/>
+                                                    </h:commandLink>
+                                                </h:panelGroup>
                                             </td>
                                         </tr>
                                     </ui:repeat>

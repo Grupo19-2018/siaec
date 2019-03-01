@@ -10,6 +10,12 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{expedientesBean.verificaAcceso('Listado de Pacientes')}"/>
+                </f:metadata>
+            </ui:define>
+
             <!-- Barra de título -->
             <div class="banda1"><b>LISTADO DE PACIENTES</b></div>
             <br/>

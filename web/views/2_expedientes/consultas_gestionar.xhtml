@@ -100,7 +100,7 @@
                                        style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                             <i class="glyphicon glyphicon-print"></i> Receta
                             <f:setPropertyActionListener value="#{expedientesBean.consultaEditar.consultaId}" target="#{reportesBean.consultaId}"/>
-                            <f:setPropertyActionListener value="rep_receta" target="#{reportesBean.nombArch}"/>
+                            <f:setPropertyActionListener value="rep_receta" target="#{reportesBean.nombreArchivo}"/>
                             <f:event type="preValidate" listener="#{expedientesBean.setTabIndex(2)}"/>
                         </h:commandLink>
                         &nbsp;
@@ -109,11 +109,13 @@
                             <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Restablecer
                         </button>
                         &nbsp;
-                        <h:commandLink class="btn btn-default buttonPopupLevel2" action="paciente_expediente_gestionar.xhtml"
-                                       style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:Gray; font-weight:bold; border:solid 1px Gray; -webkit-appearance:none; border-radius: 5px">
+                        <h:link outcome="GestionarExpediente" class="btn btn-default buttonPopupLevel2"
+                                style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:Gray; font-weight:bold; border:solid 1px Gray; -webkit-appearance:none; border-radius: 5px">
                             <i class="glyphicon glyphicon-remove-circle"></i> Cancelar
-                            <f:event type="preValidate" listener="#{expedientesBean.setTabIndex(2)}"/>
-                        </h:commandLink>
+                            <f:param name="expedientegestionar" value="#{expedientesBean.consultaEditar.pacienteId.pacienteId}"/>
+                            <f:param name="consultaseleccionada" value="#{0}"/>
+                            <f:param name="tabindex" value="#{2}"/>
+                        </h:link>
                     </div>
                 </div>
                 <br/>

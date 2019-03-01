@@ -70,6 +70,28 @@
             <to-view-id>/views/4_promociones/promocion_editar.xhtml</to-view-id>
         </navigation-case>
         
+        <!-- Módulo Expedientes -->
+        <navigation-case>
+            <from-outcome>ConsultarExpediente</from-outcome>
+            <to-view-id>/views/2_expedientes/paciente_expediente_consultar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>GestionarExpediente</from-outcome>
+            <to-view-id>/views/2_expedientes/paciente_expediente_gestionar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ConsultaConsultar</from-outcome>
+            <to-view-id>/views/2_expedientes/consultas_plantilla_consultar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ConsultaNueva</from-outcome>
+            <to-view-id>/views/2_expedientes/consultas_plantilla_nuevo.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ConsultaEditar</from-outcome>
+            <to-view-id>/views/2_expedientes/consultas_plantilla_gestionar.xhtml</to-view-id>
+        </navigation-case>
+        
     </navigation-rule>
 </faces-config>
 

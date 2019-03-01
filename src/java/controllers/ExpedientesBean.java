@@ -1,5 +1,5 @@
 /*
-Actualizado: 06/febrero/2019
+Actualizado: 28/febrero/2019
 */
 package controllers;
 
@@ -26,21 +26,22 @@ import entities.Odontogramas;
 import entities.Imagenes;
 import entities.Medicos;
 import entities.Promociones;
+import entities.Submenus;
 import entities.Tratamientos;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import org.primefaces.model.UploadedFile;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -53,8 +54,8 @@ import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 Fecha: 06/febrero/2019
 -Se agrego metodo para vincular el Expediente con el dashboard del Medico
 */
-@Named(value = "expedientesBean")
-@SessionScoped
+@ManagedBean
+@ViewScoped
 public class ExpedientesBean implements Serializable {
 
 //****************************************************************************//
@@ -153,7 +154,6 @@ public class ExpedientesBean implements Serializable {
     private Odontogramas pieza84 = new Odontogramas();
     private Odontogramas pieza85 = new Odontogramas();
 
-    private Integer tabindex = 0;
     private Integer tabIndex = 0;
     private Integer tabIndexFicha = 0;
     private Integer departamentoId = 0;
@@ -163,6 +163,9 @@ public class ExpedientesBean implements Serializable {
     private String nombre = ""; //Variable para buscar paciente por nombre.
     private UploadedFile file;
     private Date fechaSistema = new Date();
+    private int expedienteId;
+    private int consultaId;
+
     
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -174,6 +177,7 @@ public class ExpedientesBean implements Serializable {
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
+    
     public List<Patologias> todosPatologiasDisponibles() {
         return getPatologiasFacade().patologiasDisponibles(Boolean.TRUE);
     }
@@ -264,6 +268,10 @@ public class ExpedientesBean implements Serializable {
         return getDetallesConsultasFacade().detalleConsultaPorPaciente(pacienteConsultar.getPacienteId());
     }
 
+    public List<Submenus> todosSubmenusDisponibles(){
+        return appSession.getUsuario().getRolId().getSubmenusList();
+    }
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
@@ -348,13 +356,6 @@ public class ExpedientesBean implements Serializable {
         this.direccionConsultar = direccionConsultar;
     }
 
-    public Integer getTabindex() {
-        return tabindex;
-    }
-    public void setTabindex(Integer tabindex) {
-        this.tabindex = tabindex;
-    }
-
     public Integer getDepartamentoId() {
         return departamentoId;
     }
@@ -387,59 +388,6 @@ public class ExpedientesBean implements Serializable {
         return pacienteConsultar;
     }
     public void setPacienteConsultar(Pacientes pacienteConsultar) {
-        this.direccionConsultar = getDireccionesFacade().direccionPorPaciente(pacienteConsultar.getPacienteId());
-        this.pieza11 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "11");
-        this.pieza12 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "12");
-        this.pieza13 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "13");
-        this.pieza14 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "14");
-        this.pieza15 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "15");
-        this.pieza16 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "16");
-        this.pieza17 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "17");
-        this.pieza18 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "18");
-        this.pieza21 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "21");
-        this.pieza22 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "22");
-        this.pieza23 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "23");
-        this.pieza24 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "24");
-        this.pieza25 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "25");
-        this.pieza26 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "26");
-        this.pieza27 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "27");
-        this.pieza28 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "28");
-        this.pieza31 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "31");
-        this.pieza32 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "32");
-        this.pieza33 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "33");
-        this.pieza34 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "34");
-        this.pieza35 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "35");
-        this.pieza36 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "36");
-        this.pieza37 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "37");
-        this.pieza38 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "38");
-        this.pieza41 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "41");
-        this.pieza42 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "42");
-        this.pieza43 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "43");
-        this.pieza44 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "44");
-        this.pieza45 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "45");
-        this.pieza46 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "46");
-        this.pieza47 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "47");
-        this.pieza48 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "48");
-        this.pieza51 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "51");
-        this.pieza52 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "52");
-        this.pieza53 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "53");
-        this.pieza54 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "54");
-        this.pieza55 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "55");
-        this.pieza61 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "61");
-        this.pieza62 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "62");
-        this.pieza63 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "63");
-        this.pieza64 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "64");
-        this.pieza65 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "65");
-        this.pieza71 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "71");
-        this.pieza72 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "72");
-        this.pieza73 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "73");
-        this.pieza74 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "74");
-        this.pieza75 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "75");
-        this.pieza81 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "81");
-        this.pieza82 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "82");
-        this.pieza83 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "83");
-        this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "84");
-        this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "85");
         this.pacienteConsultar = pacienteConsultar;
     }
 
@@ -447,59 +395,6 @@ public class ExpedientesBean implements Serializable {
         return pacienteEditar;
     }
     public void setPacienteEditar(Pacientes pacienteEditar) {
-        this.direccionEditar = getDireccionesFacade().direccionPorPaciente(pacienteEditar.getPacienteId());
-        this.pieza11 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "11");
-        this.pieza12 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "12");
-        this.pieza13 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "13");
-        this.pieza14 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "14");
-        this.pieza15 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "15");
-        this.pieza16 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "16");
-        this.pieza17 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "17");
-        this.pieza18 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "18");
-        this.pieza21 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "21");
-        this.pieza22 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "22");
-        this.pieza23 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "23");
-        this.pieza24 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "24");
-        this.pieza25 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "25");
-        this.pieza26 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "26");
-        this.pieza27 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "27");
-        this.pieza28 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "28");
-        this.pieza31 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "31");
-        this.pieza32 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "32");
-        this.pieza33 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "33");
-        this.pieza34 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "34");
-        this.pieza35 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "35");
-        this.pieza36 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "36");
-        this.pieza37 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "37");
-        this.pieza38 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "38");
-        this.pieza41 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "41");
-        this.pieza42 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "42");
-        this.pieza43 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "43");
-        this.pieza44 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "44");
-        this.pieza45 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "45");
-        this.pieza46 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "46");
-        this.pieza47 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "47");
-        this.pieza48 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "48");
-        this.pieza51 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "51");
-        this.pieza52 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "52");
-        this.pieza53 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "53");
-        this.pieza54 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "54");
-        this.pieza55 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "55");
-        this.pieza61 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "61");
-        this.pieza62 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "62");
-        this.pieza63 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "63");
-        this.pieza64 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "64");
-        this.pieza65 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "65");
-        this.pieza71 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "71");
-        this.pieza72 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "72");
-        this.pieza73 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "73");
-        this.pieza74 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "74");
-        this.pieza75 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "75");
-        this.pieza81 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "81");
-        this.pieza82 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "82");
-        this.pieza83 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "83");
-        this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "84");
-        this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "85");
         this.pacienteEditar = pacienteEditar;
     }
 
@@ -566,6 +461,20 @@ public class ExpedientesBean implements Serializable {
         this.consultaEditar = consultaEditar;
     }
 
+    public int getExpedienteId() {
+        return expedienteId;
+    }
+    public void setExpedienteId(int expedienteId) {
+        this.expedienteId = expedienteId;
+    }
+
+    public int getConsultaId() {
+        return consultaId;
+    }
+    public void setConsultaId(int consultaId) {
+        this.consultaId = consultaId;
+    }
+    
     public Odontogramas getPiezaNuevo() {
         return piezaNuevo;
     }
@@ -971,7 +880,14 @@ public class ExpedientesBean implements Serializable {
     public void setTabIndexFicha(Integer tabIndexFicha) {
         this.tabIndexFicha = tabIndexFicha;
     }
-    
+
+    public AppSession getAppSession() {
+        return appSession;
+    }
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+            
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -1226,10 +1142,10 @@ public class ExpedientesBean implements Serializable {
             consultaNueva.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
             getConsultasFacade().create(consultaNueva);
             consultaEditar = getConsultasFacade().find(consultaNueva.getConsultaId());
-            consultaNueva = new Consultas();
+            //consultaNueva = new Consultas();
             this.setTabIndex(2);
-            refrescaPagina("/views/3_expedientes/consultas_plantilla_gestionar.xhtml");
-            Thread.sleep(5000);
+            refrescaPagina("/views/2_expedientes/consultas_plantilla_gestionar.xhtml?expedientegestionar="+pacienteEditar.getPacienteId()+"&consultaseleccionada="+consultaNueva.getConsultaId()+"&tabindex=2");
+            //Thread.sleep(5000);
             mensajeConfirmacion("La consulta se ha guardado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarConsulta.");
@@ -1536,18 +1452,6 @@ public class ExpedientesBean implements Serializable {
         }
     }
     
-    //Método para mostrar mensaje de guardado/actualizado.
-    public void mensajeConfirmacion(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-    
-    //Método para mostrar mensaje de error en el sistema.
-    public void mensajeError(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-        
     //Método para inicializar los valores en pantalla de busqueda de pacientes (paciente_consultar.xhtml y paciente_gestionar.xhtml).
     public void inicializaBusquedaPaciente(){
         this.setExpediente("");
@@ -1580,8 +1484,9 @@ public class ExpedientesBean implements Serializable {
     }
     
     //Este método no se donde carajo se ocupa jajaja
-    //Estado: Desuso 
-    public void direccionPaciente() {
+    //Ya me acordé, lo utilizo en paciente_consultar.xhtml y paciente_gestionar.xhtml
+    //Estado: En uso 
+    public void direccionPaciente(){
         direccionConsultar = new Direcciones();
         direccionConsultar = getDireccionesFacade().DireccionDePaciente(pacienteConsultar.getPacienteId());
         Municipios mup = getMunicipiosFacade().MunicipioDePaciente(direccionConsultar.getMunicipioId().getMunicipioId());
@@ -1621,5 +1526,169 @@ public class ExpedientesBean implements Serializable {
         }
     }
     
+    //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
+    public void verificaAcceso(String pagina){
+        //System.out.println("Entra al método del usuario.");
+        //System.out.println("Valor de parámetro: " + pagina);
+        //System.out.println("Valor de usuario: " + appSession.getUsuario().getUsuarioPrimerNombre());
+        boolean acceso = false;
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+            String contextPath = origRequest.getContextPath();
+
+            if(appSession.getUsuario() == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+            else{
+                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
+                    for (Submenus submenu : todosSubmenusDisponibles()){
+                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        if(submenu.getSumbenuNombre().equals(pagina)){
+                            acceso = true;
+                        }
+                    }
+                }
+            }
+            if(!acceso){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+        } catch(IOException e){
+            System.out.println("La variable appSession es nula.");
+        }
+    }
+    
+    //Método para mostrar mensaje de guardado/actualizado.
+    public void mensajeConfirmacion(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+    
+    //Método para mostrar mensaje de error en el sistema.
+    public void mensajeError(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+        
+    //Método para cargar expediente seleccionado para consultar. (paciente_expediente_consultar.xhtml y consultas_plantilla_consultar.xhtml)
+    public void cargarExpedienteConsultar(){
+        pacienteConsultar = getPacientesFacade().find(expedienteId);
+        consultaSeleccionada = getConsultasFacade().find(consultaId);
+        this.direccionConsultar = getDireccionesFacade().direccionPorPaciente(pacienteConsultar.getPacienteId());
+        this.pieza11 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "11");
+        this.pieza12 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "12");
+        this.pieza13 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "13");
+        this.pieza14 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "14");
+        this.pieza15 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "15");
+        this.pieza16 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "16");
+        this.pieza17 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "17");
+        this.pieza18 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "18");
+        this.pieza21 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "21");
+        this.pieza22 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "22");
+        this.pieza23 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "23");
+        this.pieza24 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "24");
+        this.pieza25 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "25");
+        this.pieza26 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "26");
+        this.pieza27 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "27");
+        this.pieza28 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "28");
+        this.pieza31 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "31");
+        this.pieza32 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "32");
+        this.pieza33 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "33");
+        this.pieza34 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "34");
+        this.pieza35 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "35");
+        this.pieza36 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "36");
+        this.pieza37 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "37");
+        this.pieza38 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "38");
+        this.pieza41 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "41");
+        this.pieza42 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "42");
+        this.pieza43 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "43");
+        this.pieza44 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "44");
+        this.pieza45 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "45");
+        this.pieza46 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "46");
+        this.pieza47 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "47");
+        this.pieza48 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "48");
+        this.pieza51 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "51");
+        this.pieza52 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "52");
+        this.pieza53 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "53");
+        this.pieza54 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "54");
+        this.pieza55 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "55");
+        this.pieza61 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "61");
+        this.pieza62 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "62");
+        this.pieza63 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "63");
+        this.pieza64 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "64");
+        this.pieza65 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "65");
+        this.pieza71 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "71");
+        this.pieza72 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "72");
+        this.pieza73 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "73");
+        this.pieza74 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "74");
+        this.pieza75 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "75");
+        this.pieza81 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "81");
+        this.pieza82 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "82");
+        this.pieza83 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "83");
+        this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "84");
+        this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "85");
+    }
+    
+    //Método para cargar expediente seleccionado para gestionara. (paciente_expediente_gestionar.xhtml y consultas_plantilla_nuevo.xhtml)
+    public void cargarExpedienteGestionar(){
+        System.out.println("pacienteId: "+expedienteId);
+        pacienteEditar = getPacientesFacade().find(expedienteId);
+        System.out.println("consultaId: "+consultaId);
+        consultaEditar = getConsultasFacade().find(consultaId);
+        System.out.println("hola: ");
+        this.direccionEditar = getDireccionesFacade().direccionPorPaciente(pacienteEditar.getPacienteId());
+        this.pieza11 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "11");
+        this.pieza12 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "12");
+        this.pieza13 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "13");
+        this.pieza14 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "14");
+        this.pieza15 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "15");
+        this.pieza16 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "16");
+        this.pieza17 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "17");
+        this.pieza18 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "18");
+        this.pieza21 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "21");
+        this.pieza22 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "22");
+        this.pieza23 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "23");
+        this.pieza24 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "24");
+        this.pieza25 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "25");
+        this.pieza26 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "26");
+        this.pieza27 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "27");
+        this.pieza28 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "28");
+        this.pieza31 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "31");
+        this.pieza32 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "32");
+        this.pieza33 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "33");
+        this.pieza34 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "34");
+        this.pieza35 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "35");
+        this.pieza36 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "36");
+        this.pieza37 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "37");
+        this.pieza38 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "38");
+        this.pieza41 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "41");
+        this.pieza42 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "42");
+        this.pieza43 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "43");
+        this.pieza44 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "44");
+        this.pieza45 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "45");
+        this.pieza46 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "46");
+        this.pieza47 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "47");
+        this.pieza48 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "48");
+        this.pieza51 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "51");
+        this.pieza52 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "52");
+        this.pieza53 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "53");
+        this.pieza54 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "54");
+        this.pieza55 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "55");
+        this.pieza61 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "61");
+        this.pieza62 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "62");
+        this.pieza63 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "63");
+        this.pieza64 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "64");
+        this.pieza65 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "65");
+        this.pieza71 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "71");
+        this.pieza72 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "72");
+        this.pieza73 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "73");
+        this.pieza74 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "74");
+        this.pieza75 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "75");
+        this.pieza81 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "81");
+        this.pieza82 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "82");
+        this.pieza83 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "83");
+        this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "84");
+        this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "85");
+    }
     
 }

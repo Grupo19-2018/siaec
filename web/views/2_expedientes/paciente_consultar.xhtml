@@ -10,6 +10,7 @@
 
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{expedientesBean.verificaAcceso('Consultar Expediente')}"/>
                 <f:viewAction action="#{expedientesBean.inicializaBusquedaPaciente()}" />
             </f:metadata>
         </ui:define>
@@ -23,7 +24,7 @@
                 <div class="col-lg-2 col-md-2 col-sm-1 col-xs-0">
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
-                    <h:form id="listadoPacientes">
+                    <h:form id="form">
                         <!-- Tab Panel -->
                         <p:tabView styleClass="registro" style="margin-right: 10pt; margin-left: 10pt">
                             <p:tab title="Buscar por nombre y apellidos">
@@ -71,11 +72,11 @@
                                                 </p:column>
 
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
-                                                    <h:commandLink action="paciente_expediente_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                        <f:setPropertyActionListener value="#{paciente}" target="#{expedientesBean.pacienteConsultar}"/>
-                                                        <f:actionListener binding="#{expedientesBean.direccionPaciente()}"/>
-                                                        <f:actionListener binding="#{expedientesBean.setTabIndex(0)}"/>
-                                                    </h:commandLink>
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
+                                                        <f:param name="expedienteconsultar" value="#{paciente.pacienteId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
                                                 </p:column>
 
                                             </p:dataTable>
@@ -130,10 +131,11 @@
                                                 </p:column>
 
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
-                                                    <h:commandLink action="paciente_expediente_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                        <f:setPropertyActionListener value="#{pac}" target="#{expedientesBean.pacienteConsultar}"/>
-                                                        <f:actionListener binding="#{expedientesBean.setTabIndex(0)}"/>
-                                                    </h:commandLink>
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
+                                                        <f:param name="expedienteconsultar" value="#{pac.pacienteId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
                                                 </p:column>
 
                                             </p:dataTable>

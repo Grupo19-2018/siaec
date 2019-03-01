@@ -7,15 +7,16 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
-        
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{expedientesBean.verificaAcceso('Gestionar Expediente')}"/>
                 <f:viewAction action="#{expedientesBean.inicializaBusquedaPaciente()}" />
             </f:metadata>
         </ui:define>
 
         <ui:define name="content">
 
+            <!-- Barra de título -->
             <div class="banda1"><b>BUSCAR PACIENTE</b></div>
             <br/>
 
@@ -71,10 +72,11 @@
                                                 </p:column>
 
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
-                                                    <h:commandLink action="consultas_plantilla_nuevo.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Gestionar">
-                                                        <f:setPropertyActionListener value="#{paciente}" target="#{expedientesBean.pacienteEditar}"/>
-                                                        <f:actionListener binding="#{expedientesBean.setTabIndex(2)}"/>
-                                                    </h:commandLink>
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Gestionar">
+                                                        <f:param name="expedientegestionar" value="#{paciente.pacienteId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{2}"/>
+                                                    </h:link>
                                                 </p:column>
 
                                             </p:dataTable>
@@ -129,10 +131,11 @@
                                                 </p:column>
 
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
-                                                    <h:commandLink action="consultas_plantilla_nuevo.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Gestionar">
-                                                        <f:setPropertyActionListener value="#{pac}" target="#{expedientesBean.pacienteEditar}"/>
-                                                        <f:actionListener binding="#{expedientesBean.setTabIndex(2)}"/>
-                                                    </h:commandLink>
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Gestionar">
+                                                        <f:param name="expedientegestionar" value="#{pac.pacienteId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{2}"/>
+                                                    </h:link>
                                                 </p:column>
 
                                             </p:dataTable>

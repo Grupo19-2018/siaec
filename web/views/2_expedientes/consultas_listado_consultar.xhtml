@@ -8,7 +8,7 @@
 
     <ui:composition>
 
-        <h:form>
+        <h:form id="form">
             <p:panel id="patologiaconsultar" style="border: solid 1px #D5D5D5 ;border-top: 7px solid #066EAD; margin-left: 25px; margin-right: 25px; text-align: left">
 
                 <br/>
@@ -38,10 +38,10 @@
                                         <td>#{consulta.consultaMotivo}</td>
                                         <td>#{consulta.consultaDiagnostico}</td>
                                         <td align="center">
-                                            <h:commandLink action="consultas_plantilla_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                <f:setPropertyActionListener value="#{consulta}" target="#{expedientesBean.consultaSeleccionada}"/>
-                                                <f:actionListener binding="#{expedientesBean.setTabIndex(2)}"/>
-                                            </h:commandLink>
+                                            <h:link outcome="ConsultaConsultar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
+                                                <f:param name="expedienteconsultar" value="#{consulta.pacienteId.pacienteId}"/>
+                                                <f:param name="consultaseleccionada" value="#{consulta.consultaId}"/>
+                                            </h:link>
                                         </td>
                                     </tr>
                                 </ui:repeat>

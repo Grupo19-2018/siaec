@@ -8,6 +8,17 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
+            
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{expedientesBean.verificaAcceso('Consultar Expediente')}"/>
+                    <f:viewParam name="expedienteconsultar" value="#{expedientesBean.expedienteId}"/>
+                    <f:viewParam name="consultaseleccionada" value="#{expedientesBean.consultaId}"/>
+                    <f:viewAction action="#{expedientesBean.cargarExpedienteConsultar()}"/>
+                    <f:viewAction action="#{expedientesBean.setTabIndex(2)}"/>
+                </f:metadata>
+            </ui:define>
+            
             <p:tabView id="pacienteconsultar" styleClass="prueba expediente-tabs" activeIndex="#{expedientesBean.tabIndex}">
                     <p:tab title="Ficha de Datos" >
                         <div class="fondo">

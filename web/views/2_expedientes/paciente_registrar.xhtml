@@ -9,10 +9,17 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{expedientesBean.verificaAcceso('Registrar Paciente')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>REGISTRO DE PACIENTE</b></div>
             <br/>
 
-            <h:form id="registro" >
+            <h:form id="form" >
 
                 <p:tabView styleClass="registro" activeIndex="#{expedientesBean.tabindex}" style="margin-left: 10px; margin-right: 10px; border: solid 1px #D5D5D5">
                     <p:tab title="Datos generales" disabled="true">
@@ -195,10 +202,9 @@
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-12" align="right">
-                                <h:commandLink class="btn btn-default buttonPopupLevel2" action="paciente_registrar.xhtml"
+                                <h:commandLink class="btn btn-default buttonPopupLevel2" action="#{expedientesBean.setTabindex(0)}"
                                                style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:Gray; font-weight:bold; border:solid 1px Gray; -webkit-appearance:none; border-radius: 5px">
                                     <i class="glyphicon glyphicon-share-alt"></i> Regresar
-                                    <f:actionListener binding="#{expedientesBean.setTabindex(0)}"/>
                                 </h:commandLink>
                                 &nbsp;
                                 <h:commandLink type="submit" class="btn btn-default  buttonLevel1" actionListener="#{expedientesBean.setTabindex(0)}" action="#{expedientesBean.guardarPaciente()}"

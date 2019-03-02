@@ -31,6 +31,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Existencias.findAll", query = "SELECT e FROM Existencias e"),
     @NamedQuery(name = "Existencias.findByExistenciaId", query = "SELECT e FROM Existencias e WHERE e.existenciaId = :existenciaId"),
     @NamedQuery(name = "Existencias.findByExistenciaCantidad", query = "SELECT e FROM Existencias e WHERE e.existenciaCantidad = :existenciaCantidad"),
+    @NamedQuery(name = "Existencias.findByExistenciaPorMinimoPorClinica", query = "SELECT e FROM Existencias e WHERE e.existenciaCantidad <= e.insumoId.insumoMinimo AND e.clinicaId.clinicaId = :clinicaId"),
         
     @NamedQuery(name = "Existencias.findByExistenciaPorInsumoClinica", query = "SELECT e FROM Existencias e WHERE e.clinicaId.clinicaId = :sucursalId AND e.insumoId.insumoId = :insumoId"),
     @NamedQuery(name = "Existencias.findByExistenciaPorInsumo", query = "SELECT e FROM Existencias e WHERE e.insumoId.insumoId = :insumoId"),

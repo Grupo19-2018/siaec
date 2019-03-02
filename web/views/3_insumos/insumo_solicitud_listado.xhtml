@@ -22,9 +22,27 @@
 
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-                <br/>
+                
+                <h:form id="listasolicitud">
 
-                <h:form id="listaSolicitud">
+                    <div class="row" style="margin-right: 10pt; margin-left: 10pt">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                            <h6>Filtrar por:</h6>
+                            <p:selectOneMenu id="sucursallistado" value="#{insumosBean.sucursalId}" style="width: 100%">
+                                <f:selectItem itemLabel="Todas las sucursales" itemValue="0"/>
+                                <f:selectItems value="#{insumosBean.todosSucursalesDisponibles()}" var="clinica"
+                                               itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
+                                <p:ajax update=":listasolicitud"/>
+                                <p:ajax oncomplete="indice();"/>
+                                <p:ajax oncomplete="estiloTabla();"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-0">
+                        </div>
+                    </div>
+
+                    <br/>
+
                     <!-- Tabla -->
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-md-12">
@@ -34,10 +52,11 @@
                                     <tr>
                                         <th width="5%">No</th>
                                         <th width="30%">Nombre de insumo</th>
-                                        <th width="35%">Sucursal</th>
+                                        <th width="30%">Sucursal</th>
                                         <th width="10%">Existencia</th>
                                         <th width="10%">Mín.Requerido</th>
                                         <th width="10%">Unid.Medida</th>
+                                        <th width="5%">Cargar</th>
                                     </tr>
                                 </thead>
                                 <!-- Cuerpo de la tabla -->
@@ -58,6 +77,11 @@
                                                 </h:outputText>
                                             </td>
                                             <td>#{solicitud.insumoId.unidadmedidaId.unidadmedidaNombre}</td>
+                                            <td>
+                                                <h:link outcome="InsumoSolicitudControl" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-upload" title="Abastecer">
+                                                    <f:param name="existenciacontrol" value="#{solicitud.existenciaId}"/>
+                                                </h:link>
+                                            </td>
                                         </tr>
                                     </ui:repeat>
                                 </tbody> 
@@ -77,7 +101,12 @@
 
             <script>
                 $(document).ready(function () {
+                    indice();
+                });
+
+                function indice() {
                     var t = $('#tabla').DataTable({
+                        "bDestroy": true,
                         "columnDefs": [{
                                 "searchable": false,
                                 "orderable": false,
@@ -91,7 +120,7 @@
                             cell.innerHTML = i + 1;
                         });
                     }).draw();
-                });
+                }
 
                 $(document).ready(function () {
                     estiloTabla();

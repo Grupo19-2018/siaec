@@ -47,6 +47,10 @@ public class ExistenciasFacade extends AbstractFacade<Existencias> {
         return getEntityManager().createNamedQuery("Existencias.findByExistenciaPorMinimo").getResultList();
     }
     
+    public List<Existencias> solicitudInsumosPorSucursal(int clinicaId){
+        return getEntityManager().createNamedQuery("Existencias.findByExistenciaPorMinimoPorClinica").setParameter("clinicaId", clinicaId).getResultList();
+    }
+    
     public List<Existencias> solicitudInsumosAgotados(){
         double agotado = 0.0;
         return getEntityManager().createNamedQuery("Existencias.findByExistenciaAgotada").setParameter("agotado", agotado).getResultList();

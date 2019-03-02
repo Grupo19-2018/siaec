@@ -62,6 +62,7 @@ public class InsumosBean implements Serializable {
     
     private int sucursalId;
     private int insumoId;
+    private int existenciaId;
     
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -100,11 +101,21 @@ public class InsumosBean implements Serializable {
     }
     
     public List<Movimientos> todosMovimientos(){
-        return getMovimientosFacade().findAll();
+        if(sucursalId == 0){
+            return getMovimientosFacade().findAll();
+        }
+        else{
+            return getMovimientosFacade().movimientosPorSucursal(sucursalId);
+        }
     }
     
     public List<Existencias> todosSolicitudInsumos(){
-        return getExistenciasFacade().solicitudInsumos();
+        if(sucursalId == 0){
+            return getExistenciasFacade().solicitudInsumos();
+        }
+        else{
+            return getExistenciasFacade().solicitudInsumosPorSucursal(sucursalId);
+        }
     }
     
     public List<Existencias> todosSolicitudInsumosAgotados(){
@@ -224,7 +235,14 @@ public class InsumosBean implements Serializable {
     public void setInsumoId(int insumoId) {
         this.insumoId = insumoId;
     }
-        
+
+    public int getExistenciaId() {
+        return existenciaId;
+    }
+    public void setExistenciaId(int existenciaId) {
+        this.existenciaId = existenciaId;
+    }
+            
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -349,6 +367,23 @@ public class InsumosBean implements Serializable {
         }
     }
     
+    //Método para guardar una Entrada/Salida de Insumo (insumo_control.xhtml)
+    public void cargarEntradaExistencia() {
+        try{
+            double cantidad = existenciaEditar.getExistenciaCantidad();
+            existenciaEditar.setExistenciaCantidad(cantidad + getMovimientoNuevo().getMovimientoCantidad());
+            getExistenciasFacade().edit(existenciaEditar);
+            movimientoNuevo.setMovimientoFechaCreacion(new Date());
+            movimientoNuevo.setMovimientoUsuarioCreacion("Nombre Usuario");
+            movimientoNuevo.setExistenciaId(new Existencias(existenciaEditar.getExistenciaId()));
+            getMovimientosFacade().create(movimientoNuevo);
+            movimientoNuevo = new Movimientos();
+            mensajeConfirmacion("La entrada de insumo se ha guardado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: cargarEntradaExistencia.");
+        }
+    }
+    
     //Método para cargar insumo seleccionado para consultar. (insumo_consultar.xhtml)
     public void cargarInsumoConsultar(){
         insumoConsultar = getInsumosFacade().find(insumoId);
@@ -366,6 +401,11 @@ public class InsumosBean implements Serializable {
         sucursalId = 0;
     }
     
+    //Método para cargar existencia seleccionada para editar. (insumo_solicitud_control.xhtml)
+    public void cargarExistenciaControl(){
+        existenciaEditar = getExistenciasFacade().find(existenciaId);
+    }
+        
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
     public void verificaAcceso(String pagina){
         //System.out.println("Entra al método del usuario.");

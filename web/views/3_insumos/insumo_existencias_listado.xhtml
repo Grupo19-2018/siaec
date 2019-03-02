@@ -22,10 +22,9 @@
 
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-                <br/>
 
                 <h:form id="listaexistencias">
-                    
+
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <h6>Filtrar por:</h6>
@@ -41,9 +40,9 @@
                         <div class="col-lg-8 col-md-8 col-sm-6 col-xs-0">
                         </div>
                     </div>
-                                
-                <br/>
-                        
+
+                    <br/>
+
                     <!-- Tabla -->
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -90,11 +89,10 @@
                 $(document).ready(function () {
                     indice();
                 });
-                
+
                 function indice() {
                     var t = $('#tabla').DataTable({
                         "bDestroy": true,
-                                
                         "columnDefs": [{
                                 "searchable": false,
                                 "orderable": false,

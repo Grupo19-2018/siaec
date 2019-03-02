@@ -34,7 +34,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Movimientos.findByMovimientoCantidad", query = "SELECT m FROM Movimientos m WHERE m.movimientoCantidad = :movimientoCantidad"),
     @NamedQuery(name = "Movimientos.findByMovimientoTipo", query = "SELECT m FROM Movimientos m WHERE m.movimientoTipo = :movimientoTipo"),
     @NamedQuery(name = "Movimientos.findByMovimientoFechaCreacion", query = "SELECT m FROM Movimientos m WHERE m.movimientoFechaCreacion = :movimientoFechaCreacion"),
-    @NamedQuery(name = "Movimientos.findByMovimientoUsuarioCreacion", query = "SELECT m FROM Movimientos m WHERE m.movimientoUsuarioCreacion = :movimientoUsuarioCreacion")})
+    @NamedQuery(name = "Movimientos.findByMovimientoUsuarioCreacion", query = "SELECT m FROM Movimientos m WHERE m.movimientoUsuarioCreacion = :movimientoUsuarioCreacion"),
+
+    @NamedQuery(name = "Movimientos.findByMovimientoPorClinica", query = "SELECT m FROM Movimientos m WHERE m.existenciaId.clinicaId.clinicaId = :clinicaId")})
 public class Movimientos implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,12 +1,14 @@
 package controllers;
 
+import com.sun.net.httpserver.Authenticator;
 import dao.CitasFacade;
+import dao.ClinicasFacade;
 import dao.PacientesFacade;
 import entities.Citas;
+import entities.Clinicas;
 import entities.Pacientes;
 import java.io.Serializable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,13 +51,33 @@ public class DashboardView implements Serializable {
 //****************************************************************************//
     @EJB
     private CitasFacade citasfacade;
-    List<Citas> citas = new ArrayList<Citas>();
+    List<Citas> citas = new ArrayList<>();
     @EJB
     private PacientesFacade pacientefacade;
     
     private DashboardModel model;
     private LineChartModel lineModel1 = new LineChartModel();
     private PieChartModel pieModel;
+    
+    
+    //Probando
+    private LineChartModel sucursalModelo;
+    private List<LineChartSeries> sucursales = new ArrayList<>();
+    //private LineChartSeries
+    private Integer citasSeleccionable = 1;
+    private String citasSeleccionableS = "1";
+
+    public String getCitasSeleccionableS() {
+        return citasSeleccionableS;
+    }
+
+    public void setCitasSeleccionableS(String citasSeleccionableS) {
+        this.citasSeleccionableS = citasSeleccionableS;
+    }
+    
+    
+    @EJB
+    private ClinicasFacade clinicaFacade;
 
     public DashboardView() {
     }
@@ -89,6 +111,10 @@ public class DashboardView implements Serializable {
     public List<Pacientes> todosPaciete() {
         return getPacientefacade().findAll();
     }
+    
+    private List<Clinicas> todasClinicas(){
+        return getClinicaFacade().findAll();
+    }
 
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
@@ -100,6 +126,12 @@ public class DashboardView implements Serializable {
     public PacientesFacade getPacientefacade() {
         return pacientefacade;
     }
+
+    public ClinicasFacade getClinicaFacade() {
+        return clinicaFacade;
+    }
+    
+    
 
 //****************************************************************************//
 //                             Métodos Get y SET                              //
@@ -120,6 +152,15 @@ public class DashboardView implements Serializable {
         this.pieModel = pieModel;
     }
 
+    public Integer getCitasSeleccionable() {
+        return citasSeleccionable;
+    }
+
+    public void setCitasSeleccionable(Integer citasSeleccionable) {
+        this.citasSeleccionable = citasSeleccionable;
+    }
+
+    
 //****************************************************************************//
 //                       Métodos Para Graficos                                //
 //****************************************************************************//    
@@ -135,6 +176,7 @@ public class DashboardView implements Serializable {
     }
 
     public LineChartModel createLineModels2() {
+        System.out.println("controllers.DashboardView.createLineModels2()");
         lineModel1 = sucursalEstadistica();
         lineModel1.setTitle("Total de paciente atendidos por mes");
         lineModel1.setLegendPosition("e");
@@ -144,6 +186,150 @@ public class DashboardView implements Serializable {
         yAxis.setLabel("Paciente");
         yAxis.setMin(0);
         return lineModel1;
+    }
+    
+    public LineChartModel createLineModels3() {
+        sucursalModelo = new  LineChartModel();
+        for(Clinicas c : todasClinicas()){
+            LineChartSeries clinicaSerie = new LineChartSeries();
+            
+            clinicaSerie = sucursalEstadistica(c.getClinicaId());
+            clinicaSerie.setLabel(c.getClinicaNombre());
+            sucursalModelo.addSeries(clinicaSerie);
+        }
+        sucursalModelo.setTitle("Total de Pacientes Atendidos");
+        sucursalModelo.setLegendPosition("e");
+        sucursalModelo.setShowPointLabels(true);
+        sucursalModelo.getAxes().put(AxisType.X, new CategoryAxis("Mes"));
+        Axis yAxis = sucursalModelo.getAxis(AxisType.Y);
+        yAxis.setLabel("Paciente");
+        yAxis.setTickFormat("%d");
+        
+        return sucursalModelo;
+    }
+    
+    public int[] consultasAtendidasPorSucursal(Integer idSucursal) {
+        //System.err.println("citasSeleccionable " + citasSeleccionable);
+        System.out.println("controllers.DashboardView.consultasAtendidasPorSucursal()");
+        //System.out.println("String de s " + citasSeleccionableS);
+        //Integer s = Integer.parseInt(citasSeleccionableS);
+        
+        citas = getCitasfacade().citasAtendidasPorSucursal(idSucursal, citasSeleccionable);
+        // citas = getCitasfacade().findAll();
+        Integer month = 13;
+        int contador[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        for (Iterator<Citas> iterator = citas.iterator(); iterator.hasNext();) {
+            Citas next = iterator.next();
+            month = next.getCitaFecha().getMonth();
+            String monthString = "";
+            switch (month) {
+                case 0:
+                    contador[0] += 1;
+                    monthString = "January";
+                    break;
+                case 1:
+                    contador[1] += 1;
+                    monthString = "February";
+                    break;
+                case 2:
+                    contador[2] += 1;
+                    monthString = "March";
+                    break;
+                case 3:
+                    contador[3] += 1;
+                    monthString = "April";
+                    break;
+                case 4:
+                    contador[4] += 1;
+                    monthString = "May";
+                    break;
+                case 5:
+                    contador[5] += 1;
+                    monthString = "June";
+                    break;
+                case 6:
+                    contador[6] += 1;
+                    monthString = "July";
+                    break;
+                case 7:
+                    contador[7] += 1;
+                    monthString = "August";
+                    break;
+                case 8:
+                    contador[8] += 1;
+                    monthString = "September";
+                    break;
+                case 9:
+                    contador[9] += 1;
+                    monthString = "October";
+                    break;
+                case 10:
+                    contador[10] += 1;
+                    monthString = "November";
+                    break;
+                case 11:
+                    contador[11] += 1;
+                    monthString = "December";
+                    break;
+                default:
+                    monthString = "Invalid month";
+                    break;
+            }//Fin Switch 
+        }// Fin de iterador Citas
+
+        return contador;
+    }
+
+    
+    private LineChartSeries sucursalEstadistica(Integer idSucursal) {
+        //LineChartModel model2 = new LineChartModel();
+
+        int contador[] = consultasAtendidasPorSucursal(idSucursal);
+        LineChartSeries sucursal1 = new LineChartSeries();
+        
+        //sucursal1.setLabel("Sucursal 1");
+        for (int i = 0; i < contador.length; i++) {
+            switch (i) {
+                case 0:
+                    sucursal1.set("Enero", contador[i]);
+                    break;
+                case 1:
+                    sucursal1.set("Febrero", contador[i]);
+                    break;
+                case 2:
+                    sucursal1.set("Marzo", contador[i]);
+                    break;
+                case 3:
+                    sucursal1.set("Abril", contador[i]);
+                    break;
+                case 4:
+                    sucursal1.set("Mayo", contador[i]);
+                    break;
+                case 5:
+                    sucursal1.set("Junio", contador[i]);
+                    break;
+                case 6:
+                    sucursal1.set("Julio", contador[i]);
+                    break;
+                case 7:
+                    sucursal1.set("Agosto", contador[i]);
+                    break;
+                case 8:
+                    sucursal1.set("Septiember", contador[i]);
+                    break;
+                case 9:
+                    sucursal1.set("Octubre", contador[i]);
+                    break;
+                case 10:
+                    sucursal1.set("Noviembre", contador[i]);
+                    break;
+                case 11:
+                    sucursal1.set("Diciembre", contador[i]);
+                    break;
+            }
+        }
+        //model2.addSeries(sucursal1);
+        return sucursal1;
     }
 
     private LineChartModel initLinearModel() {
@@ -164,6 +350,7 @@ public class DashboardView implements Serializable {
 
         int contador[] = consultasAtendidasPorSucursal();
         ChartSeries sucursal1 = new ChartSeries();
+        
         sucursal1.setLabel("Sucursal 1");
         for (int i = 0; i < contador.length; i++) {
             switch (i) {

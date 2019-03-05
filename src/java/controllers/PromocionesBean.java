@@ -20,6 +20,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 
@@ -31,55 +32,52 @@ public class PromocionesBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
-
     @EJB
     private PromocionesFacade promocionesFacade;
     private Promociones promocionNuevo = new Promociones();
     private Promociones promocionConsultar = new Promociones();
     private Promociones promocionEditar = new Promociones();
-    
+
     private UploadedFile file;
     private Date fechaSistema = new Date();
     private int promocionId;
-    
+
     //Session
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
-        
+
     public PromocionesBean() {
     }
 
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-
-    public List<Promociones> todasPromocionesDisponibles(){
+    public List<Promociones> todasPromocionesDisponibles() {
         return getPromocionesFacade().promocionesDisponibles(Boolean.TRUE);
     }
-    
-    public List<Promociones> todasPromocionesActivas(){
+
+    public List<Promociones> todasPromocionesActivas() {
         return getPromocionesFacade().promocionesActivas(Boolean.TRUE);
     }
-    
-    public List<Submenus> todosSubmenusDisponibles(){
+
+    public List<Submenus> todosSubmenusDisponibles() {
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
-    
+
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
-
     public PromocionesFacade getPromocionesFacade() {
         return promocionesFacade;
     }
-    
+
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
-
     public Promociones getPromocionNuevo() {
         return promocionNuevo;
     }
+
     public void setPromocionNuevo(Promociones promocionNuevo) {
         this.promocionNuevo = promocionNuevo;
     }
@@ -87,6 +85,7 @@ public class PromocionesBean implements Serializable {
     public Promociones getPromocionConsultar() {
         return promocionConsultar;
     }
+
     public void setPromocionConsultar(Promociones promocionConsultar) {
         this.promocionConsultar = promocionConsultar;
     }
@@ -94,6 +93,7 @@ public class PromocionesBean implements Serializable {
     public Promociones getPromocionEditar() {
         return promocionEditar;
     }
+
     public void setPromocionEditar(Promociones promocionEditar) {
         this.promocionEditar = promocionEditar;
     }
@@ -101,6 +101,7 @@ public class PromocionesBean implements Serializable {
     public UploadedFile getFile() {
         return file;
     }
+
     public void setFile(UploadedFile file) {
         this.file = file;
     }
@@ -108,6 +109,7 @@ public class PromocionesBean implements Serializable {
     public Date getFechaSistema() {
         return fechaSistema;
     }
+
     public void setFechaSistema(Date fechaSistema) {
         this.fechaSistema = fechaSistema;
     }
@@ -115,25 +117,26 @@ public class PromocionesBean implements Serializable {
     public int getPromocionId() {
         return promocionId;
     }
+
     public void setPromocionId(int promocionId) {
         this.promocionId = promocionId;
     }
-    
+
     public AppSession getAppSession() {
         return appSession;
     }
+
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
-    
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
-
     //Método para inicializar los valores de fechas para promoción de tipo cumpleaños (promocion_nuevo.xhtml).
-    public void inicializaFechasNuevo(){
-        try{
-            if(promocionNuevo.getPromocionTipo() == 2){
+    public void inicializaFechasNuevo() {
+        try {
+            if (promocionNuevo.getPromocionTipo() == 2) {
                 Date fechaInicio = new Date();
                 Date fechaFin = new Date();
                 fechaInicio.setMonth(0);
@@ -142,8 +145,7 @@ public class PromocionesBean implements Serializable {
                 fechaFin.setDate(31);
                 promocionNuevo.setPromocionInicio(fechaInicio);
                 promocionNuevo.setPromocionFin(fechaFin);
-            }
-            else{
+            } else {
                 promocionNuevo.setPromocionInicio(null);
                 promocionNuevo.setPromocionFin(null);
             }
@@ -151,30 +153,34 @@ public class PromocionesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: inicializaFechasNuevo.");
         }
     }
-    
+
     //Método para verificar si ya existe el archivo a subir (promocion_nuevo.xhtml).
     public void existeArchivoNuevo() {
-        try{
-            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext(); 
-            String pathRelativo = "/images/promociones/"; 
+        try {
+            System.out.println("Entra a este metodo");
+            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+            String pathRelativo = "/images/promociones/";
             String directorio = dir.getRealPath(pathRelativo);
             //FacesContext cty = FacesContext.getCurrentInstance();
             //String directorio = cty.getExternalContext().getInitParameter("directory_path_promotions");
+            System.out.println("directorio" + directorio);
+            System.out.println("Archivo " + getFile().getFileName());
+            System.out.println("Direccion de archivo " + getFile().getContentType());
             File archivo1 = new File(directorio + "/" + getFile().getFileName() + "/");
             if (archivo1.exists()) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para una promoción.");
                 RequestContext.getCurrentInstance().showMessageInDialog(message);
-            }
-            else{
+            } else {
                 guardarPromocion();
             }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: existeArchivoNuevo.");
+            System.err.println(e);
         }
     }
-        
+
     //Método para guardar una Promoción (promocion_nuevo.xhtml).
-    public void guardarPromocion(){
+    public void guardarPromocion() {
         try {
             promocionNuevo.setPromocionEstado(Boolean.TRUE);
             promocionNuevo.setPromocionUsuarioCreacion("Nombre Usuario");
@@ -188,11 +194,51 @@ public class PromocionesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: guardarPromocion.");
         }
     }
-    
+
+    //Metodo para el handlefileupload
+    //Estado: Prueba
+    //Fecha: 04/marzo/2019
+    public void handleFileUpload(FileUploadEvent event) {
+        UploadedFile sfile = event.getFile();
+        System.out.println("Se ejecuta con ");
+        System.out.println("Archivo " + sfile.getFileName());
+        System.out.println("Ruta " + sfile.getContentType());
+        System.out.println("Contenido" + sfile.getContents());
+
+        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/promociones/";
+        String directorioArchivo = dire.getRealPath(pathRelativo);
+        //FacesContext ctx = FacesContext.getCurrentInstance();
+        //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_promotions");
+        String nombreArchivo = sfile.getFileName();
+        int punto = nombreArchivo.lastIndexOf(".");
+        String extension = nombreArchivo.substring(punto + 1, nombreArchivo.length());
+        File archivoImagen = new File(directorioArchivo + "/" + sfile.getFileName());
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(archivoImagen);
+            byte[] buffer = new byte[BUFFER_SIZE];
+            int bulk;
+            InputStream inputStream = sfile.getInputstream();
+            while (true) {
+                bulk = inputStream.read(buffer);
+                if (bulk < 0) {
+                    break;
+                }
+                fileOutputStream.write(buffer, 0, bulk);
+                fileOutputStream.flush();
+            }
+            fileOutputStream.close();
+            inputStream.close();
+        }
+        catch (IOException e) {
+            mensajeError("Se detuvo el proceso en el método: handleFileUpload.");
+        }
+    }
+
     //Método que guarda el archivo seleccionado (promocion_nuevo.xhtml).
     public void subeArchivoNuevo(UploadedFile file) {
-        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext(); 
-        String pathRelativo = "/images/promociones/"; 
+        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/promociones/";
         String directorioArchivo = dire.getRealPath(pathRelativo);
         //FacesContext ctx = FacesContext.getCurrentInstance();
         //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_promotions");
@@ -226,9 +272,9 @@ public class PromocionesBean implements Serializable {
     }
 
     //Método para inicializar los valores de fechas para promoción de tipo cumpleaños (promocion_editar.xhtml).
-    public void inicializaFechasEditar(){
-        try{
-            if(promocionEditar.getPromocionTipo() == 2){
+    public void inicializaFechasEditar() {
+        try {
+            if (promocionEditar.getPromocionTipo() == 2) {
                 Date fechaInicio = new Date();
                 Date fechaFin = new Date();
                 fechaInicio.setMonth(0);
@@ -237,8 +283,7 @@ public class PromocionesBean implements Serializable {
                 fechaFin.setDate(31);
                 promocionEditar.setPromocionInicio(fechaInicio);
                 promocionEditar.setPromocionFin(fechaFin);
-            }
-            else{
+            } else {
                 promocionEditar.setPromocionInicio(null);
                 promocionEditar.setPromocionFin(null);
             }
@@ -246,57 +291,54 @@ public class PromocionesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: inicializaFechasEditar.");
         }
     }
-    
+
     //Método para verificar si ya existe el archivo a subir (promocion_editar.xhtml).
     public void existeArchivoEditar() {
-        try{
-            if(file != null){
-                ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext(); 
-                String pathRelativo = "/images/promociones/"; 
+        try {
+            if (file != null) {
+                ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+                String pathRelativo = "/images/promociones/";
                 String directorio = dir.getRealPath(pathRelativo);
                 //FacesContext cty = FacesContext.getCurrentInstance();
                 //String directorio = cty.getExternalContext().getInitParameter("directory_path_promotions");
-                File archivo1 = new File(directorio + "/" + getFile().getFileName()+"/");
+                File archivo1 = new File(directorio + "/" + getFile().getFileName() + "/");
                 if (archivo1.exists()) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para una promoción.");
                     RequestContext.getCurrentInstance().showMessageInDialog(message);
-                }
-                else{
+                } else {
                     eliminarArchivo();
                     subeArchivoEditar(file);
                 }
-            }
-            else{
+            } else {
                 editarPromocion();
             }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: existeArchivoEditar.");
         }
     }
-        
+
     //Método para eliminar un archivo (promocion_editar.xhtml).
     public void eliminarArchivo() throws FileNotFoundException {
-        try{
+        try {
             File archivoEliminar = new File(promocionEditar.getPromocionImagenUrl());
-            System.out.println("Documento a eliminar: "+archivoEliminar);
+            System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
                 System.out.println("El archivo existe.");
                 if (archivoEliminar.delete()) {
                     System.out.println("El archivo se eliminó.");
                 }
-            }
-            else{
+            } else {
                 System.out.println("El archivo no existe.");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarArchivo.");
         }
     }
 
     //Método que guarda el archivo seleccionado (promocion_editar.xhtml).
     public void subeArchivoEditar(UploadedFile file) throws InterruptedException {
-        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext(); 
-        String pathRelativo = "/images/promociones/"; 
+        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/promociones/";
         String directorioArchivo = dire.getRealPath(pathRelativo);
         //FacesContext ctx = FacesContext.getCurrentInstance();
         //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_promotions");
@@ -330,7 +372,7 @@ public class PromocionesBean implements Serializable {
     }
 
     //Método para editar una Promoción (promocion_editar.xhtml)
-    public void editarPromocion(){
+    public void editarPromocion() {
         try {
             promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
             promocionEditar.setPromocionFechaModificacion(new Date());
@@ -342,10 +384,10 @@ public class PromocionesBean implements Serializable {
     }
 
     //Método para eliminar una Promoción (promocion_eliminar_listado.xhtml)
-    public void eliminarPromocion(){
-        try{
+    public void eliminarPromocion() {
+        try {
             File archivoEliminar = new File(promocionEditar.getPromocionImagenUrl());
-            System.out.println("Documento a eliminar: "+archivoEliminar);
+            System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
                 System.out.println("El archivo existe.");
                 if (archivoEliminar.delete()) {
@@ -358,8 +400,7 @@ public class PromocionesBean implements Serializable {
                     getPromocionesFacade().edit(promocionEditar);
                     mensajeGuardado("La promoción se ha eliminado.");
                 }
-            }
-            else{
+            } else {
                 System.out.println("El archivo no existe.");
                 promocionEditar.setPromocionImagenNombre("");
                 promocionEditar.setPromocionImagenUrl("");
@@ -369,61 +410,58 @@ public class PromocionesBean implements Serializable {
                 getPromocionesFacade().edit(promocionEditar);
                 mensajeGuardado("La promoción se ha eliminado.");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarPromocion.");
         }
     }
-    
+
     //Método para cargar promoción seleccionada para consultar. (promocion_consultar.xhtml)
-    public void cargarPromocionConsultar(){
+    public void cargarPromocionConsultar() {
         promocionConsultar = getPromocionesFacade().find(promocionId);
     }
-        
+
     //Método para cargar promoción seleccionada para editar. (promocion_editar.xhtml)
-    public void cargarPromocionEditar(){
+    public void cargarPromocionEditar() {
         promocionEditar = getPromocionesFacade().find(promocionId);
     }
-        
+
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
-    public void verificaAcceso(String pagina){
+    public void verificaAcceso(String pagina) {
         //System.out.println("Entra al método del usuario.");
         boolean acceso = false;
-        try{
+        try {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
             String contextPath = origRequest.getContextPath();
 
-            if(appSession.getUsuario() == null){
-                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
-            }
-            else{
-                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
-                    for (Submenus submenu : todosSubmenusDisponibles()){
-                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
-                        if(submenu.getSumbenuNombre().equals(pagina)){
-                            acceso = true;
-                        }
+            if (appSession.getUsuario() == null) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
+            } else if (!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())) {
+                for (Submenus submenu : todosSubmenusDisponibles()) {
+                    //System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                    if (submenu.getSumbenuNombre().equals(pagina)) {
+                        acceso = true;
                     }
                 }
             }
-            if(!acceso){
-                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            if (!acceso) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.out.println("La variable appSession es nula.");
         }
     }
-    
+
     //Método para mostrar mensaje de guardado/actualizado.
     public void mensajeGuardado(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
     //Método para mostrar mensaje de error en el sistema.
     public void mensajeError(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
 }

@@ -55,6 +55,8 @@ public class CitasFacade extends AbstractFacade<Citas> {
         return results;
     }
     
+    //Usado en DashbiardViere.xhtml
+    //Objetivo presentar las estadisticas
     public List<Citas> citasAtendidasPorSucursal(Integer sucursalId, Integer estadoId) {
         //http://alejandroayala.solmedia.ec/?p=947
         List <Citas> results = getEntityManager().createNamedQuery("Citas.findByCitaAtendidaPorSucursal").setParameter("idClinica", sucursalId).setParameter("idEstado", estadoId).getResultList();

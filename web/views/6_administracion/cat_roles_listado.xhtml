@@ -9,13 +9,12 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
-            
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Roles')}"/>
                 </f:metadata>
             </ui:define>
-            
+
             <div class="banda1"><b>LISTADO DE ROLES</b></div>
             <br/>
             <p:tooltip />
@@ -31,7 +30,7 @@
                     </div>
                 </div>
                 <br/>
-                <h:form class="container" >
+                <h:form class="container-fluid" >
                     <!-- Tabla -->
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-lg-12">
@@ -50,24 +49,26 @@
                                     <ui:repeat value="#{AdministracionBean.todosRolesActivos()}" var="rol" >
                                         <tr>
                                             <td align="center"></td>
-                                            <td align="center" >#{rol.rolNombre}</td>
+                                            <td>#{rol.rolNombre}</td>
                                             <td>
-                                               #{rol.rolDescripcion} 
+                                                #{rol.rolDescripcion} 
                                             </td>
                                             <td align="center">
                                                 <h:commandLink action="cat_roles_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
                                                     <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolConsultar}"/>
                                                     <f:actionListener binding="#{AdministracionBean.establecerPrivilegiosRolConsultar()}"/>
                                                 </h:commandLink> 
-                                                <h:commandLink action="cat_roles_editar.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                    <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolEditar}"/>
-                                                    <f:actionListener binding="#{AdministracionBean.establecerPrivilegiosRolEditar()}"/>
-                                                </h:commandLink> 
-                                                <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
-                                                               pt:data-toggle="modal" pt:data-target="#eliminarRoles">
-                                                    <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolEditar}"/>
-                                                    <p:ajax process="@this" update=""/>
-                                                </h:commandLink>
+                                                <h:panelGroup rendered="#{AdministracionBean.rolesFijos(rol)}">
+                                                    <h:commandLink action="cat_roles_editar.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
+                                                        <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolEditar}"/>
+                                                        <f:actionListener binding="#{AdministracionBean.establecerPrivilegiosRolEditar()}"/>
+                                                    </h:commandLink> 
+                                                    <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
+                                                                   pt:data-toggle="modal" pt:data-target="#eliminarRoles">
+                                                        <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolEditar}"/>
+                                                        <p:ajax process="@this" update=""/>
+                                                    </h:commandLink>
+                                                </h:panelGroup>
                                             </td>
                                         </tr>
                                     </ui:repeat>
@@ -114,6 +115,7 @@
                     </div>
                 </h:form>
             </p:panel>
+            <p:spacer height="50"/>
         </ui:define>
 
         <!-- Script para funcionalidades de la tabla -->

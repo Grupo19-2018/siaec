@@ -989,5 +989,11 @@ public class AdministracionBean implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-
+    
+    //Metodo para ocultar los roles por defecto:[Administrador/a, Asistente, Director/a, Doctor/a, Paciente]
+    //Usado en: cat_roles_listado.xhtml
+    //Estado: Prueba
+    public Boolean rolesFijos(Roles rol){
+        return !(rol.getRolId()>= 1 && rol.getRolId()<=5);
+    }
 }

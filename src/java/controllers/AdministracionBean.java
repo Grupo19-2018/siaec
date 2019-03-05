@@ -1,15 +1,18 @@
 package controllers;
 
+import dao.DashboardFacade;
 import dao.MenusFacade;
 import dao.PrivilegiosFacade;
 import dao.RolesFacade;
 import dao.SubmenusFacade;
+import entities.Dashboard;
 import entities.Menus;
 import entities.Privilegios;
 import entities.Roles;
 import entities.Submenus;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -42,6 +45,8 @@ public class AdministracionBean implements Serializable {
     @EJB
     private PrivilegiosFacade privilegiosFacade;
 
+    @EJB 
+    private DashboardFacade dashboardFacade;
 //*************************SubMenus *******************************************//
     private List<Submenus> submenu1 = new ArrayList<>(); // Agenda
     private List<Submenus> submenu2 = new ArrayList<>(); // Paciente
@@ -136,6 +141,10 @@ public class AdministracionBean implements Serializable {
         return privilegiosFacade;
     }
 
+    public DashboardFacade getDashboardFacade() {
+        return dashboardFacade;
+    }
+    
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************// 
@@ -580,6 +589,12 @@ public class AdministracionBean implements Serializable {
             rolNuevo.setMenusList(tempMenu);
             rolNuevo.setSubmenusList(temp);
             rolNuevo.setPrivilegiosList(tempPrivilegios);
+            rolNuevo.setRolFechaCreacion(new Date());
+            //rolNuevo.setRolUsuarioCreacion();
+            Dashboard dashboardId = getDashboardFacade().find(1);
+            rolNuevo.setDashboardId(dashboardId);
+            rolNuevo.setRolNotificacion(false);
+            rolNuevo.setRolAlerta(false);
             getRolesFacade().create(rolNuevo);
             mensajeGuardado("El rol fue guardado.");
             limpiandoNuevoRol();

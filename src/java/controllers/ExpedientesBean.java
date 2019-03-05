@@ -1536,7 +1536,7 @@ public class ExpedientesBean implements Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
             String contextPath = origRequest.getContextPath();
-
+            
             if(appSession.getUsuario() == null){
                 FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
             }

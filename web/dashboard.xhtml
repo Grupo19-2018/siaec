@@ -7,6 +7,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./templates/layout/plantilla.xhtml">
+        <ui:define name="meta-data">
+            <f:metadata>
+                <f:viewAction action="#{usuarioBean.dashboardAcceso()}"/>    
+            </f:metadata>
+        </ui:define>
         <ui:define name="content">
             <ui:include src="#{usuarioBean.appSession.usuario.rolId.dashboardId.dashboardUrl}"/>
         </ui:define>

@@ -80,12 +80,17 @@
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario)}">
                                             <h:commandLink action="/views/2_expedientes/paciente_registrar.xhtml" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
                                             </h:commandLink> 
+                                            &nbsp;
+                                            <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
+                                                <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                            </h:link>
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{!dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario)}">
-                                            <h:commandLink action="../../views/9_perfil/cambiar_contrasenia.xhtml" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver ficha de datos">
-                                                <f:setPropertyActionListener value="#{cita}" target="#{citasBean.citaEditar}"/>
-                                                <f:actionListener binding="#{citasBean.editarConsultaHoraCita()}"/>
-                                            </h:commandLink> 
+                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
+                                                <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario)}"/>
+                                                <f:param name="consultaseleccionada" value="#{0}"/>
+                                                <f:param name="tabindex" value="#{0}"/>
+                                            </h:link> 
                                         </h:panelGroup>
 
                                     </td>

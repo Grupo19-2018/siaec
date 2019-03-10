@@ -67,18 +67,16 @@
                                                 <h:commandLink action="cita_paciente_consultar_aprobada.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
                                                     <!--<f:setPropertyActionListener value="#{cita}" target="#{citasBean1.citaConsultar}"/>-->
                                                 </h:commandLink> &nbsp;
-                                                <h:commandLink action="/views/2_expedientes/paciente_expediente_consultar.xhtml" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <!--<f:setPropertyActionListener value="#{paciente}" target="#{expedientesBean.pacienteConsultar}"/>-->
-                                                    <f:actionListener binding="#{expedientesBean.dashboarExpedienteConsultar(citas.usuarioUsuario.usuarioUsuario)}"/>
-                                                    <f:actionListener binding="#{expedientesBean.direccionPaciente()}"/>
-                                                    <f:actionListener binding="#{expedientesBean.setTabIndex(0)}"/>
-                                                </h:commandLink> &nbsp;
-                                                <h:commandLink action="/views/2_expedientes/consultas_plantilla_nuevo.xhtml" class="btn btn-default glyphicon glyphicon-pushpin btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <!--<f:setPropertyActionListener value="#{cita}" target="#{citasBean1.citaConsultar}"/>-->
-                                                    <!--<f:setPropertyActionListener value="#{pac}" target="#{expedientesBean.pacienteEditar}"/>-->
-                                                    <f:actionListener binding="#{expedientesBean.dashboarExpedienteEditar(citas.usuarioUsuario.usuarioUsuario)}"/>
-                                                    <f:actionListener binding="#{expedientesBean.setTabIndex(2)}"/>
-                                                </h:commandLink> &nbsp;
+                                                <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(citas.usuarioUsuario.usuarioUsuario)}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{2}"/>
+                                                </h:link> &nbsp;
+                                                <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar Expediente">
+                                                    <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(citas.usuarioUsuario.usuarioUsuario)}"/>
+                                                    <f:param name="consultaseleccionada" value="#{0}"/>
+                                                    <f:param name="tabindex" value="#{0}"/>
+                                                </h:link>  &nbsp;
                                             </h:form>
                                         </center>
                                     </td>

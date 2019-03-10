@@ -95,6 +95,10 @@
             <from-outcome>ConsultaEditar</from-outcome>
             <to-view-id>/views/2_expedientes/consultas_plantilla_gestionar.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>ListaAsociar</from-outcome>
+            <to-view-id>/views/2_expedientes/pacientes_listado_asociar.xhtml</to-view-id>
+        </navigation-case>
         
     </navigation-rule>
 </faces-config>

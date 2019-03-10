@@ -20,6 +20,8 @@ import dao.ImagenesFacade;
 import dao.MedicosFacade;
 import dao.PromocionesFacade;
 import dao.TratamientosFacade;
+import dao.UsuariosFacade;
+import entities.Citas;
 import entities.Consultas;
 import entities.DetallesConsultas;
 import entities.Odontogramas;
@@ -28,6 +30,7 @@ import entities.Medicos;
 import entities.Promociones;
 import entities.Submenus;
 import entities.Tratamientos;
+import entities.Usuarios;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -165,7 +168,13 @@ public class ExpedientesBean implements Serializable {
     private Date fechaSistema = new Date();
     private int expedienteId;
     private int consultaId;
-
+    
+    //Asociando a Usuario con expediente
+    //Usado en: asistente.xhtml-> paciente_listado_asociar.xhtml
+    @EJB
+    private UsuariosFacade usuarioFacade;
+    private Usuarios usuario = new Usuarios();
+    private String us= "";
     
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -272,9 +281,48 @@ public class ExpedientesBean implements Serializable {
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
     
+    //usuario en pacientes_listado_asociar.xhtml
+    public List<Usuarios> todosUsuarios(){
+        return getUsuarioFacade().findAll();
+    }
+    
+    //usuario en pacientes_listado_asociar.xhtml
+    //Estado: En prueba
+    public void usuarioBuscar(){
+        if(!(us=="")){
+            usuario = usuarioFacade.find(us);
+        }
+    }
+    
+    //metodo para actualizar Al expediente
+    //Usado en paciente_listado_asociar.xhtml
+    public void actualizarPacienteUsuario(){
+        try {
+            pacienteEditar.setPacienteUsuarioUsuario(usuario.getUsuarioUsuario());
+            getPacientesFacade().edit(pacienteEditar);
+            mensajeConfirmacion("Usuario asociado.");
+        } catch (Exception e) {
+            mensajeError("No se pudo asociar el usuario con el expediente.");
+        }
+        
+    }
+    
+    
+    //Extrayendo el id del expediente
+    //Usado en : asistente.xhtml dashboard.
+    Pacientes pacienteId = new Pacientes();
+    public int numeroExpediente(String usuario){
+        pacienteId = pacientesFacade.pacienteUsuario(usuario).get(0);
+        return pacienteId.getPacienteId();
+    }
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
+
+    public UsuariosFacade getUsuarioFacade() {
+        return usuarioFacade;
+    }
 
     public PatologiasFacade getPatologiasFacade() {
         return patologiasFacade;
@@ -327,6 +375,23 @@ public class ExpedientesBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
+
+    public String getUs() {
+        return us;
+    }
+    public void setUs(String us) {
+        this.us = us;
+    }
+
+    public Usuarios getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuarios usuario) {
+        this.usuario = usuario;
+    }
+
+    
     
     public Pacientes getPacienteNuevo() {
         return pacienteNuevo;

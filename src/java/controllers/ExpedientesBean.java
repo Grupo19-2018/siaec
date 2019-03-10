@@ -312,8 +312,11 @@ public class ExpedientesBean implements Serializable {
     //Usado en : asistente.xhtml dashboard.
     Pacientes pacienteId = new Pacientes();
     public int numeroExpediente(String usuario){
-        pacienteId = pacientesFacade.pacienteUsuario(usuario).get(0);
-        return pacienteId.getPacienteId();
+        if(!(pacientesFacade.pacienteUsuario(usuario).isEmpty())){
+            pacienteId = pacientesFacade.pacienteUsuario(usuario).get(0);
+            return pacienteId.getPacienteId();
+        }
+        return 0;
     }
     
 //****************************************************************************//

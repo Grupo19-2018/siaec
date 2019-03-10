@@ -31,7 +31,7 @@
                         <div class="col-lg-7 col-md-7 col-xs-12">
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <h7><b>Nombre*</b></h7>
+                                    <h7><b>Nombre *</b></h7>
                                     <p:inputText id="nombrepromocioneditar" value="#{promocionesBean.promocionEditar.promocionNombre}" required="#{request.getParameter('promo')}" maxlength="50" style="width: 100%"
                                                  validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
                                         <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü.]{3,50})*$"/>
@@ -53,7 +53,7 @@
 
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <h7><b>Tipo de promoción*</b></h7>
+                                    <h7><b>Tipo de promoción *</b></h7>
                                     <p:selectOneMenu id="tipopromocioneditar" value="#{promocionesBean.promocionEditar.promocionTipo}" required="#{request.getParameter('promo')}" style="width: 100%"
                                                      requiredMessage="Tipo es requerido.">
                                         <f:selectItem itemLabel="General" itemValue="1" />
@@ -63,7 +63,7 @@
                                     <p:message for="tipopromocioneditar"/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <h7><b>Fecha de inicio*</b></h7>
+                                    <h7><b>Fecha de inicio *</b></h7>
                                     <p:calendar id="iniciopromocioneditar" value="#{promocionesBean.promocionEditar.promocionInicio}" required="#{request.getParameter('promo')}" navigator="true" locale="es"
                                                 requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" styleClass="smiling-calendar">
                                         <p:ajax event="dateSelect" update="finpromocioneditar"/>
@@ -71,8 +71,8 @@
                                     <p:message for="iniciopromocioneditar"/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                    <h7><b>Fecha de finalización*</b></h7>
-                                    <p:calendar id="finpromocioneditar" value="#{promocionesBean.promocionEditar.promocionFin}" required="#{request.getParameter('promo')}" navigator="true" styleClass="smiling-calendar" locale="es"
+                                    <h7><b>Fecha de finalización *</b></h7>
+                                    <p:calendar id="finpromocioneditar" value="#{promocionesBean.promocionEditar.promocionFin}" required="#{request.getParameter('promo')}" navigator="true" locale="es"
                                                 requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" mindate="#{promocionesBean.promocionEditar.promocionInicio}"/>
                                     <p:message for="finpromocioneditar"/>
                                 </div>
@@ -81,7 +81,7 @@
 
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <h7><b>Mensaje*</b></h7>
+                                    <h7><b>Mensaje *</b></h7>
                                     <p:inputTextarea id="mensajepromocioneditar" value="#{promocionesBean.promocionEditar.promocionMensaje}" required="#{request.getParameter('promo')}" maxlength="1000" style="width: 100%" rows="6"
                                                      requiredMessage="Mensaje es requerido." validatorMessage="Mensaje no válido."/>
                                     <p:message for="mensajepromocioneditar"/>

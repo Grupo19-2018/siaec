@@ -7,27 +7,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES</b></div>
+    <div class="banda1"><b>CLÍNICA DENTAL SMILING</b></div>
     <br/>
     <div class="container ">
         <div class="row" style="text-align: center;">
-            <h1>BIENVENIDO/A PACIENTE</h1>
+            <h2>Bienvenido/a #{dashboardPaciente.appSession.usuario.usuarioPrimerNombre} #{dashboardPaciente.appSession.usuario.usuarioPrimerApellido}</h2><br/>
         </div>
 
         <h:form id="form">
             <div class="row">
                 <!-- Colocando los datos de la cita -->
-                <div class="col-lg-6">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                     <!--<p:panel style="border: solid 2px #D5D5D5; height: 378pt; margin-left: 30pt"> -->
                     <p:panel class="smiling-paciente" style="border: solid 2px #D5D5D5;"> 
                         <!-- Boton de registro de cita -->
                         <div class="row">
-                            <div class="col-lg-12">
+                                <div class="col-lg-12"><br/>
                                 <center>
                                     <!-- <h:form> -->
                                     <h:commandLink type="submit" class="btn btn-default  buttonLevel1" action="views/1_citas/cita_paciente_nueva.xhtml" disabled="#{dashboardPaciente.registrarBoton()}"
-                                                   style="font-size: 11pt; width: 200pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
-                                        <i class="glyphicon glyphicon-calendar"></i> Registra tu cita Aquí
+                                                   style="font-size: 11pt; width: 150pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                        <i class="glyphicon glyphicon-calendar"></i> Registra tu cita aquí
                                         <f:actionListener binding="#{citasBean.cargarPaciente()}"/>
                                     </h:commandLink> 
                                     <!--  </h:form> -->
@@ -138,11 +138,18 @@
                     </p:panel>
                 </div>
 
-                <div class="hidden-xs hidden-sm hidden-md col-lg-6">
-                    <p:galleria value="#{promocionesBean.todasPromocionesActivas()}" transitionInterval="5000" var="image" panelWidth="735" panelHeight="460" showCaption="false" style="margin-left: 20pt; border: solid 2px #D5D5D5;">
-                        <img src="#{request.contextPath}/images/promociones/#{image.promocionImagenNombre}" width="100%" />
-                    </p:galleria>
+                <h:panelGroup rendered="#{(promocionesBean.todasPromocionesActivas().size() != 0)}">
+                    <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
+                        <p:galleria value="#{promocionesBean.todasPromocionesActivas()}" transitionInterval="5000" var="image" panelWidth="770" panelHeight="465" showCaption="false" style="border: solid 2px #D5D5D5;">
+                            <img src="#{request.contextPath}/images/promociones/#{image.promocionImagenNombre}" width="100%"/>
+                        </p:galleria>
+                    </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{!(promocionesBean.todasPromocionesActivas().size() != 0)}">
+                <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
+                    <img src="#{request.contextPath}/resources/images/carrusel_default.jpg" width="100%" height="515"/>
                 </div>
+                </h:panelGroup>
             </div>
             <!-- Modal Cancelar Cita Pendiente -->
             <div id="eliminarCita" class="modal">

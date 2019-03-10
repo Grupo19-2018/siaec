@@ -35,89 +35,91 @@
         <h:form>
             
             <div class="row">
-                <div class="col-md-5">
-                    <p:panel style="border: solid 2px #D5D5D5; height: 100%; margin-left: 30pt">
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <p:panel style="border: solid 2px #D5D5D5; height: 100%; margin-left: 10pt; margin-right: 10pt">
 
+                        <p:focus for="primernombrenuevousuario"/>
+                        
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Primer nombre</b></h6>
-                                <p:inputText id="primernombre" value="#{homeBean.usuarioNuevo.usuarioPrimerNombre}" required="true" maxlength="25"
+                                <p:inputText id="primernombrenuevousuario" value="#{homeBean.usuarioNuevo.usuarioPrimerNombre}" required="true" maxlength="25"
                                              style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
                                     <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
                                 </p:inputText>
-                                <p:message for="primernombre"/>
+                                <p:message for="primernombrenuevousuario"/>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Segundo nombre</b></h6>
-                                <p:inputText id="segundonombre" value="#{homeBean.usuarioNuevo.usuarioSegundoNombre}" maxlength="25"
+                                <p:inputText id="segundonombrenuevousuario" value="#{homeBean.usuarioNuevo.usuarioSegundoNombre}" maxlength="25"
                                              style="width: 100%" validatorMessage="Apellido no válido.">
                                     <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
                                 </p:inputText>
-                                <p:message for="segundonombre"/>
+                                <p:message for="segundonombrenuevousuario"/>
                             </div>
                         </div><br/> 
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Primer apellido</b></h6>
-                                <p:inputText id="primerapellido" value="#{homeBean.usuarioNuevo.usuarioPrimerApellido}" required="true" maxlength="25"
+                                <p:inputText id="primerapellidonuevousuario" value="#{homeBean.usuarioNuevo.usuarioPrimerApellido}" required="true" maxlength="25"
                                              style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
                                     <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
                                 </p:inputText>
-                                <p:message for="primerapellido"/>
+                                <p:message for="primerapellidonuevousuario"/>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Segundo apellido</b></h6>
-                                <p:inputText id="segundoapellido" value="#{homeBean.usuarioNuevo.usuarioSegundoApellido}" maxlength="50"
+                                <p:inputText id="segundoapellidonuevousuario" value="#{homeBean.usuarioNuevo.usuarioSegundoApellido}" maxlength="50"
                                              style="width: 100%" validatorMessage="Apellido no válido.">
                                     <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
                                 </p:inputText>
-                                <p:message for="segundoapellido"/>
+                                <p:message for="segundoapellidonuevousuario"/>
                             </div>
                         </div><br/> 
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Correo</b></h6>
-                                <p:inputText id="correo" value="#{homeBean.usuarioNuevo.usuarioCorreo}" required="true" maxlength="50" style="width: 100%"
+                                <p:inputText id="correonuevousuario" value="#{homeBean.usuarioNuevo.usuarioCorreo}" required="true" maxlength="50" style="width: 100%"
                                              validatorMessage="Correo no válido." requiredMessage="Correo es requerido." placeholder="ejemplo@mail.com">
                                     <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
                                 </p:inputText>
-                                <p:message for="correo"/>
+                                <p:message for="correonuevousuario"/>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Teléfono</b></h6>
-                                <p:inputMask id="telefono" value="#{homeBean.usuarioNuevo.usuarioTelefono}" required="true" mask="9999-9999" style="width: 100%"
+                                <p:inputMask id="telefononuevousuario" value="#{homeBean.usuarioNuevo.usuarioTelefono}" required="true" mask="9999-9999" style="width: 100%"
                                              requiredMessage="Teléfono es requerido."/>
-                                <p:message for="telefono"/>
+                                <p:message for="telefononuevousuario"/>
                             </div>
                         </div><br/>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Contraseña</b></h6>
-                                <p:password id="contrasenia" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" match="confirmar" maxlength="20" style="width: 100%" feedback="true"
+                                <p:password id="contrasenianuevousuario" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" match="confirmarnuevousuario" maxlength="20" style="width: 100%" feedback="true"
                                             promptLabel="Ingrese una contraseña" weakLabel="Seguridad baja" goodLabel="Seguridad media" strongLabel="Seguridad alta"
                                             required="true" requiredMessage="Ingrese una contraseña." validatorMessage="Contraseñas no coinciden o es muy corta.">
                                     <f:validateRegex pattern="^(.{6,20})*$"/>
                                 </p:password>
-                                <p:message for="contrasenia"/>
+                                <p:message for="contrasenianuevousuario"/>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6><b>Confirmar contraseña</b></h6>
-                                <p:password id="confirmar" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" maxlength="20" style="width: 100%" />
+                                <p:password id="confirmarnuevousuario" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" maxlength="20" style="width: 100%" />
                             </div>
                         </div><br/>
 
                         <div class="row">
-                            <div class="col-md-12" align="center">
-                                <p:captcha label="Captcha" id="captcha" required="true" requiredMessage="Compruebe que no es un robot." validatorMessage="Compruebe que no es un robot."/> 
-                                <p:message for="captcha"/>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
+                                <p:captcha label="Captcha" id="captchanuevousuario" language="es" required="true" requiredMessage="Compruebe que no es un robot." validatorMessage="Compruebe que no es un robot."/> 
+                                <p:message for="captchanuevousuario" style="width: 60%"/>
                             </div>
                         </div><br/>
 
                         <div class="row">
-                            <div class="col-md-12" align="center">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center">
                                 <h:commandLink type="submit" class="btn btn-default" style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px" action="#{homeBean.guardarUsuario()}">
                                     <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
                                 </h:commandLink>
@@ -131,17 +133,24 @@
 
                     </p:panel>
                 </div>
-                <div class="col-md-7">
-                    <p:galleria value="#{promocionesBean.todasPromocionesActivas()}" transitionInterval="5000" var="image" panelWidth="700" panelHeight="465" showCaption="false" style="margin-left: 20pt; border: solid 2px #D5D5D5;">
-                        <img src="#{request.contextPath}/images/promociones/#{image.promocionImagenNombre}" width="100%" />
+                <h:panelGroup rendered="#{(promocionesBean.todasPromocionesActivas().size() != 0)}">
+                <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
+                    <p:galleria value="#{promocionesBean.todasPromocionesActivas()}" transitionInterval="5000" var="image" panelWidth="770" panelHeight="465" showCaption="false" style="border: solid 2px #D5D5D5;">
+                        <img src="#{request.contextPath}/images/promociones/#{image.promocionImagenNombre}" width="100%"/>
                     </p:galleria>
-                </div> 
+                </div>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{!(promocionesBean.todasPromocionesActivas().size() != 0)}">
+                <div class="col-lg-7 col-md-7 hidden-sm hidden-xs">
+                    <img src="#{request.contextPath}/resources/images/carrusel_default.jpg" width="100%" height="515"/>
+                </div>
+                </h:panelGroup>
             </div>
             <br/>
             
             <div class="row">
                 <div class="col-md-12" align="center" style=" margin-left: 2pt">
-                    <img src="#{request.contextPath}/images/configuraciones/direcciones.png" width="1270pt" height="200pt"/>
+                    <img src="#{request.contextPath}/images/configuraciones/direcciones.png" width="100%" height="100%"/>
                 </div> 
             </div>
 

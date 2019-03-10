@@ -8,7 +8,7 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
-            
+
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Médicos')}"/>
@@ -65,10 +65,10 @@
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Fecha de nacimiento</b></h6>
-                                
-                                <p:calendar id="fechanacimientomediconuevo" value="#{catalogosBean.medicoNuevo.medicoFechaNacimiento}" class="tamaniocalendario"
-                                            pattern="dd-MM-yyyy" mask="true" showOn="false" validatorMessage="Fecha no válida."/>
-                                <p:message for="fechanacimientomediconuevo"/>
+                                <p:calendar id="fechanacimientomediconuevo" value="#{catalogosBean.medicoNuevo.medicoFechaNacimiento}" readonlyInput="true" yearRange="c-80:c-5" locale="es"
+                                            navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha nacimiento requerida." >
+                                    <f:passThroughAttribute name="onkeypress" value="return false;"/>
+                                </p:calendar>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Sexo*</b></h6>
@@ -213,6 +213,36 @@
                 </p:tabView>
             </h:form>
             <p:spacer height="50"/>
+
+            <script type="text/javascript">
+                PrimeFaces.locales['es'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Anterior',
+                    nextText: 'Siguiente',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                    weekHeader: 'Semana',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Sólo hora',
+                    timeText: 'Tiempo',
+                    hourText: 'Hora',
+                    minuteText: 'Minuto',
+                    secondText: 'Segundo',
+                    currentText: 'Fecha actual',
+                    ampm: false,
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    allDayText: 'Todo el día'
+                };
+            </script>
+
         </ui:define>
     </ui:composition>
 </html>

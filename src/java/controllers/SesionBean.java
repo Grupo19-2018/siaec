@@ -50,7 +50,7 @@ public class SesionBean implements Serializable {
     public void iniciarSesion() {
         try {
             Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
-            System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
+            //System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
             if (usuarioLogueado != null) {
                 if (!(usuarioLogueado.getUsuarioEstado())) {
                     mensajeError("El usuario no existe.");
@@ -58,9 +58,9 @@ public class SesionBean implements Serializable {
                     mensajeError("Su cuenta está bloqueada.");
                 } else if (usuarioLogueado.getUsuarioContrasenia().equals(password)) {
                     appSession.setUsuario(usuarioLogueado);
-                    System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
+                    //System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
                     usuarioLogueado.setUsuarioIntentoFallido(0);
-                    System.out.println("AppSession: "+appSession.getUsuario().getUsuarioUsuario());
+                    //System.out.println("AppSession: "+appSession.getUsuario().getUsuarioUsuario());
                     getUsuariosFacade().edit(usuarioLogueado);
                     direccionaPagina("/dashboard.xhtml");
                 } else {

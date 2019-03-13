@@ -6,6 +6,7 @@
 package dao;
 
 import entities.Usuarios;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -39,5 +40,11 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> {
         }
     }
     
+    //Lista de usuarios, para validar si existe el usuario 
+    //Usasdo en: metodo guardarPaciente() en expedienteBean
+    //Esperaria almenos 1 si hay mas, es otro degenere
+    public List<Usuarios> usuariosSimiliares(String us){
+     return getEntityManager().createNamedQuery("Usuarios.findByUsuarioUsuario").setParameter("usuarioUsuario", us).getResultList();
+    }
     
 }

@@ -99,6 +99,10 @@
             <from-outcome>ListaAsociar</from-outcome>
             <to-view-id>/views/2_expedientes/pacientes_listado_asociar.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>RegistrarAsociar</from-outcome>
+            <to-view-id>/views/2_expedientes/paciente_registrar.xhtml</to-view-id>
+        </navigation-case>
         
     </navigation-rule>
 </faces-config>

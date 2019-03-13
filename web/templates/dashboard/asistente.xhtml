@@ -78,8 +78,9 @@
                                         </h:commandLink> 
                                         &nbsp;
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario)}">
-                                            <h:commandLink action="/views/2_expedientes/paciente_registrar.xhtml" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
-                                            </h:commandLink> 
+                                            <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
+                                                <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                            </h:link> 
                                             &nbsp;
                                             <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>

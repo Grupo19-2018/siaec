@@ -12,6 +12,7 @@
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{expedientesBean.verificaAcceso('Registrar Paciente')}"/>
+                    <f:viewParam name="us" value="#{expedientesBean.us}"/>
                 </f:metadata>
             </ui:define>
 
@@ -207,7 +208,7 @@
                                     <i class="glyphicon glyphicon-share-alt"></i> Regresar
                                 </h:commandLink>
                                 &nbsp;
-                                <h:commandLink type="submit" class="btn btn-default  buttonLevel1" actionListener="#{expedientesBean.setTabindex(0)}" action="#{expedientesBean.guardarPaciente()}"
+                                <h:commandLink type="submit" class="btn btn-default  buttonLevel1" actionListener="#{expedientesBean.setTabIndex(0)}" action="#{expedientesBean.guardarPaciente()}"
                                                style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                     <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
                                     <f:param name="direccion" value="true"/>

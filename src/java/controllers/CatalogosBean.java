@@ -11,6 +11,7 @@ import dao.PatologiasFacade;
 import dao.TiposInsumosFacade;
 import dao.TratamientosFacade;
 import dao.UnidadesMedidasFacade;
+import dao.UsuariosFacade;
 import entities.Clinicas;
 import entities.Departamentos;
 import entities.Direcciones;
@@ -23,6 +24,7 @@ import entities.Submenus;
 import entities.TiposInsumos;
 import entities.Tratamientos;
 import entities.UnidadesMedidas;
+import entities.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
@@ -96,6 +98,9 @@ public class CatalogosBean implements Serializable {
     private Medicos medicoNuevo = new Medicos();
     private Medicos medicoConsultar = new Medicos();
     private Medicos medicoEditar = new Medicos();
+    
+    @EJB
+    private UsuariosFacade usuariosFacade;
 
     private Integer tabIndex = 0;
     private int departamentoId;
@@ -165,6 +170,10 @@ public class CatalogosBean implements Serializable {
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
     
+    public List<Usuarios> todosUsuarios(){
+        return getUsuariosFacade().findAll();
+    }
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
@@ -212,6 +221,11 @@ public class CatalogosBean implements Serializable {
     public MedicosFacade getMedicosFacade() {
         return medicosFacade;
     }
+
+    public UsuariosFacade getUsuariosFacade() {
+        return usuariosFacade;
+    }
+    
     
 //****************************************************************************//
 //                             Métodos Get y SET                              //

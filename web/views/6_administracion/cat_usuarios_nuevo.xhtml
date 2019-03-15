@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Usuarios')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <div class="banda1"><b>LISTADO DE USUARIOS</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                
+            </p:panel>
+            <p:spacer height="50"/>
+
+        </ui:define>
+
+        <!-- Script para funcionalidades de la tabla -->
+        <ui:define name="scripts">
+
+            <script>
+                $(document).ready(function () {
+                    var t = $('#tabla').DataTable({
+                        "columnDefs": [{
+                                "searchable": false,
+                                "orderable": false,
+                                "targets": 0
+                            }],
+                        "order": [[1, 'asc']]
+                    });
+
+                    t.on('order.dt search.dt', function () {
+                        t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                            cell.innerHTML = i + 1;
+                        });
+                    }).draw();
+                });
+
+                $(document).ready(function () {
+                    estiloTabla();
+                });
+
+                function estiloTabla() {
+                    $('#tabla').dataTable(
+                            {
+                                "bDestroy": true,
+                                "oLanguage": {
+                                    "sProcessing": "Procesando...",
+                                    "sLengthMenu": "Mostrar _MENU_ registros",
+                                    "sZeroRecords": "No se encontraron resultados",
+                                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                    "sInfoPostFix": "",
+                                    "sSearch": "Buscar:",
+                                    "sUrl": "",
+                                    "sInfoThousands": ",",
+                                    "sLoadingRecords": "Cargando...",
+                                    "oPaginate": {
+                                        "sFirst": "Primero",
+                                        "sLast": "Último",
+                                        "sNext": "Siguiente",
+                                        "sPrevious": "Anterior"
+                                    },
+                                    "oAria": {
+                                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                    }
+                                }
+                            }
+                    );
+                }
+            </script>
+        </ui:define>
+    </ui:composition>
+</html>

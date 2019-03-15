@@ -6,6 +6,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -263,6 +264,12 @@ public class Usuarios implements Serializable {
 
     public void setUsuarioSegundoApellido(String usuarioSegundoApellido) {
         this.usuarioSegundoApellido = usuarioSegundoApellido;
+    }
+    
+    public String creacionUsuario(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = formatter.format(usuarioFechaCreacion);
+        return fecha;
     }
     
 }

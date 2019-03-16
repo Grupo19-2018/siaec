@@ -82,10 +82,10 @@
                                                 </h:panelGroup>
                                                 &nbsp;
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(2)}">
-                                                    <h:commandLink action="cita_clinica_editar_aprobada.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                        <f:setPropertyActionListener value="#{cita}" target="#{citasBean.citaEditar}"/>
-                                                        <f:actionListener binding="#{citasBean.editarConsultaHoraCita()}"/>
-                                                    </h:commandLink> 
+                                                    <h:link outcome="CitaEditar" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
+                                                         <f:param name="citaPendienteEditarId" value="#{cita.citaId}"/>
+                                                         <f:param name="retorno" value="3"/>
+                                                    </h:link> 
                                                 </h:panelGroup>
                                                 &nbsp;
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(3)}">

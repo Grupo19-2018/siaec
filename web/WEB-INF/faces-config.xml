@@ -107,6 +107,35 @@
             <from-outcome>RegistrarCita</from-outcome>
             <to-view-id>/views/1_citas/cita_paciente_nueva.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>CitaPendiente</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_consultar_pendiente.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>CitaPendienteEditar</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_editar_pendiente.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>CitaEditar</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_editar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Dashboard</from-outcome>
+            <to-view-id>/dashboard.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>CitasListaAprobadas</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_listado_aprobadas.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>CitasListaPendientes</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_listado_pendiente.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>HistoricoConsultar</from-outcome>
+            <to-view-id>/views/1_citas/cita_paciente_consultar_historico.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        
         
     </navigation-rule>
 </faces-config>

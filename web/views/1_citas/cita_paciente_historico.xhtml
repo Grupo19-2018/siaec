@@ -55,9 +55,9 @@
                                                 
                                             </td>
                                             <td align="center">
-                                                <h:commandLink action="cita_paciente_consultar_historico.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <f:setPropertyActionListener value="#{cita}" target="#{citasBean.citaConsultar}"/>
-                                                </h:commandLink> &nbsp;
+                                                <h:link outcome="HistoricoConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <f:param name="citaConsultarId" value="#{cita.citaId}"/>
+                                                </h:link> &nbsp;
                                             </td>
                                         </tr>
                                     </ui:repeat>

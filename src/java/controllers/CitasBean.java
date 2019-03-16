@@ -8,6 +8,7 @@ import entities.Clinicas;
 import entities.Medicos;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,12 +21,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 
 @ManagedBean(name = "citasBean")
-//@SessionScoped
 @ViewScoped
 public class CitasBean implements Serializable {
 
@@ -34,34 +32,58 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
     @EJB
     private CitasFacade citasFacade;
+
     private Citas citaNuevo = new Citas();
     private Citas citaConsultar = new Citas();
     private Citas citaEditar = new Citas();
+
     private Calendar citaEditarFecha = Calendar.getInstance();
     private Calendar citaEditarHora = Calendar.getInstance();
+
     private Clinicas citasEditarSucursal = new Clinicas();
-    private Citas citaEliminar = new Citas();
     private int idEliminar;
-    //Seleccionar sucursal para la tabla. 
-    private Integer clinicaSeleccionada = 0;
 
     @EJB
     private ClinicasFacade clinicasFacade;
+    private Integer clinicaSeleccionada = 0; //Seleccionar sucursal para la tabla. 
 
     @EJB
     private MedicosFacade odontologosFacade;
 
+    private Date fechaActual = new Date();
     private Date citaDia = new Date();
     private Integer horaE;
-    private Date fechaActual = new Date();
+    private int citaPendienteConsultarId;         //Varible para recibir en url
+    private int citaPendienteEditarId;            //Varible para recibir en url
+    private int citaConsultarId; //Varible para recibir en url
+    private int citapantalla = 0;
+    private int retorno = 0;
 
-    //Cuando el convertidor no sirve ajjaja
+    public int getRetorno() {
+        return retorno;
+    }
+
+    public void setRetorno(int retorno) {
+        this.retorno = retorno;
+    }
+    
+    
+
+    public int getCitaConsultarId() {
+        return citaConsultarId;
+    }
+
+    public void setCitaConsultarId(int citaConsultarId) {
+        this.citaConsultarId = citaConsultarId;
+    }
+
+    public void cargandoCitaConsulta(){
+        citaConsultar = getCitasFacade().find(citaConsultarId);
+    }
+    
     //Session
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
-
-    //Paciente cuando ingrese.
-    private Citas citasNuevoPaciente = new Citas();
 
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
@@ -72,6 +94,46 @@ public class CitasBean implements Serializable {
 
     public List<Medicos> todoOdontologos() {
         return getOdontologosFacade().findAll();
+    }
+
+    //Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.
+    //Usada en: asistente.xhtml
+    //Estado: En uso.
+    public List<Citas> todasCitasAprobadas() {
+        if (clinicaSeleccionada != 0) {
+            return getCitasFacade().citasAprobadas(clinicaSeleccionada);
+        }
+        return getCitasFacade().citasAprobadas();
+    }
+
+    //Metodo para mostrar las citas pendientes. Estado 1.
+    //Usado en: cita_clinica_listado_pendiente.xhtml
+    //Estado : En uso. 
+    public List<Citas> todasCitasPendientes() {
+        if (clinicaSeleccionada != 0) {
+            return getCitasFacade().citasPendientes(clinicaSeleccionada);
+        }
+        return getCitasFacade().citasPendientes();
+    }
+
+    //Metodo para cargar todas las citas por paciente.
+    //Usado en: cita_paciente_historico.
+    //Estado: En uso.
+    public List<Citas> todasCitasPorPaciente() {
+        if (appSession.getUsuario() != null) {
+            return citasFacade.citasTodas(appSession.getUsuario().getUsuarioUsuario(), appSession.getUsuario().getUsuarioCorreo());
+        }
+        return null;
+    }
+
+    //Metodo para cargar todas las citas de la clinica.
+    //Usado en: cita_clinica_historico.xhtml
+    //Estado: En uso.
+    public List<Citas> todasCitas() {
+        if (clinicaSeleccionada != 0) {
+            return getCitasFacade().historicoPorClinica(clinicaSeleccionada);
+        }
+        return getCitasFacade().findAll();
     }
 
 //****************************************************************************//
@@ -89,53 +151,9 @@ public class CitasBean implements Serializable {
         return odontologosFacade;
     }
 
-    //Metodo para cargar todas las citas por paciente.
-    //Usado en: cita_paciente_historico.
-    //Estado: En uso.
-    //Fecha: 11/febrero/2019 
-    public List<Citas> todasCitasPorPaciente() {
-        if (appSession.getUsuario() != null) {
-            return citasFacade.citasTodas(appSession.getUsuario().getUsuarioUsuario(), appSession.getUsuario().getUsuarioCorreo());
-        }
-        return null;
-    }
-
-    //Metodo para cargar todas las citas de la clinica.
-    //Usado en: cita_clinica_historico.xhtml
-    //Estado: En uso.
-    //Fecha: 11/febrero/2019 
-    public List<Citas> todasCitas() {
-        if (clinicaSeleccionada != 0) {
-            return getCitasFacade().historicoPorClinica(clinicaSeleccionada);
-        }
-        return getCitasFacade().findAll();
-    }
-
-    //Método para mostrar los estados de las citas. 
-    //Usado en: cita_paciente_historico.
-    //Estado: En uso.
-    //Fecha: 11/febrero/2019 
-    public String estadoCitaPaciente(Integer estado) {
-        switch (estado) {
-            case 1:
-                return "Pendiente";
-            case 2:
-                return "Confirmada";
-            case 3:
-                return "Atendida";
-            case 4:
-                return "Cancelada";
-            case 5:
-                return "Vencida";
-            default:
-                return "";
-        }
-    }
-
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
-    //Variable citaDia
     public Date getCitaDia() {
         return citaDia;
     }
@@ -184,14 +202,6 @@ public class CitasBean implements Serializable {
         this.citaEditar = citaEditar;
     }
 
-    public Citas getCitaEliminar() {
-        return citaEliminar;
-    }
-
-    public void setCitaEliminar(Citas citaEliminar) {
-        this.citaEliminar = citaEliminar;
-    }
-
     public int getIdEliminar() {
         return idEliminar;
     }
@@ -200,16 +210,6 @@ public class CitasBean implements Serializable {
         this.idEliminar = idEliminar;
     }
 
-    //Variable: citasNuevoPaciente. 
-    public Citas getCitasNuevoPaciente() {
-        return citasNuevoPaciente;
-    }
-
-    public void setCitasNuevoPaciente(Citas citasNuevoPaciente) {
-        this.citasNuevoPaciente = citasNuevoPaciente;
-    }
-
-    //Variable appSession
     public AppSession getAppSession() {
         return appSession;
     }
@@ -218,7 +218,6 @@ public class CitasBean implements Serializable {
         this.appSession = appSession;
     }
 
-    //Variable clinicaSeleccionada.
     public Integer getClinicaSeleccionada() {
         return clinicaSeleccionada;
     }
@@ -227,35 +226,85 @@ public class CitasBean implements Serializable {
         this.clinicaSeleccionada = clinicaSeleccionada;
     }
 
+    public int getCitaPendienteConsultarId() {
+        return citaPendienteConsultarId;
+    }
+
+    public void setCitaPendienteConsultarId(int citaPendienteConsultarId) {
+        this.citaPendienteConsultarId = citaPendienteConsultarId;
+    }
+
+    public int getCitaPendienteEditarId() {
+        return citaPendienteEditarId;
+    }
+
+    public void setCitaPendienteEditarId(int citaPendienteEditarId) {
+        this.citaPendienteEditarId = citaPendienteEditarId;
+    }
+
+    public int getCitapantalla() {
+        return citapantalla;
+    }
+
+    public void setCitapantalla(int citapantalla) {
+        this.citapantalla = citapantalla;
+    }
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
-    //Metodo para cargar los horarios disponibles para el paciente.
-    //Metodos similares cambia solo por la variable.
-    //Usado en: cita_paciente_nueva.xhtml
-    //Estado: En uso.
-    //Fecha: 01/febrero/2019 Actualizacion: 13/febrero/2019
-    //Nota considerando el horario del doctor.
-    //Considederar que el horario del doctor ocupado se propage a las demas sucursales
+//Metodo usado en cita_clinica_consultar_pendiente.xhtml
+    public void cargarCita() {
+        citaConsultar = getCitasFacade().find(citaPendienteConsultarId);
+    }
+
+//Metodo para cargar los horarios disponibles para el paciente.
+//Usado en: cita_paciente_nueva.xhtml
+//Estado: En uso.
     public List<Horario> horariosDisponibleSucursalPaciente() {
         List<Horario> horarios = new ArrayList<>();
         horarios.clear();
         Calendar cita = Calendar.getInstance();
         cita.setTime(citaDia);
         String s;
+        Boolean hayMedico = false;
+        Date inicioClinica = new Date();
+        Date finClinica = new Date();
+        Integer medico = 0;
+        Integer modulos = 0 ;
         System.out.println("Entra metodo horariosDisponibleSucursalPaciente()");
-        //System.out.println("sucursal " + citasNuevoPaciente.getClinicaId().getClinicaNombre());
         if (clinicaSeleccionada != 0) {
-            citasNuevoPaciente.setClinicaId(getClinicasFacade().find(clinicaSeleccionada));
+
+            if (getCitapantalla() == 1) {
+                citaNuevo.setClinicaId(getClinicasFacade().find(clinicaSeleccionada));
+                inicioClinica = citaNuevo.getClinicaId().getClinicaHorarioApertura();
+                finClinica = citaNuevo.getClinicaId().getClinicaHorarioCierre();
+                modulos = citaNuevo.getClinicaId().getClinicaModulo();
+                if (citaNuevo.getMedicoId() != null) {
+                    medico = citaNuevo.getMedicoId().getMedicoId();
+                    hayMedico = true;
+                }
+
+            }
+            if (getCitapantalla() == 2) {
+                citaEditar.setClinicaId(getClinicasFacade().find(clinicaSeleccionada));
+                inicioClinica = citaEditar.getClinicaId().getClinicaHorarioApertura();
+                finClinica = citaEditar.getClinicaId().getClinicaHorarioCierre();
+                modulos = citaEditar.getClinicaId().getClinicaModulo();
+                if (citaEditar.getMedicoId() != null) {
+                    medico = citaEditar.getMedicoId().getMedicoId();
+                    hayMedico = true;
+                }
+            }
+
         }
 
-        if (clinicaSeleccionada != 0) {
+        if (clinicaSeleccionada != 0 && (getCitapantalla() == 1 || getCitapantalla() == 2)) {
             System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() entra con una sucursal fija");
-            System.out.println("clinica" + citasNuevoPaciente.getClinicaId());
             Calendar clinicaInicio = Calendar.getInstance();
             Calendar clinicaFin = Calendar.getInstance();
-            clinicaInicio.setTime(citasNuevoPaciente.getClinicaId().getClinicaHorarioApertura());
-            clinicaFin.setTime(citasNuevoPaciente.getClinicaId().getClinicaHorarioCierre());
+            clinicaInicio.setTime(inicioClinica);
+            clinicaFin.setTime(finClinica);
 
             for (int i = clinicaInicio.get(Calendar.HOUR_OF_DAY); i < clinicaFin.get(Calendar.HOUR_OF_DAY); i++) {
                 Calendar citaPreguntar = Calendar.getInstance();
@@ -265,8 +314,7 @@ public class CitasBean implements Serializable {
                 citaPreguntar.set(Calendar.SECOND, 0);
 
                 //Actualmente solo son reservadas estado 1, falta comprender a las confirmadas estado 2
-                //Fecha, clinica, hora 
-                List<Citas> reservadasSucursal = getCitasFacade().citasReservadoSucursal(cita.getTime(), citasNuevoPaciente.getClinicaId().getClinicaId(), citaPreguntar.getTime());
+                List<Citas> reservadasSucursal = getCitasFacade().citasReservadoSucursal(cita.getTime(), clinicaSeleccionada, citaPreguntar.getTime());
                 int cantidadCitas = reservadasSucursal.size();
 
                 if (i < 13) {
@@ -276,31 +324,25 @@ public class CitasBean implements Serializable {
                 }
 
                 //Considerar que el medico solo tiene que tener un solo horario activo
-                if (cantidadCitas < citasNuevoPaciente.getClinicaId().getClinicaModulo()) {
-                    //System.out.println("horarioDisponibleSucursalPaciente medico cuando se selecciona" + citasNuevoPaciente.getMedicoId().getMedicoId());
-                    if (citasNuevoPaciente.getMedicoId() == null) {
-                        //System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() sin seleccionar medico");
+                if (cantidadCitas < modulos) {
+                    //if (citaNuevo.getMedicoId() == null) {
+                    if (hayMedico) {
                         horarios.add(new Horario(i, s));
                     } else {
                         //Buscar medico y horario, si tiene ocupado no poner. 
                         //Puedo usar variables como 
-                        //Para medico citasNuevoPaciente.getMedicoId().getMedicoId()
                         //Para dia cita.getTime()
                         //Para hora citaPreguntar.getTime()
-                        //List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citasNuevoPaciente.getClinicaId().getClinicaId(), citaPreguntar.getTime(), citasNuevoPaciente.getMedicoId().getMedicoId());
-                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), citasNuevoPaciente.getMedicoId().getMedicoId());
+                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), medico);
                         /**
                          * for (Citas citas : medicoC) { //
-                         * System.out.println("Cita " + citas.getCitaId());
-                        }/*
+                         * System.out.println("Cita " + citas.getCitaId()); }/*
                          */
                         if (medicoC.isEmpty()) {
                             horarios.add(new Horario(i, s));
-                            System.out.println("Doctor seleccionado " + citasNuevoPaciente.getMedicoId().getMedicoId());
                         }
-
                     }//Id del medico 
-                }//Fin de citasNuevoPaciente.getClinicaId().getClinicaModulo()
+                }//Fin de citaNuevo.getClinicaId().getClinicaModulo()
             }
             return horarios;
         } else {
@@ -311,12 +353,8 @@ public class CitasBean implements Serializable {
     }
 
     //Metodo para guardar la cita del paciente. 
-    //Metodos similares, cambia solo por variables.
     //Usado en: cita_paciente_nueva.xhtml
     //Estado: En uso.
-    //Fecha: 01/febrero/2019 Actualizado: 02/febrero/2019
-    //Notas de actualizacion: 
-    //Fecha: 02/febrero/ 2019
     //-Temporalmente se preguntara por el usuario, recordad que esta parte no esta completamente definida,
     //que crea la cita, si tiene una con estado 1 o 2, se impedira crear una cita. 
     //-Se pregunta si el usuario sigue activo en sesion. 
@@ -325,16 +363,16 @@ public class CitasBean implements Serializable {
 
             if (appSession.getUsuario() != null) {
                 if (getCitasFacade().citaActiva(appSession.getUsuario().getUsuarioUsuario()).isEmpty()) {
-                    citasNuevoPaciente.setCitaFecha(citaDia);
+                    citaNuevo.setCitaFecha(citaDia);
                     Calendar hora = Calendar.getInstance();
                     hora.set(Calendar.HOUR_OF_DAY, horaE);
                     hora.set(Calendar.MINUTE, 0);
                     hora.set(Calendar.SECOND, 0);
-                    citasNuevoPaciente.setCitaHora(hora.getTime());
-                    citasNuevoPaciente.setCitaFechaCreacion(new Date());
-                    citasNuevoPaciente.setCitaHoraCreacion(new Date());
-                    citasNuevoPaciente.setCitaEstado(1);
-                    getCitasFacade().create(citasNuevoPaciente);
+                    citaNuevo.setCitaHora(hora.getTime());
+                    citaNuevo.setCitaFechaCreacion(new Date());
+                    citaNuevo.setCitaHoraCreacion(new Date());
+                    citaNuevo.setCitaEstado(1);
+                    getCitasFacade().create(citaNuevo);
                     //citasNuevoPaciente = new Citas();
                     //citaDia = new Date();
                     mensajeGuardado("Su cita a sido guardada.");
@@ -349,194 +387,6 @@ public class CitasBean implements Serializable {
             mensajeError("Error al guardar la cita.");
         }
 
-    }
-
-    //Metodo para eliminar cita del paciente.
-    //Metodo similares, cambio solo de variable. 
-    //Usado en: paciente.xhtml, cita_clinica_listado_pendiente.xhtml
-    //Estado: En uso.
-    //Fecha: 11/febrero/2019
-    public void eliminarCitaP() {
-        try {
-            citaEditar.setCitaUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
-            citaEditar.setCitaFechaModificacion(new Date());
-            citaEditar.setCitaEstado(4);
-            getCitasFacade().edit(citaEditar);
-            mensajeGuardado("La cita ha sido eliminado.");
-        } catch (Exception e) {
-            mensajeError("Error al eliminar la cita.");
-        }
-    }
-
-    //Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.
-    //Usada en: asistente.xhtml
-    //Estado: En uso.
-    //Fecha: 02/febrero/2019
-    public List<Citas> todasCitasAprobadas() {
-        if (clinicaSeleccionada != 0) {
-            return getCitasFacade().citasAprobadas(clinicaSeleccionada);
-        }
-        return getCitasFacade().citasAprobadas();
-    }
-
-    //Metodo para mostrar las citas pendientes. Estado 1.
-    //Usado en: cita_clinica_listado_pendiente.xhtml
-    //Estado : En uso. 
-    //Fecha: 03/febrero/2018
-    public List<Citas> todasCitasPendientes() {
-        if (clinicaSeleccionada != 0) {
-            return getCitasFacade().citasPendientes(clinicaSeleccionada);
-        }
-        return getCitasFacade().citasPendientes();
-    }
-
-    //Obteniendo horarios disponible de odontologo usado en cita_nueva.html
-    public List<Horario> horariosDisponibleSucursal() {
-        List<Horario> horarios = new ArrayList<>();
-        horarios.clear();
-        Calendar cita = Calendar.getInstance();
-        cita.setTime(citaDia);
-        String s;
-        System.out.println("Entra");
-        if (citaNuevo.getClinicaId() != null) {
-            Calendar clinicaInicio = Calendar.getInstance();
-            Calendar clinicaFin = Calendar.getInstance();
-            clinicaInicio.setTime(citaNuevo.getClinicaId().getClinicaHorarioApertura());
-            clinicaFin.setTime(citaNuevo.getClinicaId().getClinicaHorarioCierre());
-
-            for (int i = clinicaInicio.get(Calendar.HOUR_OF_DAY); i < clinicaFin.get(Calendar.HOUR_OF_DAY); i++) {
-                Calendar citaPreguntar = Calendar.getInstance();
-                citaPreguntar.setTime(citaDia);
-                citaPreguntar.set(Calendar.HOUR_OF_DAY, i);
-                citaPreguntar.set(Calendar.MINUTE, 0);
-                citaPreguntar.set(Calendar.SECOND, 0);
-
-                List<Citas> reservadasSucursal = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaNuevo.getClinicaId().getClinicaId(), citaPreguntar.getTime());
-                int cantidadCitas = reservadasSucursal.size();
-
-                if (i < 13) {
-                    s = i + ":00 AM";
-                } else {
-                    s = (i - 12) + ":00 PM";
-                }
-
-                if (cantidadCitas < citaNuevo.getClinicaId().getClinicaModulo()) {
-                    horarios.add(new Horario(i, s));
-                }
-            }
-            return horarios;
-        } else {
-            System.out.println("Solo yo me ejecuto");
-            return horarios;
-        }
-    }
-
-    //Metodo para obtener citas para editar cita
-    //Usado en: cita_clinica_editar_dashboard.xhtml
-    //Actualizado: 13/febrero/2019
-    //Se debe de actualizar para que desaparescan horarios ocupados, y  quede seleccionado el que se tiene
-    //Desaparecer el horario ocupado de la doctora en las demas sucursales
-    public List<Horario> horariosDisponibleSucursalEditar() {
-        horaE = null;
-        List<Horario> horarios = new ArrayList<>();
-        horarios.clear();
-        Calendar cita = Calendar.getInstance();
-        cita.setTime(citaDia);
-        String s;
-        if (citaEditar.getClinicaId() != null) {
-            Calendar clinicaInicio = Calendar.getInstance();
-            Calendar clinicaFin = Calendar.getInstance();
-            clinicaInicio.setTime(citaEditar.getClinicaId().getClinicaHorarioApertura());
-            clinicaFin.setTime(citaEditar.getClinicaId().getClinicaHorarioCierre());
-
-            for (int i = clinicaInicio.get(Calendar.HOUR_OF_DAY); i < clinicaFin.get(Calendar.HOUR_OF_DAY); i++) {
-                Calendar citaPreguntar = Calendar.getInstance();
-                citaPreguntar.setTime(citaDia);
-                citaPreguntar.set(Calendar.HOUR_OF_DAY, i);
-                citaPreguntar.set(Calendar.MINUTE, 0);
-                citaPreguntar.set(Calendar.SECOND, 0);
-
-                List<Citas> reservadasSucursal = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaEditar.getClinicaId().getClinicaId(), citaPreguntar.getTime());
-                int cantidadCitas = reservadasSucursal.size();
-
-                if (i < 13) {
-                    s = i + ":00 AM";
-                } else {
-                    s = (i - 12) + ":00 PM";
-                }
-
-                //Si la cita que se tiene guardado es igua a la cita que se pregunta
-                if (citaEditarFecha.get(Calendar.YEAR) == citaPreguntar.get(Calendar.YEAR) && citaEditarFecha.get(Calendar.MONTH) == citaPreguntar.get(Calendar.MONTH) && citaEditarFecha.get(Calendar.DAY_OF_MONTH) == citaPreguntar.get(Calendar.DAY_OF_MONTH) && citasEditarSucursal.getClinicaId() == citaEditar.getClinicaId().getClinicaId()) {
-                    // if (citaEditarFecha.get(Calendar.YEAR) == citaPreguntar.get(Calendar.YEAR) && citaEditarFecha.get(Calendar.MONTH) == citaPreguntar.get(Calendar.MONTH) && citaEditarFecha.get(Calendar.DAY_OF_MONTH) == citaPreguntar.get(Calendar.DAY_OF_MONTH) && Objects.equals(citasEditarSucursal.getClinicaId(), citaEditar.getClinicaId().getClinicaId())) {
-
-                    if (citaEditarHora.get(Calendar.HOUR_OF_DAY) == i) {
-                        horaE = citaEditarHora.get(Calendar.HOUR_OF_DAY);
-                        // System.out.println("cuantas veces entras" + horaE);
-                        horarios.add(new Horario(i, s));
-                    } else if (cantidadCitas < citaEditar.getClinicaId().getClinicaModulo()) {
-                        //Si hay modulos disponibles, preguntar la disponibilidad del medico
-                        //Insertando actualizacion
-                        //******************************************************
-                        //Busando medico 
-                        if (citaEditar.getMedicoId() == null) {
-                            //System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() sin seleccionar medico");
-                            horarios.add(new Horario(i, s));
-                        } else {
-                            //Buscar medico y horario, si tiene ocupado no poner. 
-                            //Puedo usar variables como 
-                            //Para medico citasNuevoPaciente.getMedicoId().getMedicoId()
-                            //Para dia cita.getTime()
-                            //Para hora citaPreguntar.getTime()
-                            //List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaEditar.getClinicaId().getClinicaId(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
-                            List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
-                            for (Citas citas : medicoC) {
-                                System.out.println("Cita " + citas.getCitaId());
-                            }
-                            if (medicoC.isEmpty()) {
-                                horarios.add(new Horario(i, s));
-                                // System.out.println("Doctor seleccionado " + citasNuevoPaciente.getMedicoId().getMedicoId());
-                            }
-
-                        }
-                        //******************************************************
-                        //Fin de actualizacion
-                        //horarios.add(new Horario(i, s));
-                    }
-
-                } else if (cantidadCitas < citaEditar.getClinicaId().getClinicaModulo()) {
-                    //horarios.add(new Horario(i, s));
-                    //Si hay modulos disponibles, preguntar la disponibilidad del medico
-                    //Insertando actualizacion
-                    //******************************************************
-                    if (citaEditar.getMedicoId() == null) {
-                        //System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() sin seleccionar medico");
-                        horarios.add(new Horario(i, s));
-                    } else {
-                        //Buscar medico y horario, si tiene ocupado no poner. 
-                        //Puedo usar variables como 
-                        //Para medico citasNuevoPaciente.getMedicoId().getMedicoId()
-                        //Para dia cita.getTime()
-                        //Para hora citaPreguntar.getTime()
-                        //List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaEditar.getClinicaId().getClinicaId(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
-                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
-                        for (Citas citas : medicoC) {
-                            System.out.println("Cita " + citas.getCitaId());
-                        }
-                        if (medicoC.isEmpty()) {
-                            horarios.add(new Horario(i, s));
-                            // System.out.println("Doctor seleccionado " + citasNuevoPaciente.getMedicoId().getMedicoId());
-                        }
-
-                    }
-                    //******************************************************
-                    //Fin de actualizacion
-                }
-
-            }//Fin de for
-            return horarios;
-        } else {
-            return horarios;
-        }
     }
 
     //Metodo para guardar cita utilizado en cita_nueva.html
@@ -554,6 +404,22 @@ public class CitasBean implements Serializable {
         citaNuevo = new Citas();
         citaDia = new Date();
         mensajeGuardado("Su cita a sido guardada.");
+    }
+
+    //Metodo para eliminar cita del paciente.
+    //Usado en: paciente.xhtml, cita_clinica_listado_pendiente.xhtml
+    //Estado: En uso.
+    public void eliminarCita() {
+        try {
+            citaEditar.setCitaUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
+            citaEditar.setCitaFechaModificacion(new Date());
+            citaEditar.setCitaEstado(4);
+            getCitasFacade().edit(citaEditar);
+            mensajeGuardado("La cita ha sido eliminado.");
+        } catch (Exception e) {
+            System.out.println("controllers.CitasBean.eliminarCita()" + e);
+            mensajeError("Error al eliminar la cita.");
+        }
     }
 
     //Método para refrescar los valores utilizado en cita_nueva.xhtml.
@@ -605,16 +471,42 @@ public class CitasBean implements Serializable {
         }
     }
 
+    //Método para mostrar los estados de las citas. 
+    //Usado en: cita_paciente_historico.
+    //Estado: En uso.
+    //Fecha: 11/febrero/2019 
+    public String estadoCitaPaciente(Integer estado) {
+        switch (estado) {
+            case 1:
+                return "Pendiente";
+            case 2:
+                return "Confirmada";
+            case 3:
+                return "Atendida";
+            case 4:
+                return "Cancelada";
+            case 5:
+                return "Vencida";
+            default:
+                return "";
+        }
+    }
+
     //Hora no se utiliza partnerr por razones de error con en compilaciond e sesionbean
     public String horacita(Date hora) {
         Calendar c = Calendar.getInstance();
-        c.setTime(hora);
+
         //System.out.println("Metodo horacita(), class Citas Bean" + c.get(Calendar.HOUR_OF_DAY));
-        if (c.get(Calendar.HOUR_OF_DAY) < 13) {
-            return (c.get(Calendar.HOUR_OF_DAY)) + ":00 AM";
-        } else {
-            return (c.get(Calendar.HOUR_OF_DAY) - 12) + ":00 PM";
+        if (hora != null) {
+            c.setTime(hora);
+            if (c.get(Calendar.HOUR_OF_DAY) < 13) {
+                return (c.get(Calendar.HOUR_OF_DAY)) + ":00 AM";
+            } else {
+                return (c.get(Calendar.HOUR_OF_DAY) - 12) + ":00 PM";
+            }
         }
+        return "";
+
     }
 
     //Retornando medico dentro de la tabla usado en cita_lista_proximas.xhtml
@@ -639,13 +531,17 @@ public class CitasBean implements Serializable {
     }
 
     //Colocar la hora y cita en editarcITA
+    //Usado en cita_clinica_editar_pendiente.xhtml
     public void editarConsultaHoraCita() {
+        citaEditar = getCitasFacade().find(citaPendienteEditarId);
+        clinicaSeleccionada = citaEditar.getClinicaId().getClinicaId();
         citaDia = citaEditar.getCitaFecha();
         Calendar horaSeleccionada = Calendar.getInstance();
         horaSeleccionada.setTime(citaEditar.getCitaHora());
         citaEditarFecha.setTime(citaEditar.getCitaFecha());
         citaEditarHora.setTime(citaEditar.getCitaHora());
         citasEditarSucursal = citaEditar.getClinicaId();
+        horaE = citaEditar.getCitaHora().getHours();
     }
 
     //Metodo para el boton restabler permite resetear el dia que se pone en el calendario
@@ -677,25 +573,18 @@ public class CitasBean implements Serializable {
         mensajeGuardado("Su cita a sido modificada.");
     }
 
-    public void eliminarCita() {
-        // citaEliminar = getCitasFacade().find(idEliminar);
-        citaEliminar.setCitaEstado(4);
-        getCitasFacade().edit(citaEliminar);
-        mensajeGuardado("La cita ha sido eliminado.");
-    }
-
     //Metodo para cargar la informacion del usuario logeado en paciente.
     //Fecha: 31/enero/2019
     //Usado en: paciente.xhtml (dashboard), citas_paciente_nueva.xhtml
     //Estado: En uso.
     public void cargarPaciente() {
         if (appSession.getUsuario() != null) {
-            citasNuevoPaciente.setCitaNombres(appSession.getUsuario().getUsuarioPrimerNombre());
-            citasNuevoPaciente.setCitaApellidos(appSession.getUsuario().getUsuarioPrimerApellido());
-            citasNuevoPaciente.setCitaTelefono(appSession.getUsuario().getUsuarioTelefono());
-            citasNuevoPaciente.setCitaCorreo(appSession.getUsuario().getUsuarioCorreo());
-            citasNuevoPaciente.setCitaUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
-            citasNuevoPaciente.setUsuarioUsuario(appSession.getUsuario());
+            citaNuevo.setCitaNombres(appSession.getUsuario().getUsuarioPrimerNombre());
+            citaNuevo.setCitaApellidos(appSession.getUsuario().getUsuarioPrimerApellido());
+            citaNuevo.setCitaTelefono(appSession.getUsuario().getUsuarioTelefono());
+            citaNuevo.setCitaCorreo(appSession.getUsuario().getUsuarioCorreo());
+            citaNuevo.setCitaUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
+            citaNuevo.setUsuarioUsuario(appSession.getUsuario());
         } else {
             System.err.println("Metodo cargar paciente, Usuario Null");
         }
@@ -735,13 +624,51 @@ public class CitasBean implements Serializable {
     }
 
     public Boolean panelCitaClinica() {
-        System.out.println("controllers.CitasBean.panelCitaClinica() " +clinicaSeleccionada);
+        System.out.println("controllers.CitasBean.panelCitaClinica() " + clinicaSeleccionada);
         if (clinicaSeleccionada == 0) {
             return true;
         } else {
             return false;
         }
-
     }
 
+    public void pantallaCita(int pantalla) {
+        setCitapantalla(pantalla);
+    }
+    
+    public String redireccionCitaEditar(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date hoy = new Date();
+        String shoy = formatter.format(hoy);
+        String sCita= formatter.format(citaEditar.getCitaFecha());
+        System.out.println("controllers.CitasBean.redireccionCitaEditar()");
+        System.out.println("controllers.CitasBean.redireccionCitaEditar()" + shoy.equals(sCita));
+        if(shoy.equals(sCita)){
+            return"Dashboard";
+        }else{
+            switch(citaEditar.getCitaEstado()){
+                case 1:
+                    return "CitasListaPendientes";
+                case 2:
+                    return "CitasListaAprobadas";
+                case 3:
+                case 4:
+                    return "Dashboard";
+            }
+        }
+        return "Dashboard";
+    }
+    
+    public String redireccionCitaEditar2(){
+       switch(retorno){
+           case 1:
+               return "Dashboard";
+           case 2:
+               return "CitasListaPendientes";
+           case 3:
+               return "CitasListaAprobadas";
+       }
+       
+       return"Dashboard";
+    }
 }

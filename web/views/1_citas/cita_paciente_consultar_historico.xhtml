@@ -7,6 +7,12 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="meta-data">
+            <f:metadata>
+                <f:viewParam name="citaConsultarId" value="#{citasBean.citaConsultarId}"/>
+                <f:viewAction action="#{citasBean.cargandoCitaConsulta()}"/>
+            </f:metadata>
+        </ui:define>
         <ui:define name="content">
             <div class="banda1"><b>CONSULTAR CITA</b></div>
             <br/>

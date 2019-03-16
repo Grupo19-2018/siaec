@@ -10,6 +10,7 @@
         <ui:define name="meta-data">
             <f:metadata>
                 <f:viewAction action="#{citasBean.cargarPaciente()}"/>
+                <f:viewAction action="#{citasBean.pantallaCita(1)}"/>
             </f:metadata>
         </ui:define>
         <ui:define name="content">
@@ -26,23 +27,23 @@
 
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Nombres *</b></h6>
-                                    <p:inputText id="nombre" value="#{citasBean.citasNuevoPaciente.citaNombres}" style="width: 100%" disabled="true">
+                                    <p:inputText id="nombre" value="#{citasBean.citaNuevo.citaNombres}" style="width: 100%" disabled="true">
                                     </p:inputText>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Apellidos *</b></h6>
-                                    <p:inputText id="apellido" value="#{citasBean.citasNuevoPaciente.citaApellidos}" style="width: 100%" required="true" disabled="true">
+                                    <p:inputText id="apellido" value="#{citasBean.citaNuevo.citaApellidos}" style="width: 100%" required="true" disabled="true">
                                     </p:inputText>
                                 </div>
 
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Teléfono </b></h6>
-                                    <p:inputMask id="telefono" value="#{citasBean.citasNuevoPaciente.citaTelefono}" mask="9999-9999" style="width: 100%" disabled="true"/>
+                                    <p:inputMask id="telefono" value="#{citasBean.citaNuevo.citaTelefono}" mask="9999-9999" style="width: 100%" disabled="true"/>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Correo</b></h6>
-                                    <p:inputText id="correo" value="#{citasBean.citasNuevoPaciente.citaCorreo}" style="width: 100%" disabled="true">
+                                    <p:inputText id="correo" value="#{citasBean.citaNuevo.citaCorreo}" style="width: 100%" disabled="true">
                                     </p:inputText>
                                 </div>
 
@@ -52,7 +53,7 @@
                                     <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}"  required="true" 
                                                      requiredMessage="Clinica requerida" style="width: 100%"  >
                                         
-                                        <f:selectItem itemLabel="Seleccione uno..." itemValue="0" noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Seleccione uno..." itemValue="0"  />
                                         <f:selectItems value="#{citasBean.todasClinicas()}" var="clinica" 
                                                        itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
                                         <p:ajax process="@this" partialSubmit="true"/>
@@ -62,7 +63,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Médico</b></h6>
-                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citasNuevoPaciente.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" >
+                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" >
                                         <f:selectItem itemLabel="Seleccione uno..." itemValue=""/>
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
@@ -74,7 +75,7 @@
 
                                 <div class="col-md-12 col-sm-12">
                                     <h6><b>Motivo de cita</b></h6>
-                                    <p:inputTextarea id="motivoCita" value="#{citasBean.citasNuevoPaciente.citaMotivo}" style="width: 100%"/>
+                                    <p:inputTextarea id="motivoCita" value="#{citasBean.citaNuevo.citaMotivo}" style="width: 100%"/>
                                 </div>    
                             </div>
 

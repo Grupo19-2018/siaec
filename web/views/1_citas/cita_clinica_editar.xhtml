@@ -6,12 +6,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <!-- 
-        Notas:
-    Fecha: 06/febrero/2019
-    -Actualizando Bean CitasBean1 a CitasBean. No revisado por completo
-    -->
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="meta-data">
+            <f:metadata>
+                <f:viewParam name="citaPendienteEditarId" value="#{citasBean.citaPendienteEditarId}"/>
+                <f:viewParam name="retorno" value="#{citasBean.retorno}"/>
+                <f:viewAction action="#{citasBean.editarConsultaHoraCita()}"/>
+                <f:viewAction action="#{citasBean.pantallaCita(2)}"/>
+            </f:metadata>
+        </ui:define>
         <ui:define name="content">
             <div class="banda1"><b>EDITAR CITA</b></div>
             <br/>
@@ -57,9 +60,10 @@
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Sucursal *</b></h6>
-                                    <p:selectOneMenu id="clinica2" value="#{citasBean.citaEditar.clinicaId}"  converter="#{clinicaConvertidor}"  style="width: 100%" rendered="true">
+                                    <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}"  style="width: 100%" rendered="true">
+                                        <f:selectItem itemLabel="Seleccione uno..." itemValue="0"  />
                                         <f:selectItems value="#{citasBean.todasClinicas()}" var="clinica" 
-                                                       itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica}" />
+                                                       itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}" />
                                         <p:ajax update="console2" resetValues="false" rendered="true"  />
                                     </p:selectOneMenu>
                                     <p:message for="clinica2" />
@@ -102,7 +106,7 @@
 
                                     <center>
                                         <h6><b>Fecha</b></h6>
-                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" mode="inline" mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar">
+                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" mode="inline" mindate="#{citasBean1.fechaActual}" locale="es" styleClass="smiling-calendar">
                                             <p:ajax event="dateSelect" update="console2" resetValues="true"/>
                                         </p:calendar>
                                     </center>
@@ -114,7 +118,7 @@
                                         <h6><b>Horarios </b></h6>
                                         <p:selectOneRadio id="console2" value="#{citasBean.horaE}" layout="grid" columns="2" required="true"
                                                           requiredMessage="Seleccione un horario">
-                                            <f:selectItems value="#{citasBean.horariosDisponibleSucursalEditar()}" var="h" 
+                                            <f:selectItems value="#{citasBean.horariosDisponibleSucursalPaciente()}" var="h" 
                                                            itemLabel="#{h.hora}" itemValue="#{h.valor}"/>
                                         </p:selectOneRadio>
                                         <p:message for="console2" />
@@ -127,21 +131,25 @@
                         <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
                             <div class="col-md-12">
                                 <center>
+
                                     <p:commandButton type="sumbit" value="Guardar" update="cita" styleClass="btn-expediente-alternativa" action="#{citasBean.actualizarCita()}" icon="icon-smiling-position icono-smiling glyphicon glyphicon-floppy-disk">
                                     </p:commandButton>
                                     &nbsp;
-                                    <p:commandButton  type="reset" value="Cancelar" styleClass="btn-expediente-cancelar" onclick="window.location.href = 'dashboard.xhtml'" icon="icon-smiling-position icono-smiling glyphicon glyphicon-remove-circle"/>
+                                    
+                                    <p:commandButton action="#{citasBean.redireccionCitaEditar2()}" value="Cancelar" styleClass="btn-expediente-cancelar" icon="icon-smiling-position icono-smiling glyphicon glyphicon-remove-circle"/>
+                                    <p:link outcome="#{citasBean.redireccionCitaEditar2()}" styleClass="btn-expediente-cancelar btn btn-default icon-smiling-position glyphicon glyphicon-remove-circle "   value="Cancelar"> </p:link>
+                                    <h:link outcome="#{citasBean.redireccionCitaEditar2()}" class=" btn btn-default btn-expediente-cancelar">hlink</h:link>
+                                   
                                 </center>
                             </div>
+
                         </div>
                     </div>
+
                 </p:panel>
-
-
-
-
-
-
+                <br/>
+                <br/>
+                <br/>
             </h:form>
         </ui:define>
     </ui:composition>

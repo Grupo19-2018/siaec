@@ -16,14 +16,40 @@
                 </f:metadata>
             </ui:define>
 
-            <div class="banda1"><b>LISTADO DE USUARIOS</b></div>
+            <div class="banda1"><b>NUEVO USUARIO</b></div>
             <br/>
-
+            
+            <h:form id="form">
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
 
-                
+                <div class="row" style="margin-left: 5px; margin-right: 5px">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Seleccione Rol</b></h6>
+                        <p:selectOneMenu id="rolnuevo" value="#{catalogosBean.rolSeleccionado}" filter="true" style="width: 100%">
+                            <f:selectItem itemLabel="Seleccionar..." itemValue="0" />
+                            <f:selectItems value="#{catalogosBean.todosRoles()}" var="rol" 
+                                           itemLabel="#{rol.rolNombre}" itemValue="#{rol.rolId}"/>
+                            <p:ajax update="crearRol"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <p:spacer height="10"/>
+                <div class="row" style="margin-left: 5px; margin-right: 5px">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h:panelGroup id="crearRol">
+                            <h:panelGroup rendered="#{catalogosBean.rolSeleccionado == 1}">
+                                Rol 1 
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{catalogosBean.rolSeleccionado > 1}">
+                                Rol 2
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </div>
+                </div>
             </p:panel>
+            </h:form>
+
             <p:spacer height="50"/>
 
         </ui:define>

@@ -103,6 +103,10 @@
             <from-outcome>RegistrarAsociar</from-outcome>
             <to-view-id>/views/2_expedientes/paciente_registrar.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>RegistrarCita</from-outcome>
+            <to-view-id>/views/1_citas/cita_paciente_nueva.xhtml</to-view-id>
+        </navigation-case>
         
     </navigation-rule>
 </faces-config>

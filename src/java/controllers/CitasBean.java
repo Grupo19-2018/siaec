@@ -1,4 +1,3 @@
-/*Proyecto Actualizado: 30/enero/2018*/
 package controllers;
 
 import dao.CitasFacade;
@@ -13,52 +12,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import javax.ejb.EJB;
-//import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 
-/*
-Notas de actualizacion:
-Fecha: 11/febrero/2019
--Agregando todasCitasPorPaciente() para funcion de citas_paciente_historico.xhtml
--Agregando estadoCitaPaciente() para funcion de citas_paciente_historico.xhtml
--Relacionando el metodo eliminarCitaP a cita_clinica_listado_pendiente.xhtml boton eliminar.
-********************************************************************************
-Fecha: 06/febrero/2019
--Agregando metodo para actualizar estado de enSala.
-
-********************************************************************************
-Fecha: -3/febrero/2019
--Faltante metodo todasCitasPendientes() colapsando cita_clinica_listado_pendiente.xhtml, omitido por alguna razon. 
--Agregado metodo todasCitasPendientes().
-
-********************************************************************************
-Fecha: 01/febrero/2019
--Se agregado metodo faltante cargarPaciente().
--Se agrego variable faltante citasNuevoPaciente. 
--se agregaron los metodos get y set de la variable faltante citasNuevoPaciente.
--Se cambia Named a ManagenBean a la clase. 
--Cambio de citasBean1 a citasBean.
--Cambio de libreria de import javax.enterprise.context.SessionScoped a import javax.faces.bean.SessionScoped.
--Problema solucionado de dinamismo de los horarios por una importacion diferenet del sessionScoped. 
--Se agrego el metodo guardarCitaPaciente() faltante. 
--Se agrego el metodo todasCitasAprobadas() faltante.
--Se agrego la variable Integer clinicaSeleccionada, metodos que depende todasCitasAprobadas().
--Agregando metodos get y set de varibale clinicaSeleccionada. 
-
- */
-//@Named(value = "citasBean1")
 @ManagedBean(name = "citasBean")
-@SessionScoped
+//@SessionScoped
+@ViewScoped
 public class CitasBean implements Serializable {
 
 //****************************************************************************//
@@ -87,6 +55,7 @@ public class CitasBean implements Serializable {
     private Integer horaE;
     private Date fechaActual = new Date();
 
+    //Cuando el convertidor no sirve ajjaja
     //Session
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
@@ -276,7 +245,13 @@ public class CitasBean implements Serializable {
         String s;
         System.out.println("Entra metodo horariosDisponibleSucursalPaciente()");
         //System.out.println("sucursal " + citasNuevoPaciente.getClinicaId().getClinicaNombre());
-        if (citasNuevoPaciente.getClinicaId() != null) {
+        if (clinicaSeleccionada != 0) {
+            citasNuevoPaciente.setClinicaId(getClinicasFacade().find(clinicaSeleccionada));
+        }
+
+        if (clinicaSeleccionada != 0) {
+            System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() entra con una sucursal fija");
+            System.out.println("clinica" + citasNuevoPaciente.getClinicaId());
             Calendar clinicaInicio = Calendar.getInstance();
             Calendar clinicaFin = Calendar.getInstance();
             clinicaInicio.setTime(citasNuevoPaciente.getClinicaId().getClinicaHorarioApertura());
@@ -304,7 +279,7 @@ public class CitasBean implements Serializable {
                 if (cantidadCitas < citasNuevoPaciente.getClinicaId().getClinicaModulo()) {
                     //System.out.println("horarioDisponibleSucursalPaciente medico cuando se selecciona" + citasNuevoPaciente.getMedicoId().getMedicoId());
                     if (citasNuevoPaciente.getMedicoId() == null) {
-                        System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() sin seleccionar medico");
+                        //System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() sin seleccionar medico");
                         horarios.add(new Horario(i, s));
                     } else {
                         //Buscar medico y horario, si tiene ocupado no poner. 
@@ -313,10 +288,12 @@ public class CitasBean implements Serializable {
                         //Para dia cita.getTime()
                         //Para hora citaPreguntar.getTime()
                         //List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citasNuevoPaciente.getClinicaId().getClinicaId(), citaPreguntar.getTime(), citasNuevoPaciente.getMedicoId().getMedicoId());
-                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(),citaPreguntar.getTime(), citasNuevoPaciente.getMedicoId().getMedicoId());
-                        for (Citas citas : medicoC) {
-                            System.out.println("Cita " + citas.getCitaId());
-                        }
+                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), citasNuevoPaciente.getMedicoId().getMedicoId());
+                        /**
+                         * for (Citas citas : medicoC) { //
+                         * System.out.println("Cita " + citas.getCitaId());
+                        }/*
+                         */
                         if (medicoC.isEmpty()) {
                             horarios.add(new Horario(i, s));
                             System.out.println("Doctor seleccionado " + citasNuevoPaciente.getMedicoId().getMedicoId());
@@ -328,6 +305,7 @@ public class CitasBean implements Serializable {
             return horarios;
         } else {
             System.out.println("Citas nuevo paciente apunta a null en sucursal");
+            horarios.clear();
             return horarios;
         }
     }
@@ -510,7 +488,7 @@ public class CitasBean implements Serializable {
                             //Para dia cita.getTime()
                             //Para hora citaPreguntar.getTime()
                             //List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaEditar.getClinicaId().getClinicaId(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
-                            List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(),citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
+                            List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
                             for (Citas citas : medicoC) {
                                 System.out.println("Cita " + citas.getCitaId());
                             }
@@ -540,7 +518,7 @@ public class CitasBean implements Serializable {
                         //Para dia cita.getTime()
                         //Para hora citaPreguntar.getTime()
                         //List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaEditar.getClinicaId().getClinicaId(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
-                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(),citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
+                        List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), citaEditar.getMedicoId().getMedicoId());
                         for (Citas citas : medicoC) {
                             System.out.println("Cita " + citas.getCitaId());
                         }
@@ -754,6 +732,16 @@ public class CitasBean implements Serializable {
     //Metodo similar a  todasCitasPendientes(). 
     public List<Citas> todasCitasReservadas() {
         return getCitasFacade().citasReservadas();
+    }
+
+    public Boolean panelCitaClinica() {
+        System.out.println("controllers.CitasBean.panelCitaClinica() " +clinicaSeleccionada);
+        if (clinicaSeleccionada == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

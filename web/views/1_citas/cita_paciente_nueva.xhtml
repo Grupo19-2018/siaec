@@ -49,12 +49,14 @@
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Sucursal *</b></h6>
-                                    <p:selectOneMenu id="clinica2" value="#{citasBean.citasNuevoPaciente.clinicaId}"  converter="#{clinicaConvertidor}" required="true"
-                                                     requiredMessage="Clinica requerida" style="width: 100%">
-                                        <f:selectItem itemLabel="Seleccionar..." itemValue=""  noSelectionOption="true" />
+                                    <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}"  required="true" 
+                                                     requiredMessage="Clinica requerida" style="width: 100%"  >
+                                        
+                                        <f:selectItem itemLabel="Seleccione uno..." itemValue="0" noSelectionOption="true" />
                                         <f:selectItems value="#{citasBean.todasClinicas()}" var="clinica" 
-                                                       itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica}"/>
-                                        <p:ajax update="console2"/>
+                                                       itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
+                                        <p:ajax process="@this" partialSubmit="true"/>
+                                        <p:ajax update="console2, panelHorario "/>
                                     </p:selectOneMenu>
                                     <p:message for="clinica2" />
                                 </div>
@@ -92,10 +94,16 @@
 
                                     <center>
                                         <h6><b>Horarios </b></h6>
+                                        <p:panel id="panelHorario" >
+                                            <p:panel rendered="#{citasBean.panelCitaClinica()}">
+                                                Seleccione una sucursal
+                                            </p:panel>
+                                        </p:panel>
                                         <p:selectOneRadio id="console2" value="#{citasBean.horaE}" layout="grid" columns="2" required="true"
                                                           requiredMessage="Seleccione un horario">
                                             <f:selectItems value="#{citasBean.horariosDisponibleSucursalPaciente()}" var="h" 
                                                            itemLabel="#{h.hora}" itemValue="#{h.valor}"/>
+                                            <p:ajax process="@this" partialSubmit="true"/>
                                         </p:selectOneRadio>
                                         <p:message for="console2" />
                                     </center>

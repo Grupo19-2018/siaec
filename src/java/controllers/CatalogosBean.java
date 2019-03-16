@@ -8,6 +8,7 @@ import dao.InsumosFacade;
 import dao.MunicipiosFacade;
 import dao.MedicosFacade;
 import dao.PatologiasFacade;
+import dao.RolesFacade;
 import dao.TiposInsumosFacade;
 import dao.TratamientosFacade;
 import dao.UnidadesMedidasFacade;
@@ -20,6 +21,7 @@ import entities.Insumos;
 import entities.Municipios;
 import entities.Medicos;
 import entities.Patologias;
+import entities.Roles;
 import entities.Submenus;
 import entities.TiposInsumos;
 import entities.Tratamientos;
@@ -101,6 +103,10 @@ public class CatalogosBean implements Serializable {
     
     @EJB
     private UsuariosFacade usuariosFacade;
+    
+    @EJB
+    private RolesFacade rolesFacade;
+    private Integer rolSeleccionado=0;
 
     private Integer tabIndex = 0;
     private int departamentoId;
@@ -174,6 +180,10 @@ public class CatalogosBean implements Serializable {
         return getUsuariosFacade().findAll();
     }
     
+    public List<Roles> todosRoles(){
+        return getRolesFacade().findAll();
+    }
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
@@ -224,6 +234,10 @@ public class CatalogosBean implements Serializable {
 
     public UsuariosFacade getUsuariosFacade() {
         return usuariosFacade;
+    }
+
+    public RolesFacade getRolesFacade() {
+        return rolesFacade;
     }
     
     
@@ -440,6 +454,13 @@ public class CatalogosBean implements Serializable {
     }
     public void setUnidadMedidaId(int unidadMedidaId) {
         this.unidadMedidaId = unidadMedidaId;
+    }
+
+    public Integer getRolSeleccionado() {
+        return rolSeleccionado;
+    }
+    public void setRolSeleccionado(Integer rolSeleccionado) {
+        this.rolSeleccionado = rolSeleccionado;
     }
     
 //****************************************************************************//

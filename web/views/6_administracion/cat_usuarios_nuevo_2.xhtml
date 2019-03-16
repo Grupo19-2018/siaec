@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Usuarios')}"/>
+                </f:metadata>
+            </ui:define>
+
+            <div class="banda1"><b>NUEVO USUARIO</b></div>
+            <br/>
+
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+                <h:form id="form">
+                    <p:focus for="primernombrenuevousuario"/>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h6><b>Primer nombre</b></h6>
+                            <p:inputText id="primernombrenuevousuario" value="#{homeBean.usuarioNuevo.usuarioPrimerNombre}" required="true" maxlength="25"
+                                         style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="primernombrenuevousuario"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h6><b>Segundo nombre</b></h6>
+                            <p:inputText id="segundonombrenuevousuario" value="#{homeBean.usuarioNuevo.usuarioSegundoNombre}" maxlength="25"
+                                         style="width: 100%" validatorMessage="Apellido no válido.">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="segundonombrenuevousuario"/>
+                        </div>
+                    </div><br/> 
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h6><b>Primer apellido</b></h6>
+                            <p:inputText id="primerapellidonuevousuario" value="#{homeBean.usuarioNuevo.usuarioPrimerApellido}" required="true" maxlength="25"
+                                         style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="primerapellidonuevousuario"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h6><b>Segundo apellido</b></h6>
+                            <p:inputText id="segundoapellidonuevousuario" value="#{homeBean.usuarioNuevo.usuarioSegundoApellido}" maxlength="50"
+                                         style="width: 100%" validatorMessage="Apellido no válido.">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="segundoapellidonuevousuario"/>
+                        </div>
+                    </div><br/>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h6><b>Correo</b></h6>
+                            <p:inputText id="correonuevousuario" value="#{homeBean.usuarioNuevo.usuarioCorreo}" required="true" maxlength="50" style="width: 100%"
+                                         validatorMessage="Correo no válido." requiredMessage="Correo es requerido." placeholder="ejemplo@mail.com">
+                                <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
+                            </p:inputText>
+                            <p:message for="correonuevousuario"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <h6><b>Teléfono</b></h6>
+                            <p:inputMask id="telefononuevousuario" value="#{homeBean.usuarioNuevo.usuarioTelefono}" required="true" mask="9999-9999" style="width: 100%"
+                                         requiredMessage="Teléfono es requerido."/>
+                            <p:message for="telefononuevousuario"/>
+                        </div>
+                    </div><br/>
+                </h:form>
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

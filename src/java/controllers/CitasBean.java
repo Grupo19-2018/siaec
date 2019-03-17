@@ -1,5 +1,6 @@
 package controllers;
 
+import util.Horario;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
 import dao.MedicosFacade;
@@ -52,11 +53,10 @@ public class CitasBean implements Serializable {
     private Date fechaActual = new Date();
     private Date citaDia = new Date();
     private Integer horaE;
-    private int citaPendienteConsultarId;         //Varible para recibir en url
     private int citaPendienteEditarId;            //Varible para recibir en url
     private int citaConsultarId;                  //Varible para recibir en url
-    private int citapantalla = 0;
-    private int retorno = 0;
+    private int citapantalla = 0;                 //Varible para recibir en url
+    private int retorno = 0;                      //Varible para recibir en url
 
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -92,7 +92,7 @@ public class CitasBean implements Serializable {
         }
         return getCitasFacade().citasPendientes();
     }
-    
+
     //Metodo similar a  todasCitasPendientes(). 
     public List<Citas> todasCitasReservadas() {
         return getCitasFacade().citasReservadas();
@@ -208,14 +208,6 @@ public class CitasBean implements Serializable {
         this.clinicaSeleccionada = clinicaSeleccionada;
     }
 
-    public int getCitaPendienteConsultarId() {
-        return citaPendienteConsultarId;
-    }
-
-    public void setCitaPendienteConsultarId(int citaPendienteConsultarId) {
-        this.citaPendienteConsultarId = citaPendienteConsultarId;
-    }
-
     public int getCitaPendienteEditarId() {
         return citaPendienteEditarId;
     }
@@ -231,8 +223,8 @@ public class CitasBean implements Serializable {
     public void setCitapantalla(int citapantalla) {
         this.citapantalla = citapantalla;
     }
-    
-        public int getRetorno() {
+
+    public int getRetorno() {
         return retorno;
     }
 
@@ -248,18 +240,13 @@ public class CitasBean implements Serializable {
         this.citaConsultarId = citaConsultarId;
     }
 
-    public void cargandoCitaConsulta() {
-        citaConsultar = getCitasFacade().find(citaConsultarId);
-    }
-
-
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
-//Metodo usado en cita_clinica_consultar_pendiente.xhtml
+//Metodo usado en cita_clinica_consultar.xhtml
 //Estado: En uso
-    public void cargarCita() {
-        citaConsultar = getCitasFacade().find(citaPendienteConsultarId);
+    public void cargarCitaConsultar() {
+        citaConsultar = getCitasFacade().find(citaConsultarId);
     }
 
 //Metodo para cargar los horarios disponibles para el paciente.
@@ -439,8 +426,6 @@ public class CitasBean implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
-
-    
 
     //Método usado para cargar las proximas citas desde fecha actual, usado en cita_lista_proximas.xhtml
     public List<Citas> citasProximas() {
@@ -636,10 +621,12 @@ public class CitasBean implements Serializable {
                 return "CitasListaConsultarPendientes";
             case 3:
                 return "CitasListaConsultarAprobadas";
+            case 4: 
+                return "CitasListadoHistoricoClinica";
         }
         return "Dashboard";
     }
-    
+
     /*Cambiar metodos a una clase utilidad*/
     //Método para mostrar mensaje de guardado/actualizado.
     public void mensajeGuardado(String mensaje) {

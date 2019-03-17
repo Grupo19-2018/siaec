@@ -53,7 +53,7 @@
                                         <tr>
                                             <td align="center">
                                                 <h:outputText value="#{cita.citaFecha}" style="width: 100%">
-                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
                                                 </h:outputText>
                                             </td>
                                             <td align="center">
@@ -71,9 +71,10 @@
 
                                             </td>
                                             <td align="center">
-                                                <h:commandLink action="cita_clinica_historico_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <f:setPropertyActionListener value="#{cita}" target="#{citasBean.citaConsultar}"/>
-                                                </h:commandLink> &nbsp;
+                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <f:param name="citaConsultarId" value="#{cita.citaId}"/>
+                                                    <f:param name="retorno" value="4"/>
+                                                </h:link> &nbsp;
                                             </td>
                                         </tr>
                                     </ui:repeat>

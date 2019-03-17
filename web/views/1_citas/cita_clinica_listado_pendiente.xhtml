@@ -54,7 +54,7 @@
                                             <td align="center"></td>
                                             <td align="center">
                                                 <h:outputText value="#{cita.citaFecha}" style="width: 100%">
-                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
                                                 </h:outputText>
                                             </td>
                                             <td align="center">
@@ -75,7 +75,7 @@
                                             <td align="center">
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(4)}">
                                                     <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                        <f:param name="citaPendienteConsultarId" value="#{cita.citaId}"/>
+                                                        <f:param name="citaConsultarId" value="#{cita.citaId}"/>
                                                         <f:param name="retorno" value="2"/>
                                                     </h:link>
                                                     &nbsp;

@@ -9,9 +9,9 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
-                <f:viewParam name="citaPendienteConsultarId" value="#{citasBean.citaPendienteConsultarId}"/>
+                <f:viewParam name="citaConsultarId" value="#{citasBean.citaConsultarId}"/>
                 <f:viewParam name="retorno" value="#{citasBean.retorno}"/>
-                <f:viewAction action="#{citasBean.cargarCita()}"/>
+                <f:viewAction action="#{citasBean.cargarCitaConsultar()}"/>
             </f:metadata>
         </ui:define>
         <ui:define name="content">

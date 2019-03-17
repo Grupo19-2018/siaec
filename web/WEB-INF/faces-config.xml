@@ -108,8 +108,8 @@
             <to-view-id>/views/1_citas/cita_paciente_nueva.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>CitaPendiente</from-outcome>
-            <to-view-id>/views/1_citas/cita_clinica_consultar_pendiente.xhtml</to-view-id>
+            <from-outcome>CitaConsultar</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_consultar.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>CitaPendienteEditar</from-outcome>
@@ -134,6 +134,14 @@
         <navigation-case>
             <from-outcome>HistoricoConsultar</from-outcome>
             <to-view-id>/views/1_citas/cita_paciente_consultar_historico.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>CitasListaConsultarAprobadas</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_listado_aprobadas.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>CitasListaConsultarPendientes</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_listado_pendiente.xhtml</to-view-id>
         </navigation-case>
         
         

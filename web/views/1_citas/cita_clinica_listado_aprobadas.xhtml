@@ -76,9 +76,10 @@
                                             </td>
                                             <td align="center">
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(1)}">  
-                                                    <h:commandLink action="cita_clinica_consultar_aprobada.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                        <f:setPropertyActionListener value="#{cita}" target="#{citasBean.citaConsultar}"/>
-                                                    </h:commandLink>
+                                                    <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                        <f:param name="citaPendienteConsultarId" value="#{cita.citaId}"/>
+                                                        <f:param name="retorno" value="3"/>
+                                                    </h:link>
                                                 </h:panelGroup>
                                                 &nbsp;
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(2)}">

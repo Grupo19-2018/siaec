@@ -74,8 +74,9 @@
                                             </td>
                                             <td align="center">
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(4)}">
-                                                    <h:link outcome="CitaPendiente" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
                                                         <f:param name="citaPendienteConsultarId" value="#{cita.citaId}"/>
+                                                        <f:param name="retorno" value="2"/>
                                                     </h:link>
                                                     &nbsp;
                                                 </h:panelGroup>

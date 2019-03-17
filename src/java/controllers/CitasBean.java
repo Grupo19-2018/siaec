@@ -8,7 +8,6 @@ import entities.Clinicas;
 import entities.Medicos;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,32 +54,10 @@ public class CitasBean implements Serializable {
     private Integer horaE;
     private int citaPendienteConsultarId;         //Varible para recibir en url
     private int citaPendienteEditarId;            //Varible para recibir en url
-    private int citaConsultarId; //Varible para recibir en url
+    private int citaConsultarId;                  //Varible para recibir en url
     private int citapantalla = 0;
     private int retorno = 0;
 
-    public int getRetorno() {
-        return retorno;
-    }
-
-    public void setRetorno(int retorno) {
-        this.retorno = retorno;
-    }
-    
-    
-
-    public int getCitaConsultarId() {
-        return citaConsultarId;
-    }
-
-    public void setCitaConsultarId(int citaConsultarId) {
-        this.citaConsultarId = citaConsultarId;
-    }
-
-    public void cargandoCitaConsulta(){
-        citaConsultar = getCitasFacade().find(citaConsultarId);
-    }
-    
     //Session
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
@@ -114,6 +91,11 @@ public class CitasBean implements Serializable {
             return getCitasFacade().citasPendientes(clinicaSeleccionada);
         }
         return getCitasFacade().citasPendientes();
+    }
+    
+    //Metodo similar a  todasCitasPendientes(). 
+    public List<Citas> todasCitasReservadas() {
+        return getCitasFacade().citasReservadas();
     }
 
     //Metodo para cargar todas las citas por paciente.
@@ -249,11 +231,33 @@ public class CitasBean implements Serializable {
     public void setCitapantalla(int citapantalla) {
         this.citapantalla = citapantalla;
     }
+    
+        public int getRetorno() {
+        return retorno;
+    }
+
+    public void setRetorno(int retorno) {
+        this.retorno = retorno;
+    }
+
+    public int getCitaConsultarId() {
+        return citaConsultarId;
+    }
+
+    public void setCitaConsultarId(int citaConsultarId) {
+        this.citaConsultarId = citaConsultarId;
+    }
+
+    public void cargandoCitaConsulta() {
+        citaConsultar = getCitasFacade().find(citaConsultarId);
+    }
+
 
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
 //Metodo usado en cita_clinica_consultar_pendiente.xhtml
+//Estado: En uso
     public void cargarCita() {
         citaConsultar = getCitasFacade().find(citaPendienteConsultarId);
     }
@@ -271,7 +275,7 @@ public class CitasBean implements Serializable {
         Date inicioClinica = new Date();
         Date finClinica = new Date();
         Integer medico = 0;
-        Integer modulos = 0 ;
+        Integer modulos = 0;
         System.out.println("Entra metodo horariosDisponibleSucursalPaciente()");
         if (clinicaSeleccionada != 0) {
 
@@ -423,6 +427,7 @@ public class CitasBean implements Serializable {
     }
 
     //Método para refrescar los valores utilizado en cita_nueva.xhtml.
+    //Estado: En uso
     public void refrescar() {
         citaDia = new Date();
         citaNuevo = new Citas();
@@ -435,17 +440,7 @@ public class CitasBean implements Serializable {
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
 
-    //Método para mostrar mensaje de guardado/actualizado.
-    public void mensajeGuardado(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-
-    //Método para mostrar mensaje de error en el sistema.
-    public void mensajeError(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
+    
 
     //Método usado para cargar las proximas citas desde fecha actual, usado en cita_lista_proximas.xhtml
     public List<Citas> citasProximas() {
@@ -544,16 +539,6 @@ public class CitasBean implements Serializable {
         horaE = citaEditar.getCitaHora().getHours();
     }
 
-    //Metodo para el boton restabler permite resetear el dia que se pone en el calendario
-    //Usado en: cita_clinica_editar_pendiente.xhtml
-    //Estado: Removido
-    //Motivo: Grupo dice: Hagamonos los majes con ese boton.
-    //Fecha: 11/febrero/2019
-    public void resertEditarCita() {
-        citaEditar.setClinicaId(citasEditarSucursal);
-        citaDia = citaEditar.getCitaFecha();
-    }
-
     public void actualizarCita() {
         citaEditar.setCitaFecha(citaDia);
         Calendar hora = Calendar.getInstance();
@@ -574,7 +559,6 @@ public class CitasBean implements Serializable {
     }
 
     //Metodo para cargar la informacion del usuario logeado en paciente.
-    //Fecha: 31/enero/2019
     //Usado en: paciente.xhtml (dashboard), citas_paciente_nueva.xhtml
     //Estado: En uso.
     public void cargarPaciente() {
@@ -615,14 +599,6 @@ public class CitasBean implements Serializable {
 
     }
 
-//****************************************************************************//
-//  Que despije en este controlador... Desde aqui comienzan mis cambios...    //
-//****************************************************************************//
-    //Metodo similar a  todasCitasPendientes(). 
-    public List<Citas> todasCitasReservadas() {
-        return getCitasFacade().citasReservadas();
-    }
-
     public Boolean panelCitaClinica() {
         System.out.println("controllers.CitasBean.panelCitaClinica() " + clinicaSeleccionada);
         if (clinicaSeleccionada == 0) {
@@ -632,43 +608,48 @@ public class CitasBean implements Serializable {
         }
     }
 
+    //Identifica que variable se esta usando y le asigna los valores 
+    //Usada en: citas_paciente_nuevo.xhtml, citas_clinica_editar.xhtml 
+    //Estado: En uso.
     public void pantallaCita(int pantalla) {
         setCitapantalla(pantalla);
     }
-    
-    public String redireccionCitaEditar(){
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date hoy = new Date();
-        String shoy = formatter.format(hoy);
-        String sCita= formatter.format(citaEditar.getCitaFecha());
-        System.out.println("controllers.CitasBean.redireccionCitaEditar()");
-        System.out.println("controllers.CitasBean.redireccionCitaEditar()" + shoy.equals(sCita));
-        if(shoy.equals(sCita)){
-            return"Dashboard";
-        }else{
-            switch(citaEditar.getCitaEstado()){
-                case 1:
-                    return "CitasListaPendientes";
-                case 2:
-                    return "CitasListaAprobadas";
-                case 3:
-                case 4:
-                    return "Dashboard";
-            }
+
+    //Metodo dinamico para redireccionar el cancel
+    //Usado en: cita_clinita_editar.xhtml
+    public String redireccionCitaEditar2() {
+        switch (retorno) {
+            case 1:
+                return "Dashboard";
+            case 2:
+                return "CitasListaPendientes";
+            case 3:
+                return "CitasListaAprobadas";
+        }
+        return "Dashboard";
+    }
+//Metodo dinamico para redireccionar url  del boton regresar
+//Usado en : cita_clinica_consultar.xhtml
+    public String redireccionarCitaConsultar() {
+        switch (retorno) {
+            case 2:
+                return "CitasListaConsultarPendientes";
+            case 3:
+                return "CitasListaConsultarAprobadas";
         }
         return "Dashboard";
     }
     
-    public String redireccionCitaEditar2(){
-       switch(retorno){
-           case 1:
-               return "Dashboard";
-           case 2:
-               return "CitasListaPendientes";
-           case 3:
-               return "CitasListaAprobadas";
-       }
-       
-       return"Dashboard";
+    /*Cambiar metodos a una clase utilidad*/
+    //Método para mostrar mensaje de guardado/actualizado.
+    public void mensajeGuardado(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
+
+    //Método para mostrar mensaje de error en el sistema.
+    public void mensajeError(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 }

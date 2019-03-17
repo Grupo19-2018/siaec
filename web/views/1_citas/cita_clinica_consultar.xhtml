@@ -10,6 +10,7 @@
         <ui:define name="meta-data">
             <f:metadata>
                 <f:viewParam name="citaPendienteConsultarId" value="#{citasBean.citaPendienteConsultarId}"/>
+                <f:viewParam name="retorno" value="#{citasBean.retorno}"/>
                 <f:viewAction action="#{citasBean.cargarCita()}"/>
             </f:metadata>
         </ui:define>
@@ -82,6 +83,10 @@
 
                 <div class="row" style="margin-left: 5px; margin-right: 5px">
                     <div class="col-md-12" align="center">
+                        
+                        <p:link outcome="#{citasBean.redireccionarCitaConsultar()}" styleClass="btn-expediente-cancelar btn btn-default icon-smiling-position glyphicon glyphicon-share-alt "   value="Regresar"> </p:link>
+                        <h:link outcome="#{citasBean.redireccionarCitaConsultar()}" class=" btn btn-default btn-expediente-cancelar">Regresar</h:link>
+                        
                         <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt"
                                 onclick="window.location.href = 'cita_clinica_listado_pendiente.xhtml'">
                             <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Regresar

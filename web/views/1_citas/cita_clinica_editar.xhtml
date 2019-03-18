@@ -9,7 +9,7 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
-                <f:viewParam name="citaPendienteEditarId" value="#{citasBean.citaPendienteEditarId}"/>
+                <f:viewParam name="citaEditarId" value="#{citasBean.citaEditarId}"/>
                 <f:viewParam name="retorno" value="#{citasBean.retorno}"/>
                 <f:viewAction action="#{citasBean.editarConsultaHoraCita()}"/>
                 <f:viewAction action="#{citasBean.pantallaCita(2)}"/>
@@ -136,9 +136,10 @@
                                     </p:commandButton>
                                     &nbsp;
                                     
-                                    <p:commandButton action="#{citasBean.redireccionCitaEditar2()}" value="Cancelar" styleClass="btn-expediente-cancelar" icon="icon-smiling-position icono-smiling glyphicon glyphicon-remove-circle"/>
-                                    <p:link outcome="#{citasBean.redireccionCitaEditar2()}" styleClass="btn-expediente-cancelar btn btn-default icon-smiling-position glyphicon glyphicon-remove-circle "   value="Cancelar"> </p:link>
-                                    <h:link outcome="#{citasBean.redireccionCitaEditar2()}" class=" btn btn-default btn-expediente-cancelar">hlink</h:link>
+                                    
+                                    <h:link outcome="#{citasBean.redireccionCitaEditar2()}" class=" btn btn-default btn-expediente-cancelar">
+                                        <i class="glyphicon glyphicon-remove-circle"></i> <span style="font-weight: bold;">Cancelar</span>
+                                    </h:link>
                                    
                                 </center>
                             </div>

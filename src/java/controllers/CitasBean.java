@@ -48,7 +48,7 @@ public class CitasBean implements Serializable {
     private Date fechaActual = new Date();
     private Date citaDia = new Date();
     private Integer horaE;
-    private int citaPendienteEditarId;            //Varible para recibir en url
+    private int citaEditarId;                     //Varible para recibir en url
     private int citaConsultarId;                  //Varible para recibir en url
     private int citapantalla = 0;                 //Varible para recibir en url
     private int retorno = 0;                      //Varible para recibir en url
@@ -206,12 +206,12 @@ public class CitasBean implements Serializable {
         this.clinicaSeleccionada = clinicaSeleccionada;
     }
 
-    public int getCitaPendienteEditarId() {
-        return citaPendienteEditarId;
+    public int getCitaEditarId() {
+        return citaEditarId;
     }
 
-    public void setCitaPendienteEditarId(int citaPendienteEditarId) {
-        this.citaPendienteEditarId = citaPendienteEditarId;
+    public void setCitaEditarId(int citaEditarId) {
+        this.citaEditarId = citaEditarId;
     }
 
     public int getCitapantalla() {
@@ -498,7 +498,7 @@ public class CitasBean implements Serializable {
 //Colocar la hora y cita en editarcITA
 //Usado en cita_clinica_editar_pendiente.xhtml
     public void editarConsultaHoraCita() {
-        citaEditar = getCitasFacade().find(citaPendienteEditarId);
+        citaEditar = getCitasFacade().find(citaEditarId);
         clinicaSeleccionada = citaEditar.getClinicaId().getClinicaId();
         citaDia = citaEditar.getCitaFecha();
         Calendar horaSeleccionada = Calendar.getInstance();

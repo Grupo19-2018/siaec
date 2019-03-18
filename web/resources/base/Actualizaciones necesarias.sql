@@ -1,3 +1,14 @@
+--Fecha: 18/ marzo /2019
+--Lista de tareas automaticas. 
+--Agregano la pantalla a la tabla submenu
+INSERT INTO public.submenus(submenu_id, sumbenu_nombre      , menu_id, submenu_descripcion, submenu_url)
+	                VALUES (44        , 'Tareas automáticas', 7      , 'Clínica'          , '/views/7_configuracion/tareas_automaticas.xhtml');
+					
+--Rol y pantalla
+--Rol: Administrador/a
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id)
+								VALUES (1     , 44);
+--*********************************************************************************************************************
 --Fecha: 18/ febrero /2019
 --Arreglo temporal
 --Eliminando del menu:

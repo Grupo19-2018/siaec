@@ -1,26 +1,21 @@
 package controllers;
 
 import util.Horario;
+import util.Mensajes;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
 import dao.MedicosFacade;
 import entities.Citas;
 import entities.Clinicas;
 import entities.Medicos;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext;
 import javax.faces.bean.ViewScoped;
 
 @ManagedBean(name = "citasBean")
@@ -57,6 +52,7 @@ public class CitasBean implements Serializable {
     private int citaConsultarId;                  //Varible para recibir en url
     private int citapantalla = 0;                 //Varible para recibir en url
     private int retorno = 0;                      //Varible para recibir en url
+    private final Mensajes msj = new Mensajes();
 
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -73,9 +69,9 @@ public class CitasBean implements Serializable {
         return getOdontologosFacade().findAll();
     }
 
-    //Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.
-    //Usada en: asistente.xhtml
-    //Estado: En uso.
+//Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.
+//Usada en: asistente.xhtml
+//Estado: En uso.
     public List<Citas> todasCitasAprobadas() {
         if (clinicaSeleccionada != 0) {
             return getCitasFacade().citasAprobadas(clinicaSeleccionada);
@@ -83,9 +79,9 @@ public class CitasBean implements Serializable {
         return getCitasFacade().citasAprobadas();
     }
 
-    //Metodo para mostrar las citas pendientes. Estado 1.
-    //Usado en: cita_clinica_listado_pendiente.xhtml
-    //Estado : En uso. 
+//Metodo para mostrar las citas pendientes. Estado 1.
+//Usado en: cita_clinica_listado_pendiente.xhtml
+//Estado : En uso. 
     public List<Citas> todasCitasPendientes() {
         if (clinicaSeleccionada != 0) {
             return getCitasFacade().citasPendientes(clinicaSeleccionada);
@@ -93,14 +89,16 @@ public class CitasBean implements Serializable {
         return getCitasFacade().citasPendientes();
     }
 
-    //Metodo similar a  todasCitasPendientes(). 
+//Metodo similar a  todasCitasPendientes(). 
+//Usado en:
+//Estado:
     public List<Citas> todasCitasReservadas() {
         return getCitasFacade().citasReservadas();
     }
 
-    //Metodo para cargar todas las citas por paciente.
-    //Usado en: cita_paciente_historico.
-    //Estado: En uso.
+//Metodo para cargar todas las citas por paciente.
+//Usado en: cita_paciente_historico.
+//Estado: En uso.
     public List<Citas> todasCitasPorPaciente() {
         if (appSession.getUsuario() != null) {
             return citasFacade.citasTodas(appSession.getUsuario().getUsuarioUsuario(), appSession.getUsuario().getUsuarioCorreo());
@@ -108,9 +106,9 @@ public class CitasBean implements Serializable {
         return null;
     }
 
-    //Metodo para cargar todas las citas de la clinica.
-    //Usado en: cita_clinica_historico.xhtml
-    //Estado: En uso.
+//Metodo para cargar todas las citas de la clinica.
+//Usado en: cita_clinica_historico.xhtml
+//Estado: En uso.
     public List<Citas> todasCitas() {
         if (clinicaSeleccionada != 0) {
             return getCitasFacade().historicoPorClinica(clinicaSeleccionada);
@@ -243,6 +241,7 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
+//Carga la cita seleccionada a la variable consulta. 
 //Metodo usado en cita_clinica_consultar.xhtml
 //Estado: En uso
     public void cargarCitaConsultar() {
@@ -343,15 +342,14 @@ public class CitasBean implements Serializable {
         }
     }
 
-    //Metodo para guardar la cita del paciente. 
-    //Usado en: cita_paciente_nueva.xhtml
-    //Estado: En uso.
-    //-Temporalmente se preguntara por el usuario, recordad que esta parte no esta completamente definida,
-    //que crea la cita, si tiene una con estado 1 o 2, se impedira crear una cita. 
-    //-Se pregunta si el usuario sigue activo en sesion. 
+//Metodo para guardar la cita del paciente. 
+//Usado en: cita_paciente_nueva.xhtml
+//Estado: En uso.
+//-Temporalmente se preguntara por el usuario, recordad que esta parte no esta completamente definida,
+//que crea la cita, si tiene una con estado 1 o 2, se impedira crear una cita. 
+//-Se pregunta si el usuario sigue activo en sesion. 
     public void guardarCitaPaciente() {
         try {
-
             if (appSession.getUsuario() != null) {
                 if (getCitasFacade().citaActiva(appSession.getUsuario().getUsuarioUsuario()).isEmpty()) {
                     citaNuevo.setCitaFecha(citaDia);
@@ -364,25 +362,21 @@ public class CitasBean implements Serializable {
                     citaNuevo.setCitaHoraCreacion(new Date());
                     citaNuevo.setCitaEstado(1);
                     getCitasFacade().create(citaNuevo);
-                    //citasNuevoPaciente = new Citas();
-                    //citaDia = new Date();
-                    mensajeGuardado("Su cita a sido guardada.");
+                    msj.mensajeGuardado("Su cita a sido guardada.");
                 } else {
-                    mensajeGuardado("Ya posee una cita.");
+                    msj.mensajeGuardado("Ya posee una cita.");
                 }
             } else {
                 System.err.println("guardarCitaPaciente(), usuario null");
             }
-
         } catch (Exception e) {
-            mensajeError("Error al guardar la cita.");
+            msj.mensajeError("Error al guardar la cita.");
         }
-
     }
 
-    //Metodo para guardar cita utilizado en cita_nueva.html
+//Metodo para guardar cita utilizado en cita_nueva.html
+//Estado:
     public void guardarCita() {
-        System.out.println("Se guardo la cita");
         citaNuevo.setCitaFecha(citaDia);
         Calendar hora = Calendar.getInstance();
         hora.set(Calendar.HOUR_OF_DAY, horaE);
@@ -394,40 +388,34 @@ public class CitasBean implements Serializable {
         getCitasFacade().create(citaNuevo);
         citaNuevo = new Citas();
         citaDia = new Date();
-        mensajeGuardado("Su cita a sido guardada.");
+        msj.mensajeGuardado("Su cita a sido guardada.");
     }
 
-    //Metodo para eliminar cita del paciente.
-    //Usado en: paciente.xhtml, cita_clinica_listado_pendiente.xhtml
-    //Estado: En uso.
+//Metodo para eliminar cita del paciente.
+//Usado en: paciente.xhtml, cita_clinica_listado_pendiente.xhtml
+//Estado: En uso.
     public void eliminarCita() {
         try {
             citaEditar.setCitaUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             citaEditar.setCitaFechaModificacion(new Date());
             citaEditar.setCitaEstado(4);
             getCitasFacade().edit(citaEditar);
-            mensajeGuardado("La cita ha sido eliminado.");
+            msj.mensajeGuardado("La cita ha sido eliminado.");
         } catch (Exception e) {
             System.out.println("controllers.CitasBean.eliminarCita()" + e);
-            mensajeError("Error al eliminar la cita.");
+            msj.mensajeError("Error al eliminar la cita.");
         }
     }
 
-    //Método para refrescar los valores utilizado en cita_nueva.xhtml.
-    //Estado: En uso
+//Método para refrescar los valores utilizado en cita_nueva.xhtml.
+//Estado: En uso
     public void refrescar() {
         citaDia = new Date();
         citaNuevo = new Citas();
         horaE = null;
     }
 
-    //Método para recargar la pagina.
-    public void reload() throws IOException {
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
-    }
-
-    //Método usado para cargar las proximas citas desde fecha actual, usado en cita_lista_proximas.xhtml
+//Método usado para cargar las proximas citas desde fecha actual, usado en cita_lista_proximas.xhtml
     public List<Citas> citasProximas() {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, 0);
@@ -435,7 +423,7 @@ public class CitasBean implements Serializable {
         return getCitasFacade().citasProximas(c.getTime());
     }
 
-    //Método para mostrar los estados de las citas. 
+//Método para mostrar los estados de las citas. 
     public String estadoCita(Integer estado) {
         switch (estado) {
             case 1:
@@ -451,10 +439,9 @@ public class CitasBean implements Serializable {
         }
     }
 
-    //Método para mostrar los estados de las citas. 
-    //Usado en: cita_paciente_historico.
-    //Estado: En uso.
-    //Fecha: 11/febrero/2019 
+//Método para mostrar los estados de las citas. 
+//Usado en: cita_paciente_historico.
+//Estado: En uso.
     public String estadoCitaPaciente(Integer estado) {
         switch (estado) {
             case 1:
@@ -472,10 +459,9 @@ public class CitasBean implements Serializable {
         }
     }
 
-    //Hora no se utiliza partnerr por razones de error con en compilaciond e sesionbean
+//Hora no se utiliza partnerr por razones de error con en compilaciond e sesionbean
     public String horacita(Date hora) {
         Calendar c = Calendar.getInstance();
-
         //System.out.println("Metodo horacita(), class Citas Bean" + c.get(Calendar.HOUR_OF_DAY));
         if (hora != null) {
             c.setTime(hora);
@@ -486,10 +472,9 @@ public class CitasBean implements Serializable {
             }
         }
         return "";
-
     }
 
-    //Retornando medico dentro de la tabla usado en cita_lista_proximas.xhtml
+//Retornando medico dentro de la tabla usado en cita_lista_proximas.xhtml
     public String nombreMedico(Integer id) {
         if (id != null) {
             Medicos m = getOdontologosFacade().find(id);
@@ -502,7 +487,7 @@ public class CitasBean implements Serializable {
         return "";
     }
 
-    //Retornar si es Dr. o Dra. 
+//Retornar si es Dr. o Dra. 
     public String abreviatura(Boolean s) {
         if (s != null) {
             return (s) ? "Dr." : "Dra.";
@@ -510,8 +495,8 @@ public class CitasBean implements Serializable {
         return "";
     }
 
-    //Colocar la hora y cita en editarcITA
-    //Usado en cita_clinica_editar_pendiente.xhtml
+//Colocar la hora y cita en editarcITA
+//Usado en cita_clinica_editar_pendiente.xhtml
     public void editarConsultaHoraCita() {
         citaEditar = getCitasFacade().find(citaPendienteEditarId);
         clinicaSeleccionada = citaEditar.getClinicaId().getClinicaId();
@@ -524,7 +509,7 @@ public class CitasBean implements Serializable {
         horaE = citaEditar.getCitaHora().getHours();
     }
 
-    public void actualizarCita() {
+public void actualizarCita() {
         citaEditar.setCitaFecha(citaDia);
         Calendar hora = Calendar.getInstance();
         hora.set(Calendar.HOUR_OF_DAY, horaE);
@@ -534,18 +519,16 @@ public class CitasBean implements Serializable {
         citaEditar.setCitaFechaModificacion(new Date());
         getCitasFacade().edit(citaEditar);
         citaDia = citaEditar.getCitaFecha();
-        //citaEditarHora.set(0, 0);
         citaEditarHora.setTime(citaEditar.getCitaHora());
         citaEditarFecha.setTime(citaEditar.getCitaFecha());
         citasEditarSucursal = citaEditar.getClinicaId();
         horaE = hora.get(Calendar.HOUR_OF_DAY);
-        //System.out.println("hora de set cual sera" + horaE);
-        mensajeGuardado("Su cita a sido modificada.");
+        msj.mensajeGuardado("Su cita a sido modificada.");
     }
 
-    //Metodo para cargar la informacion del usuario logeado en paciente.
-    //Usado en: paciente.xhtml (dashboard), citas_paciente_nueva.xhtml
-    //Estado: En uso.
+//Metodo para cargar la informacion del usuario logeado en paciente.
+//Usado en: paciente.xhtml (dashboard), citas_paciente_nueva.xhtml
+//Estado: En uso.
     public void cargarPaciente() {
         if (appSession.getUsuario() != null) {
             citaNuevo.setCitaNombres(appSession.getUsuario().getUsuarioPrimerNombre());
@@ -560,7 +543,7 @@ public class CitasBean implements Serializable {
 
     }
 
-    //Metodo para actualizar la cita si el paciente se encuentra en sala. 
+//Metodo para actualizar la cita si el paciente se encuentra en sala. 
     public void enSala() {
         if (citaEditar != null) {
             try {
@@ -593,15 +576,15 @@ public class CitasBean implements Serializable {
         }
     }
 
-    //Identifica que variable se esta usando y le asigna los valores 
-    //Usada en: citas_paciente_nuevo.xhtml, citas_clinica_editar.xhtml 
-    //Estado: En uso.
+//Identifica que variable se esta usando y le asigna los valores 
+//Usada en: citas_paciente_nuevo.xhtml, citas_clinica_editar.xhtml 
+//Estado: En uso.
     public void pantallaCita(int pantalla) {
         setCitapantalla(pantalla);
     }
 
-    //Metodo dinamico para redireccionar el cancel
-    //Usado en: cita_clinita_editar.xhtml
+//Metodo dinamico para redireccionar el cancel
+//Usado en: cita_clinita_editar.xhtml
     public String redireccionCitaEditar2() {
         switch (retorno) {
             case 1:
@@ -613,6 +596,7 @@ public class CitasBean implements Serializable {
         }
         return "Dashboard";
     }
+    
 //Metodo dinamico para redireccionar url  del boton regresar
 //Usado en : cita_clinica_consultar.xhtml
     public String redireccionarCitaConsultar() {
@@ -627,16 +611,4 @@ public class CitasBean implements Serializable {
         return "Dashboard";
     }
 
-    /*Cambiar metodos a una clase utilidad*/
-    //Método para mostrar mensaje de guardado/actualizado.
-    public void mensajeGuardado(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
-
-    //Método para mostrar mensaje de error en el sistema.
-    public void mensajeError(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
-    }
 }

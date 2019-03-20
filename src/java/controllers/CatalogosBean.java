@@ -7,6 +7,7 @@ import dao.ExistenciasFacade;
 import dao.InsumosFacade;
 import dao.MunicipiosFacade;
 import dao.MedicosFacade;
+import dao.PacientesFacade;
 import dao.PatologiasFacade;
 import dao.RolesFacade;
 import dao.TiposInsumosFacade;
@@ -20,6 +21,7 @@ import entities.Existencias;
 import entities.Insumos;
 import entities.Municipios;
 import entities.Medicos;
+import entities.Pacientes;
 import entities.Patologias;
 import entities.Roles;
 import entities.Submenus;
@@ -70,6 +72,10 @@ public class CatalogosBean implements Serializable {
     private Direcciones direccionEditar = new Direcciones();
 
     @EJB
+    private PacientesFacade pacientesFacade;
+    private Pacientes pacienteSeleccionado = new Pacientes();
+    
+    @EJB
     private PatologiasFacade patologiasFacade;
     private Patologias patologiaNuevo = new Patologias();
     private Patologias patologiaEditar = new Patologias();
@@ -100,13 +106,14 @@ public class CatalogosBean implements Serializable {
     private Medicos medicoNuevo = new Medicos();
     private Medicos medicoConsultar = new Medicos();
     private Medicos medicoEditar = new Medicos();
+    private Medicos medicoSeleccionado = new Medicos();
     
     @EJB
     private UsuariosFacade usuariosFacade;
-    
+    private Usuarios usuarioNuevo = new Usuarios();
+
     @EJB
     private RolesFacade rolesFacade;
-    private Integer rolSeleccionado=0;
 
     private Integer tabIndex = 0;
     private int departamentoId;
@@ -114,12 +121,14 @@ public class CatalogosBean implements Serializable {
     private Date fechaActual = new Date();
     
     private int usuarioId;
+    private int rolId;
     private int sucursalId;
     private int medicoId;
     private int tratamientoId;
     private int patologiaId;
     private int tipoInsumoId;
     private int unidadMedidaId;
+    private int pacienteId;
     
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -172,16 +181,20 @@ public class CatalogosBean implements Serializable {
         return getInsumosFacade().insumosDisponibles(Boolean.TRUE);
     }
     
+    public List<Pacientes> todosPacientesDisponibles(){
+        return getPacientesFacade().pacientesDisponibles(Boolean.TRUE);
+    }
+    
+    public List<Roles> todosRolesDisponibles(){
+        return getRolesFacade().findAll();
+    }
+    
     public List<Submenus> todosSubmenusDisponibles(){
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
     
     public List<Usuarios> todosUsuarios(){
         return getUsuariosFacade().findAll();
-    }
-    
-    public List<Roles> todosRoles(){
-        return getRolesFacade().findAll();
     }
     
 //****************************************************************************//
@@ -235,11 +248,14 @@ public class CatalogosBean implements Serializable {
     public UsuariosFacade getUsuariosFacade() {
         return usuariosFacade;
     }
-
+    
+    public PacientesFacade getPacientesFacade() {
+        return pacientesFacade;
+    }
+    
     public RolesFacade getRolesFacade() {
         return rolesFacade;
     }
-    
     
 //****************************************************************************//
 //                             Métodos Get y SET                              //
@@ -385,6 +401,27 @@ public class CatalogosBean implements Serializable {
         this.medicoEditar = medicoEditar;
     }
 
+    public Pacientes getPacienteSeleccionado() {
+        return pacienteSeleccionado;
+    }
+    public void setPacienteSeleccionado(Pacientes pacienteSeleccionado) {
+        this.pacienteSeleccionado = pacienteSeleccionado;
+    }
+
+    public Medicos getMedicoSeleccionado() {
+        return medicoSeleccionado;
+    }
+    public void setMedicoSeleccionado(Medicos medicoSeleccionado) {
+        this.medicoSeleccionado = medicoSeleccionado;
+    }
+
+    public Usuarios getUsuarioNuevo() {
+        return usuarioNuevo;
+    }
+    public void setUsuarioNuevo(Usuarios usuarioNuevo) {
+        this.usuarioNuevo = usuarioNuevo;
+    }
+
     public Date getFechaActual() {
         return fechaActual;
     }
@@ -419,6 +456,13 @@ public class CatalogosBean implements Serializable {
     }
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
+    }
+
+    public int getRolId() {
+        return rolId;
+    }
+    public void setRolId(int rolId) {
+        this.rolId = rolId;
     }
 
     public int getSucursalId() {
@@ -456,13 +500,13 @@ public class CatalogosBean implements Serializable {
         this.unidadMedidaId = unidadMedidaId;
     }
 
-    public Integer getRolSeleccionado() {
-        return rolSeleccionado;
+    public int getPacienteId() {
+        return pacienteId;
     }
-    public void setRolSeleccionado(Integer rolSeleccionado) {
-        this.rolSeleccionado = rolSeleccionado;
+    public void setPacienteId(int pacienteId) {
+        this.pacienteId = pacienteId;
     }
-    
+        
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -834,5 +878,123 @@ public class CatalogosBean implements Serializable {
     public TimeZone getHoraLocal() {
         return TimeZone.getDefault();
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    //Metodo que resetea valores en formulario de nuevo usuario (cat_usuarios_nuevo)
+    public void resetearUsuario() {
+        habilitarDeshabilitar();
+        usuarioNuevo = new Usuarios();
+        usuarioNuevo.setUsuarioContrasenia(getPassword());
+        medicoId = 0;
+        pacienteId = 0;
+    }
+    
+    //Metodo que carga la información de un médico seleccionado (cat_usuarios_nuevo)
+    public void cargarInformacionMedico() {
+        medicoSeleccionado = getMedicosFacade().find(medicoId);
+        usuarioNuevo.setUsuarioPrimerNombre(medicoSeleccionado.getMedicoPrimerNombre());
+        usuarioNuevo.setUsuarioSegundoNombre(medicoSeleccionado.getMedicoSegundoNombre());
+        usuarioNuevo.setUsuarioPrimerApellido(medicoSeleccionado.getMedicoPrimerApellido());
+        usuarioNuevo.setUsuarioSegundoApellido(medicoSeleccionado.getMedicoSegundoApellido());
+        usuarioNuevo.setUsuarioCorreo(medicoSeleccionado.getMedicoCorreo());
+        usuarioNuevo.setUsuarioTelefono(medicoSeleccionado.getMedicoTelefonoCasa());
+    }
+    
+    //Metodo que carga la información de un paciente seleccionado (cat_usuarios_nuevo)
+    public void cargarInformacionPaciente() {
+        pacienteSeleccionado = getPacientesFacade().find(pacienteId);
+        usuarioNuevo.setUsuarioPrimerNombre(pacienteSeleccionado.getPacientePrimerNombre());
+        usuarioNuevo.setUsuarioSegundoNombre(pacienteSeleccionado.getPacienteSegundoNombre());
+        usuarioNuevo.setUsuarioPrimerApellido(pacienteSeleccionado.getPacientePrimerApellido());
+        usuarioNuevo.setUsuarioSegundoApellido(pacienteSeleccionado.getPacienteSegundoApellido());
+        usuarioNuevo.setUsuarioCorreo(pacienteSeleccionado.getPacienteCorreo());
+        usuarioNuevo.setUsuarioTelefono(pacienteSeleccionado.getPacienteTelefonoCasa());
+    }
+    
+    //Método para habilitar/deshabilitar campo de nombre (cat_usuarios_nuevo)
+    public void habilitarDeshabilitar(){
+        if(rolId == 3){
+            banderaRol = true;
+        }
+        else{
+            banderaRol = false;
+        }
+    }
+    
+    //Método para guardar un nuevo Usuario (cat_usuarios_nuevo.xhtml)
+    public void guardarUsuario(){
+        try{
+            for (Usuarios usuario : todosUsuarios()) {
+                if (usuarioNuevo.getUsuarioUsuario().equals(usuario.getUsuarioUsuario())) {
+                    mensajeError("Ya existe una cuenta con el mismo nombre de usuario");
+                    return;
+                }
+            }
+            usuarioNuevo.setUsuarioFechaCreacion(new Date());
+            usuarioNuevo.setRolId(new Roles(rolId));
+            usuarioNuevo.setUsuarioIntentoFallido(0);
+            usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
+            usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
+            getUsuariosFacade().create(usuarioNuevo);
+            usuarioNuevo = new Usuarios();
+            pacienteId = 0;
+            rolId = 0;
+            mensajeConfirmacion("Usuario creado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarUsuario.");
+        }
+    }
+     
+    private boolean banderaRol;
+    private String usuarioNombre;
+
+    public boolean isBanderaRol() {
+        return banderaRol;
+    }
+
+    public void setBanderaRol(boolean banderaRol) {
+        this.banderaRol = banderaRol;
+    }
+
+    public String getUsuarioNombre() {
+        return usuarioNombre;
+    }
+    public void setUsuarioNombre(String usuarioNombre) {
+        this.usuarioNombre = usuarioNombre;
+    }
+    
+    
+    //Método para generar contraseña de 8 dígitos (cat_usuarios_nuevo.xhtml)
+    public static String NUMEROS = "0123456789";
+    public static String MAYUSCULAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static String MINUSCULAS = "abcdefghijklmnopqrstuvwxyz";
+    public static String ESPECIALES = "ñÑ";
+ 
+    public static String getPinNumber() {
+	return getPassword(NUMEROS, 4);
+    }
+ 
+    public static String getPassword() {
+	return getPassword(8);
+    }
+ 
+    public static String getPassword(int length) {
+	return getPassword(NUMEROS + MAYUSCULAS + MINUSCULAS, length);
+    }
+ 
+    public static String getPassword(String key, int length) {
+    	String pswd = "";
+ 	for (int i = 0; i < length; i++) {
+            pswd+=(key.charAt((int)(Math.random() * key.length())));
+	}
+ 	return pswd;
+    }
+    
     
 }

@@ -44,6 +44,17 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuarios.findByUsuarioFechaCreacion", query = "SELECT u FROM Usuarios u WHERE u.usuarioFechaCreacion = :usuarioFechaCreacion"),
     @NamedQuery(name = "Usuarios.findByUsuarioFechaModificacion", query = "SELECT u FROM Usuarios u WHERE u.usuarioFechaModificacion = :usuarioFechaModificacion")})
 public class Usuarios implements Serializable {
+
+    @Size(max = 50)
+    @Column(name = "usuario_nombre")
+    private String usuarioNombre;
+    @Size(max = 50)
+    @Column(name = "usuario_apellido")
+    private String usuarioApellido;
+    @Column(name = "usuario_activacion")
+    private Boolean usuarioActivacion;
+    @Column(name = "usuario_codigo")
+    private Integer usuarioCodigo;
     
     @Size(max = 25)
     @Column(name = "usuario_primer_nombre")
@@ -270,6 +281,38 @@ public class Usuarios implements Serializable {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String fecha = formatter.format(usuarioFechaCreacion);
         return fecha;
+    }
+
+    public String getUsuarioNombre() {
+        return usuarioNombre;
+    }
+
+    public void setUsuarioNombre(String usuarioNombre) {
+        this.usuarioNombre = usuarioNombre;
+    }
+
+    public String getUsuarioApellido() {
+        return usuarioApellido;
+    }
+
+    public void setUsuarioApellido(String usuarioApellido) {
+        this.usuarioApellido = usuarioApellido;
+    }
+
+    public Boolean getUsuarioActivacion() {
+        return usuarioActivacion;
+    }
+
+    public void setUsuarioActivacion(Boolean usuarioActivacion) {
+        this.usuarioActivacion = usuarioActivacion;
+    }
+
+    public Integer getUsuarioCodigo() {
+        return usuarioCodigo;
+    }
+
+    public void setUsuarioCodigo(Integer usuarioCodigo) {
+        this.usuarioCodigo = usuarioCodigo;
     }
     
 }

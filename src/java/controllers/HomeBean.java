@@ -290,7 +290,8 @@ public class HomeBean implements Serializable {
         return "Sin teléfono";
     }
     
-    public void enviarCorreo(String correo, int codigo) {
+    public void enviarCorreo(Usuarios usuario) {
+        configuracionCorreo = getConfiguracionFacade().find(1);
         try {
             if (configuracionCorreo.getConfiguracionCorreoActivo()) {
                 if (!configuracionCorreo.getConfiguracionCorreoCuenta().isEmpty()) {
@@ -298,13 +299,13 @@ public class HomeBean implements Serializable {
                             || configuracionCorreo.getConfiguracionCorreoIlimitada()) {
 
                         CorreoBasico enviarHtml = new CorreoBasico(configuracionCorreo);
-                        String body = "<div style=\"margin-top: 0px; margin-bottom: 35px;\">"
+                        String body = "<div style=\"margin-top: 0px;\">"
                                 + "      <h1 style=\"text-align: center; background: #0B6EAC; color: white\">Clinica Dental Smiling</h1>    "
                                 + "    </div>"
-                                + "    <div style=\"margin-top: 10px; margin-bottom: 60px;\">"
-                                + "      <p>"
-                                + "          <br/>" + codigo + "<br/>"
-                                + "      </p>"
+                                + "    <div>"
+                                + "    Hola " + usuario.getUsuarioPrimerNombre() + " " + usuario.getUsuarioPrimerApellido() + "."
+                                + "    <br/> El código para activación de tu cuenta es: "
+                                + "          <h2 style=\"text-align: center\">" + usuario.getUsuarioCodigo() + "</h2>"
                                 + "    </div>"
                                 + "    <div style=\"background-color:#0B6EAC; color: white;\">"
                                 + "      <div style=\"text-align: right\">"
@@ -317,7 +318,7 @@ public class HomeBean implements Serializable {
                                 + "              © 2019 <b>SIAEC</b> Todos los Derechos Reservados."
                                 + "         </div> "
                                 + "      </div>";
-                        enviarHtml.sendMailHTML(correo, "SMILING CÓDIGO DE SEGURIDAD ", body);
+                        enviarHtml.sendMailHTML(usuario.getUsuarioCorreo(), "SMILING CÓDIGO DE SEGURIDAD ", body);
                         mensajeConfirmacion("Mensaje enviado.");
                     } else {
                         mensajeError("Limite de envios superados.");
@@ -360,19 +361,20 @@ public class HomeBean implements Serializable {
     public void guardarUsuario() {
         try{
             for (Usuarios usuario : todosUsuarios()) {
-                if (usuarioNuevo.getUsuarioCorreo().equals(usuario.getUsuarioUsuario())) {
-                    mensajeError("Ya existe una cuenta con este correo");
-                    usuarioNuevo = new Usuarios();
+                if (usuarioNuevo.getUsuarioUsuario().equals(usuario.getUsuarioUsuario())) {
+                    mensajeError("El nombre de usuario no está disponible");
+                    usuarioNuevo.setUsuarioUsuario("");
                     return;
                 }
             }
-            usuarioNuevo.setUsuarioUsuario(usuarioNuevo.getUsuarioCorreo());
+            usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
             usuarioNuevo.setUsuarioFechaCreacion(fechaSistema);
             usuarioNuevo.setRolId(new Roles(5));
             usuarioNuevo.setUsuarioIntentoFallido(0);
             usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
-            usuarioNuevo.setUsuarioUsuario(getUsuarioNuevo().getUsuarioCorreo());
+            usuarioNuevo.setUsuarioActivacion(Boolean.FALSE);
+            enviarCorreo(usuarioNuevo);
             getUsuariosFacade().create(usuarioNuevo);
             usuarioNuevo = new Usuarios();
             mensajeConfirmacion("Usuario creado.");

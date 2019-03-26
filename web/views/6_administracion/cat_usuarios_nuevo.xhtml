@@ -121,7 +121,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <h6><b>Nombre de usuario *</b></h6>
                             <p:inputText id="usuariousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioUsuario}" required="#{request.getParameter('datos')}" maxlength="25" style="width: 100%"
-                                         validatorMessage="Apellido no válido." requiredMessage="Apellido es requerido." readonly="#{(catalogosBean.rolId == 0)}">
+                                         validatorMessage="Usuario no válido." requiredMessage="Usuario es requerido." readonly="#{(catalogosBean.rolId == 0)}">
                                 <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
                             </p:inputText>
                             <p:message for="usuariousuarionuevo"/>

@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 
 /* @author Equipo 19-2018 FIA-UES */
@@ -26,7 +27,8 @@ public class SesionBean implements Serializable {
 //****************************************************************************//
     private String usuario = "";
     private String password = "";
-
+    private int codigo;
+    
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
 
@@ -57,12 +59,18 @@ public class SesionBean implements Serializable {
                 } else if (!(usuarioLogueado.getUsuarioBloqueado())) {
                     mensajeError("Su cuenta está bloqueada.");
                 } else if (usuarioLogueado.getUsuarioContrasenia().equals(password)) {
-                    appSession.setUsuario(usuarioLogueado);
-                    //System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
-                    usuarioLogueado.setUsuarioIntentoFallido(0);
-                    //System.out.println("AppSession: "+appSession.getUsuario().getUsuarioUsuario());
-                    getUsuariosFacade().edit(usuarioLogueado);
-                    direccionaPagina("/dashboard.xhtml");
+                    if(usuarioLogueado.getUsuarioActivacion()){
+                        appSession.setUsuario(usuarioLogueado);
+                        //System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
+                        usuarioLogueado.setUsuarioIntentoFallido(0);
+                        //System.out.println("AppSession: "+appSession.getUsuario().getUsuarioUsuario());
+                        getUsuariosFacade().edit(usuarioLogueado);
+                        direccionaPagina("/dashboard.xhtml");
+                    }
+                    else{
+                        PrimeFaces current = PrimeFaces.current();
+                        current.executeScript("PF('activacion').show();");
+                    }
                 } else {
                     mensajeError("Contraseña incorrecta.");
                     int intentos = usuarioLogueado.getUsuarioIntentoFallido();
@@ -79,6 +87,25 @@ public class SesionBean implements Serializable {
                 }
             } else {
                 mensajeError("El usuario no existe.");
+            }
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: iniciarSesion.");
+        }
+    }
+    
+    public void iniciarSesionNuevo(){
+        try{
+            Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
+            if(usuarioLogueado.getUsuarioCodigo() == codigo){
+                appSession.setUsuario(usuarioLogueado);
+                usuarioLogueado.setUsuarioIntentoFallido(0);
+                usuarioLogueado.setUsuarioActivacion(Boolean.TRUE);
+                getUsuariosFacade().edit(usuarioLogueado);
+                direccionaPagina("/dashboard.xhtml");
+            } else{
+                usuario = "";
+                password = "";
+                mensajeError("El código ingresado es incorrecto.");
             }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: iniciarSesion.");
@@ -160,6 +187,13 @@ public class SesionBean implements Serializable {
 
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
  
 }

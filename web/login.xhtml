@@ -88,6 +88,23 @@
                             </div>
                             <div class="col-lg-1"/>
                         </div>
+
+                        
+
+                    </h:form>
+                    
+                    <h:form>
+                        <p:dialog header="Código de seguridad" widgetVar="activacion" minHeight="40" style="text-align: center">
+                            <div class="row">
+                                <h7>Ingrese el código de seguridad para validar su cuenta</h7><br/>
+                                <p:inputText id="codigo" value="#{sesionBean.codigo}" maxlength="4" style="width: 20%; text-align: center; margin-bottom: 5px"/><br/>
+                                <!--<h:commandLink value="Obtener código" action="" style="text-decoration: underline #066EAD; margin-bottom: 40px"/><br/>-->
+                                <h:commandLink type="submit" class="btn btn-default" action="#{sesionBean.iniciarSesionNuevo()}"
+                                               style="width: 60pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px; margin-top: 10px">
+                                    <i class="glyphicon glyphicon-check"></i> Validar
+                                </h:commandLink>
+                            </div>
+                        </p:dialog>
                     </h:form>
                     <br/>
                 </p:panel>

@@ -78,3 +78,7 @@ update public.submenus set submenu_url = '/views/5_reportes/rep_solicitud_insumo
 update public.submenus set sumbenu_nombre = 'Listado de Pacientes por Médico' where submenu_id=24;
 update public.submenus set submenu_url = '/views/5_reportes/rep_pacientes_por_medico.xhtml' where submenu_id=24;
 update public.submenus set submenu_url = '/views/5_reportes/rep_tratamientos_paciente.xhtml' where submenu_id=25;
+
+--Actualización de tabla usuarios para verificación de cuenta
+alter table usuarios add column usuario_codigo Integer;
+alter table usuarios add column usuario_activacion boolean;

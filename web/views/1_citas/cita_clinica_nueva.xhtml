@@ -7,6 +7,11 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="meta-data">
+            <f:metadata>
+                <f:viewAction action="#{citasBean.pantallaCita(1)}"/>
+            </f:metadata>
+        </ui:define>
         <ui:define name="content">
             <div class="banda1"><b>NUEVA CITA</b></div>
             <br/>
@@ -15,6 +20,19 @@
                 <p:panel id="cita" style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5" styleClass="smiling-cita">
 
                     <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12">
+                                    <h6><b>Expediente *</b></h6>
+                                    <p:selectOneMenu id="expedienteId" value="#{citasBean.pacienteId}" required="true" requiredMessage="Selecciones un Paciente." filter="true" style="width: 100%">
+                                        <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
+                                        <f:selectItems value="#{citasBean.todosPacientes()}" var="paciente" 
+                                                       itemLabel="#{paciente.pacientePrimerNombre} #{paciente.pacienteSegundoNombre} #{paciente.pacientePrimerApellido} #{paciente.pacienteSegundoApellido}" itemValue="#{paciente.pacienteId}"/>
+                                        <p:ajax update="nombre apellido telefono correo" listener="#{citasBean.resetearPaciente()}"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-8">
@@ -52,11 +70,11 @@
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Sucursal *</b></h6>
-                                    <p:selectOneMenu id="clinica2" value="#{citasBean.citaNuevo.clinicaId}"  converter="#{clinicaConvertidor}" required="true"
+                                    <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}" required="true"
                                                      requiredMessage="Clinica requerida" style="width: 100%">
-                                        <f:selectItem itemLabel="Seleccionar..." itemValue=""  noSelectionOption="true" />
+                                        <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
                                         <f:selectItems value="#{citasBean.todasClinicas()}" var="clinica" 
-                                                       itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica}"/>
+                                                       itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
                                         <p:ajax update="console2"/>
                                     </p:selectOneMenu>
                                     <p:message for="clinica2" />
@@ -110,7 +128,7 @@
                                         <h6><b>Horarios </b></h6>
                                         <p:selectOneRadio id="console2" value="#{citasBean.horaE}" layout="grid" columns="2" required="true"
                                                           requiredMessage="Seleccione un horario">
-                                            <f:selectItems value="#{citasBean.horariosDisponibleSucursal()}" var="h" 
+                                            <f:selectItems value="#{citasBean.horariosDisponibleSucursalPaciente()}" var="h" 
                                                            itemLabel="#{h.hora}" itemValue="#{h.valor}"/>
                                         </p:selectOneRadio>
                                         <p:message for="console2" />

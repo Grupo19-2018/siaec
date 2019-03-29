@@ -5,9 +5,11 @@ import util.Mensajes;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
 import dao.MedicosFacade;
+import dao.PacientesFacade;
 import entities.Citas;
 import entities.Clinicas;
 import entities.Medicos;
+import entities.Pacientes;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +46,10 @@ public class CitasBean implements Serializable {
 
     @EJB
     private MedicosFacade odontologosFacade;
+    
+    @EJB
+    private PacientesFacade pacienteFacade;
+    private Integer pacienteId=0;
 
     private Date fechaActual = new Date();
     private Date citaDia = new Date();
@@ -115,6 +121,13 @@ public class CitasBean implements Serializable {
         }
         return getCitasFacade().findAll();
     }
+    
+//Metodo para cargar todos los expedientes.
+//Usado en:cita_clinica_nueva.xhtml
+//Estado:Prueba
+    public List<Pacientes> todosPacientes(){
+        return getPacienteFacade().findAll();
+    }
 
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
@@ -131,6 +144,10 @@ public class CitasBean implements Serializable {
         return odontologosFacade;
     }
 
+    public PacientesFacade getPacienteFacade() {
+        return pacienteFacade;
+    }
+    
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
@@ -238,9 +255,29 @@ public class CitasBean implements Serializable {
         this.citaConsultarId = citaConsultarId;
     }
 
+    public Integer getPacienteId() {
+        return pacienteId;
+    }
+
+    public void setPacienteId(Integer pacienteId) {
+        this.pacienteId = pacienteId;
+    }
+    
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
+//Cargar paciente
+//Usado en: cita_clinica_nuevo.xhtml
+//Estado: Prueba
+    public void resetearPaciente(){
+        citaNuevo = new Citas();
+        Pacientes p = getPacienteFacade().find(pacienteId);
+        citaNuevo.setCitaNombres(p.getPacientePrimerNombre() +" "+ p.getPacienteSegundoNombre());
+        citaNuevo.setCitaApellidos(p.getPacientePrimerApellido()+ " "+ p.getPacienteSegundoApellido());
+        citaNuevo.setCitaTelefono(p.getPacienteTelefonoCasa());
+        citaNuevo.setCitaCorreo(p.getPacienteCorreo());
+    }
+    
 //Carga la cita seleccionada a la variable consulta. 
 //Metodo usado en cita_clinica_consultar.xhtml
 //Estado: En uso

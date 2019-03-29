@@ -64,7 +64,7 @@ delete from public.sub_menus_por_roles where rol_id = 5 and submenu_id=7;
 --Paginas en mantenimiento
 --Gestion de roles. Manejo dinamico o estatico pendiente. 
 --submenu_id = 32
-update public.submenus set submenu_url = '/mantenimiento.xhtml' where submenu_id=32;
+--update public.submenus set submenu_url = '/mantenimiento.xhtml' where submenu_id=32;
 update public.submenus set submenu_url = '/views/6_administracion/cat_roles_listado.xhtml' where submenu_id=32;
 
 --Corrección de submenu ya que se cambió el nombre del archivo xhtml

@@ -64,19 +64,32 @@
                                     <td>
                                         <center>
                                             <h:form>
-                                                <h:commandLink action="cita_paciente_consultar_aprobada.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <!--<f:setPropertyActionListener value="#{cita}" target="#{citasBean1.citaConsultar}"/>-->
-                                                </h:commandLink> &nbsp;
-                                                <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(citas.usuarioUsuario.usuarioUsuario)}"/>
+                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <f:param name="citaConsultarId" value="#{citas.citaId}"/>
+                                                    <f:param name="retorno" value="1"/>
+                                                </h:link>
+                                                &nbsp;
+                                                <h:panelGroup rendered="#{!dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario)}">
+                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
+                                                        <f:param name="us" value="#{citas.usuarioUsuario.usuarioUsuario}"/>
+                                                    </h:link> 
+                                                    &nbsp;
+                                                    <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
+                                                        <f:param name="us" value="#{citas.usuarioUsuario.usuarioUsuario}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario)}">
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
+                                                        <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(citas.usuarioUsuario.usuarioUsuario)}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
-                                                </h:link> &nbsp;
-                                                <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar Expediente">
-                                                    <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(citas.usuarioUsuario.usuarioUsuario)}"/>
-                                                    <f:param name="consultaseleccionada" value="#{0}"/>
-                                                    <f:param name="tabindex" value="#{0}"/>
-                                                </h:link>  &nbsp;
+                                                    </h:link> &nbsp;
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar Expediente">
+                                                        <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(citas.usuarioUsuario.usuarioUsuario)}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
+                                                </h:panelGroup>&nbsp;
                                             </h:form>
                                         </center>
                                     </td>

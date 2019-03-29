@@ -281,7 +281,9 @@ public class CitasBean implements Serializable {
                 inicioClinica = citaEditar.getClinicaId().getClinicaHorarioApertura();
                 finClinica = citaEditar.getClinicaId().getClinicaHorarioCierre();
                 modulos = citaEditar.getClinicaId().getClinicaModulo();
+                System.err.println("Sucursal" + citaEditar.getClinicaId().getClinicaNombre());
                 if (citaEditar.getMedicoId() != null) {
+                    System.err.println("Doctor" + citaEditar.getMedicoId().getMedicoPrimerNombre());
                     medico = citaEditar.getMedicoId().getMedicoId();
                     hayMedico = true;
                 }
@@ -290,7 +292,6 @@ public class CitasBean implements Serializable {
         }
 
         if (clinicaSeleccionada != 0 && (getCitapantalla() == 1 || getCitapantalla() == 2)) {
-            System.out.println("controllers.CitasBean.horariosDisponibleSucursalPaciente() entra con una sucursal fija");
             Calendar clinicaInicio = Calendar.getInstance();
             Calendar clinicaFin = Calendar.getInstance();
             clinicaInicio.setTime(inicioClinica);
@@ -306,6 +307,7 @@ public class CitasBean implements Serializable {
                 //Actualmente solo son reservadas estado 1, falta comprender a las confirmadas estado 2
                 List<Citas> reservadasSucursal = getCitasFacade().citasReservadoSucursal(cita.getTime(), clinicaSeleccionada, citaPreguntar.getTime());
                 int cantidadCitas = reservadasSucursal.size();
+                System.out.println("Medico seleccionado " + hayMedico);
 
                 if (i < 13) {
                     s = i + ":00 AM";
@@ -313,10 +315,45 @@ public class CitasBean implements Serializable {
                     s = (i - 12) + ":00 PM";
                 }
 
-                //Considerar que el medico solo tiene que tener un solo horario activo
-                if (cantidadCitas < modulos) {
+                //Problema la sucursal  1 muestra la hora la sucursal 2 no
+                //Si se esta editando una cita. 
+                if (getCitapantalla() == 2 && citaEditarFecha.get(Calendar.YEAR) == citaPreguntar.get(Calendar.YEAR)
+                        && citaEditarFecha.get(Calendar.MONTH) == citaPreguntar.get(Calendar.MONTH)
+                        && citaEditarFecha.get(Calendar.DAY_OF_MONTH) == citaPreguntar.get(Calendar.DAY_OF_MONTH)
+                        && citasEditarSucursal.getClinicaId() == citaEditar.getClinicaId().getClinicaId()) {
+                    if (citaEditarHora.get(Calendar.HOUR_OF_DAY) == i) {
+                        horaE = citaEditarHora.get(Calendar.HOUR_OF_DAY);
+                        horarios.add(new Horario(i, s));
+                    } else if (cantidadCitas < modulos) {
+                        if (hayMedico==false) {
+                            System.out.println("Entra siempre");
+                            horarios.add(new Horario(i, s));
+                        } else {
+                            //Buscar medico y horario, si tiene ocupado no poner. 
+                            //Puedo usar variables como 
+                            //Para dia cita.getTime()
+                            //Para hora citaPreguntar.getTime()
+                            List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), medico);
+                            /**/
+                            for (Citas citas : medicoC) { //
+                                System.out.println("Cita " + citas.getCitaId() );
+                                System.out.println("Cita Sucursal" + citas.getClinicaId().getClinicaNombre() );
+                                System.out.println("Cita hora " + citas.getCitaHora());
+                            }/*
+                             /*/
+                            System.out.println("Medico antes de entrar" + s);
+                            if (medicoC.isEmpty()) {
+                                System.out.println("Medico " + s);
+                                horarios.add(new Horario(i, s));
+                            }
+                        }//Id del medico
+                    }
+
+                } else if (cantidadCitas < modulos) {
+                    //Considerar que el medico solo tiene que tener un solo horario activo
+
                     //if (citaNuevo.getMedicoId() == null) {
-                    if (hayMedico) {
+                    if (hayMedico==false) {
                         horarios.add(new Horario(i, s));
                     } else {
                         //Buscar medico y horario, si tiene ocupado no poner. 
@@ -328,7 +365,9 @@ public class CitasBean implements Serializable {
                          * for (Citas citas : medicoC) { //
                          * System.out.println("Cita " + citas.getCitaId()); }/*
                          */
+                        System.out.println("Medico antes de entrar" + s);
                         if (medicoC.isEmpty()) {
+                            System.out.println("Medico " + s);
                             horarios.add(new Horario(i, s));
                         }
                     }//Id del medico 
@@ -500,16 +539,17 @@ public class CitasBean implements Serializable {
     public void editarConsultaHoraCita() {
         citaEditar = getCitasFacade().find(citaEditarId);
         clinicaSeleccionada = citaEditar.getClinicaId().getClinicaId();
+        System.err.println("clina seleccionata " + clinicaSeleccionada);
         citaDia = citaEditar.getCitaFecha();
         Calendar horaSeleccionada = Calendar.getInstance();
         horaSeleccionada.setTime(citaEditar.getCitaHora());
         citaEditarFecha.setTime(citaEditar.getCitaFecha());
         citaEditarHora.setTime(citaEditar.getCitaHora());
         citasEditarSucursal = citaEditar.getClinicaId();
-        horaE = citaEditar.getCitaHora().getHours();
+        //horaE = citaEditar.getCitaHora().getHours();
     }
 
-public void actualizarCita() {
+    public void actualizarCita() {
         citaEditar.setCitaFecha(citaDia);
         Calendar hora = Calendar.getInstance();
         hora.set(Calendar.HOUR_OF_DAY, horaE);
@@ -596,7 +636,7 @@ public void actualizarCita() {
         }
         return "Dashboard";
     }
-    
+
 //Metodo dinamico para redireccionar url  del boton regresar
 //Usado en : cita_clinica_consultar.xhtml
     public String redireccionarCitaConsultar() {
@@ -605,7 +645,7 @@ public void actualizarCita() {
                 return "CitasListaConsultarPendientes";
             case 3:
                 return "CitasListaConsultarAprobadas";
-            case 4: 
+            case 4:
                 return "CitasListadoHistoricoClinica";
         }
         return "Dashboard";

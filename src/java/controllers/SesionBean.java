@@ -27,7 +27,7 @@ public class SesionBean implements Serializable {
 //****************************************************************************//
     private String usuario = "";
     private String password = "";
-    private int codigo;
+    private Integer codigo;
     
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
@@ -168,7 +168,6 @@ public class SesionBean implements Serializable {
     public String getUsuario() {
         return usuario;
     }
-
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -176,7 +175,6 @@ public class SesionBean implements Serializable {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -184,16 +182,17 @@ public class SesionBean implements Serializable {
     public AppSession getAppSession() {
         return appSession;
     }
-
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
 
-    public int getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
-    public void setCodigo(int codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
+
+    
  
 }

@@ -170,52 +170,13 @@
                 </div> 
             </div>
 
-            <p:dialog header="Basic Dialog" widgetVar="activacion" minHeight="40">
-                <h:outputText value="Más o menos así va esto..." />
+            <p:dialog header="Mensaje" widgetVar="guardado" minHeight="40" style="text-align: center">
+                <h:outputText value="Su cuenta ha sido creado."/><br/>
+                <h:outputText value="Se ha enviado a su correo un código de seguridad para validar la cuenta."/><br/><br/>
+                <button type="reset" class="btn btn-default buttonLevel1 w3-round" style="width: 80pt" onclick="window.location.href = 'login.xhtml'">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aceptar
+                </button><br/>
             </p:dialog>
-
-            <!-- Modal codigoSeguridad -->
-            <div id="codigoSeguridad" class="modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-                        <!-- Cabecera del modal -->
-                        <div class="modal-header" style="background-color: #066EAD">
-                            <button type="button" class="close btn btn-default" data-dismiss="modal" style="width: 20pt; height: 25pt; background-color: #FF7F27; color: white" aria-hidden="true"><b>X</b></button>
-                            <h5 class="modal-title"><b><font color="#fff">Código de seguridad</font></b></h5>
-                        </div>
-
-                        <!-- Cuerpo del modal -->
-                        <div class="modal-body">
-                            <p:panel style="margin-right: 5pt; margin-left: 5pt; border-radius: 5px; height: 140pt">
-                                <h:panelGroup id="eliminar" style="text-align: center">
-                                    <!-- Nombre -->
-                                    <div class="col-xs-12">
-                                        <label><center>Necesitamos validar su cuenta</center></label><br/>
-                                        <label>Ingrese el código de seguridad enviado a su correo.</label><br/>
-                                    </div>
-
-                                    <div class="col-xs-12" align="center"><br/>
-                                        <p:inputNumber value="#{fixme}" maxValue="9999" decimalPlaces="0" thousandSeparator=""/>
-                                    </div>
-
-                                    <div class="col-xs-12"><br/>
-
-                                        <h:commandLink type="submit" class="btn btn-default"
-                                                       style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
-                                            <i class="glyphicon glyphicon-trash"></i> Enviar
-                                        </h:commandLink>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt; height: 27pt; color: white" data-dismiss="modal" aria-hidden="true">
-                                            <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
-                                        </button>
-                                    </div><br/>
-                                </h:panelGroup> 
-                            </p:panel>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </h:form>
 

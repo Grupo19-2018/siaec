@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
@@ -172,16 +173,10 @@ public class HomeBean implements Serializable {
     public ConfiguracionesFacade getConfiguracionFacade() {
         return configuracionFacade;
     }
-    
-    
-    
-    
-    
-    
+            
     public Usuarios getUsuarioNuevo() {
         return usuarioNuevo;
     }
-
     public void setUsuarioNuevo(Usuarios usuarioNuevo) {
         this.usuarioNuevo = usuarioNuevo;
     }
@@ -189,7 +184,6 @@ public class HomeBean implements Serializable {
     public Date getFechaSistema() {
         return fechaSistema;
     }
-
     public void setFechaSistema(Date fechaSistema) {
         this.fechaSistema = fechaSistema;
     }
@@ -197,7 +191,6 @@ public class HomeBean implements Serializable {
     public Configuraciones getConfiguracion() {
         return getConfiguracionesFacade().find(1);
     }
-
     public void setConfiguracion(Configuraciones configuracion) {
         this.configuracion = configuracion;
     }
@@ -205,7 +198,6 @@ public class HomeBean implements Serializable {
     public Configuraciones getConfiguracionEditar() {
         return configuracionEditar;
     }
-
     public void setConfiguracionEditar(Configuraciones configuracionEditar) {
         this.configuracionEditar = configuracionEditar;
     }
@@ -213,7 +205,6 @@ public class HomeBean implements Serializable {
     public UploadedFile getFileSuperior() {
         return fileSuperior;
     }
-
     public void setFileSuperior(UploadedFile fileSuperior) {
         this.fileSuperior = fileSuperior;
     }
@@ -221,7 +212,6 @@ public class HomeBean implements Serializable {
     public UploadedFile getFileInferior() {
         return fileInferior;
     }
-
     public void setFileInferior(UploadedFile fileInferior) {
         this.fileInferior = fileInferior;
     }
@@ -229,7 +219,6 @@ public class HomeBean implements Serializable {
     public UploadedFile getFileLogin() {
         return fileLogin;
     }
-
     public void setFileLogin(UploadedFile fileLogin) {
         this.fileLogin = fileLogin;
     }
@@ -376,8 +365,10 @@ public class HomeBean implements Serializable {
             usuarioNuevo.setUsuarioActivacion(Boolean.FALSE);
             enviarCorreo(usuarioNuevo);
             getUsuariosFacade().create(usuarioNuevo);
+                PrimeFaces current = PrimeFaces.current();
+                current.executeScript("PF('guardado').show();");
+            //mensajeConfirmacion("Su usuario ha sido creado, se ha enviado un código de seguridad para validar su cuenta al correo: " + usuarioNuevo.getUsuarioCorreo());
             usuarioNuevo = new Usuarios();
-            mensajeConfirmacion("Usuario creado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarUsuario.");
         }

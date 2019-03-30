@@ -219,6 +219,12 @@ padding-bottum:7px
 }
 
 /* Para tamaño de calendario e inputNumber */
+.tamaniosesenta input{
+    width: 60pt !important;
+    text-align: center;
+}
+
+/* Para tamaño de calendario e inputNumber */
 .tamaniocien input{
     width: 100pt !important;   
 }

@@ -120,14 +120,16 @@ public class Dashboard_Asistente implements Serializable {
     //Fecha: 08/febrero/2019
     public Boolean usuarioPacienteExiste(String usuario) {
         try {
+            System.out.println("controllers.Dashboard_Asistente.usuarioPacienteExiste() usuarioe es" + usuario);
             if (!usuario.isEmpty()) {
+                System.out.println("controllers.Dashboard_Asistente.usuarioPacienteExiste() entro con usuario" + usuario);
                 List<Pacientes> p = getPacienteFacade().pacienteUsuario(usuario);
                 if (!p.isEmpty()) {
                     return false;
                 } else {
                     return true;
                 }
-            }else{
+            } else {
                 return true;
             }
 
@@ -135,6 +137,49 @@ public class Dashboard_Asistente implements Serializable {
             System.out.println("controllers.Dashboard_Asistente.usuarioPacienteExiste()" + e);
             return true;
         }
+    }
+
+    //Metodo para cargar el paciente con el expediente o con cuenta de usuario
+    //Estado: prueba.
+    //Sustituye: Intenta sustiuir el metodo ***public Boolean usuarioPacienteExiste(String usuario)***
+    public Integer usuarioPacienteExiste(String usuario, Integer paciente) {
+        //Retorno 1 si tiene solo expediente, se puede asociar un usuario existente.
+        //Retorno 2 si tiene solo un usuario, se puede asociar un expediente o crear expediente. 
+        //Retorno 3 si tiene expediente y usuario. 
+        //Retorno 0 si no tiene nada, error al guardar la cita.
+        //1. Si la cita tiene un expediente asignado.
+        //System.out.println("Paciente tiene: " + paciente);
+        if (paciente != null) {
+            //2. Extraigo al paciente.
+            Pacientes p = getPacienteFacade().find(paciente);
+            //3. Verifico si el paciente tiene un usuario vinculado.
+            //if (!p.getPacienteUsuarioUsuario().isEmpty()) {
+            if (p.getPacienteUsuarioUsuario() != null) {
+                //4. si es si, la cita tiene un paciente con un usuario vinculado.  
+                return 3;
+            }
+            //5. Sino, solo tiene un expediente. 
+            return 1;
+            //6. Sino tiene un paciente asignado debe tener un usuario. 
+        } else if (!usuario.isEmpty()) {
+            //7. Se busca a los expediente con ese usuario
+            //System.out.println("Usuario" + usuario);
+            List<Pacientes> ps = getPacienteFacade().pacienteUsuario(usuario);
+            //8. Si tiene un expedente asigando. 
+            if (!ps.isEmpty()) {
+                //8.1  y si tiene varios expedientes. 
+                if (ps.size() > 1) {
+                    //8.2 Error logico deberia ser solo 1.
+                    return 0;
+                }
+                //9. Sino Entonces la cita  tiene un expediente y un usuario
+                return 3;
+            }
+            //10. Sino se esperaria que asocie o cree un expediente para este usuario
+            return 2;
+        }
+        //11. Sino tiene usuario o expedient error logico.
+        return 0;
     }
 
 //****************************************************************************//

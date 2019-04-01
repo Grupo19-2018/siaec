@@ -148,6 +148,9 @@ public class Citas implements Serializable {
     //Agregado de forma manual 
     @Column(name = "cita_ensala")
     private Boolean citaEnsala;
+    
+    @Column(name = "cita_paciente")
+    private Integer citaPaciente;
 
     public Boolean getCitaEnsala() {
         return citaEnsala;
@@ -155,6 +158,14 @@ public class Citas implements Serializable {
 
     public void setCitaEnsala(Boolean citaEnsala) {
         this.citaEnsala = citaEnsala;
+    }
+
+    public Integer getCitaPaciente() {
+        return citaPaciente;
+    }
+
+    public void setCitaPaciente(Integer citaPaciente) {
+        this.citaPaciente = citaPaciente;
     }
     
     

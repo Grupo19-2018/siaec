@@ -46,10 +46,10 @@ public class CitasBean implements Serializable {
 
     @EJB
     private MedicosFacade odontologosFacade;
-    
+
     @EJB
     private PacientesFacade pacienteFacade;
-    private Integer pacienteId=0;
+    private Integer pacienteId = 0;
 
     private Date fechaActual = new Date();
     private Date citaDia = new Date();
@@ -79,6 +79,7 @@ public class CitasBean implements Serializable {
 //Usada en: asistente.xhtml
 //Estado: En uso.
     public List<Citas> todasCitasAprobadas() {
+        System.err.println("Todas citas " + clinicaSeleccionada);
         if (clinicaSeleccionada != 0) {
             return getCitasFacade().citasAprobadas(clinicaSeleccionada);
         }
@@ -121,11 +122,11 @@ public class CitasBean implements Serializable {
         }
         return getCitasFacade().findAll();
     }
-    
+
 //Metodo para cargar todos los expedientes.
 //Usado en:cita_clinica_nueva.xhtml
 //Estado:Prueba
-    public List<Pacientes> todosPacientes(){
+    public List<Pacientes> todosPacientes() {
         return getPacienteFacade().findAll();
     }
 
@@ -147,7 +148,7 @@ public class CitasBean implements Serializable {
     public PacientesFacade getPacienteFacade() {
         return pacienteFacade;
     }
-    
+
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
@@ -262,22 +263,22 @@ public class CitasBean implements Serializable {
     public void setPacienteId(Integer pacienteId) {
         this.pacienteId = pacienteId;
     }
-    
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
 //Cargar paciente
 //Usado en: cita_clinica_nuevo.xhtml
 //Estado: Prueba
-    public void resetearPaciente(){
+    public void resetearPaciente() {
         citaNuevo = new Citas();
         Pacientes p = getPacienteFacade().find(pacienteId);
-        citaNuevo.setCitaNombres(p.getPacientePrimerNombre() +" "+ p.getPacienteSegundoNombre());
-        citaNuevo.setCitaApellidos(p.getPacientePrimerApellido()+ " "+ p.getPacienteSegundoApellido());
+        citaNuevo.setCitaNombres(p.getPacientePrimerNombre() + " " + p.getPacienteSegundoNombre());
+        citaNuevo.setCitaApellidos(p.getPacientePrimerApellido() + " " + p.getPacienteSegundoApellido());
         citaNuevo.setCitaTelefono(p.getPacienteTelefonoCasa());
         citaNuevo.setCitaCorreo(p.getPacienteCorreo());
     }
-    
+
 //Carga la cita seleccionada a la variable consulta. 
 //Metodo usado en cita_clinica_consultar.xhtml
 //Estado: En uso
@@ -362,7 +363,7 @@ public class CitasBean implements Serializable {
                         horaE = citaEditarHora.get(Calendar.HOUR_OF_DAY);
                         horarios.add(new Horario(i, s));
                     } else if (cantidadCitas < modulos) {
-                        if (hayMedico==false) {
+                        if (hayMedico == false) {
                             System.out.println("Entra siempre");
                             horarios.add(new Horario(i, s));
                         } else {
@@ -373,8 +374,8 @@ public class CitasBean implements Serializable {
                             List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), medico);
                             /**/
                             for (Citas citas : medicoC) { //
-                                System.out.println("Cita " + citas.getCitaId() );
-                                System.out.println("Cita Sucursal" + citas.getClinicaId().getClinicaNombre() );
+                                System.out.println("Cita " + citas.getCitaId());
+                                System.out.println("Cita Sucursal" + citas.getClinicaId().getClinicaNombre());
                                 System.out.println("Cita hora " + citas.getCitaHora());
                             }/*
                              /*/
@@ -390,7 +391,7 @@ public class CitasBean implements Serializable {
                     //Considerar que el medico solo tiene que tener un solo horario activo
 
                     //if (citaNuevo.getMedicoId() == null) {
-                    if (hayMedico==false) {
+                    if (hayMedico == false) {
                         horarios.add(new Horario(i, s));
                     } else {
                         //Buscar medico y horario, si tiene ocupado no poner. 
@@ -461,6 +462,7 @@ public class CitasBean implements Serializable {
         citaNuevo.setCitaHora(hora.getTime());
         citaNuevo.setCitaFechaCreacion(new Date());
         citaNuevo.setCitaHoraCreacion(new Date());
+        citaNuevo.setCitaPaciente(pacienteId);
         getCitasFacade().create(citaNuevo);
         citaNuevo = new Citas();
         citaDia = new Date();
@@ -535,16 +537,36 @@ public class CitasBean implements Serializable {
         }
     }
 
-//Hora no se utiliza partnerr por razones de error con en compilaciond e sesionbean
+//Hora no se utiliza partnerr por razones de que muestra otra hora diferente
     public String horacita(Date hora) {
         Calendar c = Calendar.getInstance();
         //System.out.println("Metodo horacita(), class Citas Bean" + c.get(Calendar.HOUR_OF_DAY));
         if (hora != null) {
             c.setTime(hora);
             if (c.get(Calendar.HOUR_OF_DAY) < 13) {
+                if (c.get(Calendar.HOUR_OF_DAY) < 10) {
+                    return "0" + (c.get(Calendar.HOUR_OF_DAY)) + ":00 AM";
+                }
                 return (c.get(Calendar.HOUR_OF_DAY)) + ":00 AM";
             } else {
+                if (c.get(Calendar.HOUR_OF_DAY) < 22) {
+                    return "0" + (c.get(Calendar.HOUR_OF_DAY) - 12) + ":00 PM";
+                }
                 return (c.get(Calendar.HOUR_OF_DAY) - 12) + ":00 PM";
+            }
+        }
+        return "";
+    }
+
+    // Hora no se utiliza partner por error al mostrar horas, en formato de 24 horas. 
+    public String horacita24(Date hora) {
+        Calendar c = Calendar.getInstance();
+        if (hora != null) {
+            c.setTime(hora);
+            if (c.get(Calendar.HOUR_OF_DAY) < 10) {
+                return "0"+(c.get(Calendar.HOUR_OF_DAY)) + ":00";
+            } else {
+                return (c.get(Calendar.HOUR_OF_DAY)) + ":00";
             }
         }
         return "";

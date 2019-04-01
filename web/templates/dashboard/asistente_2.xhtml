@@ -15,28 +15,27 @@
             </div>
         </div>
         <br/>
-         
         <div class="row">
             <div class="col-md-12">
                 <h:form>
-                    <p:selectOneMenu id="sucursal" value="#{citasBean.clinicaSeleccionada}" filter="true"  filterMatchMode="startsWith" panelStyle="width: 33%" style="width: 50%;">
+                    <p:selectOneMenu id="sucursal" value="#{dashboardAsistente.clinicaSeleccionada}" filter="true"  filterMatchMode="startsWith" panelStyle="width: 33%" style="width: 50%;">
                         <f:selectItem itemLabel="Todas las sucursales" itemValue="0"/>
                         <f:selectItems value="#{dashboardAsistente.todasClinicas()}" var="clinica" itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
-                        <p:ajax update=":form" oncomplete="estiloTabla();"/> 
+                        <!-- <p:ajax update=":form" oncomplete="estiloTabla();"/> -->
                     </p:selectOneMenu>  
                 </h:form>
             </div>
         </div>
         <br/>
         <div class="row">
+
             <h:form id="form">
-           
                 <div class="col-md-12">
                     <table id="tabla" class="table table-striped table-bordered table-hover table-condensed table-boostrap-expediente">
                         <!-- Cabecera de la tabla -->
                         <thead>
                             <tr>
-                               <!-- <th width="5%" >No.</th>-->
+                                <th width="5%" >No.</th>
                                 <th width="10%">Hora</th>
                                 <th width="20%">Paciente</th>
                                 <th width="15%">Médico</th>
@@ -48,10 +47,9 @@
                         <tbody>
                             <ui:repeat value="#{citasBean.todasCitasAprobadas()}" var="cita" >
                                 <tr>
-                                    <!-- <td align="center"></td> -->
+                                    <td align="center"></td>
                                     <td align="center">
-                                        #{citasBean.horacita24(cita.citaHora)}
-                                        
+                                        #{citasBean.horacita(cita.citaHora)}
                                     </td>
                                     <td align="left">
                                         #{cita.citaNombres} #{cita.citaApellidos}
@@ -80,36 +78,24 @@
                                         </h:link> 
                                         &nbsp;
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 1}">
-                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
-                                                <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario)}"/>
-                                                <f:param name="consultaseleccionada" value="#{0}"/>
-                                                <f:param name="tabindex" value="#{0}"/>
-                                            </h:link>
-                                            &nbsp;
-                                            <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-phone-alt btn-sm btn-tabla-expediente2" title="Crear un usuario">
-                                                <f:param name="p" value="#{cita.citaPaciente}"/>
-                                            </h:link>
+                                         Solo tengo expediente
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 2}">
                                             <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
-                                                <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                <f:param name="us" value="#"/>
                                             </h:link> 
                                             &nbsp;
                                             <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
-                                                <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                <f:param name="us" value="#"/>
                                             </h:link>
                                         </h:panelGroup> 
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 3}">
-                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
-                                                <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario)}"/>
-                                                <f:param name="consultaseleccionada" value="#{0}"/>
-                                                <f:param name="tabindex" value="#{0}"/>
-                                            </h:link> 
+                                            Tengo expediente y usuario
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 0}">
                                             Error
                                         </h:panelGroup>
-
+                                        
 
 
                                     </td>
@@ -120,7 +106,6 @@
                 </div>
             </h:form>
         </div>
-        
         <br/>
         <div>
             <p:panel id="grafica1">
@@ -131,7 +116,7 @@
 
     <script>
         $(document).ready(function () {
-            //indice();
+            indice();
         });
 
         function indice() {

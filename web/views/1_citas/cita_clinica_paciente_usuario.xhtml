@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewParam name="p" value="#{catalogosBean.pacienteId}"/>
+                    <f:viewAction action="#{catalogosBean.cargarInformacionPacienteDashboard()}"/>
+                </f:metadata>
+            </ui:define>
+
+            <div class="banda1"><b>NUEVO USUARIO PACIENTE</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <h:form id="nombrepacienteusuario">
+                    <p:focus for="nombrepacienteusuario"/>
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h:panelGroup id="panelnombre">
+                                <h6 style="color: white"><b>Seleccionar</b></h6>
+                                <p:selectOneMenu id="nombrepacienteusuario" value="#{catalogosBean.pacienteId}" filter="true"  filterMatchMode="startsWith" panelStyle="width: 25%;" style="width: 100%"
+                                                 required="true" requiredMessage="Seleccionar...">
+                                    <f:selectItem itemLabel="Seleccione un paciente" noSelectionOption="true" itemValue="0"/>
+                                    <f:selectItems value="#{catalogosBean.todosPacientesDisponibles()}" var="paciente" itemLabel="#{paciente.pacientePrimerNombre} #{paciente.pacienteSegundoNombre} #{paciente.pacientePrimerApellido} #{paciente.pacienteSegundoApellido}" itemValue="#{paciente.pacienteId}"/>
+                                    <p:ajax update="nombrepacienteusuario primernombreusuarionuevo segundonombreusuarionuevo primerapellidousuarionuevo segundoapellidousuarionuevo correousuarionuevo telefonousuarionuevo" listener="#{catalogosBean.cargarInformacionPacienteDashboard()}"/>
+                                </p:selectOneMenu>
+
+                            </h:panelGroup>
+                            <p:message for="nombrepacienteusuario"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Primer nombre *</b></h6>
+                            <p:inputText id="primernombreusuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioPrimerNombre}" required="#{request.getParameter('datos')}" maxlength="25"
+                                         style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="primernombreusuarionuevo"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Segundo nombre</b></h6>
+                            <p:inputText id="segundonombreusuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioSegundoNombre}" maxlength="25" style="width: 100%"
+                                         validatorMessage="Nombre no válido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="segundonombreusuarionuevo"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Primer apellido *</b></h6>
+                            <p:inputText id="primerapellidousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioPrimerApellido}" required="#{request.getParameter('datos')}" maxlength="25" style="width: 100%"
+                                         validatorMessage="Apellido no válido." requiredMessage="Apellido es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="primerapellidousuarionuevo"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Segundo apellido</b></h6>
+                            <p:inputText id="segundoapellidousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioSegundoApellido}" maxlength="25" style="width: 100%"
+                                         validatorMessage="Apellido no válido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
+                                <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="segundoapellidousuarionuevo"/>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Correo *</b></h6>
+                            <p:inputText id="correousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioCorreo}" required="#{request.getParameter('datos')}" maxlength="25"
+                                         style="width: 100%" validatorMessage="Correo no válido." requiredMessage="Correo es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
+                                <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
+                            </p:inputText>
+                            <p:message for="correousuarionuevo"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Teléfono *</b></h6>
+                            <p:inputMask id="telefonousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioTelefono}" required="true" mask="9999-9999" style="width: 100%"
+                                         requiredMessage="Teléfono es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}"/>
+                            <p:message for="telefonousuarionuevo"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Nombre de usuario *</b></h6>
+                            <p:inputText id="usuariousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioUsuario}" required="#{request.getParameter('datos')}" maxlength="25" style="width: 100%"
+                                         validatorMessage="Usuario no válido." requiredMessage="Usuario es requerido." readonly="#{(catalogosBean.rolId == 0)}">
+                                <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
+                            </p:inputText>
+                            <p:message for="usuariousuarionuevo"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Contraseña *</b></h6>
+                            <p:inputText id="contraseniausuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioContrasenia}" style="width: 100%" readonly="true"/>
+                            <p:message for="contraseniausuarionuevo"/>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-lg-12" align="center">
+                            <h:commandLink type="submit" class="btn btn-default" action="#{catalogosBean.guardarUsuarioSugerencia()}"
+                                           style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
+                            </h:commandLink>
+                            &nbsp;
+                            <h:link outcome="Dashboard" class=" btn btn-default btn-expediente-cancelar">
+                                <i class="glyphicon glyphicon-remove-circle"></i> <span aria-hidden="true" style="font-weight: bold;">Cancelar</span>
+                            </h:link>
+                        </div>
+                    </div>
+                    <br/>
+                </h:form>
+
+            </p:panel>
+            <p:spacer height="50"/>
+
+        </ui:define>
+
+    </ui:composition>
+</html>

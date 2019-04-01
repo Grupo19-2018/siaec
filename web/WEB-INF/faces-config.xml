@@ -147,6 +147,11 @@
             <from-outcome>CitasListadoHistoricoClinica</from-outcome>
             <to-view-id>/views/1_citas/cita_clinica_historico.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>RegistrarUsuarioPaciente</from-outcome>
+            <to-view-id>/views/1_citas/cita_clinica_paciente_usuario.xhtml</to-view-id>
+        </navigation-case>
+        
         
         
     </navigation-rule>

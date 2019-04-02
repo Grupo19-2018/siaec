@@ -121,6 +121,7 @@ public class Dashboard_Medico implements Serializable {
     //Usado en: medico.xhtml
     public List<Citas> citasDelDia(){
         if(appSession.getUsuario() !=  null){
+            medico = usuarioMedico();
             return getCitasfacade().citasDelDiaMedico(medico.getMedicoId());
         }
         return null;

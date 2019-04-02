@@ -960,8 +960,8 @@ public class CatalogosBean implements Serializable {
     }
 
     //Método para guardar un nuevo Usuario (cat_usuarios_nuevo.xhtml)
-    public void guardarUsuario() {
-        try {
+    public void guardarUsuario(){
+        try{
             for (Usuarios usuario : todosUsuarios()) {
                 if (usuarioNuevo.getUsuarioUsuario().equals(usuario.getUsuarioUsuario())) {
                     mensajeError("Ya existe una cuenta con el mismo nombre de usuario");
@@ -973,6 +973,14 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioIntentoFallido(0);
             usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
+            usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
+            usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
+            if(rolId == 3){
+                usuarioNuevo.setMedicoId(new Medicos(medicoId));
+            }
+            if(rolId == 5){
+                usuarioNuevo.setPacienteId(new Pacientes(pacienteId));
+            }
             getUsuariosFacade().create(usuarioNuevo);
             usuarioNuevo = new Usuarios();
             pacienteId = 0;

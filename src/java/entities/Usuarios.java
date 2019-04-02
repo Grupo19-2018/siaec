@@ -108,6 +108,12 @@ public class Usuarios implements Serializable {
     @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
     @ManyToOne(optional = false)
     private Roles rolId;
+    @JoinColumn(name = "medico_id", referencedColumnName = "medico_id")
+    @ManyToOne(optional = true)
+    private Medicos medicoId;
+    @JoinColumn(name = "paciente_id", referencedColumnName = "paciente_id")
+    @ManyToOne(optional = true)
+    private Pacientes pacienteId;
 
     public Usuarios() {
     }
@@ -220,6 +226,22 @@ public class Usuarios implements Serializable {
         this.rolId = rolId;
     }
 
+    public Medicos getMedicoId() {
+        return medicoId;
+    }
+
+    public void setMedicoId(Medicos medicoId) {
+        this.medicoId = medicoId;
+    }
+
+    public Pacientes getPacienteId() {
+        return pacienteId;
+    }
+
+    public void setPacienteId(Pacientes pacienteId) {
+        this.pacienteId = pacienteId;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

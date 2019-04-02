@@ -82,3 +82,16 @@ update public.submenus set submenu_url = '/views/5_reportes/rep_tratamientos_pac
 --Actualización de tabla usuarios para verificación de cuenta
 alter table usuarios add column usuario_codigo Integer;
 alter table usuarios add column usuario_activacion boolean;
+
+--Actualización de tabla usuarios para crear referencia directa a médicos y pacientes
+alter table usuarios add column medico_id integer NULL;
+alter table usuarios add column paciente_id integer NULL;
+alter table usuarios add CONSTRAINT fk_usuarios_r50_medicos FOREIGN KEY (medico_id)
+      REFERENCES medicos (medico_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+alter table usuarios add CONSTRAINT fk_usuarios_r51_paciente FOREIGN KEY (paciente_id)
+      REFERENCES pacientes (paciente_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+--Actualización de tabla citas para crear referencia directa a pacientes
+alter table citas add column cita_paciente Integer;

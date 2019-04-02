@@ -129,9 +129,14 @@ public class Dashboard_Medico implements Serializable {
     //Usado en: medico.xhtml
     public String cantidadCitasDia(){
             if(!citasDelDia().isEmpty()){
-                return "Tiene " + citasDelDia().size() + " citas este día";
+                if(citasDelDia().size() == 1){
+                    return "Tiene " + citasDelDia().size() + " cita agendada";
+                }
+                else{
+                    return "Tiene " + citasDelDia().size() + " citas agendadas";
+                }
             }else{
-                return "No tiene citas este día";
+                return "No tiene citas agendadas";
             }
     }
     

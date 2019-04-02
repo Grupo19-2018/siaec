@@ -977,12 +977,24 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
             if(rolId == 3){
                 usuarioNuevo.setMedicoId(new Medicos(medicoId));
+                medicoSeleccionado = getMedicosFacade().find(medicoId);
             }
             if(rolId == 5){
                 usuarioNuevo.setPacienteId(new Pacientes(pacienteId));
+                pacienteSeleccionado = getPacientesFacade().find(pacienteId);
             }
             getUsuariosFacade().create(usuarioNuevo);
+            if(rolId == 3){
+                medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
+                getMedicosFacade().edit(medicoSeleccionado);
+            }
+            if(rolId == 5){
+                pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
+                getPacientesFacade().edit(pacienteSeleccionado);
+            }
             usuarioNuevo = new Usuarios();
+            medicoSeleccionado = new Medicos();
+            pacienteSeleccionado = new Pacientes();
             pacienteId = 0;
             rolId = 0;
             mensajeConfirmacion("Usuario creado.");

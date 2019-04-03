@@ -74,6 +74,7 @@
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
                                                     <h:link outcome="ConsultaNueva" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Gestionar">
                                                         <f:param name="expedientegestionar" value="#{paciente.pacienteId}"/>
+                                                        <f:param name="citaid" value="#{0}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
                                                     </h:link>
@@ -133,6 +134,7 @@
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
                                                     <h:link outcome="ConsultaNueva" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Gestionar">
                                                         <f:param name="expedientegestionar" value="#{pac.pacienteId}"/>
+                                                        <f:param name="citaid" value="#{0}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
                                                     </h:link>

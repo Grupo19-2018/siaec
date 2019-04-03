@@ -24,7 +24,7 @@
                         <h6><b>Atendido por</b></h6>
                         <p:selectOneMenu id="mediconuevo" value="#{expedientesBean.consultaNueva.medicoId}" required="#{request.getParameter('consulta')}"
                                          converter="#{medicoConvertidor}" requiredMessage="Médico es requerido." style="width: 100%">
-                            <f:selectItem itemLabel="Seleccionar..." itemValue="" />
+                            <f:selectItem itemLabel="Seleccionar..." itemValue="#{null}"/>
                             <f:selectItems value="#{expedientesBean.todosMedicosDisponibles()}" var="medico"
                                            itemLabel="#{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido} #{medico.medicoSegundoApellido}" itemValue="#{medico}"/>
                         </p:selectOneMenu>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading" align="center" style="background: #f8f8f8; height: 30pt"><h6 style="margin-top: -1pt"><b>Diagnostico</b></h6></div>
+                            <div class="panel-heading" align="center" style="background: #f8f8f8; height: 30pt"><h6 style="margin-top: -1pt"><b>Diagnóstico</b></h6></div>
                             <div class="panel-body" align="right" style="border: solid 1px #D5D5D5">
                                 <p:inputTextarea id="diagnosticonuevo" value="#{expedientesBean.consultaNueva.consultaDiagnostico}" maxlength="1000" rows="6"
                                                  validatorMessage="Diagnóstico no válido." style="width: 105%; margin-left: -11pt; margin-top: -11pt; margin-bottom: -15pt; border: 0"/>
@@ -93,6 +93,7 @@
                         <h:commandLink type="submit" class="btn btn-default  buttonLevel1" action="#{expedientesBean.guardarConsulta()}"
                                        style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                             <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
+                            <f:param name="consulta" value="true"/>
                         </h:commandLink>
                         &nbsp;
                         <h:link outcome="GestionarExpediente" class="btn btn-default buttonPopupLevel2"

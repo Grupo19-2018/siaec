@@ -1,0 +1,1 @@
+En Nueva consulta: Deberá seleccionar el nombre del médico o se tomará fijo el nombre del médico logueado.

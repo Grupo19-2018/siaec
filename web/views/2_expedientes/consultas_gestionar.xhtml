@@ -33,6 +33,7 @@
                     <div class="col-md-5">
                         <h6><b>Según promoción</b></h6>
                         <p:selectOneMenu id="promociongestion" value="#{expedientesBean.consultaEditar.promocionId}" converter="#{promocionConvertidor}" style="width: 100%">
+                            <f:selectItem itemLabel="Seleccionar..." itemValue=""/>
                             <f:selectItems value="#{expedientesBean.todasPromocionesDisponibles()}" var="promo"
                                            itemLabel="#{promo.promocionNombre}" itemValue="#{promo}" />
                         </p:selectOneMenu>

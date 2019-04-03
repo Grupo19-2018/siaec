@@ -13,6 +13,7 @@
                 <f:metadata>
                     <f:viewAction action="#{expedientesBean.verificaAcceso('Gestionar Expediente')}"/>
                     <f:viewParam name="expedientegestionar" value="#{expedientesBean.expedienteId}"/>
+                    <f:viewParam name="citaid" value="#{expedientesBean.citaId}"/>
                     <f:viewParam name="consultaseleccionada" value="#{expedientesBean.consultaId}"/>
                     <f:viewParam name="tabindex" value="#{expedientesBean.tabIndex}"/>
                     <f:viewAction action="#{expedientesBean.cargarExpedienteGestionar()}"/>

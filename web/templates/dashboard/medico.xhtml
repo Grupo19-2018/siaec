@@ -71,20 +71,21 @@
                                         <td>
                                             <center>
 
-                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar cita">
                                                     <f:param name="citaConsultarId" value="#{cita.citaId}"/>
                                                     <f:param name="retorno" value="1"/>
                                                 </h:link>
                                                 &nbsp;
                                                 <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 1}">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="expedienteconsultar" value="#{cita.citaPaciente}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>
                                                     </h:link>
                                                     &nbsp;
-                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
                                                         <f:param name="expedientegestionar" value="#{cita.citaPaciente}"/>
+                                                        <f:param name="citaid" value="#{cita.citaId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
                                                     </h:link> 
@@ -94,7 +95,7 @@
                                                     </h:link>
                                                 </h:panelGroup>
                                                 <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 2}">
-                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
+                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link> 
                                                     &nbsp;
@@ -103,14 +104,15 @@
                                                     </h:link>
                                                 </h:panelGroup> 
                                                 <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 3}">
-                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Consultar">
-                                                        <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario)}"/>
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
+                                                        <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)}"/>
+                                                        <f:param name="citaid" value="#{cita.citaId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
                                                     </h:link> &nbsp;
 
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
-                                                        <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario)}"/>
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                        <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>
                                                     </h:link>

@@ -3,6 +3,7 @@ Actualizado: 28/febrero/2019
 */
 package controllers;
 
+import dao.CitasFacade;
 import dao.ConsultasFacade;
 import dao.PatologiasFacade;
 import dao.DepartamentosFacade;
@@ -175,6 +176,11 @@ public class ExpedientesBean implements Serializable {
     private UsuariosFacade usuarioFacade;
     private Usuarios usuario = new Usuarios();
     private String us= "";
+    
+    @EJB
+    private CitasFacade citasFacade;
+    private Citas citaSeleccionada = new Citas();
+    private int citaId;
     
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -384,6 +390,10 @@ public class ExpedientesBean implements Serializable {
 
     public DetallesConsultasFacade getDetallesConsultasFacade() {
         return detallesConsultasFacade;
+    }
+
+    public CitasFacade getCitasFacade() {
+        return citasFacade;
     }
 
 //****************************************************************************//
@@ -966,7 +976,21 @@ public class ExpedientesBean implements Serializable {
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
-            
+
+    public Citas getCitaSeleccionada() {
+        return citaSeleccionada;
+    }
+    public void setCitaSeleccionada(Citas citaSeleccionada) {
+        this.citaSeleccionada = citaSeleccionada;
+    }
+
+    public int getCitaId() {
+        return citaId;
+    }
+    public void setCitaId(int citaId) {
+        this.citaId = citaId;
+    }
+       
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -1227,6 +1251,13 @@ public class ExpedientesBean implements Serializable {
             consultaNueva.setConsultaFechaCreacion(fechaSistema);
             consultaNueva.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
             getConsultasFacade().create(consultaNueva);
+            if(citaId > 0){
+                citaSeleccionada = getCitasFacade().find(citaId);
+                if(citaSeleccionada != null){
+                    citaSeleccionada.setCitaEstado(3);
+                    getCitasFacade().edit(citaSeleccionada);
+                }
+            }
             consultaEditar = getConsultasFacade().find(consultaNueva.getConsultaId());
             //consultaNueva = new Consultas();
             this.setTabIndex(2);
@@ -1717,11 +1748,14 @@ public class ExpedientesBean implements Serializable {
     
     //Método para cargar expediente seleccionado para gestionara. (paciente_expediente_gestionar.xhtml y consultas_plantilla_nuevo.xhtml)
     public void cargarExpedienteGestionar(){
-        System.out.println("pacienteId: "+expedienteId);
+        //System.out.println("pacienteId: "+expedienteId);
         pacienteEditar = getPacientesFacade().find(expedienteId);
-        System.out.println("consultaId: "+consultaId);
+        //System.out.println("consultaId: "+consultaId);
         consultaEditar = getConsultasFacade().find(consultaId);
-        System.out.println("hola: ");
+        //System.out.println("hola: ");
+        if(appSession.getUsuario().getRolId().getRolId() == 3){
+            consultaNueva.setMedicoId(appSession.getUsuario().getMedicoId());
+        }
         this.direccionEditar = getDireccionesFacade().direccionPorPaciente(pacienteEditar.getPacienteId());
         this.pieza11 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "11");
         this.pieza12 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "12");

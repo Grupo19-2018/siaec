@@ -95,3 +95,6 @@ alter table usuarios add CONSTRAINT fk_usuarios_r51_paciente FOREIGN KEY (pacien
 
 --Actualización de tabla citas para crear referencia directa a pacientes
 alter table citas add column cita_paciente Integer;
+
+--Para dar privilegios de consulta de expedientes a rol asistente
+insert into sub_menus_por_roles values(4, 11);

@@ -96,7 +96,7 @@ public class SesionBean implements Serializable {
     public void iniciarSesionNuevo(){
         try{
             Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
-            if(usuarioLogueado.getUsuarioCodigo() == codigo){
+            if(usuarioLogueado.getUsuarioCodigo().intValue() == codigo){
                 appSession.setUsuario(usuarioLogueado);
                 usuarioLogueado.setUsuarioIntentoFallido(0);
                 usuarioLogueado.setUsuarioActivacion(Boolean.TRUE);

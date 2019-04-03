@@ -312,8 +312,8 @@ public class ExpedientesBean implements Serializable {
     //Usado en : asistente.xhtml dashboard.
     Pacientes pacienteId = new Pacientes();
     public int numeroExpediente(String usuario){
-        if(!(pacientesFacade.pacienteUsuario(usuario).isEmpty())){
-            pacienteId = pacientesFacade.pacienteUsuario(usuario).get(0);
+        if(!(getPacientesFacade().pacienteUsuario(usuario).isEmpty())){
+            pacienteId = getPacientesFacade().pacienteUsuario(usuario).get(0);
             return pacienteId.getPacienteId();
         }
         return 0;
@@ -1764,6 +1764,19 @@ public class ExpedientesBean implements Serializable {
         this.pieza83 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "83");
         this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "84");
         this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "85");
+    }
+    
+    //Método para cargar datos de usuario seleccionado para registrar paciente. (paciente_registrar.xhtml)
+    public void cargarRegistroPaciente() {
+        usuario = getUsuarioFacade().find(us);
+        if(usuario != null){
+            pacienteNuevo.setPacientePrimerNombre(usuario.getUsuarioPrimerNombre());
+            pacienteNuevo.setPacienteSegundoNombre(usuario.getUsuarioSegundoNombre());
+            pacienteNuevo.setPacientePrimerApellido(usuario.getUsuarioPrimerApellido());
+            pacienteNuevo.setPacienteSegundoApellido(usuario.getUsuarioSegundoApellido());
+            pacienteNuevo.setPacienteCorreo(usuario.getUsuarioCorreo());
+            pacienteNuevo.setPacienteTelefonoMovil(usuario.getUsuarioTelefono());
+        }
     }
     
 }

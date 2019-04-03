@@ -463,9 +463,12 @@ public class CitasBean implements Serializable {
         citaNuevo.setCitaFechaCreacion(new Date());
         citaNuevo.setCitaHoraCreacion(new Date());
         citaNuevo.setCitaPaciente(pacienteId);
+        citaNuevo.setCitaEstado(2);
         getCitasFacade().create(citaNuevo);
         citaNuevo = new Citas();
         citaDia = new Date();
+        clinicaSeleccionada = 0;
+        pacienteId = 0;
         msj.mensajeGuardado("Su cita a sido guardada.");
     }
 

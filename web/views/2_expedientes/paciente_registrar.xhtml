@@ -13,6 +13,7 @@
                 <f:metadata>
                     <f:viewAction action="#{expedientesBean.verificaAcceso('Registrar Paciente')}"/>
                     <f:viewParam name="us" value="#{expedientesBean.us}"/>
+                    <f:event type="preRenderView" listener="#{expedientesBean.cargarRegistroPaciente()}"/>
                 </f:metadata>
             </ui:define>
 
@@ -174,10 +175,8 @@
                                 <p:inputText id="apartamentoregistro" value="#{expedientesBean.direccionNuevo.direccionApartamento}" maxlength="50" style="width: 100%"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Casa  *</b></h6>
-                                <p:inputText id="casaregistro" value="#{expedientesBean.direccionNuevo.direccionCasa}" required="#{request.getParameter('direccion')}" maxlength="10"
-                                             style="width: 100%" requiredMessage="Número de casa es requerido."/>
-                                <p:message for="casaregistro"/>
+                                <h6><b>Casa</b></h6>
+                                <p:inputText id="casaregistro" value="#{expedientesBean.direccionNuevo.direccionCasa}" maxlength="10" style="width: 100%"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Departamento</b></h6>
@@ -220,36 +219,36 @@
                 </p:tabView>
             </h:form>
             <p:spacer height="50"/>
-            
+
             <script type="text/javascript">
-            PrimeFaces.locales['es'] = {
-                closeText: 'Cerrar',
-                prevText: 'Anterior',
-                nextText: 'Siguiente',
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                weekHeader: 'Semana',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: '',
-                timeOnlyTitle: 'Sólo hora',
-                timeText: 'Tiempo',
-                hourText: 'Hora',
-                minuteText: 'Minuto',
-                secondText: 'Segundo',
-                currentText: 'Fecha actual',
-                ampm: false,
-                month: 'Mes',
-                week: 'Semana',
-                day: 'Día',
-                allDayText: 'Todo el día'
-            };
+                PrimeFaces.locales['es'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Anterior',
+                    nextText: 'Siguiente',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                    weekHeader: 'Semana',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Sólo hora',
+                    timeText: 'Tiempo',
+                    hourText: 'Hora',
+                    minuteText: 'Minuto',
+                    secondText: 'Segundo',
+                    currentText: 'Fecha actual',
+                    ampm: false,
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    allDayText: 'Todo el día'
+                };
             </script>
-            
+
         </ui:define>
     </ui:composition>
 </html>

@@ -64,7 +64,7 @@ public class DashboardView implements Serializable {
     private LineChartModel sucursalModelo;
     private List<LineChartSeries> sucursales = new ArrayList<>();
     //private LineChartSeries
-    private Integer citasSeleccionable = 1;
+    private Integer citasSeleccionable = 3;
     private String citasSeleccionableS = "1";
 
     public String getCitasSeleccionableS() {

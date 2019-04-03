@@ -319,6 +319,17 @@ public class ExpedientesBean implements Serializable {
         return 0;
     }
     
+    
+    public int numeroExpediente(String usuario, Integer paciente){
+        if(paciente != null){
+            return paciente;
+        }else if(!(getPacientesFacade().pacienteUsuario(usuario).isEmpty())){
+            pacienteId = getPacientesFacade().pacienteUsuario(usuario).get(0);
+            return pacienteId.getPacienteId();
+        }
+        return 0;
+    }
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//

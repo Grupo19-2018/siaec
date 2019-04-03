@@ -99,7 +99,7 @@
                                         </h:panelGroup> 
                                         <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 3}">
                                             <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
-                                                <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario)}"/>
+                                                <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
                                                 <f:param name="tabindex" value="#{0}"/>
                                             </h:link> 

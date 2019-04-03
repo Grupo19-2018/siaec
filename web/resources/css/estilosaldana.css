@@ -270,6 +270,14 @@ padding-bottum:7px
     border-radius: 5px;
  }
  
+ /*Boton para dentro de tabla naranja*/
+ .btn-tabla-naranja{
+    /* background-color: #2399E5;*/
+    background-color: #FB6F52;
+    color: white !important;
+    border-radius: 5px;
+ }
+ 
 /* Para responsibidad del expediente */
 .expediente-tabs ul{
     display: flex;

@@ -181,4 +181,10 @@ public class CitasFacade extends AbstractFacade<Citas> {
     public List<Citas> historicoPorClinica(Integer clinica) {
         return getEntityManager().createNamedQuery("Citas.historicoPorClinica").setParameter("clinica", clinica).getResultList();
     }
+    
+    //Objetivo: Agenda para medico
+    //Usado en:Dashboard_Medico.java
+    public List<Citas> agendaMedico(Integer medicoId){
+        return getEntityManager().createNamedQuery("Citas.agendaMedico").setParameter("medicoId", medicoId).setParameter("dia", new Date()).getResultList();
+    }
 }

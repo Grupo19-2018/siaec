@@ -62,6 +62,7 @@ import javax.validation.constraints.Size;
     //Actualizado: 18/febrero/2019
     //Agregando los estados 1 y 2
     @NamedQuery(name = "Citas.citaDelDiaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha = :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)" ),
+    @NamedQuery(name = "Citas.agendaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha >= :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)" ),
 
     //JPQL para buscar las citas del dia confirmadas.
     @NamedQuery(name = "Citas.citaDelDiaConfirmadas", query = "SELECT c FROM Citas c WHERE c.citaFecha = :dia AND c.citaEstado = 2"),

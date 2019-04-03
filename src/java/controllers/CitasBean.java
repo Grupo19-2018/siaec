@@ -696,6 +696,8 @@ public class CitasBean implements Serializable {
                 return "CitasListaPendientes";
             case 3:
                 return "CitasListaAprobadas";
+            case 5:
+                return "AgendaDoctor";
         }
         return "Dashboard";
     }
@@ -710,6 +712,8 @@ public class CitasBean implements Serializable {
                 return "CitasListaConsultarAprobadas";
             case 4:
                 return "CitasListadoHistoricoClinica";
+            case 5: 
+                return "AgendaDoctor";
         }
         return "Dashboard";
     }

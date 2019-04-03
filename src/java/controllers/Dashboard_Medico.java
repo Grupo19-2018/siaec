@@ -93,6 +93,8 @@ public class Dashboard_Medico implements Serializable {
         this.medico = medico;
     }
     
+    
+    
 
 //****************************************************************************//
 //                                   Métodos                                  //
@@ -123,24 +125,28 @@ public class Dashboard_Medico implements Serializable {
         if(appSession.getUsuario() !=  null){
             medico = usuarioMedico();
             return getCitasfacade().citasDelDiaMedico(medico.getMedicoId());
+            //return getCitasfacade().agendaMedico(medico.getMedicoId());
         }
         return null;
     }
     //Mostrar citas en el Dia.
     //Usado en: medico.xhtml
     public String cantidadCitasDia(){
-            if(!citasDelDia().isEmpty()){
+            if(!agendaMedico().isEmpty()){
                 if(citasDelDia().size() == 1){
-                    return "Tiene " + citasDelDia().size() + " cita agendada";
+                    return "Tiene " + agendaMedico().size() + " cita agendada";
                 }
                 else{
-                    return "Tiene " + citasDelDia().size() + " citas agendadas";
+                    return "Tiene " + agendaMedico().size() + " citas agendadas";
                 }
             }else{
                 return "No tiene citas agendadas";
             }
     }
     
-    //Mostrar la cantidad de citas en este mes.
-    //Mostrar la cantidad de citas en el mes siguiente. 
+    //Metodo para mostrar agenda.
+    //Usado en: cita_clinica_agenda.xhtml
+    public List<Citas>agendaMedico(){
+        return getCitasfacade().agendaMedico(getAppSession().getUsuario().getMedicoId().getMedicoId());
+    }
 }

@@ -364,7 +364,7 @@ public class CitasBean implements Serializable {
                         horarios.add(new Horario(i, s));
                     } else if (cantidadCitas < modulos) {
                         if (hayMedico == false) {
-                            System.out.println("Entra siempre");
+                            //System.out.println("Entra siempre");
                             horarios.add(new Horario(i, s));
                         } else {
                             //Buscar medico y horario, si tiene ocupado no poner. 
@@ -372,16 +372,16 @@ public class CitasBean implements Serializable {
                             //Para dia cita.getTime()
                             //Para hora citaPreguntar.getTime()
                             List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), medico);
-                            /**/
+                            /**
                             for (Citas citas : medicoC) { //
                                 System.out.println("Cita " + citas.getCitaId());
                                 System.out.println("Cita Sucursal" + citas.getClinicaId().getClinicaNombre());
                                 System.out.println("Cita hora " + citas.getCitaHora());
                             }/*
                              /*/
-                            System.out.println("Medico antes de entrar" + s);
+                            //System.out.println("Medico antes de entrar" + s);
                             if (medicoC.isEmpty()) {
-                                System.out.println("Medico " + s);
+                                //System.out.println("Medico " + s);
                                 horarios.add(new Horario(i, s));
                             }
                         }//Id del medico
@@ -391,6 +391,7 @@ public class CitasBean implements Serializable {
                     //Considerar que el medico solo tiene que tener un solo horario activo
 
                     //if (citaNuevo.getMedicoId() == null) {
+                    //System.err.println("El medico con modulos disponible tiene " + hayMedico);
                     if (hayMedico == false) {
                         horarios.add(new Horario(i, s));
                     } else {
@@ -403,9 +404,9 @@ public class CitasBean implements Serializable {
                          * for (Citas citas : medicoC) { //
                          * System.out.println("Cita " + citas.getCitaId()); }/*
                          */
-                        System.out.println("Medico antes de entrar" + s);
+                        //System.out.println("Medico antes de entrar" + s);
                         if (medicoC.isEmpty()) {
-                            System.out.println("Medico " + s);
+                            //System.out.println("Medico " + s);
                             horarios.add(new Horario(i, s));
                         }
                     }//Id del medico 

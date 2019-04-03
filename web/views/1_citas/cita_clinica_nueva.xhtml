@@ -22,9 +22,9 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-12">
-                                
-                                    
-                                
+
+
+
                             </div>
                         </div>
 
@@ -42,7 +42,7 @@
                                     </p:selectOneMenu>
                                     <p:message for="expedienteId"/>
                                 </div>
-                                
+
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Nombres *</b></h6>
                                     <p:inputText id="nombre" value="#{citasBean.citaNuevo.citaNombres}" style="width: 100%" readonly="true"/>
@@ -82,6 +82,7 @@
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
                                                        itemValue="#{medico}"/>
+                                        <p:ajax update="console2"/>
                                     </p:selectOneMenu>
                                 </div>
 
@@ -133,10 +134,10 @@
                                         <f:actionListener binding="#{citasBean.guardarCita()}" />
                                     </p:commandButton>
 
-                                    <p:commandButton value="Cancelar" process="@this"  styleClass="btn-expediente-cancelar" icon="icono-smiling glyphicon glyphicon-remove-circle">
-                                        <f:actionListener binding="#{citasBean.reload()}" />
-                                        <f:actionListener binding="#{citasBean.refrescar()}" />
-                                    </p:commandButton>
+                                    <button type="reset" class="btn " onclick="window.location.href = '/siaec/dashboard.xhtml'"
+                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:grey; font-weight:bold; border:solid 1px grey; -webkit-appearance:none; border-radius: 5px">
+                                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                                    </button>
                                 </center>
                             </div>
 
@@ -151,38 +152,38 @@
 
 
             </h:form>
-            
+
             <p:spacer height="50"/>
-            
+
             <script type="text/javascript">
-            PrimeFaces.locales['es'] = {
-                closeText: 'Cerrar',
-                prevText: 'Anterior',
-                nextText: 'Siguiente',
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                weekHeader: 'Semana',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: '',
-                timeOnlyTitle: 'Sólo hora',
-                timeText: 'Tiempo',
-                hourText: 'Hora',
-                minuteText: 'Minuto',
-                secondText: 'Segundo',
-                currentText: 'Fecha actual',
-                ampm: false,
-                month: 'Mes',
-                week: 'Semana',
-                day: 'Día',
-                allDayText: 'Todo el día'
-            };
+                PrimeFaces.locales['es'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Anterior',
+                    nextText: 'Siguiente',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                    weekHeader: 'Semana',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Sólo hora',
+                    timeText: 'Tiempo',
+                    hourText: 'Hora',
+                    minuteText: 'Minuto',
+                    secondText: 'Segundo',
+                    currentText: 'Fecha actual',
+                    ampm: false,
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    allDayText: 'Todo el día'
+                };
             </script>
-            
+
         </ui:define>
     </ui:composition>
 </html>

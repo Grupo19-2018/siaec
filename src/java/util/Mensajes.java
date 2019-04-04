@@ -24,4 +24,10 @@ public  class Mensajes {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
+    
+    //Método para mostrar mensaje de guardado/actualizado/eliminado.
+    public void mensajeConfirmacion(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
 }

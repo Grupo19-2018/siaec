@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES</b></div>
+    <br/>
+
+    <h:form id="estadistica">
+        <!-- Panel color blanco -->
+        <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+            <div class="row margen-estadisticas-tablero" >
+                <div class="col-md-12">
+                    <div class="col-md-4" >
+                        <p:panel class="estadisticas" style="padding: 0">
+                            <div style="text-align: center">Total de pacientes registrados </div>
+                            <div style="text-align: center">#{hola.totalPacientesRegistrado()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4">
+                        <p:panel class="estadisticas" style="padding: 0">
+                            <div style="text-align: center">Total de paciente registrados en éste mes</div>
+                            <div style="text-align: center">#{hola.pacientesRegistradosMes()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4" >
+                        <p:panel  class="estadisticas" style="padding: 0">
+                            <div style="text-align: center">Total de consultas realizadas</div>
+                            <div style="text-align: center">#{hola.totalConsultasRealizadas()}</div>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row margen-estadisticas-tablero">
+                <div class="col-md-12">
+                    <div class="col-md-12" >
+                        <p:selectOneMenu id="citasSeleccionable" value="#{hola.citasSeleccionable}" > 
+                            <f:selectItem itemLabel="Reservadas" itemValue="1"  />
+                            <f:selectItem itemLabel="Confirmadas" itemValue="2"/>
+                            <f:selectItem itemLabel="Atendidas" itemValue="3"  />
+                            <f:selectItem itemLabel="Canceladas" itemValue="4" />
+                            <p:ajax update="citasGrafico"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="col-md-8">
+
+
+                        <p:panel id="citasGrafico">
+                            <p:chart type="line" model="#{hola.createLineModels3()}" responsive="true" />
+                        </p:panel> 
+                    </div>
+                    <div class="col-md-4 margen-estadisticas-cirular">
+                        <p:panel id="grafico2">
+                            <p:chart type="pie" model="#{hola.createPieModel()}" responsive="true"/>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+        </p:panel>
+    </h:form>
+    <script type="text/javascript">
+        $(window).resize(function () {
+            ancho();
+        });
+
+        $(document).ready(function ($) {
+            setTimeout('ancho()', 250);
+        });
+
+        function ancho() {
+            var anchoMovil = 751;
+            var max = 0;
+            var ventana_ancho = $(window).width();
+
+            $(".estadisticas").each(function () {
+                if ($(this).height() > max) {
+                    max = $(this).height();
+                }
+            });
+
+            if (ventana_ancho >= anchoMovil) {
+                $(".estadisticas").css({'min-height': max});
+            } else {
+                $(".estadisticas").css({'min-height': 'auto'});
+            }
+        }
+
+    </script>
+</html>
+

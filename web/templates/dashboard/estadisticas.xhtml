@@ -3,14 +3,137 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES</b></div>
     <br/>
 
     <h:form id="estadistica">
-        <div class="container-fluid ">
-            <div class="row margen-estadisticas-tablero">
+        <!-- Panel color blanco -->
+        <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+            <div class="row">
+                <div class="col-lg-12">
+                    #{dashboardMedico.cantidadCitasDia()}
+                    &nbsp;
+                    <h:link outcome="AgendaDoctor" class="btn btn-default glyphicon glyphicon-calendar btn-sm btn-tabla-naranja " title="Ver agenda de citas">
+                    </h:link> 
+                </div>
+            </div>
+            
+             <div class="row">
+                <!--Solo se mostraran las citas Reservadas para el dia y las restantes del medico -->
+                <!--El maximo de citas que puede tener son 9 citas dentro del sistema se pueden poner mas
+                    para ello, necesitamos parametrizar el valor de las horas  de apertura y cierre de las 
+                    clinicas. -->
+                <div>
+                    <br/>
+                    <div class="col-md-12">
+                        <table id="tabla" class="table table-striped table-bordered table-hover table-condensed table-boostrap-expediente">
+                            <!-- Cabecera de la tabla -->
+                            <thead>
+                                <tr>
+                                    <th width="10%">Hora</th>
+                                    <th width="25%">Paciente</th>
+                                    <th width="15%">Tel.</th>
+                                    <th width="15">En Sala</th>
+                                    <th width="10%">Sucursal</th>
+                                    <th width="25%">Opciones</th>
+                                </tr>
+                            </thead>
+                            <!-- Cuerpo de la tabla -->
+                            <tbody>
+                                <ui:repeat value="#{dashboardMedico.citasDelDia()}" var="cita">
+                                    <tr>
+                                        <td align="center">
+                                            <span style="font-weight: bold">#{citasBean.horacita24(cita.citaHora)} </span>
+                                        </td>
+                                        <td align="left">
+                                            <span style="font-weight: bold">#{cita.citaNombres} #{cita.citaApellidos}</span>  
+                                        </td>
+                                        <td align="center">
+                                            #{cita.citaTelefono}
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <label class="switch">
+                                                    <h:selectBooleanCheckbox id="enSala" value="#{cita.citaEnsala}" disabled="true"/>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </center>
+                                        </td>
+                                        <td align="center">
+                                            #{cita.clinicaId.clinicaNombre}  
+                                        </td>
+                                        <td>
+                                            <center>
+
+                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar cita">
+                                                    <f:param name="citaConsultarId" value="#{cita.citaId}"/>
+                                                    <f:param name="retorno" value="1"/>
+                                                </h:link>
+                                                &nbsp;
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 1}">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                        <f:param name="expedienteconsultar" value="#{cita.citaPaciente}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
+                                                    &nbsp;
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
+                                                        <f:param name="expedientegestionar" value="#{cita.citaPaciente}"/>
+                                                        <f:param name="citaid" value="#{cita.citaId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{2}"/>
+                                                    </h:link> 
+                                                    &nbsp;
+                                                    <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-phone-alt btn-sm btn-tabla-expediente2" title="Crear un usuario">
+                                                        <f:param name="p" value="#{cita.citaPaciente}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 2}">
+                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                        <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                    </h:link> 
+                                                    &nbsp;
+                                                    <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
+                                                        <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                    </h:link>
+                                                </h:panelGroup> 
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 3}">
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
+                                                        <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)}"/>
+                                                        <f:param name="citaid" value="#{cita.citaId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{2}"/>
+                                                    </h:link> &nbsp;
+
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                        <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
+
+
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.citaPaciente)== 0}">
+                                                    Error
+                                                </h:panelGroup>
+
+
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <br/>
+            </div>
+
+            <div class="row margen-estadisticas-tablero" >
                 <div class="col-md-12">
                     <div class="col-md-4" >
                         <p:panel class="estadisticas" style="padding: 0">
@@ -32,6 +155,11 @@
                     </div>
                 </div>
             </div>
+
+
+           
+
+
 
             <div class="row margen-estadisticas-tablero">
                 <div class="col-md-12">
@@ -58,7 +186,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </p:panel>
     </h:form>
     <script type="text/javascript">
         $(window).resize(function () {
@@ -88,5 +216,42 @@
         }
 
     </script>
+    <script>
+            $(document).ready(function () {
+                estiloTabla();
+            });
+
+            function estiloTabla() {
+                $('#tabla').dataTable(
+                        {
+                            "bDestroy": true,
+                            "oLanguage": {
+                                "sProcessing": "Procesando...",
+                                "sLengthMenu": "Mostrar _MENU_ registros",
+                                "sZeroRecords": "No se encontraron resultados",
+                                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sSearch": "Buscar:",
+                                "sUrl": "",
+                                "sInfoThousands": ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst": "Primero",
+                                    "sLast": "Último",
+                                    "sNext": "Siguiente",
+                                    "sPrevious": "Anterior"
+                                },
+                                "oAria": {
+                                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                }
+                            }
+                        }
+                );
+            }
+        </script>
 </html>
 

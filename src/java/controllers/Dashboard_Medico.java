@@ -57,7 +57,8 @@ public class Dashboard_Medico implements Serializable {
     //Usado en 
     private Medicos usuarioMedico(){
         if(appSession.getUsuario() != null){
-            return getMedicosFacade().medico(appSession.getUsuario().getUsuarioUsuario());
+            //return getMedicosFacade().medico(appSession.getUsuario().getUsuarioUsuario());
+            return getMedicosFacade().find(appSession.getUsuario().getMedicoId().getMedicoId());
         }
         return null;
     }

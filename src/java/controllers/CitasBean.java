@@ -1,15 +1,19 @@
 package controllers;
 
+import com.sun.mail.smtp.SMTPAddressFailedException;
 import util.Horario;
 import util.Mensajes;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
+import dao.ConfiguracionesFacade;
 import dao.MedicosFacade;
 import dao.PacientesFacade;
 import entities.Citas;
 import entities.Clinicas;
+import entities.Configuraciones;
 import entities.Medicos;
 import entities.Pacientes;
+import entities.Usuarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +23,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
+import util.CorreoBasico;
 
 @ManagedBean(name = "citasBean")
 @ViewScoped
@@ -29,6 +36,10 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
     @EJB
     private CitasFacade citasFacade;
+
+    @EJB
+    private ConfiguracionesFacade configuracionFacade;
+    private Configuraciones configuracionCorreo = new Configuraciones();
 
     private Citas citaNuevo = new Citas();
     private Citas citaConsultar = new Citas();
@@ -147,6 +158,10 @@ public class CitasBean implements Serializable {
 
     public PacientesFacade getPacienteFacade() {
         return pacienteFacade;
+    }
+
+    public ConfiguracionesFacade getConfiguracionFacade() {
+        return configuracionFacade;
     }
 
 //****************************************************************************//
@@ -373,12 +388,13 @@ public class CitasBean implements Serializable {
                             //Para hora citaPreguntar.getTime()
                             List<Citas> medicoC = getCitasFacade().citasReservadoSucursal(cita.getTime(), citaPreguntar.getTime(), medico);
                             /**
-                            for (Citas citas : medicoC) { //
-                                System.out.println("Cita " + citas.getCitaId());
-                                System.out.println("Cita Sucursal" + citas.getClinicaId().getClinicaNombre());
-                                System.out.println("Cita hora " + citas.getCitaHora());
-                            }/*
-                             /*/
+                             * for (Citas citas : medicoC) { //
+                             * System.out.println("Cita " + citas.getCitaId());
+                             * System.out.println("Cita Sucursal" +
+                             * citas.getClinicaId().getClinicaNombre());
+                             * System.out.println("Cita hora " +
+                             * citas.getCitaHora()); }/* /
+                             */
                             //System.out.println("Medico antes de entrar" + s);
                             if (medicoC.isEmpty()) {
                                 //System.out.println("Medico " + s);
@@ -568,7 +584,7 @@ public class CitasBean implements Serializable {
         if (hora != null) {
             c.setTime(hora);
             if (c.get(Calendar.HOUR_OF_DAY) < 10) {
-                return "0"+(c.get(Calendar.HOUR_OF_DAY)) + ":00";
+                return "0" + (c.get(Calendar.HOUR_OF_DAY)) + ":00";
             } else {
                 return (c.get(Calendar.HOUR_OF_DAY)) + ":00";
             }
@@ -621,12 +637,104 @@ public class CitasBean implements Serializable {
         citaEditar.setCitaHora(hora.getTime());
         citaEditar.setCitaFechaModificacion(new Date());
         getCitasFacade().edit(citaEditar);
+        //Notificacion de correo. 
+        //Calendar cal= Calendar.getInstance()
+        String notificacion = "";
+        String mensaje = "<div>\n"
+                + "           <h1>Su cita a sido confirmada</h1>\n"
+                + "           <p>\n"
+                + "            Lo esperamos el dia " + citaEditar.getCitaFecha().toString() + "<br/>\n"
+                + "            Hora: " + citaEditar.getCitaHora().toString() + "<br/>\n"
+                + "            En la sucursal:  " + citaEditar.getClinicaId().getClinicaNombre() + "<br/>\n"
+                + "              \n"
+                + "           </p>\n"
+                + "       </div> ";
+        //Solo cuando cambie a confirmada 
+        //1. Si la cita se confirma
+        if (citaEditar.getCitaEstado() == 2) {
+            //2. Si la cita lo manda un usuario.
+            if (citaEditar.getUsuarioUsuario() != null) {
+                //2.1 Y el usuario tiene expediente
+                if (citaEditar.getCitaPaciente() != null) {
+                    //2.1.1 Leo su expediente y verifico si puedo notificarle por correo. 
+                    Pacientes pn = getPacienteFacade().find(citaEditar.getCitaPaciente());
+                    if (pn.getPacienteNotificarCorreo() == true) {
+                        //2.1.1.1 Mando correo
+                        enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
+                    }
+                    
+                } else {
+                    //2.2.1 No tiene expediente mando correo
+                    enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
+                }
+             //3. Si la cita fue creada desde un expediente
+             //4. Verifico el expediente por precaucion. 
+            }else if (citaEditar.getCitaPaciente() != null){
+                //4.1 Verifico si puedo notificarle por correo. 
+                Pacientes pn = getPacienteFacade().find(citaEditar.getCitaPaciente());
+                    if (pn.getPacienteNotificarCorreo() == true) {
+                        //4.1.1 Mando correo
+                        enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
+                    }
+            }
+        }
+
         citaDia = citaEditar.getCitaFecha();
         citaEditarHora.setTime(citaEditar.getCitaHora());
         citaEditarFecha.setTime(citaEditar.getCitaFecha());
         citasEditarSucursal = citaEditar.getClinicaId();
         horaE = hora.get(Calendar.HOUR_OF_DAY);
         msj.mensajeGuardado("Su cita a sido modificada.");
+    }
+
+    //Correo Notificacion 
+    public void enviarCorreo(String mensaje, String correo, String asunto) {
+        configuracionCorreo = getConfiguracionFacade().find(1);
+        try {
+            if (configuracionCorreo.getConfiguracionCorreoActivo()) {
+                if (!configuracionCorreo.getConfiguracionCorreoCuenta().isEmpty()) {
+                    if ((configuracionCorreo.getConfiguracionCorreoEnviadoMes() < configuracionCorreo.getConfiguracionCorreoMes() && configuracionCorreo.getConfiguracionCorreoEnviadoDia() < configuracionCorreo.getConfiguracionCorreoDia())
+                            || configuracionCorreo.getConfiguracionCorreoIlimitada()) {
+
+                        CorreoBasico enviarHtml = new CorreoBasico(configuracionCorreo);
+                        String body = "<div style=\"margin-top: 0px;\">"
+                                + "      <h1 style=\"text-align: center; background: #0B6EAC; color: white\">Clinica Dental Smiling</h1>    "
+                                + "    </div>"
+                                + "    <div>"
+                                + "    " + mensaje
+                                + "    </div>"
+                                + "    <div style=\"background-color:#0B6EAC; color: white;\">"
+                                + "      <div style=\"text-align: right\">"
+                                + "         <p>Horario de lunes a viernes de 8:00 a.m. a 6:00 p.m.<br/>"
+                                + "            Sabádo de 8:00 a.m. a 2:30 p.m. <br/>"
+                                + "            Diagonal Dr Arturo Romero edificio 444 local # 4 Edificio del Subway . Col medica.<br/>"
+                                + "         </p>"
+                                + "      </div>"
+                                + "         <div style=\"padding:5px; text-align: center; border-top: 1px double white\">"
+                                + "              © 2019 <b>SIAEC</b> Todos los Derechos Reservados."
+                                + "         </div> "
+                                + "      </div>";
+                        enviarHtml.sendMailHTML(correo, asunto, body);
+                        msj.mensajeConfirmacion("Mensaje enviado.");
+                    } else {
+                        msj.mensajeError("Limite de envios superados.");
+                    }
+                } else {
+                    msj.mensajeError("Verifique la cuenta del correo.");
+                }
+            } else {
+                msj.mensajeError("Correo desactivado.");
+            }
+        } catch (SMTPAddressFailedException me) {
+            msj.mensajeError("Mensaje no enviado");
+        } catch (SendFailedException me) {
+            msj.mensajeError("Mensaje no enviado");
+        } catch (MessagingException me) {
+            msj.mensajeError("Mensaje no enviado");
+        } catch (Exception e) {
+            msj.mensajeError("Mensaje no enviado");
+        }
+
     }
 
 //Metodo para cargar la informacion del usuario logeado en paciente.
@@ -712,7 +820,7 @@ public class CitasBean implements Serializable {
                 return "CitasListaConsultarAprobadas";
             case 4:
                 return "CitasListadoHistoricoClinica";
-            case 5: 
+            case 5:
                 return "AgendaDoctor";
         }
         return "Dashboard";

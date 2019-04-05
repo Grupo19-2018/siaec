@@ -2398,9 +2398,9 @@
                                     <th width="15%">Fecha</th>
                                     <th width="30%">Tratamiento</th>
                                     <th width="20%">Diente(s)</th>
-                                    <th width="10%">Costo($)</th>
-                                    <th width="10%">Abono($)</th>
-                                    <th width="15%">Saldo pendiente($)</th>
+                                    <th width="10%" style="text-align: right">Costo($)</th>
+                                    <th width="10%" style="text-align: right">Abono($)</th>
+                                    <th width="15%" style="text-align: right">Saldo($)</th>
                                 </tr>
                             </thead>
                             <!-- Cuerpo de la tabla -->
@@ -2409,7 +2409,7 @@
                                     <tr>
                                         <td align="center">
                                             <h:outputText value="#{detalle.detalleconsultaFechaCreacion}">
-                                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
                                             </h:outputText>
                                         </td>
                                         <td>#{detalle.tratamientoId.tratamientoNombre}</td>

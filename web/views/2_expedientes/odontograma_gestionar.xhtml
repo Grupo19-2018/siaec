@@ -2544,7 +2544,7 @@
                     </h:form>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                    <h:form id="nombre">
+                    <h:form id="tratamiento">
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
                                 <h6 style="margin-left: 15pt"><b>Fecha</b></h6>
@@ -2626,57 +2626,116 @@
         </p:panel>
 
         <br/>
-        <!-- Aqui comienza la tabla de detalle de tratamientos -->
-        <h:panelGroup rendered="#{((expedientesBean.todosDetallesConsultasPorPacienteGestionar().size()) != 0)}">
-            <div class="row" style="margin-right: 10pt; margin-left: 10pt">
-                <div class="col-lg-12">
-                    <table id="" class="display table table-striped table-bordered table-hover table-condensed table-boostrap-expediente">
-                        <!-- Cabecera de la tabla -->
-                        <thead>
-                            <tr>
-                                <th width="15%">Fecha</th>
-                                <th width="30%">Tratamiento</th>
-                                <th width="20%">Diente(s)</th>
-                                <th width="10%">Costo($)</th>
-                                <th width="10%">Abono($)</th>
-                                <th width="15%">Saldo pendiente($)</th>
-                            </tr>
-                        </thead>
-                        <!-- Cuerpo de la tabla -->
-                        <tbody>
-                            <ui:repeat value="#{expedientesBean.todosDetallesConsultasPorPacienteGestionar()}" var="detalle" >
+
+        <h:form id="detalle">
+
+            <!-- Aqui comienza la tabla de detalle de tratamientos -->
+            <h:panelGroup rendered="#{((expedientesBean.todosDetallesConsultasPorPacienteGestionar().size()) != 0)}">
+                <div class="row" style="margin-right: 10pt; margin-left: 10pt">
+                    <div class="col-lg-12">
+                        <table id="" class="display table table-striped table-bordered table-hover table-condensed table-boostrap-expediente">
+                            <!-- Cabecera de la tabla -->
+                            <thead>
                                 <tr>
-                                    <td align="center">
-                                        <h:outputText value="#{detalle.detalleconsultaFechaCreacion}">
-                                            <f:convertDateTime pattern="dd-MM-yyyy"/>
-                                        </h:outputText>
-                                    </td>
-                                    <td>#{detalle.tratamientoId.tratamientoNombre}</td>
-                                    <td align="center">#{detalle.detalleconsultaPieza}</td>
-                                    <td align="right">
-                                        <h:outputText value="#{detalle.detalleconsultaCargo}">
-                                            <f:convertNumber minIntegerDigits="1" minFractionDigits="2" maxFractionDigits="2"/>
-                                        </h:outputText>
-                                    </td>
-                                    <td align="right">
-                                        <h:outputText value="#{detalle.detalleconsultaAbono}">
-                                            <f:convertNumber minIntegerDigits="1" minFractionDigits="2" maxFractionDigits="2"/>
-                                        </h:outputText>
-                                    </td>
-                                    <td align="right">
-                                        <h:outputText value="#{detalle.detalleconsultaCargo - detalle.detalleconsultaAbono}">
-                                            <f:convertNumber minIntegerDigits="1" minFractionDigits="2" maxFractionDigits="2"/>
-                                        </h:outputText>
-                                    </td>
+                                    <th width="5%" style="text-align: center">No</th>
+                                    <th width="15%" >Fecha</th>
+                                    <th width="30%">Tratamiento</th>
+                                    <th width="20%">Diente(s)</th>
+                                    <th width="10%" style="text-align: right">Costo($)</th>
+                                    <th width="10%" style="text-align: right">Abono($)</th>
+                                    <th width="10%" style="text-align: right">Saldo($)</th>
+                                    <th width="10%">Opciones</th>
                                 </tr>
-                            </ui:repeat>
-                        </tbody> 
-                    </table>
+                            </thead>
+                            <!-- Cuerpo de la tabla -->
+                            <tbody>
+                                <ui:repeat value="#{expedientesBean.todosDetallesConsultasPorPacienteGestionar()}" var="detalle" >
+                                    <tr>
+                                        <td align="center"></td>
+                                        <td align="center">
+                                            <h:outputText value="#{detalle.detalleconsultaFechaCreacion}">
+                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>#{detalle.tratamientoId.tratamientoNombre}</td>
+                                        <td align="center">#{detalle.detalleconsultaPieza}</td>
+                                        <td align="right">
+                                            <h:outputText value="#{detalle.detalleconsultaCargo}">
+                                                <f:convertNumber minIntegerDigits="1" minFractionDigits="2" maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td align="right">
+                                            <h:outputText value="#{detalle.detalleconsultaAbono}">
+                                                <f:convertNumber minIntegerDigits="1" minFractionDigits="2" maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td align="right">
+                                            <h:outputText value="#{detalle.detalleconsultaCargo - detalle.detalleconsultaAbono}">
+                                                <f:convertNumber minIntegerDigits="1" minFractionDigits="2" maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td align="center">
+                                            <h:commandLink class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar" action="#{expedientesBean.cargarDetalleConsulta()}">
+                                                <f:setPropertyActionListener value="#{detalle}" target="#{expedientesBean.detalleConsultaNuevo}"/>
+                                                <p:ajax process="@this" update=":pacientegestionar:tratamiento"/>
+                                            </h:commandLink>
+                                            &nbsp;
+                                            <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
+                                                           pt:data-toggle="modal" pt:data-target="#eliminarDetalle">
+                                                <f:setPropertyActionListener value="#{detalle}" target="#{expedientesBean.detalleConsultaEditar}"/>
+                                                <p:ajax process="@this" update=":pacientegestionar:detalle:eliminar"/>
+                                            </h:commandLink>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                            </tbody> 
+                        </table>
 
 
+                    </div>
                 </div>
-            </div>
-        </h:panelGroup>
+            </h:panelGroup>
+            
+            <!-- Modal detalleConsulta -->
+                        <div id="eliminarDetalle" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Cabecera del modal -->
+                                    <div class="modal-header" style="background-color: #066EAD">
+                                        <button type="button" class="close btn btn-default" data-dismiss="modal" style="width: 20pt; height: 25pt; background-color: #FF7F27; color: white" aria-hidden="true"><b>X</b></button>
+                                        <h5 class="modal-title"><b><font color="#fff">Eliminar tratamiento</font></b></h5>
+                                    </div>
+
+                                    <!-- Cuerpo del modal -->
+                                    <div class="modal-body">
+                                        <p:panel style="margin-right: 5pt; margin-left: 5pt; border-radius: 5px; height: 140pt">
+                                            <h:panelGroup id="eliminar" style="text-align: center">
+                                                <!-- Nombre -->
+                                                <div class="col-xs-12"><br/>
+                                                    <label><center>¿Está seguro de realizar esta acción?</center></label><br/>
+                                                    <label>El tratamiento se borrará definitivamente.</label><br/>
+                                                </div>
+                                                <div class="col-xs-12"><br/>
+
+                                                    <h:commandLink type="submit" class="btn btn-default" action="#{expedientesBean.eliminarDetalleConsulta()}"
+                                                                   style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                                        <i class="glyphicon glyphicon-trash"></i> Eliminar
+                                                        <f:event type="preValidate" listener="#{expedientesBean.setTabIndex(3)}"/>
+                                                    </h:commandLink>
+                                                    &nbsp;
+                                                    <button type="button" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt" data-dismiss="modal" aria-hidden="true">
+                                                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                                                    </button>
+                                                </div>
+                                            </h:panelGroup> 
+                                        </p:panel>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+        </h:form>
         <p:spacer height="20"/>
     </ui:composition>
 </html>

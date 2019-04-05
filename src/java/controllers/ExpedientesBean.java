@@ -100,6 +100,7 @@ public class ExpedientesBean implements Serializable {
     @EJB
     private DetallesConsultasFacade detallesConsultasFacade;
     private DetallesConsultas detalleConsultaNuevo = new DetallesConsultas();
+    private DetallesConsultas detalleConsultaEditar = new DetallesConsultas();
     @EJB
     private OdontogramasFacade odontogramasFacade;
     private Odontogramas piezaNuevo = new Odontogramas();
@@ -956,6 +957,13 @@ public class ExpedientesBean implements Serializable {
         this.detalleConsultaNuevo = detalleConsultaNuevo;
     }
 
+    public DetallesConsultas getDetalleConsultaEditar() {
+        return detalleConsultaEditar;
+    }
+    public void setDetalleConsultaEditar(DetallesConsultas detalleConsultaEditar) {
+        this.detalleConsultaEditar = detalleConsultaEditar;
+    }
+
     public Integer getTabIndex() {
         return tabIndex;
     }
@@ -1444,19 +1452,59 @@ public class ExpedientesBean implements Serializable {
     //Método para guardar Detalle de Consulta (odontograma_gestionar.xhtml)
     public void guardarDetalleConsulta() {
         try{
-            detalleConsultaNuevo.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
-            detalleConsultaNuevo.setDetalleconsultaFechaCreacion(fechaSistema);
-            detalleConsultaNuevo.setDetalleconsultaUsuarioCreacio("Nombre Usuario");
-            getDetallesConsultasFacade().create(detalleConsultaNuevo);
-            detalleConsultaNuevo = new DetallesConsultas();
-            this.setTabIndex(3);
-            mensajeConfirmacion("El tratamiento se ha guardado.");
+            if(detalleConsultaNuevo.getDetalleconsultaId() != null){
+                getDetallesConsultasFacade().edit(detalleConsultaNuevo);
+                detalleConsultaNuevo = new DetallesConsultas();
+                this.setTabIndex(3);
+                mensajeConfirmacion("El tratamiento se ha actualizado.");
+            }
+            else{
+                detalleConsultaNuevo.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
+                detalleConsultaNuevo.setDetalleconsultaFechaCreacion(fechaSistema);
+                detalleConsultaNuevo.setDetalleconsultaUsuarioCreacio("Nombre Usuario");
+                getDetallesConsultasFacade().create(detalleConsultaNuevo);
+                detalleConsultaNuevo = new DetallesConsultas();
+                this.setTabIndex(3);
+                mensajeConfirmacion("El tratamiento se ha guardado.");
+            }
             //refrescaPagina("/views/3_expedientes/paciente_expediente_gestionar.xhtml");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarDetalleConsulta.");
         }
     }
 
+    //Método para eliminar un Detalle de Consulta (odontograma_gestionar.xhtml)
+    public void eliminarDetalleConsulta() {
+        try {
+            getDetallesConsultasFacade().remove(detalleConsultaEditar);
+            mensajeConfirmacion("El tratamiento se ha eliminado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: eliminarDetalleConsulta.");
+        }
+    }
+    
+    //Método para cargar un Detalle de Consulta (odontograma_gestionar.xhtml)
+    public void cargarDetalleConsulta() {
+        try {
+            //detalleConsultaNuevo = getDetalleConsultaEditar();
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: eliminarDetalleConsulta.");
+        }
+    }
+    
+    // Método para calcular saldo pendiente de paciente (expediente)
+    public double calcularSaldoPendiente() {
+        double cargo = 0.0;
+        double abono = 0.0;
+        double saldo = 0.0;
+        for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteGestionar()){
+            cargo = cargo + detalle.getDetalleconsultaCargo();
+            abono = abono + detalle.getDetalleconsultaAbono();
+        }
+        saldo = cargo - abono;
+        return saldo;
+    }
+    
     // Método para extraer la ubicación de imágenes (imagenes_consultar.xhtml)
     public String imagenPacienteConsultar(Imagenes imagen) {
         String direccion = "../../images/pacientes/"+pacienteConsultar.getPacienteId()+"/"+imagen.getImagenNombre();

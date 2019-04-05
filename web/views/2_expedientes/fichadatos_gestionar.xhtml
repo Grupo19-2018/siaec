@@ -51,7 +51,7 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Fecha de nacimiento</b></h6>
+                            <h6><b>Fecha de nacimiento *</b></h6>
                             <p:calendar id="fechanacimientogestion" value="#{expedientesBean.pacienteEditar.pacienteFechaNacimiento}" class="tamaniocalendario" readonlyInput="true"
                                         yearRange="c-80:c-2" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true" requiredMessage="Fecha es requerida." >
                                 <f:passThroughAttribute name="onkeypress" value="return false;" />
@@ -160,9 +160,8 @@
                             <p:inputText id="apartamentogestion" value="#{expedientesBean.direccionEditar.direccionApartamento}" maxlength="50" style="width: 100%"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Casa número *</b></h6>
-                            <p:inputText id="casagestion" value="#{expedientesBean.direccionEditar.direccionCasa}" required="true" maxlength="10"
-                                         style="width: 100%" requiredMessage="Número de casa es requerido."/>
+                            <h6><b>Casa número</b></h6>
+                            <p:inputText id="casagestion" value="#{expedientesBean.direccionEditar.direccionCasa}" maxlength="10" style="width: 100%"/>
                             <p:message for="casagestion"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">

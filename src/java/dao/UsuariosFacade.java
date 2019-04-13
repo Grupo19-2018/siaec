@@ -47,4 +47,16 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> {
      return getEntityManager().createNamedQuery("Usuarios.findByUsuarioUsuario").setParameter("usuarioUsuario", us).getResultList();
     }
     
+    public List<Usuarios> todosUsuariosClinicas(){
+     return getEntityManager().createNamedQuery("Usuarios.findByUsuarioClinicas").getResultList();
+    }
+    
+    public List<Usuarios> todosUsuariosPacientes(){
+     return getEntityManager().createNamedQuery("Usuarios.findByUsuarioPacientes").getResultList();
+    }
+    
+    public List<Usuarios> todosUsuariosActivos(){
+     return getEntityManager().createNamedQuery("Usuarios.findByUsuarioActivos").getResultList();
+    }
+    
 }

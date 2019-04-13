@@ -42,7 +42,7 @@
                             <h:panelGroup id="panelnombre">
                                 <h6 style="color: white"><b>Seleccionar</b></h6>
 
-                                <p:selectOneMenu id="nombremedicousuario" rendered="#{(catalogosBean.rolId == 3)}" value="#{catalogosBean.medicoId}" filter="true"  filterMatchMode="startsWith" panelStyle="width: 25%;" style="width: 100%"
+                                <p:selectOneMenu id="nombremedicousuario" rendered="#{(catalogosBean.rolId == 2) or (catalogosBean.rolId == 3)}" value="#{catalogosBean.medicoId}" filter="true"  filterMatchMode="startsWith" panelStyle="width: 25%;" style="width: 100%"
                                                  required="true" requiredMessage="Seleccionar...">
                                     <f:selectItem itemLabel="Seleccione un médico" noSelectionOption="true" itemValue=""/>
                                     <f:selectItems value="#{catalogosBean.todosMedicosDisponibles()}" var="medico" itemLabel="#{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido} #{medico.medicoSegundoApellido}" itemValue="#{medico.medicoId}"/>

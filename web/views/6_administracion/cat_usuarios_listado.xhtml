@@ -13,6 +13,7 @@
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Usuarios')}"/>
+                    <f:viewAction action="#{catalogosBean.setUsuarios(1)}"/>
                 </f:metadata>
             </ui:define>
 
@@ -22,18 +23,30 @@
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
 
-                <!-- Botón para agregar un nuevo registro -->
-                <div class="row" style="margin-right: 10pt; margin-left: 10pt; margin-bottom: 10pt; margin-top: 10pt">
-                    <div class="col-lg-12">
-                        <button class="btn btn-default buttonLevel1 w3-round" style="width: 130pt"
-                                onclick="window.location.href = 'cat_usuarios_nuevo.xhtml'">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Usuario
-                        </button>
-                    </div>
-                </div>
-                <br/>
+                <h:form id="listaUsuarios">
 
-                <h:form id="listaTratamientos">
+                    <!-- Botón para agregar un nuevo registro -->
+                    <div class="row" style="margin-right: 10pt; margin-left: 10pt; margin-bottom: 10pt; margin-top: 10pt">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <button type="reset" class="btn btn-default buttonLevel1 w3-round" style="width: 105pt"
+                                    onclick="window.location.href = 'cat_usuarios_nuevo.xhtml'">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo usuario
+                            </button>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" align="right">
+                            <p:selectOneMenu id="usuarios" value="#{catalogosBean.usuarios}" style="width: 125pt">
+                                <f:selectItem itemLabel="Usuarios de clínica" itemValue="1"/>
+                                <f:selectItem itemLabel="Pacientes" itemValue="2"/>
+                                <f:selectItem itemLabel="Todos los usuarios" itemValue="3"/>
+                                <p:ajax update=":listaUsuarios"/>
+                                <p:ajax oncomplete="indice();"/>
+                                <p:ajax oncomplete="estiloTabla();"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <br/>
+
+
                     <!-- Tabla -->
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-lg-12">
@@ -42,32 +55,38 @@
                                 <thead>
                                     <tr>
                                         <th width="5%">No</th>
-                                        <th width="25%">Fecha Creado</th>
-                                        <th width="35%">Usuario</th>
+                                        <th width="20%">Creación</th>
+                                        <th width="35%">Nombre de usuario</th>
                                         <th width="25%">Rol</th>
-                                        <th width="10%">Opciones</th>
+                                        <th width="15%">Opciones</th>
                                     </tr>
                                 </thead>
                                 <!-- Cuerpo de la tabla -->
                                 <tbody>
-                                    <ui:repeat value="#{catalogosBean.todosUsuarios()}" var="usuario" >
+                                    <ui:repeat value="#{catalogosBean.todosUsuariosActivos()}" var="usuario" >
                                         <tr>
                                             <td align="center"></td>
                                             <td align="center">#{usuario.creacionUsuario()}</td>
                                             <td>#{usuario.usuarioUsuario}</td>
                                             <td align="center">#{usuario.rolId.rolNombre}</td>
                                             <td align="center">
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(25)}">
-                                                    <h:link outcome="TratamientosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
-                                                        <f:param name="tratamiento" value="#"/>
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(22)}">
+                                                    <h:link outcome="UsuariosConsultar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
+                                                        <f:param name="usuarioconsultar" value="#{usuario.usuarioUsuario}"/>
+                                                    </h:link>
+                                                </h:panelGroup>
+                                                &nbsp;
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(23)}">
+                                                    <h:link outcome="UsuariosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
+                                                        <f:param name="usuarioeditar" value="#{usuario.usuarioUsuario}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 &nbsp;
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(26)}">
                                                     <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
-                                                                   pt:data-toggle="modal" pt:data-target="#eliminarTratamiento">
-                                                        <f:setPropertyActionListener value="#{tratamiento}" target="#{catalogosBean.tratamientoEditar}"/>
-                                                        <p:ajax process="@this" update=":listaTratamientos:eliminar"/>
+                                                                   pt:data-toggle="modal" pt:data-target="#eliminarUsuario">
+                                                        <f:setPropertyActionListener value="#{usuario}" target="#{catalogosBean.usuarioEditar}"/>
+                                                        <p:ajax process="@this" update=":listaUsuarios:eliminar"/>
                                                     </h:commandLink>
                                                 </h:panelGroup>
                                             </td>
@@ -77,15 +96,15 @@
                             </table>
                         </div>
 
-                        <!-- Modal eliminarTratamiento -->
-                        <div id="eliminarTratamiento" class="modal">
+                        <!-- Modal eliminarUsuario -->
+                        <div id="eliminarUsuario" class="modal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
                                     <!-- Cabecera del modal -->
                                     <div class="modal-header" style="background-color: #066EAD">
                                         <button type="button" class="close btn btn-default" data-dismiss="modal" style="width: 20pt; height: 25pt; background-color: #FF7F27; color: white" aria-hidden="true"><b>X</b></button>
-                                        <h5 class="modal-title"><b><font color="#fff">Eliminar tratamiento</font></b></h5>
+                                        <h5 class="modal-title"><b><font color="#fff">Eliminar usuario</font></b></h5>
                                     </div>
 
                                     <!-- Cuerpo del modal -->
@@ -95,11 +114,12 @@
                                                 <!-- Nombre -->
                                                 <div class="col-xs-12"><br/>
                                                     <label><center>¿Está seguro de realizar esta acción?</center></label><br/>
-                                                    <label>El tratamiento se borrará definitivamente.</label><br/>
+                                                    <label>El usuario se borrará definitivamente.</label><br/>
                                                 </div>
                                                 <div class="col-xs-12"><br/>
 
-                                                    <h:commandLink type="submit" class="btn btn-default" style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px" action="#{catalogosBean.eliminarTratamiento()}">
+                                                    <h:commandLink type="submit" class="btn btn-default" action="#{catalogosBean.eliminarUsuario()}"
+                                                                   style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                                         <i class="glyphicon glyphicon-trash"></i> Eliminar
                                                     </h:commandLink>
                                                     &nbsp;
@@ -115,9 +135,8 @@
                         </div>
 
                     </div>
+                    <br/>
                 </h:form>
-                <br/>
-
             </p:panel>
             <p:spacer height="50"/>
 
@@ -128,13 +147,18 @@
 
             <script>
                 $(document).ready(function () {
+                    indice();
+                });
+
+                function indice() {
                     var t = $('#tabla').DataTable({
+                        "bDestroy": true,
                         "columnDefs": [{
                                 "searchable": false,
                                 "orderable": false,
                                 "targets": 0
                             }],
-                        "order": [[1, 'asc']]
+                        "order": [[1, 'desc']]
                     });
 
                     t.on('order.dt search.dt', function () {
@@ -142,7 +166,7 @@
                             cell.innerHTML = i + 1;
                         });
                     }).draw();
-                });
+                }
 
                 $(document).ready(function () {
                     estiloTabla();

@@ -110,6 +110,8 @@ public class CatalogosBean implements Serializable {
     @EJB
     private UsuariosFacade usuariosFacade;
     private Usuarios usuarioNuevo = new Usuarios();
+    private Usuarios usuarioConsultar = new Usuarios();
+    private Usuarios usuarioEditar = new Usuarios();
 
     @EJB
     private RolesFacade rolesFacade;
@@ -128,6 +130,8 @@ public class CatalogosBean implements Serializable {
     private int tipoInsumoId;
     private int unidadMedidaId;
     private int pacienteId;
+    private String usuarioUsuario;
+    private int usuarios;
 
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -193,6 +197,14 @@ public class CatalogosBean implements Serializable {
 
     public List<Usuarios> todosUsuarios() {
         return getUsuariosFacade().findAll();
+    }
+    
+    public List<Usuarios> todosUsuariosActivos() {
+        switch(usuarios) {
+            case 1: return getUsuariosFacade().todosUsuariosClinicas();
+            case 2: return getUsuariosFacade().todosUsuariosPacientes();
+            default: return getUsuariosFacade().todosUsuariosActivos();
+        }
     }
 
 //****************************************************************************//
@@ -441,10 +453,23 @@ public class CatalogosBean implements Serializable {
         this.usuarioNuevo = usuarioNuevo;
     }
 
+    public Usuarios getUsuarioConsultar() {
+        return usuarioConsultar;
+    }
+    public void setUsuarioConsultar(Usuarios usuarioConsultar) {
+        this.usuarioConsultar = usuarioConsultar;
+    }
+
+    public Usuarios getUsuarioEditar() {
+        return usuarioEditar;
+    }
+    public void setUsuarioEditar(Usuarios usuarioEditar) {
+        this.usuarioEditar = usuarioEditar;
+    }
+    
     public Date getFechaActual() {
         return fechaActual;
     }
-
     public void setFechaActual(Date fechaActual) {
         this.fechaActual = fechaActual;
     }
@@ -452,7 +477,6 @@ public class CatalogosBean implements Serializable {
     public Existencias getExistenciaNuevo() {
         return existenciaNuevo;
     }
-
     public void setExistenciaNuevo(Existencias existenciaNuevo) {
         this.existenciaNuevo = existenciaNuevo;
     }
@@ -537,6 +561,20 @@ public class CatalogosBean implements Serializable {
         this.pacienteId = pacienteId;
     }
 
+    public String getUsuarioUsuario() {
+        return usuarioUsuario;
+    }
+    public void setUsuarioUsuario(String usuarioUsuario) {
+        this.usuarioUsuario = usuarioUsuario;
+    }
+
+    public int getUsuarios() {
+        return usuarios;
+    }
+    public void setUsuarios(int usuarios) {
+        this.usuarios = usuarios;
+    }
+        
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -791,6 +829,18 @@ public class CatalogosBean implements Serializable {
         }
     }
 
+    //Método para eliminar un Usuario (cat_usuarios_listado.xhtml)
+    public void eliminarUsuario() {
+        try {
+            usuarioEditar.setUsuarioFechaModificacion(fechaActual);
+            usuarioEditar.setUsuarioEstado(Boolean.FALSE);
+            getUsuariosFacade().edit(usuarioEditar);
+            mensajeConfirmacion("El usuario se ha eliminado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: eliminarUsuario.");
+        }
+    }
+
     // Método para extraer el teléfono de los medicos (cat_medicos_listado.xhtml)
     public String telefonoMedico(Medicos medico) {
 
@@ -859,6 +909,16 @@ public class CatalogosBean implements Serializable {
     //Método para cargar unidad de medida seleccionada para editar. (cat_unidadesmedidas_editar.xhtml)
     public void cargarUnidadMedida() {
         unidadMedidaEditar = getUnidadesMedidasFacade().find(unidadMedidaId);
+    }
+
+    //Método para cargar usuario seleccionado para consultar. (cat_usuarios_consultar.xhtml)
+    public void cargarUsuarioConsultar() {
+        usuarioConsultar = getUsuariosFacade().find(usuarioUsuario);
+    }
+
+    //Método para cargar usuario seleccionado para editar. (cat_usuarios_editar.xhtml)
+    public void cargarUsuarioEditar() {
+        usuarioEditar = getUsuariosFacade().find(usuarioUsuario);
     }
 
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
@@ -984,7 +1044,7 @@ public class CatalogosBean implements Serializable {
                 pacienteSeleccionado = getPacientesFacade().find(pacienteId);
             }
             getUsuariosFacade().create(usuarioNuevo);
-            if(rolId == 3){
+            if(rolId == 2 || rolId ==3){
                 medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
                 getMedicosFacade().edit(medicoSeleccionado);
             }

@@ -33,6 +33,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
     @NamedQuery(name = "Usuarios.findByUsuarioUsuario", query = "SELECT u FROM Usuarios u WHERE u.usuarioUsuario = :usuarioUsuario"),
+    @NamedQuery(name = "Usuarios.findByUsuarioClinicas", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId != 5"),
+    @NamedQuery(name = "Usuarios.findByUsuarioPacientes", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId = 5"),
+    @NamedQuery(name = "Usuarios.findByUsuarioActivos", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE'"),
     //@NamedQuery(name = "Usuarios.findByUsuarioNombre", query = "SELECT u FROM Usuarios u WHERE u.usuarioNombre = :usuarioNombre"),
     //@NamedQuery(name = "Usuarios.findByUsuarioApellido", query = "SELECT u FROM Usuarios u WHERE u.usuarioApellido = :usuarioApellido"),
     @NamedQuery(name = "Usuarios.findByUsuarioCorreo", query = "SELECT u FROM Usuarios u WHERE u.usuarioCorreo = :usuarioCorreo"),

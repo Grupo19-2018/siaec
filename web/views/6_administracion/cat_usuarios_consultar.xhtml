@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Usuarios')}"/>
+                    <f:viewParam name="usuarioconsultar" value="#{catalogosBean.usuarioUsuario}"/>
+                    <f:event type="preRenderView" listener="#{catalogosBean.cargarUsuarioConsultar()}"/>
+                </f:metadata>
+            </ui:define>
+
+            <div class="banda1"><b>VER USUARIO</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <div class="row" style="margin-left: 5px; margin-right: 5px">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Primer nombre</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioPrimerNombre}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Segundo nombre</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioSegundoNombre}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Primer apellido</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioPrimerApellido}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Segundo Apellido</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioSegundoApellido}" readonly="true" style="width: 100%"/>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" style="margin-left: 5px; margin-right: 5px">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Correo electrónico</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioCorreo}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Teléfono</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioTelefono}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Nombre de usuario</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioUsuario}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Rol</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.rolId.rolNombre}" readonly="true" style="width: 100%"/>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row" style="margin-left: 5px; margin-right: 5px">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Fecha de creación</b></h6>
+                        <p:inputText value="#{catalogosBean.usuarioConsultar.usuarioFechaCreacion}" readonly="true" style="width: 100%">
+                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                        </p:inputText>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <h6><b>Estado</b></h6>
+                        <p:inputText value="#{(catalogosBean.usuarioConsultar.usuarioBloqueado)?'Activo':'Bloqueado'}" readonly="true" style="width: 100%"/>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    </div>
+                </div>
+                <br/>
+                
+                <div class="row" style="margin-left: 5px; margin-right: 5px">
+                    <div class="col-lg-12" align="right">
+                        <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt"
+                                onclick="window.location.href = 'cat_usuarios_listado.xhtml'">
+                            <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Regresar
+                        </button>
+                    </div>
+                </div>
+                <br/>
+                
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

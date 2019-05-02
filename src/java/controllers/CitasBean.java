@@ -479,7 +479,7 @@ public class CitasBean implements Serializable {
         citaNuevo.setCitaHora(hora.getTime());
         citaNuevo.setCitaFechaCreacion(new Date());
         citaNuevo.setCitaHoraCreacion(new Date());
-        citaNuevo.setCitaPaciente(pacienteId);
+        citaNuevo.setPacienteId(new Pacientes(pacienteId));
         citaNuevo.setCitaEstado(2);
         getCitasFacade().create(citaNuevo);
         citaNuevo = new Citas();
@@ -655,9 +655,9 @@ public class CitasBean implements Serializable {
             //2. Si la cita lo manda un usuario.
             if (citaEditar.getUsuarioUsuario() != null) {
                 //2.1 Y el usuario tiene expediente
-                if (citaEditar.getCitaPaciente() != null) {
+                if (citaEditar.getPacienteId() != null) {
                     //2.1.1 Leo su expediente y verifico si puedo notificarle por correo. 
-                    Pacientes pn = getPacienteFacade().find(citaEditar.getCitaPaciente());
+                    Pacientes pn = getPacienteFacade().find(citaEditar.getPacienteId());
                     if (pn.getPacienteNotificarCorreo() == true) {
                         //2.1.1.1 Mando correo
                         enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
@@ -669,9 +669,9 @@ public class CitasBean implements Serializable {
                 }
              //3. Si la cita fue creada desde un expediente
              //4. Verifico el expediente por precaucion. 
-            }else if (citaEditar.getCitaPaciente() != null){
+            }else if (citaEditar.getPacienteId() != null){
                 //4.1 Verifico si puedo notificarle por correo. 
-                Pacientes pn = getPacienteFacade().find(citaEditar.getCitaPaciente());
+                Pacientes pn = getPacienteFacade().find(citaEditar.getPacienteId());
                     if (pn.getPacienteNotificarCorreo() == true) {
                         //4.1.1 Mando correo
                         enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");

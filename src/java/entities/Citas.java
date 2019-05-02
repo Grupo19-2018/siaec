@@ -75,7 +75,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.citaActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha >= :fecha"),
     //Named queries para comprbar las citas reservadas aprobadas
     @NamedQuery(name = "Citas.reservadasAprobadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
-    @NamedQuery(name = "Citas.reservadasAprobadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.reservadasAprobadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha ORDER BY c.citaFecha DESC"),
     
     //Named queries para conocer las citas pendientes (reservadas). 
     @NamedQuery(name = "Citas.reservadasPendientes", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC" ),
@@ -150,8 +150,14 @@ public class Citas implements Serializable {
     @Column(name = "cita_ensala")
     private Boolean citaEnsala;
     
-    @Column(name = "cita_paciente")
-    private Integer citaPaciente;
+    @JoinColumn(name = "paciente_id", referencedColumnName = "paciente_id")
+    @ManyToOne
+    private Pacientes pacienteId;
+    //@JoinColumn(name = "usuario_usuario", referencedColumnName = "usuario_usuario")
+    //@ManyToOne
+    //private Usuarios usuarioUsuario;
+    //@Column(name = "paciente_id")
+    //private Integer pacienteId;
 
     public Boolean getCitaEnsala() {
         return citaEnsala;
@@ -161,12 +167,12 @@ public class Citas implements Serializable {
         this.citaEnsala = citaEnsala;
     }
 
-    public Integer getCitaPaciente() {
-        return citaPaciente;
+    public Pacientes getPacienteId() {
+        return pacienteId;
     }
 
-    public void setCitaPaciente(Integer citaPaciente) {
-        this.citaPaciente = citaPaciente;
+    public void setPacienteId(Pacientes pacienteId) {
+        this.pacienteId = pacienteId;
     }
     
     

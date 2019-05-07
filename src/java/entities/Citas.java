@@ -61,8 +61,8 @@ import javax.validation.constraints.Size;
     //Estado: Usado
     //Actualizado: 18/febrero/2019
     //Agregando los estados 1 y 2
-    @NamedQuery(name = "Citas.citaDelDiaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha = :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)" ),
-    @NamedQuery(name = "Citas.agendaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha >= :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)" ),
+    @NamedQuery(name = "Citas.citaDelDiaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha = :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)"),
+    @NamedQuery(name = "Citas.agendaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha >= :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)"),
 
     //JPQL para buscar las citas del dia confirmadas.
     @NamedQuery(name = "Citas.citaDelDiaConfirmadas", query = "SELECT c FROM Citas c WHERE c.citaFecha = :dia AND c.citaEstado = 2"),
@@ -74,22 +74,24 @@ import javax.validation.constraints.Size;
     //El paciente puede buscarce por el usuario o por su expediente 
     @NamedQuery(name = "Citas.citaActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha >= :fecha"),
     //Named queries para comprbar las citas reservadas aprobadas
-    @NamedQuery(name = "Citas.reservadasAprobadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
-    @NamedQuery(name = "Citas.reservadasAprobadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.aprobadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.aprobadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
     
+    //Named queries para comprobar las citas aprobadas del dia. 
+    @NamedQuery(name = "Citas.aprobadasPorClinicaHoy", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.aprobadasHoy", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha ORDER BY c.citaFecha DESC"),
+
     //Named queries para conocer las citas pendientes (reservadas). 
-    @NamedQuery(name = "Citas.reservadasPendientes", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC" ),
-    @NamedQuery(name = "Citas.reservadasPendientesPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.clinicaId.clinicaId = :clinica AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC" ),
-    
+    @NamedQuery(name = "Citas.reservadasPendientes", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.reservadasPendientesPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.clinicaId.clinicaId = :clinica AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
+
     //Namded query para conocer todas las citas del paciente por medio del usuario o correo
     //Fecha: 11/febrer/2019
     @NamedQuery(name = "Citas.todasPorUsuarioOCorreo", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario OR c.citaCorreo = :correo ORDER BY c.citaFecha DESC"),
-    
+
     //Named query para listar todas las citas por sucursal
     //Fecha:11/febrero/2019
-    @NamedQuery(name = "Citas.historicoPorClinica", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC" ),
-    
-    })
+    @NamedQuery(name = "Citas.historicoPorClinica", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),})
 public class Citas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -145,11 +147,11 @@ public class Citas implements Serializable {
     @JoinColumn(name = "clinica_id", referencedColumnName = "clinica_id")
     @ManyToOne(optional = false)
     private Clinicas clinicaId;
-    
+
     //Agregado de forma manual 
     @Column(name = "cita_ensala")
     private Boolean citaEnsala;
-    
+
     @JoinColumn(name = "paciente_id", referencedColumnName = "paciente_id")
     @ManyToOne
     private Pacientes pacienteId;
@@ -174,8 +176,6 @@ public class Citas implements Serializable {
     public void setPacienteId(Pacientes pacienteId) {
         this.pacienteId = pacienteId;
     }
-    
-    
 
     public Citas() {
     }

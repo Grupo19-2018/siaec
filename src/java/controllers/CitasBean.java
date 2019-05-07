@@ -87,7 +87,7 @@ public class CitasBean implements Serializable {
     }
 
 //Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.
-//Usada en: asistente.xhtml
+//Usada en: cita_clinica_listado_aprobadas.xhtml
 //Estado: En uso.
     public List<Citas> todasCitasAprobadas() {
         System.err.println("Todas citas " + clinicaSeleccionada);
@@ -96,6 +96,16 @@ public class CitasBean implements Serializable {
         }
         return getCitasFacade().citasAprobadas();
     }
+    
+//Metodo para mostrar las citas aprobadas del dia. 
+//Usada en: asistente.xhtml
+//Estado: En uso.
+public List<Citas> todasCitasAprobadasHoy(){
+    if(clinicaSeleccionada != 0){
+        return getCitasFacade().citasAprobadasHoy(clinicaSeleccionada);
+    }
+    return getCitasFacade().citasAprobadasHoy();
+}    
 
 //Metodo para mostrar las citas pendientes. Estado 1.
 //Usado en: cita_clinica_listado_pendiente.xhtml

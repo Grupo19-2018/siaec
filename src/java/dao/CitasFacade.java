@@ -137,16 +137,32 @@ public class CitasFacade extends AbstractFacade<Citas> {
     //Usado en: CitasBean.java
     //Objetivo: Listar las citas aprobadas de una sucursal.
     //Estado: En uso.
-    public List<Citas> citasAprobadas(Integer clinica) {
-        return getEntityManager().createNamedQuery("Citas.reservadasAprobadasPorClinica").setParameter("fecha", new Date()).setParameter("clinica", clinica).getResultList();
+    public List<Citas> citasAprobadas(Integer clinicaSeleccionada) {
+        return getEntityManager().createNamedQuery("Citas.aprobadasPorClinica").setParameter("fecha", new Date()).setParameter("clinica", clinicaSeleccionada).getResultList();
     }
     
+    //Named Query: 
+    //Usado en: CitasBean.java
+    //Objetivo: Listar las citas aprobadas de una sucursal del dia.
+    //Estado: En uso.
+    public List<Citas> citasAprobadasHoy(Integer clinicaSeleccionada){
+        return getEntityManager().createNamedQuery("Citas.aprobadasPorClinicaHoy").setParameter("fecha", new Date()).setParameter("clinica", clinicaSeleccionada).getResultList();
+    }
+        
     //Named Query:
     //Usado en: CitasBean.java
     //Objetivo: Listar todas las citas aprobadas. 
     //Estado: En uso. 
     public List<Citas> citasAprobadas() {
-        return getEntityManager().createNamedQuery("Citas.reservadasAprobadas").setParameter("fecha", new Date()).getResultList();
+        return getEntityManager().createNamedQuery("Citas.aprobadas").setParameter("fecha", new Date()).getResultList();
+    }
+    
+    //Named Query:
+    //Usado en: CitasBean.java
+    //Objetivo: Listar todas las citas aprobadas del dia. 
+    //Estado: En uso. 
+    public List<Citas> citasAprobadasHoy() {
+        return getEntityManager().createNamedQuery("Citas.aprobadasHoy").setParameter("fecha", new Date()).getResultList();
     }
     
     //Namad Query: reservadasPendientes y reservadasPendientesPorClinica

@@ -44,7 +44,7 @@
                         </thead>
                         <!-- Cuerpo de la tabla -->
                         <tbody>
-                            <ui:repeat value="#{citasBean.todasCitasAprobadas()}" var="cita" >
+                            <ui:repeat value="#{citasBean.todasCitasAprobadasHoy()}" var="cita" >
                                 <tr>
                                     <!-- <td align="center"></td> -->
                                     <td align="center">
@@ -119,20 +119,6 @@
             </h:form>
         </div>
 
-        <br/>
-        <div>
-            <h:form id="hola">
-                <p:selectOneMenu id="citasSeleccionable" value="#{hola.citasSeleccionable}" > 
-                    <f:selectItem itemLabel="Atendidas" itemValue="3"  />
-                    <f:selectItem itemLabel="Canceladas" itemValue="4" />
-                    <p:ajax update="grafica1"/>
-                </p:selectOneMenu>
-
-                <p:panel id="grafica1">
-                    <p:chart type="line" model="#{hola.createLineModels3()}" responsive="true"  />
-                </p:panel> 
-            </h:form>
-        </div>
 
     </p:panel>
 

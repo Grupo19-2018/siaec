@@ -137,32 +137,32 @@ public class CitasFacade extends AbstractFacade<Citas> {
     //Usado en: CitasBean.java
     //Objetivo: Listar las citas aprobadas de una sucursal.
     //Estado: En uso.
-    public List<Citas> citasAprobadas(Integer clinicaSeleccionada) {
-        return getEntityManager().createNamedQuery("Citas.aprobadasPorClinica").setParameter("fecha", new Date()).setParameter("clinica", clinicaSeleccionada).getResultList();
+    public List<Citas> citasConfirmadas(Integer clinicaSeleccionada) {
+        return getEntityManager().createNamedQuery("Citas.confirmadasPorClinica").setParameter("fecha", new Date()).setParameter("clinica", clinicaSeleccionada).getResultList();
     }
     
     //Named Query: 
     //Usado en: CitasBean.java
     //Objetivo: Listar las citas aprobadas de una sucursal del dia.
     //Estado: En uso.
-    public List<Citas> citasAprobadasHoy(Integer clinicaSeleccionada){
-        return getEntityManager().createNamedQuery("Citas.aprobadasPorClinicaHoy").setParameter("fecha", new Date()).setParameter("clinica", clinicaSeleccionada).getResultList();
+    public List<Citas> citasConfirmadasHoy(Integer clinicaSeleccionada){
+        return getEntityManager().createNamedQuery("Citas.confirmadasPorClinicaHoy").setParameter("fecha", new Date()).setParameter("clinica", clinicaSeleccionada).getResultList();
     }
         
     //Named Query:
     //Usado en: CitasBean.java
     //Objetivo: Listar todas las citas aprobadas. 
     //Estado: En uso. 
-    public List<Citas> citasAprobadas() {
-        return getEntityManager().createNamedQuery("Citas.aprobadas").setParameter("fecha", new Date()).getResultList();
+    public List<Citas> citasConfirmadas() {
+        return getEntityManager().createNamedQuery("Citas.confirmadas").setParameter("fecha", new Date()).getResultList();
     }
     
     //Named Query:
     //Usado en: CitasBean.java
     //Objetivo: Listar todas las citas aprobadas del dia. 
     //Estado: En uso. 
-    public List<Citas> citasAprobadasHoy() {
-        return getEntityManager().createNamedQuery("Citas.aprobadasHoy").setParameter("fecha", new Date()).getResultList();
+    public List<Citas> citasConfirmadasHoy() {
+        return getEntityManager().createNamedQuery("Citas.confirmadasHoy").setParameter("fecha", new Date()).getResultList();
     }
     
     //Namad Query: reservadasPendientes y reservadasPendientesPorClinica

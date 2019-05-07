@@ -9,7 +9,7 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
-            <div class="banda1"><b>LISTADO DE CITAS APROBADAS</b></div>
+            <div class="banda1"><b>LISTADO DE CITAS CONFIRMADAS</b></div>
             <br/>
 
             <!-- Panel color blanco -->
@@ -51,7 +51,7 @@
                                 </thead>
                                 <!-- Cuerpo de la tabla -->
                                 <tbody>
-                                    <ui:repeat value="#{citasBean.todasCitasAprobadas()}" var="cita" >
+                                    <ui:repeat value="#{citasBean.todasCitasConfirmadas()}" var="cita" >
                                         <tr>
                                             <td align="center">
                                                 <h:outputText value="#{cita.citaFecha}" style="width: 100%">

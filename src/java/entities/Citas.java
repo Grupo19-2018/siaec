@@ -74,12 +74,12 @@ import javax.validation.constraints.Size;
     //El paciente puede buscarce por el usuario o por su expediente 
     @NamedQuery(name = "Citas.citaActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha >= :fecha"),
     //Named queries para comprbar las citas reservadas aprobadas
-    @NamedQuery(name = "Citas.aprobadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
-    @NamedQuery(name = "Citas.aprobadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.confirmadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.confirmadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
     
     //Named queries para comprobar las citas aprobadas del dia. 
-    @NamedQuery(name = "Citas.aprobadasPorClinicaHoy", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
-    @NamedQuery(name = "Citas.aprobadasHoy", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.confirmadasPorClinicaHoy", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.confirmadasHoy", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha = :fecha ORDER BY c.citaFecha DESC"),
 
     //Named queries para conocer las citas pendientes (reservadas). 
     @NamedQuery(name = "Citas.reservadasPendientes", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),

@@ -752,8 +752,8 @@ public List<Citas> todasCitasConfirmadasHoy(){
 //Estado: En uso.
     public void cargarPaciente() {
         if (appSession.getUsuario() != null) {
-            citaNuevo.setCitaNombres(appSession.getUsuario().getUsuarioPrimerNombre());
-            citaNuevo.setCitaApellidos(appSession.getUsuario().getUsuarioPrimerApellido());
+            citaNuevo.setCitaNombres(appSession.getUsuario().getUsuarioPrimerNombre() + " " + appSession.getUsuario().getUsuarioSegundoNombre());
+            citaNuevo.setCitaApellidos(appSession.getUsuario().getUsuarioPrimerApellido() + " " + appSession.getUsuario().getUsuarioSegundoApellido());
             citaNuevo.setCitaTelefono(appSession.getUsuario().getUsuarioTelefono());
             citaNuevo.setCitaCorreo(appSession.getUsuario().getUsuarioCorreo());
             citaNuevo.setCitaUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());

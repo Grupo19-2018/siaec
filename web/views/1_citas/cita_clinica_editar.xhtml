@@ -71,13 +71,15 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Médico</b></h6>
-                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaEditar.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" >
-                                        <f:selectItem itemLabel="Seleccione uno..." itemValue=""/>
+                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaEditar.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" required="true"
+                                                     requiredMessage="Seleccione un médico">
+                                        <f:selectItem itemLabel="Seleccione uno..." itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
                                                        itemValue="#{medico}"/>
                                         <p:ajax update="console2"/>
                                     </p:selectOneMenu>
+                                    <p:message for="odontologos" />
                                 </div>
 
 
@@ -90,9 +92,7 @@
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Estado *</b></h6>
                                     <p:selectOneMenu id="estadoCita" value="#{citasBean.citaEditar.citaEstado}" required="true" style="width: 100%"  >
-                                        <f:selectItem itemLabel="Reservado" itemValue="1"  />
                                         <f:selectItem itemLabel="Confirmado" itemValue="2" />
-                                        <f:selectItem itemLabel="Atendido" itemValue="3" />
                                         <f:selectItem itemLabel="Cancelado" itemValue="4" />
                                     </p:selectOneMenu>
                                     <p:message for="estadoCita" display="icon"/>

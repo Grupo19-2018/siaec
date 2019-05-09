@@ -1,47 +1,14 @@
-/*
-Controlador para el Dashboard del Paciente 
-Opciones:
--Crear una cita de forma rápida. 
--Informar de si tiene citas para el día. 
- */
 package controllers;
 
 import dao.CitasFacade;
 import entities.Citas;
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-/**
- *
- * @author user Limpiada: 31/enero/2019 Encargado: Erick
- */
-
-/*
-Notas de actualizacion.
-********************************************************************************
-Fecha: 31/enero/2019
-Encargado: Erick
--Se limpio las librerias de Calendar, Date y otras. 
--Se cambio de Named a ManagedBean
--Se cambio de ViewScoped a SessionScoped
--Se elimino variable String usuario.
--Se elimino metodo de Public List<Citas> citasDelDia() se descarto logica. 
--Se descarto el metodo Public Boolean exiteCita() dependia de citasDelDia() y renderizaba un elemento. 
--Se descarta metodo Public Citas citaDelDia(){} rescataba una cita con get(0).
--Se descarto método Public List<Citas> citasMes(), se tendra una sola cita para cada paciente activa. 
--Se agrego la variable appSession para extraer el usuario logeado. 
--Se agrego los get y set de appSession. 
--Se agrego método mesCita(?), para desplegar el nombre del mes. 
--Se agrego método dashboardCita(), desplega un mensaje personalizado del tipo de cita activa.
--Se agrego méetodo registrarBoton(), habilita o deshabilita el boton de registrar cita.
-
- */
 @ManagedBean(name = "dashboardPaciente")
 @SessionScoped
 public class Dashboard_Paciente implements Serializable {
@@ -58,13 +25,14 @@ public class Dashboard_Paciente implements Serializable {
 //****************************************************************************//
 //                         Métodos para obtener entidades                     //
 //****************************************************************************//
-    //Metodo para determinar las citas activas del paciente.
     //Citas activas: Estado reservadas o pendiente (1) y confirmadas (2)
     //Usado en Dashboard_Paciente.xhtml.
     //Estado: En uso. 
-    //Nota: Se tendran que jugar con las validaciones, para que no permita el ingreso de  mas de una cita. 
     public List<Citas> citaActiva() {
         if (appSession.getUsuario() != null) {
+            if(appSession.getUsuario().getPacienteId() != null){
+                return getCitasfacade().citaActiva(appSession.getUsuario().getPacienteId().getPacienteId());
+            }
             return getCitasfacade().citaActiva(appSession.getUsuario().getUsuarioUsuario());
         }
         System.err.println("Metodo: citasActiva() de Dashboard paciente null");
@@ -168,17 +136,18 @@ public class Dashboard_Paciente implements Serializable {
         return "";
     }
     
-    //Metodo para habilitar o deshabilitar, el boton. 
-    //De registrar cita.
+    //Metodo para habilitar o deshabilitar, el boton de registrar Cita. 
     //Usado en: paciente.xhtml  
-    //Estado: Prueba. 
+    //Estado: En uso. 
     public Boolean registrarBoton(){
         if(getCitasfacade().citaActiva(appSession.getUsuario().getUsuarioUsuario()).size()!=0){
-             System.out.println("Si, al metodo registrarBoton.");
             return true;
         }
-         System.out.println("No, al metodo registrarBoton");
+        if(appSession.getUsuario().getPacienteId() !=null){
+            if(getCitasfacade().citaActiva(appSession.getUsuario().getPacienteId().getPacienteId()).size() !=0){
+                return true;
+            }
+        }
         return false;
     }
-
 }

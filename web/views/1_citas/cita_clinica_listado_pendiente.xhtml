@@ -61,7 +61,12 @@
                                                 #{citasBean.horacita(cita.citaHora)}
                                             </td>
                                             <td align="center">
-                                                #{cita.citaNombres} #{cita.citaApellidos}
+                                                <h:panelGroup rendered="#{cita.pacienteId != null}">
+                                                    #{cita.pacienteId.pacientePrimerNombre} #{cita.pacienteId.pacienteSegundoNombre} #{cita.pacienteId.pacientePrimerApellido} #{cita.pacienteId.pacienteSegundoApellido}
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{cita.pacienteId == null}">
+                                                    #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido}
+                                                </h:panelGroup>
                                             </td>
                                             <td align="center">
                                                 #{citasBean.abreviatura(cita.medicoId.medicoSexo)} #{cita.medicoId.medicoPrimerNombre} #{cita.medicoId.medicoPrimerApellido}

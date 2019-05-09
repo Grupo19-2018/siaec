@@ -62,7 +62,12 @@
                                                 #{citasBean.horacita(cita.citaHora)}
                                             </td>
                                             <td align="left">
-                                                #{cita.citaNombres} #{cita.citaApellidos}
+                                                <h:panelGroup rendered="#{cita.pacienteId != null}">
+                                                    #{cita.pacienteId.pacientePrimerNombre} #{cita.pacienteId.pacienteSegundoNombre} #{cita.pacienteId.pacientePrimerApellido} #{cita.pacienteId.pacienteSegundoApellido}
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{cita.pacienteId == null}">
+                                                    #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido}
+                                                </h:panelGroup>
                                             </td>
                                             <td align="left">
                                                 #{citasBean.abreviatura(cita.medicoId.medicoSexo)} #{cita.medicoId.medicoPrimerNombre} #{cita.medicoId.medicoPrimerApellido}
@@ -82,8 +87,8 @@
                                                 &nbsp;
                                                 <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(2)}">
                                                     <h:link outcome="CitaEditar" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                         <f:param name="citaEditarId" value="#{cita.citaId}"/>
-                                                         <f:param name="retorno" value="3"/>
+                                                        <f:param name="citaEditarId" value="#{cita.citaId}"/>
+                                                        <f:param name="retorno" value="3"/>
                                                     </h:link> 
                                                 </h:panelGroup>
                                                 &nbsp;
@@ -94,7 +99,7 @@
                                                         <p:ajax process="@this" update=":form:eliminar"/>
                                                     </h:commandLink>
                                                 </h:panelGroup>
-                                                
+
                                             </td>
                                         </tr>
                                     </ui:repeat>

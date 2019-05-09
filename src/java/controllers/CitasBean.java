@@ -13,7 +13,6 @@ import entities.Clinicas;
 import entities.Configuraciones;
 import entities.Medicos;
 import entities.Pacientes;
-import entities.Usuarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,11 +64,15 @@ public class CitasBean implements Serializable {
     private Date fechaActual = new Date();
     private Date citaDia = new Date();
     private Integer horaE;
-    private int citaEditarId;                     //Varible para recibir en url
-    private int citaConsultarId;                  //Varible para recibir en url
-    private int citapantalla = 0;                 //Varible para recibir en url
-    private int retorno = 0;                      //Varible para recibir en url
+    private int citaEditarId;                     // Varible para recibir en url
+    private int citaConsultarId;                  // Varible para recibir en url
+    private int citapantalla = 0;                 // Varible para recibir en url
+    private int retorno = 0;                      // Varible para recibir en url
     private final Mensajes msj = new Mensajes();
+    private String nombre = "";                   // Sustituyendo cita_nombres
+    private String apellido = "";                 // Sustituyendo cita_apellidos
+    private String telefono = "";                 // Sustituyendo cita_telefono
+    private String correo = "";                   // Sustituyendo cita_correo
 
     //Session
     @ManagedProperty(value = "#{appSession}")
@@ -96,16 +99,16 @@ public class CitasBean implements Serializable {
         }
         return getCitasFacade().citasConfirmadas();
     }
-    
+
 //Metodo para mostrar las citas aprobadas del dia. 
 //Usada en: asistente.xhtml
 //Estado: En uso.
-public List<Citas> todasCitasConfirmadasHoy(){
-    if(clinicaSeleccionada != 0){
-        return getCitasFacade().citasConfirmadasHoy(clinicaSeleccionada);
+    public List<Citas> todasCitasConfirmadasHoy() {
+        if (clinicaSeleccionada != 0) {
+            return getCitasFacade().citasConfirmadasHoy(clinicaSeleccionada);
+        }
+        return getCitasFacade().citasConfirmadasHoy();
     }
-    return getCitasFacade().citasConfirmadasHoy();
-}    
 
 //Metodo para mostrar las citas pendientes. Estado 1.
 //Usado en: cita_clinica_listado_pendiente.xhtml
@@ -129,7 +132,10 @@ public List<Citas> todasCitasConfirmadasHoy(){
 //Estado: En uso.
     public List<Citas> todasCitasPorPaciente() {
         if (appSession.getUsuario() != null) {
-            return citasFacade.citasTodas(appSession.getUsuario().getUsuarioUsuario(), appSession.getUsuario().getUsuarioCorreo());
+            if (appSession.getUsuario().getPacienteId() != null) {
+                return citasFacade.citasUsuarioTodas(appSession.getUsuario().getUsuarioUsuario(), appSession.getUsuario().getPacienteId().getPacienteId());
+            }
+            return citasFacade.citasUsuarioTodas(appSession.getUsuario().getUsuarioUsuario());
         }
         return null;
     }
@@ -289,19 +295,51 @@ public List<Citas> todasCitasConfirmadasHoy(){
         this.pacienteId = pacienteId;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
 //Cargar paciente
 //Usado en: cita_clinica_nuevo.xhtml
 //Estado: Prueba
+
     public void resetearPaciente() {
         citaNuevo = new Citas();
         Pacientes p = getPacienteFacade().find(pacienteId);
-        citaNuevo.setCitaNombres(p.getPacientePrimerNombre() + " " + p.getPacienteSegundoNombre());
-        citaNuevo.setCitaApellidos(p.getPacientePrimerApellido() + " " + p.getPacienteSegundoApellido());
-        citaNuevo.setCitaTelefono(p.getPacienteTelefonoCasa());
-        citaNuevo.setCitaCorreo(p.getPacienteCorreo());
+        setNombre(p.getPacientePrimerNombre() + " " + p.getPacienteSegundoNombre());
+        setApellido(p.getPacientePrimerApellido() + " " + p.getPacienteSegundoApellido());
+        setTelefono(p.getPacienteTelefonoMovil());
+        setCorreo(p.getPacienteCorreo());
     }
 
 //Carga la cita seleccionada a la variable consulta. 
@@ -446,16 +484,17 @@ public List<Citas> todasCitasConfirmadasHoy(){
         }
     }
 
-//Metodo para guardar la cita del paciente. 
 //Usado en: cita_paciente_nueva.xhtml
 //Estado: En uso.
-//-Temporalmente se preguntara por el usuario, recordad que esta parte no esta completamente definida,
-//que crea la cita, si tiene una con estado 1 o 2, se impedira crear una cita. 
-//-Se pregunta si el usuario sigue activo en sesion. 
     public void guardarCitaPaciente() {
         try {
+            Boolean expedieteCita = true;
             if (appSession.getUsuario() != null) {
-                if (getCitasFacade().citaActiva(appSession.getUsuario().getUsuarioUsuario()).isEmpty()) {
+                if (appSession.getUsuario().getPacienteId() != null) {
+                    expedieteCita = getCitasFacade().citaActiva(appSession.getUsuario().getPacienteId().getPacienteId()).isEmpty();
+                }
+
+                if (getCitasFacade().citaActiva(appSession.getUsuario().getUsuarioUsuario()).isEmpty() && expedieteCita) {
                     citaNuevo.setCitaFecha(citaDia);
                     Calendar hora = Calendar.getInstance();
                     hora.set(Calendar.HOUR_OF_DAY, horaE);
@@ -481,22 +520,31 @@ public List<Citas> todasCitasConfirmadasHoy(){
 //Metodo para guardar cita utilizado en cita_nueva.html
 //Estado:
     public void guardarCita() {
-        citaNuevo.setCitaFecha(citaDia);
-        Calendar hora = Calendar.getInstance();
-        hora.set(Calendar.HOUR_OF_DAY, horaE);
-        hora.set(Calendar.MINUTE, 0);
-        hora.set(Calendar.SECOND, 0);
-        citaNuevo.setCitaHora(hora.getTime());
-        citaNuevo.setCitaFechaCreacion(new Date());
-        citaNuevo.setCitaHoraCreacion(new Date());
-        citaNuevo.setPacienteId(new Pacientes(pacienteId));
-        citaNuevo.setCitaEstado(2);
-        getCitasFacade().create(citaNuevo);
-        citaNuevo = new Citas();
-        citaDia = new Date();
-        clinicaSeleccionada = 0;
-        pacienteId = 0;
-        msj.mensajeGuardado("Su cita a sido guardada.");
+        try {
+            if (getCitasFacade().citaActiva(pacienteId).isEmpty()) {
+                citaNuevo.setCitaFecha(citaDia);
+                Calendar hora = Calendar.getInstance();
+                hora.set(Calendar.HOUR_OF_DAY, horaE);
+                hora.set(Calendar.MINUTE, 0);
+                hora.set(Calendar.SECOND, 0);
+                citaNuevo.setCitaHora(hora.getTime());
+                citaNuevo.setCitaFechaCreacion(new Date());
+                citaNuevo.setCitaHoraCreacion(new Date());
+                citaNuevo.setPacienteId(new Pacientes(pacienteId));
+                citaNuevo.setCitaEstado(2);
+                getCitasFacade().create(citaNuevo);
+                citaNuevo = new Citas();
+                citaDia = new Date();
+                clinicaSeleccionada = 0;
+                pacienteId = 0;
+                msj.mensajeGuardado("Su cita a sido guardada.");
+            }else{
+                msj.mensajeConfirmacion("Este paciente tiene una cita registrada.");
+            }
+
+        } catch (Exception e) {
+            msj.mensajeError("Error al guardar la cita");
+        }
     }
 
 //Metodo para eliminar cita del paciente.
@@ -667,25 +715,26 @@ public List<Citas> todasCitasConfirmadasHoy(){
                 //2.1 Y el usuario tiene expediente
                 if (citaEditar.getPacienteId() != null) {
                     //2.1.1 Leo su expediente y verifico si puedo notificarle por correo. 
-                    Pacientes pn = getPacienteFacade().find(citaEditar.getPacienteId());
-                    if (pn.getPacienteNotificarCorreo() == true) {
+                    //Pacientes pn = getPacienteFacade().find(citaEditar.getPacienteId());
+                    //if (pn.getPacienteNotificarCorreo() == true) {
+                    if (citaEditar.getPacienteId().getPacienteNotificarCorreo() == true) {
                         //2.1.1.1 Mando correo
-                        enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
+                        //  enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
                     }
-                    
+
                 } else {
                     //2.2.1 No tiene expediente mando correo
-                    enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
+                    //enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
                 }
-             //3. Si la cita fue creada desde un expediente
-             //4. Verifico el expediente por precaucion. 
-            }else if (citaEditar.getPacienteId() != null){
+                //3. Si la cita fue creada desde un expediente
+                //4. Verifico el expediente por precaucion. 
+            } else if (citaEditar.getPacienteId() != null) {
                 //4.1 Verifico si puedo notificarle por correo. 
                 Pacientes pn = getPacienteFacade().find(citaEditar.getPacienteId());
-                    if (pn.getPacienteNotificarCorreo() == true) {
-                        //4.1.1 Mando correo
-                        enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
-                    }
+                if (pn.getPacienteNotificarCorreo() == true) {
+                    //4.1.1 Mando correo
+                    // enviarCorreo(mensaje, citaEditar.getCitaCorreo(), "CITA CONFIRMADA");
+                }
             }
         }
 
@@ -747,21 +796,28 @@ public List<Citas> todasCitasConfirmadasHoy(){
 
     }
 
-//Metodo para cargar la informacion del usuario logeado en paciente.
-//Usado en: paciente.xhtml (dashboard), citas_paciente_nueva.xhtml
+//Usado en: citas_paciente_nueva.xhtml
 //Estado: En uso.
     public void cargarPaciente() {
         if (appSession.getUsuario() != null) {
-            citaNuevo.setCitaNombres(appSession.getUsuario().getUsuarioPrimerNombre() + " " + appSession.getUsuario().getUsuarioSegundoNombre());
-            citaNuevo.setCitaApellidos(appSession.getUsuario().getUsuarioPrimerApellido() + " " + appSession.getUsuario().getUsuarioSegundoApellido());
-            citaNuevo.setCitaTelefono(appSession.getUsuario().getUsuarioTelefono());
-            citaNuevo.setCitaCorreo(appSession.getUsuario().getUsuarioCorreo());
+            if (appSession.getUsuario().getPacienteId() != null) {
+                setNombre(appSession.getUsuario().getPacienteId().getPacientePrimerNombre() + " " + appSession.getUsuario().getPacienteId().getPacienteSegundoNombre());
+                setApellido(appSession.getUsuario().getPacienteId().getPacientePrimerApellido() + " " + appSession.getUsuario().getPacienteId().getPacienteSegundoApellido());
+                setTelefono(appSession.getUsuario().getPacienteId().getPacienteTelefonoMovil());
+                setCorreo(appSession.getUsuario().getPacienteId().getPacienteCorreo());
+                citaNuevo.setPacienteId(appSession.getUsuario().getPacienteId());
+            } else {
+                setNombre(appSession.getUsuario().getUsuarioPrimerNombre() + " " + appSession.getUsuario().getUsuarioSegundoNombre());
+                setApellido(appSession.getUsuario().getUsuarioPrimerApellido() + " " + appSession.getUsuario().getUsuarioSegundoApellido());
+                setTelefono(appSession.getUsuario().getUsuarioTelefono());
+                setCorreo(appSession.getUsuario().getUsuarioCorreo());
+            }
+            citaNuevo.setCitaEnsala(Boolean.FALSE);
             citaNuevo.setCitaUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             citaNuevo.setUsuarioUsuario(appSession.getUsuario());
         } else {
             System.err.println("Metodo cargar paciente, Usuario Null");
         }
-
     }
 
 //Metodo para actualizar la cita si el paciente se encuentra en sala. 

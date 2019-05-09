@@ -28,10 +28,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.findByCitaId", query = "SELECT c FROM Citas c WHERE c.citaId = :citaId"),
     @NamedQuery(name = "Citas.findByCitaFecha", query = "SELECT c FROM Citas c WHERE c.citaFecha = :citaFecha"),
     @NamedQuery(name = "Citas.findByCitaHora", query = "SELECT c FROM Citas c WHERE c.citaHora = :citaHora"),
-    @NamedQuery(name = "Citas.findByCitaNombres", query = "SELECT c FROM Citas c WHERE c.citaNombres = :citaNombres"),
-    @NamedQuery(name = "Citas.findByCitaApellidos", query = "SELECT c FROM Citas c WHERE c.citaApellidos = :citaApellidos"),
-    @NamedQuery(name = "Citas.findByCitaTelefono", query = "SELECT c FROM Citas c WHERE c.citaTelefono = :citaTelefono"),
-    @NamedQuery(name = "Citas.findByCitaCorreo", query = "SELECT c FROM Citas c WHERE c.citaCorreo = :citaCorreo"),
     @NamedQuery(name = "Citas.findByCitaMotivo", query = "SELECT c FROM Citas c WHERE c.citaMotivo = :citaMotivo"),
     @NamedQuery(name = "Citas.findByCitaFechaCreacion", query = "SELECT c FROM Citas c WHERE c.citaFechaCreacion = :citaFechaCreacion"),
     @NamedQuery(name = "Citas.findByCitaHoraCreacion", query = "SELECT c FROM Citas c WHERE c.citaHoraCreacion = :citaHoraCreacion"),
@@ -72,7 +68,8 @@ import javax.validation.constraints.Size;
     // Se debe de considerar un metodo para pasar una cita como expirada si el paciente, ni la clinica le cambia el estado a una cita activa. 
     //El paciente solo puede tener una cita activa. 
     //El paciente puede buscarce por el usuario o por su expediente 
-    @NamedQuery(name = "Citas.citaActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha >= :fecha"),
+    @NamedQuery(name = "Citas.citaUsuarioActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha >= :fecha"),
+    @NamedQuery(name = "Citas.citaExpedienteActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.pacienteId.pacienteId = :pacienteId  AND c.citaFecha >= :fecha"),
     //Named queries para comprbar las citas reservadas aprobadas
     @NamedQuery(name = "Citas.confirmadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
     @NamedQuery(name = "Citas.confirmadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
@@ -86,8 +83,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.reservadasPendientesPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.clinicaId.clinicaId = :clinica AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
 
     //Namded query para conocer todas las citas del paciente por medio del usuario o correo
-    //Fecha: 11/febrer/2019
-    @NamedQuery(name = "Citas.todasPorUsuarioOCorreo", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario OR c.citaCorreo = :correo ORDER BY c.citaFecha DESC"),
+    //Fecha: 09/mayo/2019
+    @NamedQuery(name = "Citas.todasPorUsuario", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario ORDER BY c.citaFecha DESC"),
+    @NamedQuery(name = "Citas.todasPorUsuarioExpediente", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario OR c.pacienteId.pacienteId = :pacienteId ORDER BY c.citaFecha DESC"),
 
     //Named query para listar todas las citas por sucursal
     //Fecha:11/febrero/2019
@@ -106,18 +104,6 @@ public class Citas implements Serializable {
     @Column(name = "cita_hora")
     @Temporal(TemporalType.TIME)
     private Date citaHora;
-    @Size(max = 50)
-    @Column(name = "cita_nombres")
-    private String citaNombres;
-    @Size(max = 50)
-    @Column(name = "cita_apellidos")
-    private String citaApellidos;
-    @Size(max = 10)
-    @Column(name = "cita_telefono")
-    private String citaTelefono;
-    @Size(max = 50)
-    @Column(name = "cita_correo")
-    private String citaCorreo;
     @Size(max = 250)
     @Column(name = "cita_motivo")
     private String citaMotivo;
@@ -206,38 +192,6 @@ public class Citas implements Serializable {
 
     public void setCitaHora(Date citaHora) {
         this.citaHora = citaHora;
-    }
-
-    public String getCitaNombres() {
-        return citaNombres;
-    }
-
-    public void setCitaNombres(String citaNombres) {
-        this.citaNombres = citaNombres;
-    }
-
-    public String getCitaApellidos() {
-        return citaApellidos;
-    }
-
-    public void setCitaApellidos(String citaApellidos) {
-        this.citaApellidos = citaApellidos;
-    }
-
-    public String getCitaTelefono() {
-        return citaTelefono;
-    }
-
-    public void setCitaTelefono(String citaTelefono) {
-        this.citaTelefono = citaTelefono;
-    }
-
-    public String getCitaCorreo() {
-        return citaCorreo;
-    }
-
-    public void setCitaCorreo(String citaCorreo) {
-        this.citaCorreo = citaCorreo;
     }
 
     public String getCitaMotivo() {

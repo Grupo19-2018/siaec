@@ -41,7 +41,12 @@
                                                 #{citasBean.horacita(cita.citaHora)}
                                             </td>
                                             <td>
-                                                #{cita.citaNombres} #{cita.citaApellidos}
+                                                <h:panelGroup rendered="#{cita.pacienteId != null}">
+                                                    #{cita.pacienteId.pacientePrimerNombre} #{cita.pacienteId.pacienteSegundoNombre} #{cita.pacienteId.pacientePrimerApellido} #{cita.pacienteId.pacienteSegundoApellido}
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{cita.pacienteId == null}">
+                                                    #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido}
+                                                </h:panelGroup>
                                             </td>
                                             <td align="center">
                                                 <!--#{citasBean.estadoCita(cita.citaEstado)}-->
@@ -123,7 +128,7 @@
                 function estiloTabla() {
                     $('#tabla').dataTable(
                             {
-                                "order": [[0, 'asc'],[1, 'asc']],
+                                "order": [[0, 'asc'], [1, 'asc']],
                                 "bDestroy": true,
                                 "oLanguage": {
                                     "sProcessing": "Procesando...",

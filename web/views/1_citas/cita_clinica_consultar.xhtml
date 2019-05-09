@@ -23,11 +23,21 @@
                 <div class="row" style="margin-left: 5px; margin-right: 5px">
                     <div class="col-md-4">
                         <h6><b>Nombres</b></h6>
-                        <p:inputText value="#{citasBean.citaConsultar.citaNombres}" readonly="true" style="width: 100%"/>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId != null}">
+                            <p:inputText value="#{citasBean.citaConsultar.pacienteId.pacientePrimerNombre} #{citasBean.citaConsultar.pacienteId.pacienteSegundoNombre}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId == null}">
+                            <p:inputText value="#{citasBean.citaConsultar.usuarioUsuario.usuarioPrimerNombre} #{citasBean.citaConsultar.usuarioUsuario.usuarioSegundoNombre}" readonly="true" style="width: 100%"/> 
+                        </h:panelGroup>
                     </div>
                     <div class="col-md-4">
                         <h6><b>Apellidos</b></h6>
-                        <p:inputText value="#{citasBean.citaConsultar.citaApellidos}" readonly="true" style="width: 100%"/>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId != null}">
+                            <p:inputText value="#{citasBean.citaConsultar.pacienteId.pacientePrimerApellido} #{citasBean.citaConsultar.pacienteId.pacienteSegundoApellido}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId == null}">
+                            <p:inputText value="#{citasBean.citaConsultar.usuarioUsuario.usuarioPrimerApellido} #{citasBean.citaConsultar.usuarioUsuario.usuarioSegundoApellido}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
                     </div>
                     <div class="col-md-4">
                         <h6><b>Fechas</b></h6>
@@ -41,11 +51,21 @@
                 <div class="row" style="margin-left: 5px; margin-right: 5px">
                     <div class="col-md-4">
                         <h6><b>Telefono</b></h6>
-                        <p:inputText value="#{citasBean.citaConsultar.citaTelefono}" readonly="true" style="width: 100%"/>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId != null}">
+                            <p:inputText value="#{citasBean.citaConsultar.pacienteId.pacienteTelefonoMovil}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId == null}">
+                            <p:inputText value="#{citasBean.citaConsultar.usuarioUsuario.usuarioTelefono}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
                     </div>                    
                     <div class="col-md-4">
                         <h6><b>Correo electronico</b></h6>
-                        <p:inputText value="#{citasBean.citaConsultar.citaCorreo}" readonly="true" style="width: 100%"/>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId != null}">
+                            <p:inputText value="#{citasBean.citaConsultar.pacienteId.pacienteCorreo}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{citasBean.citaConsultar.pacienteId == null}">
+                            <p:inputText value="#{citasBean.citaConsultar.usuarioUsuario.usuarioTelefono}" readonly="true" style="width: 100%"/>
+                        </h:panelGroup>
                     </div>
                     <div class="col-md-4">
                         <h6><b>Hora</b></h6>

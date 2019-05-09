@@ -21,14 +21,6 @@
 
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-sm-12">
-
-
-
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-8">
 
                                 <div class="col-md-12 col-sm-12">
@@ -45,21 +37,21 @@
 
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Nombres *</b></h6>
-                                    <p:inputText id="nombre" value="#{citasBean.citaNuevo.citaNombres}" style="width: 100%" readonly="true"/>
+                                    <p:inputText id="nombre" value="#{citasBean.nombre}" style="width: 100%" readonly="true"/>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Apellidos *</b></h6>
-                                    <p:inputText id="apellido" value="#{citasBean.citaNuevo.citaApellidos}" style="width: 100%" readonly="true"/>
+                                    <p:inputText id="apellido" value="#{citasBean.apellido}" style="width: 100%" readonly="true"/>
                                 </div>
 
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Teléfono </b></h6>
-                                    <p:inputMask id="telefono" value="#{citasBean.citaNuevo.citaTelefono}" mask="9999-9999" style="width: 100%" readonly="true"/>
+                                    <p:inputMask id="telefono" value="#{citasBean.telefono}" mask="9999-9999" style="width: 100%" readonly="true"/>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Correo</b></h6>
-                                    <p:inputText id="correo" value="#{citasBean.citaNuevo.citaCorreo}" style="width: 100%" readonly="true"/>
+                                    <p:inputText id="correo" value="#{citasBean.correo}" style="width: 100%" readonly="true"/>
                                 </div>
 
 
@@ -77,8 +69,8 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Médico</b></h6>
-                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" >
-                                        <f:selectItem itemLabel="Seleccione uno..." itemValue=""/>
+                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%"  required="true">
+                                        <f:selectItem itemLabel="Seleccione uno..." itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
                                                        itemValue="#{medico}"/>

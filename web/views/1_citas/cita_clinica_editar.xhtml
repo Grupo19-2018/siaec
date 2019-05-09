@@ -28,33 +28,41 @@
                             <div class="col-md-8">
 
                                 <div class="col-md-6 col-sm-12">
-                                    <h6><b>Nombres *</b></h6>
-                                    <p:inputText id="nombre" onfocus="true" value="#{citasBean.citaEditar.citaNombres}" style="width: 100%" required="true"
-                                                 validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
-                                        <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{2,25})*$"/>
-                                    </p:inputText>
-                                    <p:message for="nombre"/>
+                                    <h6><b>Nombres </b></h6>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId != null}">
+                                        <p:inputText value="#{citasBean.citaEditar.pacienteId.pacientePrimerNombre} #{citasBean.citaEditar.pacienteId.pacienteSegundoNombre}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId == null}">
+                                        <p:inputText value="#{citasBean.citaEditar.usuarioUsuario.usuarioPrimerNombre} #{citasBean.citaEditar.usuarioUsuario.usuarioSegundoNombre}" readonly="true" style="width: 100%"/> 
+                                    </h:panelGroup>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
-                                    <h6><b>Apellidos *</b></h6>
-                                    <p:inputText id="apellido" value="#{citasBean.citaEditar.citaApellidos}" style="width: 100%" required="true"
-                                                 validatorMessage="Apellido no válido." requiredMessage="Apellido es requerido.">
-                                        <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{2,25})*$"/>
-                                    </p:inputText>
-                                    <p:message for="apellido"/>
+                                    <h6><b>Apellidos </b></h6>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId != null}">
+                                        <p:inputText value="#{citasBean.citaEditar.pacienteId.pacientePrimerApellido} #{citasBean.citaEditar.pacienteId.pacienteSegundoApellido}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId == null}">
+                                        <p:inputText value="#{citasBean.citaEditar.usuarioUsuario.usuarioPrimerApellido} #{citasBean.citaEditar.usuarioUsuario.usuarioSegundoApellido}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
                                 </div>
-
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Teléfono </b></h6>
-                                    <p:inputMask id="telefono" value="#{citasBean.citaEditar.citaTelefono}" mask="9999-9999" style="width: 100%"/>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId != null}">
+                                        <p:inputText value="#{citasBean.citaEditar.pacienteId.pacienteTelefonoMovil}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId == null}">
+                                        <p:inputText value="#{citasBean.citaEditar.usuarioUsuario.usuarioTelefono}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Correo</b></h6>
-                                    <p:inputText id="correo" value="#{citasBean.citaEditar.citaCorreo}" style="width: 100%" validatorMessage="Correo no válido.">
-                                        <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
-                                    </p:inputText>
-                                    <p:message for="correo"/>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId != null}">
+                                        <p:inputText value="#{citasBean.citaEditar.pacienteId.pacienteCorreo}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="#{citasBean.citaEditar.pacienteId == null}">
+                                        <p:inputText value="#{citasBean.citaEditar.usuarioUsuario.usuarioTelefono}" readonly="true" style="width: 100%"/>
+                                    </h:panelGroup>
                                 </div>
 
 
@@ -141,12 +149,12 @@
                                     <p:commandButton type="sumbit" value="Guardar" update="cita" styleClass="btn-expediente-alternativa" action="#{citasBean.actualizarCita()}" icon="icon-smiling-position icono-smiling glyphicon glyphicon-floppy-disk">
                                     </p:commandButton>
                                     &nbsp;
-                                    
-                                    
+
+
                                     <h:link outcome="#{citasBean.redireccionCitaEditar2()}" class=" btn btn-default btn-expediente-cancelar">
                                         <i class="glyphicon glyphicon-remove-circle"></i> <span style="font-weight: bold;">Cancelar</span>
                                     </h:link>
-                                   
+
                                 </center>
                             </div>
 

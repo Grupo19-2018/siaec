@@ -70,8 +70,17 @@ Fecha: 03/febrero/2019
                                                     <f:convertDateTime pattern="HH:mm"/>
                                                 </h:outputText>
                                             </td>
-                                            <td>#{cita.citaNombres} #{cita.citaApellidos}</td>
-                                            <td align="center">#{cita.citaTelefono}</td>
+                                            <td>
+                                                <h:panelGroup rendered="#{cita.pacienteId != null}">
+                                                    #{cita.pacienteId.pacientePrimerNombre} #{cita.pacienteId.pacienteSegundoNombre} #{cita.pacienteId.pacientePrimerApellido} #{cita.pacienteId.pacienteSegundoApellido}
+                                                </h:panelGroup>
+                                                <h:panelGroup rendered="#{cita.pacienteId == null}">
+                                                    #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido}
+                                                </h:panelGroup>
+                                            </td>
+                                            <td align="center">
+                                                #{cita.citaTelefono}
+                                            </td>
                                             <td>#{cita.medicoId.medicoPrimerNombre} #{cita.medicoId.medicoSegundoNombre} #{cita.medicoId.medicoPrimerApellido} #{cita.medicoId.medicoSegundoApellido}</td>
                                             <td align="center">
                                                 <h:commandLink  action="cita_clinica_consultar_pendiente.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">

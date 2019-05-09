@@ -130,7 +130,11 @@ public class CitasFacade extends AbstractFacade<Citas> {
     //Objetivo: Listar todas las citas confirmadas que se esperan recibir en el dia por sucursal. 
     //Estado: En uso.
     public List<Citas> citaActiva(String usuario) {
-        return getEntityManager().createNamedQuery("Citas.citaActiva").setParameter("usuario", usuario).setParameter("fecha", new Date()).getResultList();
+        return getEntityManager().createNamedQuery("Citas.citaUsuarioActiva").setParameter("usuario", usuario).setParameter("fecha", new Date()).getResultList();
+    }
+    
+    public List<Citas> citaActiva(Integer pacienteId) {
+        return getEntityManager().createNamedQuery("Citas.citaExpedienteActiva").setParameter("pacienteId", pacienteId).setParameter("fecha", new Date()).getResultList();
     }
     
     //Named Query: 
@@ -181,12 +185,15 @@ public class CitasFacade extends AbstractFacade<Citas> {
         return getEntityManager().createNamedQuery("Citas.reservadasPendientesPorClinica").setParameter("fecha", new Date()).setParameter("clinica", clinica).getResultList();
     }
     
-    //Named Query: Citas.todasPorUsuarioCorreo
     //Usado en : CitasBean.java
     //Objetivo: Extraer todas las citas del paciente, independientemente su estado. 
     //Estado: En uso 
-    public List<Citas> citasTodas(String usuario, String correo) {
-        return getEntityManager().createNamedQuery("Citas.todasPorUsuarioOCorreo").setParameter("usuario", usuario).setParameter("correo", correo).getResultList();
+    public List<Citas> citasUsuarioTodas(String usuario) {
+        return getEntityManager().createNamedQuery("Citas.todasPorUsuario").setParameter("usuario", usuario).getResultList();
+    }
+    
+    public List<Citas> citasUsuarioTodas(String usuario, Integer pacienteId) {
+        return getEntityManager().createNamedQuery("Citas.todasPorUsuarioExpediente").setParameter("usuario", usuario).setParameter("pacienteId", pacienteId).getResultList();
     }
     
     //Named:

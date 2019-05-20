@@ -1,12 +1,3 @@
-/*
- Controlador para el Dashboard del Paciente 
- Opciones:
- -Crear una cita de forma rápida. 
- -Informar de si tiene citas para el día. 
-
- Nota: si no se consigue el view en estos apartados
- es innecesario, dado que se esta generando mas sesion 
- */
 package controllers;
 
 import dao.CitasFacade;
@@ -23,17 +14,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 
-/*
- Notas de actualizacion:
- ********************************************************************************
- Fecha: 08/febrero/2019
- -Agregando el metodo Boolean usuarioPacienteExiste(?), verifica si tiene un expediente.
- ********************************************************************************
- Fecha: 04/ febrero/2019
- -Agregando el metodo para buscar al paciente teniendo al usuario. 
- -Agregando Facade de Pacientes con su get y set. 
- -Agregando metodo pacienteUsuario(?)
- */
 //@Named(value = "dashboardView")
 @ManagedBean(name = "dashboardAsistente")
 //@ViewScoped
@@ -139,49 +119,23 @@ public class Dashboard_Asistente implements Serializable {
         }
     }
 
-    //Metodo para cargar el paciente con el expediente o con cuenta de usuario
+    //Usado en: asistente.xhtml
     //Estado: prueba.
-    //Sustituye: Intenta sustiuir el metodo ***public Boolean usuarioPacienteExiste(String usuario)***
-    public Integer usuarioPacienteExiste(String usuario, Integer paciente) {
+    public Integer usuarioPacienteExiste(Usuarios usuario, Pacientes paciente) {
         //Retorno 1 si tiene solo expediente, se puede asociar un usuario existente.
         //Retorno 2 si tiene solo un usuario, se puede asociar un expediente o crear expediente. 
         //Retorno 3 si tiene expediente y usuario. 
         //Retorno 0 si no tiene nada, error al guardar la cita.
-        //1. Si la cita tiene un expediente asignado.
-        //System.out.println("Paciente tiene: " + paciente);
-        if (paciente != null) {
-            //2. Extraigo al paciente.
-            Pacientes p = getPacienteFacade().find(paciente);
-            //3. Verifico si el paciente tiene un usuario vinculado.
-            //if (!p.getPacienteUsuarioUsuario().isEmpty()) {
-            if (p.getPacienteUsuarioUsuario() != null) {
-                //4. si es si, la cita tiene un paciente con un usuario vinculado.  
-                return 3;
-            }
-            //5. Sino, solo tiene un expediente. 
-            return 1;
-            //6. Sino tiene un paciente asignado debe tener un usuario. 
-        } else if (!usuario.isEmpty()) {
-            //7. Se busca a los expediente con ese usuario
-            //System.out.println("Usuario" + usuario);
-            List<Pacientes> ps = getPacienteFacade().pacienteUsuario(usuario);
-            //8. Si tiene un expedente asigando. 
-            if (!ps.isEmpty()) {
-                //8.1  y si tiene varios expedientes. 
-                if (ps.size() > 1) {
-                    //8.2 Error logico deberia ser solo 1.
-                    return 0;
-                }
-                //9. Sino Entonces la cita  tiene un expediente y un usuario
-                return 3;
-            }
-            //10. Sino se esperaria que asocie o cree un expediente para este usuario
+        //Verifica los parametros de la cita.
+        if(usuario != null && paciente != null){
+            return 3;
+        }else if(usuario !=null){
             return 2;
+        }else if (paciente !=null){
+            return 1;
         }
-        //11. Sino tiene usuario o expedient error logico.
         return 0;
     }
-
 //****************************************************************************//
 //                         Métodos para obtener entidades                     //
 //****************************************************************************//
@@ -240,13 +194,4 @@ public class Dashboard_Asistente implements Serializable {
 //****************************************************************************//
 //                                   Métodos                                  //
 //****************************************************************************//  
-//Mostrando el nombre del usuario en BIENVENIDOS.
-//Usado en: asistente.xhtml    
-    public String nombre() {
-        if (appSession.getUsuario() != null) {
-            return appSession.getUsuario().getUsuarioPrimerNombre().toUpperCase();
-        }
-        return null;
-    }
-
 }

@@ -49,7 +49,6 @@
                                     <!-- <td align="center"></td> -->
                                     <td align="center">
                                         #{citasBean.horacita24(cita.citaHora)}
-
                                     </td>
                                     <td align="left">
                                         <h:panelGroup rendered="#{cita.pacienteId != null}">
@@ -61,7 +60,6 @@
                                     </td>
                                     <td align="left">
                                         #{citasBean.abreviatura(cita.medicoId.medicoSexo)} #{cita.medicoId.medicoPrimerNombre} #{cita.medicoId.medicoPrimerApellido}
-
                                     </td>
                                     <td>
                                         <center>
@@ -72,17 +70,17 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </center>
-                                        <!--#{cita.citaId}-->
                                     </td>
 
                                     <td align="center">
-
                                         <h:link outcome="CitaEditar" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar cita">
                                             <f:param name="citaEditarId" value="#{cita.citaId}"/>
                                             <f:param name="retorno" value="1"/>
                                         </h:link> 
                                         &nbsp;
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 1}">
+                                        <!--Casos para mostrar los botones para el dashboard. -->
+                                        <!--Caso 1: Solo tiene expediente-->
+                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
                                             <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
                                                 <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
@@ -91,9 +89,11 @@
                                             &nbsp;
                                             <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-phone-alt btn-sm btn-tabla-expediente2" title="Crear un usuario">
                                                 <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
+                                                <!--Actualizar la cita con el usuario-->
                                             </h:link>
                                         </h:panelGroup>
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 2}">
+                                        <!--Caso 2: Solo tiene usuario-->
+                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
                                             <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                             </h:link> 
@@ -102,15 +102,17 @@
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                             </h:link>
                                         </h:panelGroup> 
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 3}">
+                                        <!--Caso 3: Tiene expediente y usuario-->
+                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
                                             <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
                                                 <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
                                                 <f:param name="tabindex" value="#{0}"/>
                                             </h:link> 
                                         </h:panelGroup>
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 0}">
-                                            Error
+                                        <!--Caso 4: Error -->
+                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
+                                            Error.
                                         </h:panelGroup>
 
 

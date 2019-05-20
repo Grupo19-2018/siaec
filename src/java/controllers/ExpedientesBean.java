@@ -305,7 +305,7 @@ public class ExpedientesBean implements Serializable {
     //Usado en paciente_listado_asociar.xhtml
     public void actualizarPacienteUsuario(){
         try {
-            pacienteEditar.setPacienteUsuarioUsuario(usuario.getUsuarioUsuario());
+            //pacienteEditar.setPacienteUsuarioUsuario(usuario.getUsuarioUsuario());
             getPacientesFacade().edit(pacienteEditar);
             mensajeConfirmacion("Usuario asociado.");
         } catch (Exception e) {
@@ -326,7 +326,7 @@ public class ExpedientesBean implements Serializable {
         return 0;
     }
     
-    
+    //Estado:posible descarte
     public int numeroExpediente(String usuario, Integer paciente){
         if(paciente != null){
             return paciente;
@@ -1015,7 +1015,7 @@ public class ExpedientesBean implements Serializable {
             //y valir que exista un usuario con ese tipo
             if(!"".equals(us) && !getUsuarioFacade().usuariosSimiliares(us).isEmpty() ){
                 System.out.println("Entra para asociar usuario " + us );
-                pacienteNuevo.setPacienteUsuarioUsuario(us);
+                //pacienteNuevo.setPacienteUsuarioUsuario(us);
             }
             getPacientesFacade().create(pacienteNuevo);
             crearOdontograma(pacienteNuevo);

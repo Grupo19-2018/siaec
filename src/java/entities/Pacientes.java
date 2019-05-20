@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -26,10 +21,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "pacientes")
 @NamedQueries({
@@ -62,16 +53,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pacientes.findByPacientePorNombre", query = "SELECT p FROM Pacientes p WHERE UPPER(CONCAT(p.pacientePrimerNombre,' ',p.pacienteSegundoNombre,' ',p.pacientePrimerApellido,' ',p.pacienteSegundoApellido)) LIKE CONCAT('%',UPPER(:nombre),'%')"),
     @NamedQuery(name = "Pacientes.findByUltimoNumeroExpediente", query = "SELECT MAX(p.pacienteExpediente) FROM Pacientes p"),
     @NamedQuery(name = "Pacientes.findByFechaCreacionRango", query = "SELECT p FROM Pacientes p WHERE p.pacienteFechaCreacion >= :fecha_inicio AND p.pacienteFechaCreacion <= :fecha_fin"),
-    @NamedQuery(name = "Pacientes.enviarCorreoDesde", query = "SELECT p FROM Pacientes p WHERE p.pacienteNotificarCorreo = true AND p.pacienteId > :desde"),
-    //Agregando query para buscar el usuario de un paciente en especifico
-    //Estado: prueba
-    //Fecha: 04/febrero/2019
-    @NamedQuery(name = "Pacientes.usuarioUsuario" , query = "SELECT p FROM Pacientes p WHERE p.pacienteUsuarioUsuario = :usuario")})
+    @NamedQuery(name = "Pacientes.enviarCorreoDesde", query = "SELECT p FROM Pacientes p WHERE p.pacienteNotificarCorreo = true AND p.pacienteId > :desde")
+    })
 public class Pacientes implements Serializable {
-
-    @Size(max = 50)
-    @Column(name = "paciente_usuario_usuario")
-    private String pacienteUsuarioUsuario;
 
     @Column(name = "paciente_codigo")
     private Integer pacienteCodigo;
@@ -441,14 +425,6 @@ public class Pacientes implements Serializable {
 
     public void setPacienteCodigo(Integer pacienteCodigo) {
         this.pacienteCodigo = pacienteCodigo;
-    }
-
-    public String getPacienteUsuarioUsuario() {
-        return pacienteUsuarioUsuario;
-    }
-
-    public void setPacienteUsuarioUsuario(String pacienteUsuarioUsuario) {
-        this.pacienteUsuarioUsuario = pacienteUsuarioUsuario;
     }
     
 }

@@ -1048,10 +1048,10 @@ public class CatalogosBean implements Serializable {
                 medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
                 getMedicosFacade().edit(medicoSeleccionado);
             }
-            if(rolId == 5){
-                pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
-                getPacientesFacade().edit(pacienteSeleccionado);
-            }
+            //if(rolId == 5){
+            //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
+              //  getPacientesFacade().edit(pacienteSeleccionado);
+            //}
             usuarioNuevo = new Usuarios();
             medicoSeleccionado = new Medicos();
             pacienteSeleccionado = new Pacientes();
@@ -1079,10 +1079,10 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
             System.out.println("controllers.CatalogosBean.guardarUsuarioSugerencia() rolId" + rolId);
             if(rolId == 5){
-                System.out.println("Entras con rol " + rolId);
                //Pacientes p = getPacientesFacade().find(pacienteId);
-               pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
-               getPacientesFacade().edit(pacienteSeleccionado);
+               //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
+               usuarioNuevo.setPacienteId(pacienteSeleccionado);
+               //getPacientesFacade().edit(pacienteSeleccionado);
             }
             getUsuariosFacade().create(usuarioNuevo);
             usuarioNuevo = new Usuarios();

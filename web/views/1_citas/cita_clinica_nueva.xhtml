@@ -69,13 +69,15 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Médico</b></h6>
-                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%"  required="true">
+                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%"  required="true" 
+                                                     requiredMessage="Seleccione un odontologo">
                                         <f:selectItem itemLabel="Seleccione uno..." itemValue="" noSelectionOption="true"/>
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
                                                        itemValue="#{medico}"/>
                                         <p:ajax update="console2"/>
                                     </p:selectOneMenu>
+                                    <p:message for="odontologos" />
                                 </div>
 
 
@@ -103,7 +105,7 @@
                                     <center>
                                         <h6><b>Horarios </b></h6>
                                         <p:panel id="panelHorario" >
-                                            <p:panel rendered="#{citasBean.panelCitaClinica()}">
+                                            <p:panel rendered="#{citasBean.clinicaSeleccionada == 0}">
                                                 Seleccione una sucursal
                                             </p:panel>
                                         </p:panel>

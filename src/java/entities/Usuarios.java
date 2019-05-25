@@ -45,7 +45,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuarios.findByUsuarioBloqueado", query = "SELECT u FROM Usuarios u WHERE u.usuarioBloqueado = :usuarioBloqueado"),
     @NamedQuery(name = "Usuarios.findByUsuarioIntentoFallido", query = "SELECT u FROM Usuarios u WHERE u.usuarioIntentoFallido = :usuarioIntentoFallido"),
     @NamedQuery(name = "Usuarios.findByUsuarioFechaCreacion", query = "SELECT u FROM Usuarios u WHERE u.usuarioFechaCreacion = :usuarioFechaCreacion"),
-    @NamedQuery(name = "Usuarios.findByUsuarioFechaModificacion", query = "SELECT u FROM Usuarios u WHERE u.usuarioFechaModificacion = :usuarioFechaModificacion")})
+    @NamedQuery(name = "Usuarios.findByUsuarioFechaModificacion", query = "SELECT u FROM Usuarios u WHERE u.usuarioFechaModificacion = :usuarioFechaModificacion"),
+    @NamedQuery(name = "Usuarios.findByPacienteId", query = "SELECT u FROM Usuarios u WHERE u.pacienteId.pacienteId = :pacienteId")})
 public class Usuarios implements Serializable {
 
     @Size(max = 50)

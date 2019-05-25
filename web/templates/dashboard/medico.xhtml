@@ -49,7 +49,11 @@
                                 <ui:repeat value="#{dashboardMedico.citasDelDia()}" var="cita">
                                     <tr>
                                         <td align="center">
-                                            <span style="font-weight: bold">#{citasBean.horacita24(cita.citaHora)} </span>
+                                            <span style="font-weight: bold">
+                                                <h:outputText value="#{cita.citaHora}">
+                                                    <f:convertDateTime dateStyle="full" pattern="HH:mm" timeZone="GMT-6"/>
+                                                </h:outputText> 
+                                            </span>
                                         </td>
                                         <td align="left">
                                             <h:panelGroup rendered="#{cita.pacienteId != null}">

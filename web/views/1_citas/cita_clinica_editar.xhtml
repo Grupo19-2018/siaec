@@ -126,7 +126,7 @@
                                     <center>
                                         <h6><b>Horarios </b></h6>
                                         <p:panel id="panelHorario" >
-                                            <p:panel rendered="#{citasBean.panelCitaClinica()}">
+                                            <p:panel rendered="#{citasBean.clinicaSeleccionada == 0}">
                                                 Seleccione una sucursal
                                             </p:panel>
                                         </p:panel>
@@ -146,7 +146,7 @@
                             <div class="col-md-12">
                                 <center>
 
-                                    <p:commandButton type="sumbit" value="Guardar" update="cita" styleClass="btn-expediente-alternativa" action="#{citasBean.actualizarCita()}" icon="icon-smiling-position icono-smiling glyphicon glyphicon-floppy-disk">
+                                    <p:commandButton id="botonMensaje" type="sumbit" value="Guardar" update="cita" styleClass="btn-expediente-alternativa" action="#{citasBean.actualizarCita()}" icon="icon-smiling-position icono-smiling glyphicon glyphicon-floppy-disk">
                                     </p:commandButton>
                                     &nbsp;
 
@@ -154,7 +154,7 @@
                                     <h:link outcome="#{citasBean.redireccionCitaEditar2()}" class=" btn btn-default btn-expediente-cancelar">
                                         <i class="glyphicon glyphicon-remove-circle"></i> <span style="font-weight: bold;">Cancelar</span>
                                     </h:link>
-
+                                    <h:message for="botonMensaje" />
                                 </center>
                             </div>
 

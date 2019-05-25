@@ -48,7 +48,9 @@
                                 <tr>
                                     <!-- <td align="center"></td> -->
                                     <td align="center">
-                                        #{citasBean.horacita24(cita.citaHora)}
+                                        <h:outputText value="#{cita.citaHora}">
+                                            <f:convertDateTime dateStyle="full" pattern="HH:mm" timeZone="GMT-6"/>
+                                        </h:outputText> 
                                     </td>
                                     <td align="left">
                                         <h:panelGroup rendered="#{cita.pacienteId != null}">

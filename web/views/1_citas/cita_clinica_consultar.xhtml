@@ -69,9 +69,9 @@
                     </div>
                     <div class="col-md-4">
                         <h6><b>Hora</b></h6>
-                        <p:inputText value="#{citasBean.horacita(citasBean.citaConsultar.citaHora)}" readonly="true" style="width: 100%"/>
-
-
+                        <p:inputText value="#{citasBean.citaConsultar.citaHora}" readonly="true" style="width: 100%">
+                            <f:convertDateTime dateStyle="full" pattern="hh:mm a" timeZone="GMT-6"/>
+                        </p:inputText>
                     </div>
                 </div>
                 <br/>

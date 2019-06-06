@@ -20,8 +20,8 @@
                     </h:link> 
                 </div>
             </div>
-            
-             <div class="row">
+
+            <div class="row">
                 <!--Solo se mostraran las citas Reservadas para el dia y las restantes del medico -->
                 <!--El maximo de citas que puede tener son 9 citas dentro del sistema se pueden poner mas
                     para ello, necesitamos parametrizar el valor de las horas  de apertura y cierre de las 
@@ -46,13 +46,17 @@
                                 <ui:repeat value="#{dashboardMedico.citasDelDia()}" var="cita">
                                     <tr>
                                         <td align="center">
-                                            <span style="font-weight: bold">#{citasBean.horacita24(cita.citaHora)} </span>
+                                            <span style="font-weight: bold">
+                                                <h:outputText value="#{cita.citaHora}">
+                                                    <f:convertDateTime dateStyle="full" pattern="HH:mm" timeZone="GMT-6"/>
+                                                </h:outputText>  
+                                            </span>
                                         </td>
                                         <td align="left">
-                                            <span style="font-weight: bold">#{cita.citaNombres} #{cita.citaApellidos}</span>  
+                                            <span style="font-weight: bold">Nombres</span>  
                                         </td>
                                         <td align="center">
-                                            #{cita.citaTelefono}
+                                            Telefono
                                         </td>
                                         <td>
                                             <center>
@@ -73,7 +77,7 @@
                                                     <f:param name="retorno" value="1"/>
                                                 </h:link>
                                                 &nbsp;
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 1}">
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
                                                     <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
@@ -91,7 +95,7 @@
                                                         <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 2}">
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
                                                     <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link> 
@@ -100,7 +104,7 @@
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link>
                                                 </h:panelGroup> 
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 3}">
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
                                                     <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
                                                         <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                         <f:param name="citaid" value="#{cita.citaId}"/>
@@ -116,7 +120,7 @@
 
 
                                                 </h:panelGroup>
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)== 0}">
+                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
                                                     Error
                                                 </h:panelGroup>
 
@@ -138,33 +142,33 @@
                     <div class="col-md-4" >
                         <p:panel class="estadisticas" style="padding: 0">
                             <div style="text-align: center">Total de pacientes registrados </div>
-                            <div style="text-align: center">#{hola.totalPacientesRegistrado()}</div>
+                            <div style="text-align: center">#{dashboard.totalPacientesRegistrado()}</div>
                         </p:panel>
                     </div>
                     <div class="col-md-4">
                         <p:panel class="estadisticas" style="padding: 0">
                             <div style="text-align: center">Total de paciente registrados en éste mes</div>
-                            <div style="text-align: center">#{hola.pacientesRegistradosMes()}</div>
+                            <div style="text-align: center">#{dashboard.pacientesRegistradosMes()}</div>
                         </p:panel>
                     </div>
                     <div class="col-md-4" >
                         <p:panel  class="estadisticas" style="padding: 0">
                             <div style="text-align: center">Total de consultas realizadas</div>
-                            <div style="text-align: center">#{hola.totalConsultasRealizadas()}</div>
+                            <div style="text-align: center">#{dashboard.totalConsultasRealizadas()}</div>
                         </p:panel>
                     </div>
                 </div>
             </div>
 
 
-           
+
 
 
 
             <div class="row margen-estadisticas-tablero">
                 <div class="col-md-12">
                     <div class="col-md-12" >
-                        <p:selectOneMenu id="citasSeleccionable" value="#{hola.citasSeleccionable}" > 
+                        <p:selectOneMenu id="citasSeleccionable" value="#{dashboard.citasSeleccionable}" > 
                             <f:selectItem itemLabel="Reservadas" itemValue="1"  />
                             <f:selectItem itemLabel="Confirmadas" itemValue="2"/>
                             <f:selectItem itemLabel="Atendidas" itemValue="3"  />
@@ -176,12 +180,12 @@
 
 
                         <p:panel id="citasGrafico">
-                            <p:chart type="line" model="#{hola.createLineModels3()}" responsive="true" />
+                            <p:chart type="line" model="#{dashboard.createLineModels3()}" responsive="true" />
                         </p:panel> 
                     </div>
                     <div class="col-md-4 margen-estadisticas-cirular">
                         <p:panel id="grafico2">
-                            <p:chart type="pie" model="#{hola.createPieModel()}" responsive="true"/>
+                            <p:chart type="pie" model="#{dashboard.createPieModel()}" responsive="true"/>
                         </p:panel>
                     </div>
                 </div>
@@ -217,41 +221,41 @@
 
     </script>
     <script>
-            $(document).ready(function () {
-                estiloTabla();
-            });
+        $(document).ready(function () {
+            estiloTabla();
+        });
 
-            function estiloTabla() {
-                $('#tabla').dataTable(
-                        {
-                            "bDestroy": true,
-                            "oLanguage": {
-                                "sProcessing": "Procesando...",
-                                "sLengthMenu": "Mostrar _MENU_ registros",
-                                "sZeroRecords": "No se encontraron resultados",
-                                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                                "sInfoPostFix": "",
-                                "sSearch": "Buscar:",
-                                "sUrl": "",
-                                "sInfoThousands": ",",
-                                "sLoadingRecords": "Cargando...",
-                                "oPaginate": {
-                                    "sFirst": "Primero",
-                                    "sLast": "Último",
-                                    "sNext": "Siguiente",
-                                    "sPrevious": "Anterior"
-                                },
-                                "oAria": {
-                                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                                }
+        function estiloTabla() {
+            $('#tabla').dataTable(
+                    {
+                        "bDestroy": true,
+                        "oLanguage": {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Último",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                             }
                         }
-                );
-            }
-        </script>
+                    }
+            );
+        }
+    </script>
 </html>
 

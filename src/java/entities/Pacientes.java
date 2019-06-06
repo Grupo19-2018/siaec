@@ -32,7 +32,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pacientes.findByPacientePrimerApellido", query = "SELECT p FROM Pacientes p WHERE p.pacientePrimerApellido = :pacientePrimerApellido"),
     @NamedQuery(name = "Pacientes.findByPacienteSegundoApellido", query = "SELECT p FROM Pacientes p WHERE p.pacienteSegundoApellido = :pacienteSegundoApellido"),
     @NamedQuery(name = "Pacientes.findByPacienteFechaNacimiento", query = "SELECT p FROM Pacientes p WHERE p.pacienteFechaNacimiento = :pacienteFechaNacimiento"),
-    @NamedQuery(name = "Pacientes.findByPacienteSexo", query = "SELECT p FROM Pacientes p WHERE p.pacienteSexo = :pacienteSexo"),
+    @NamedQuery(name = "Pacientes.findByPacienteSexo", query = "SELECT p FROM Pacientes p WHERE p.pacienteSexo = :pacienteSexo"), //Usado 
     @NamedQuery(name = "Pacientes.findByPacienteCorreo", query = "SELECT p FROM Pacientes p WHERE p.pacienteCorreo = :pacienteCorreo"),
     @NamedQuery(name = "Pacientes.findByPacienteTrabajo", query = "SELECT p FROM Pacientes p WHERE p.pacienteTrabajo = :pacienteTrabajo"),
     @NamedQuery(name = "Pacientes.findByPacienteTelefonoCasa", query = "SELECT p FROM Pacientes p WHERE p.pacienteTelefonoCasa = :pacienteTelefonoCasa"),

@@ -70,19 +70,24 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
         return  getEntityManager().createNamedQuery("Pacientes.enviarCorreoDesde").setParameter("desde", desde).getResultList();
     }
     
-    //Metodo para buscar el usuario del paciente.
+   
+    //Lo ocupo en reportes
+    public List<Pacientes> pacientesDisponibles(boolean pacienteEstado){
+        return getEntityManager().createNamedQuery("Pacientes.findByPacienteEstado").setParameter("pacienteEstado", pacienteEstado).getResultList();
+    }
+    
+    //Usado en: Dashboard.java
+    public List<Pacientes> todosPacientesPorSexo(boolean sexo){
+        return getEntityManager().createNamedQuery("Pacientes.findByPacienteSexo").setParameter("pacienteSexo", sexo).getResultList();
+    }
+    
+        
+     //Metodo para buscar el usuario del paciente.
     //Named query: Pacientes.usuarioUsuario
     //Estado: Prueba, usado en Dashboard_Asistente, ExpedientesBean. 
     //Fecha: 04/febrero/2019
     public List<Pacientes> pacienteUsuario(String usuario){
         return getEntityManager().createNamedQuery("Pacientes.usuarioUsuario").setParameter("usuario", usuario).getResultList();
     }
-    
-   
-    
-    //Lo ocupo en reportes
-    public List<Pacientes> pacientesDisponibles(boolean pacienteEstado){
-        return getEntityManager().createNamedQuery("Pacientes.findByPacienteEstado").setParameter("pacienteEstado", pacienteEstado).getResultList();
-    }
-    
+
 }

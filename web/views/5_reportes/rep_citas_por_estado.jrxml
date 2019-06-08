@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e223348-aae1-4fb9-93a4-8bb9efb7ad2a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="citaEstado" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="estadoCita" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[(SELECT C.cita_id, C.cita_fecha FECHA, C.cita_hora HORA, C.cita_estado ESTADO, CONCAT(P.paciente_primer_nombre, ' ', P.paciente_segundo_nombre, ' ', P.paciente_primer_apellido, ' ', P.paciente_segundo_apellido) PACIENTE, S.clinica_nombre, CONCAT(M.medico_primer_nombre, ' ', M.medico_primer_apellido) MEDICO
+FROM citas C, pacientes P, clinicas S, medicos M
+WHERE P.paciente_id = C.paciente_id AND M.medico_id = C.medico_id AND S.clinica_id = C.clinica_id  AND C.cita_fecha BETWEEN $P{fechaInicio} and $P{fechaFin} AND C.cita_estado = $P{estadoCita})
+
+UNION
+
+(SELECT C.cita_id, C.cita_fecha FECHA, C.cita_hora HORA, C.cita_estado ESTADO, CONCAT(U.usuario_primer_nombre, ' ', U.usuario_segundo_nombre, ' ', U.usuario_primer_apellido, ' ', U.usuario_segundo_apellido) USUARIO, S.clinica_nombre, CONCAT(M.medico_primer_nombre, ' ', M.medico_primer_apellido) MEDICO
+FROM citas C, usuarios U, clinicas S, medicos M
+WHERE U.usuario_usuario = C.usuario_usuario AND M.medico_id = C.medico_id AND S.clinica_id = C.clinica_id AND C.cita_fecha BETWEEN $P{fechaInicio} and $P{fechaFin} AND C.cita_estado = $P{estadoCita})
+
+ORDER BY fecha ASC, hora ASC;]]>
+	</queryString>
+	<field name="cita_id" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="hora" class="java.sql.Time"/>
+	<field name="estado" class="java.lang.Integer"/>
+	<field name="paciente" class="java.lang.String"/>
+	<field name="clinica_nombre" class="java.lang.String"/>
+	<field name="medico" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="316" y="40" width="65" height="15" forecolor="#464646" uuid="f530159f-6089-487b-bf40-663e030acea0"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="513" y="30" width="52" height="15" forecolor="#464646" uuid="bb24346b-8276-4a7c-9be2-e9a09f8e4cea"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="298" y="40" width="25" height="15" forecolor="#464646" uuid="06d1f708-ee3c-4137-8289-58cf8aa49cd6"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<text><![CDATA[AL]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="230" y="40" width="65" height="15" forecolor="#464646" uuid="157f9e3b-66b9-4367-ad02-4fff8a2ead5a"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="475" y="30" width="40" height="15" forecolor="#464646" uuid="33c709df-7cc9-44b0-8619-a7eb3d1b2c47"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="40" width="25" height="15" forecolor="#464646" uuid="80e7657e-266c-4b89-b52b-180a71986058"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<text><![CDATA[DEL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="1" width="240" height="24" forecolor="#464646" uuid="7d185e2c-69c3-453f-abac-133ca81e1ed7"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLÍNICA DENTAL SMILING]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="557" y="45" width="14" height="15" forecolor="#464646" uuid="300a429d-9473-4275-9071-d7e1961f66ff"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="25" width="280" height="15" forecolor="#464646" uuid="4be0d2cb-65e3-4c50-bef9-bc0d1b8f3878"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<text><![CDATA[LISTADO DE CITAS POR ESTADO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="477" y="45" width="80" height="15" forecolor="#464646" uuid="b966550f-3208-423f-82ef-5d9f13742703"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="140" height="60" uuid="03809f3f-bb07-45e3-badd-fce0ec7acd63"/>
+				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="778fd57c-9e3f-4e73-bd60-df0738ef444f"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="5" width="65" height="15" forecolor="#464646" uuid="eed5bc8e-7b91-4346-985e-078854f542f5"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ESTADO:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="5" width="500" height="15" forecolor="#464646" uuid="b6673cac-1ae6-4841-9bae-e9abcd56d9fc"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{citaEstado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="4" width="570" height="1" forecolor="#808080" uuid="bccfd18f-9efd-4e69-b78d-a0a72e0c3ab1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="20" width="570" height="1" forecolor="#808080" uuid="8fd0c7e7-1c4e-427e-bd8c-4b21cbf94363"/>
+			</line>
+			<staticText>
+				<reportElement x="430" y="5" width="140" height="15" forecolor="#464646" uuid="6110eda2-d080-4476-a1c6-91d50077de1e"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clínica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="5" width="180" height="15" forecolor="#464646" uuid="2e0154a0-08e2-4073-83e3-4f9a4411ed10"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paciente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="5" width="60" height="15" forecolor="#464646" uuid="91eeaa69-cc6d-45e0-8e05-49ad4455e803"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="5" width="60" height="15" forecolor="#464646" uuid="6c2da17f-4780-4ced-87ae-72ff361967e6"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="5" width="105" height="15" forecolor="#464646" uuid="69aefd32-5917-4364-86ec-83c18b61cacb"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Médico]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="5" y="3" width="60" height="15" forecolor="#464646" uuid="fa9ff503-1908-4a0f-852a-050af79e07b8"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="h.mm a">
+				<reportElement x="70" y="3" width="60" height="15" forecolor="#464646" uuid="fe9215d0-f267-439d-8fba-0d934b7c034e"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="135" y="3" width="180" height="15" forecolor="#464646" uuid="ffc68994-6e1c-415a-b99d-d1c3db4fe187"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paciente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="430" y="3" width="140" height="15" forecolor="#464646" uuid="0a820ce4-0bc0-4120-8cae-7d1e1bb66968"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clinica_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="320" y="3" width="105" height="15" forecolor="#464646" uuid="0a1b3661-f57f-4e48-ae4e-67ed607127b3"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{medico}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="8" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="110" y="5" width="350" height="15" forecolor="#464646" uuid="964b88f6-7bb0-471b-97ca-5431a99ff9b2"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="11" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[© SIAEC "LA FELICIDAD SE REFLEJA EN TU SONRISA"]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="5" splitType="Stretch"/>
+	</summary>
+</jasperReport>

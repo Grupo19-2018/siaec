@@ -11,12 +11,12 @@
 
             <ui:define name="meta-data">
                 <f:metadata>
-                    <f:viewAction action="#{reportesBean.verificaAcceso('Tratamientos Realizados a Pacientes')}"/>
+                    <f:viewAction action="#{reportesBean.verificaAcceso('Tratamientos Realizados a Paciente')}"/>
                 </f:metadata>
             </ui:define>
 
             <!-- Barra de título -->
-            <div class="banda1"><b>LISTADO DE TRATAMIENTOS REALIZADOS A PACIENTES</b></div>
+            <div class="banda1"><b>TRATAMIENTOS REALIZADOS A PACIENTES</b></div>
             <br/>
 
             <!-- Panel color blanco -->
@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-3 col-sm-4 col-xs-1"/>
                         <div class="col-lg-4 col-md-6 col-sm-4 col-xs-10">
-                            <h6  align="center"><b>Seleccione un paciente *</b></h6>
+                            <h6  align="center"><b>Paciente*</b></h6>
                                 <p:selectOneMenu id="pacientenombre" value="#{reportesBean.pacienteId}" title="paciente" style="width:100%" required="true"
                                                  requiredMessage="Paciente es requerido." filter="true" filterMatchMode="startsWith">
                                     <f:selectItem itemLabel="Seleccionar..." itemValue="#{null}"/>
@@ -41,10 +41,9 @@
 
                     <div class="row">
                         <div class="col-lg-12" align="center">
-                            <h:commandLink action="#{reportesBean.repTratamientosPaciente()}" class="btn btn-default buttonLevel1"
+                            <h:commandLink action="#{reportesBean.repTratamientosPorPaciente()}" class="btn btn-default buttonLevel1"
                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
-                                <i class="glyphicon glyphicon-search"></i> Ver reporte
-                                <f:setPropertyActionListener value="rep_tratamientos_paciente" target="#{reportesBean.nombreArchivo}"/>
+                                <i class="glyphicon glyphicon-list"></i> Ver reporte
                             </h:commandLink>
                         </div>
                     </div>

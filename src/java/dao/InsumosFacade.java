@@ -30,8 +30,14 @@ public class InsumosFacade extends AbstractFacade<Insumos> {
         super(Insumos.class);
     }
     
-    public List<Insumos> insumosDisponibles(boolean Insumo){
-        return getEntityManager().createNamedQuery("Insumos.findByInsumoEstado").setParameter("insumoEstado", Insumo).getResultList();
+    //Método para listado de insumos en módulo insumos.
+    public List<Insumos> insumosDisponibles(boolean estado){
+        return getEntityManager().createNamedQuery("Insumos.findByInsumoEstado").setParameter("estado", estado).getResultList();
+    }
+    
+    //Lista de Insumos, para validacion de reporte de listado de insumos médicos (rep_listado_insumos.xhtml).
+    public List<Insumos> findListadoInsumosReporte(boolean estado){
+        return getEntityManager().createNamedQuery("Insumos.findListadoInsumosReporte").setParameter("estado", estado).getResultList();
     }
     
 }

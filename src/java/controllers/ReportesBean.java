@@ -5,13 +5,17 @@ import dao.ClinicasFacade;
 import dao.ConsultasFacade;
 import dao.DetallesConsultasFacade;
 import dao.ExistenciasFacade;
+import dao.InsumosFacade;
 import dao.MedicosFacade;
 import dao.PacientesFacade;
 import dao.PromocionesFacade;
+import dao.TratamientosFacade;
 import entities.Clinicas;
+import entities.Insumos;
 import entities.Medicos;
 import entities.Pacientes;
 import entities.Submenus;
+import entities.Tratamientos;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -40,13 +44,16 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
 //                          Declaración de variables                          //
 //****************************************************************************//
     
+    private Date fechaActual = new Date();
     private Date fechaInicio;
     private Date fechaFin;
-    private int clinicaId;
-    private int medicoId;
-    private int pacienteId;
-    private int consultaId;
-    private int citaEstado;
+    private Integer clinicaId;
+    private Integer medicoId;
+    private Integer tratamientoId;
+    private Integer pacienteId;
+    private Integer consultaId;
+    private Integer estadoCita;
+    private String citaEstado;
 
     @EJB
     private PacientesFacade pacientesFacade;
@@ -72,6 +79,12 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     @EJB
     private CitasFacade citasFacade;
      
+    @EJB
+    private TratamientosFacade tratamientosFacade;
+     
+    @EJB
+    private InsumosFacade insumosFacade;
+     
     //Session
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
@@ -96,8 +109,16 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
         return getClinicasFacade().clinicasDisponibles(Boolean.TRUE);
     }
     
+    public List<Tratamientos> todosTratamientosDisponibles(){
+        return getTratamientosFacade().tratamientosDisponibles(Boolean.TRUE);
+    }
+    
     public List<Medicos> todosMedicosDisponibles() {
         return getMedicosFacade().medicosDisponibles(Boolean.TRUE);
+    }
+    
+    public List<Insumos> todosInsumosDisponibles() {
+        return getInsumosFacade().insumosDisponibles(Boolean.TRUE);
     }
     
 //****************************************************************************//
@@ -135,7 +156,15 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     public MedicosFacade getMedicosFacade() {
         return medicosFacade;
     }
-       
+    
+    public TratamientosFacade getTratamientosFacade() {
+        return tratamientosFacade;
+    }
+    
+    public InsumosFacade getInsumosFacade() {
+        return insumosFacade;
+    }
+
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
@@ -154,48 +183,69 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
         this.fechaFin = fechaFin;
     }
 
-    public int getClinicaId() {
+    public Integer getClinicaId() {
         return clinicaId;
     }
-    public void setClinicaId(int clinicaId) {
+    public void setClinicaId(Integer clinicaId) {
         this.clinicaId = clinicaId;
     }
 
-    public int getMedicoId() {
+    public Integer getMedicoId() {
         return medicoId;
     }
-    public void setMedicoId(int medicoId) {
+    public void setMedicoId(Integer medicoId) {
         this.medicoId = medicoId;
     }
 
-    public int getPacienteId() {
+    public Integer getTratamientoId() {
+        return tratamientoId;
+    }
+    public void setTratamientoId(Integer tratamientoId) {
+        this.tratamientoId = tratamientoId;
+    }
+
+    public Integer getPacienteId() {
         return pacienteId;
     }
-    public void setPacienteId(int pacienteId) {
+    public void setPacienteId(Integer pacienteId) {
         this.pacienteId = pacienteId;
     }
 
-    public int getConsultaId() {
-        return consultaId;
+    public Integer getEstadoCita() {
+        return estadoCita;
     }
-    public void setConsultaId(int consultaId) {
-        this.consultaId = consultaId;
+    public void setEstadoCita(Integer estadoCita) {
+        this.estadoCita = estadoCita;
     }
-    
-    public int getCitaEstado() {
+
+    public String getCitaEstado() {
         return citaEstado;
     }
-    public void setCitaEstado(int citaEstado) {
+    public void setCitaEstado(String citaEstado) {
         this.citaEstado = citaEstado;
     }
 
+    public Integer getConsultaId() {
+        return consultaId;
+    }
+    public void setConsultaId(Integer consultaId) {
+        this.consultaId = consultaId;
+    }
+    
     public AppSession getAppSession() {
         return appSession;
     }
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
-    
+
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+        
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -234,16 +284,14 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
 //                       Métodos para generar reportes                        //
 //****************************************************************************//
     
-    //Método para generar reporte Promociones Demandadas (rep_promociones_demandadas.xhtml).
+    //Método para generar reporte Promociones Más Demandadas (rep_promociones_demandadas.xhtml).
     public void repPromocionesDemandadas() throws ParseException {
         try{
-            if (getPromocionesFacade().findPromocionReport(getFechaInicio(), getFechaFin()).isEmpty()) { //es porque no se esta validando la misma consulta, sino validar si existe registros...
+            if (getConsultasFacade().findPromocionesMasDemandadasReporte(getFechaInicio(), getFechaFin()).isEmpty()) { //es porque no se esta validando la misma consulta, sino validar si existe registros...
                 mensajeReporteVacio("El reporte no contiene páginas.");
             }else{
-                /*ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext(); 
-                String pathRelativo = "/views/5_reportes/"; 
-                String directorio = dir.getRealPath(pathRelativo);*/
                 this.setReportDir("/views/5_reportes/");
+                this.setNombreArchivo("rep_promociones_demandadas");
                 this.addParametro("fechaInicio", getFechaInicio());
                 this.addParametro("fechaFin", getFechaFin());
                 execute();
@@ -254,13 +302,14 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
         }
     }
 
-    //Método para generar reporte Tratamientos Demandados (rep_tratamientos_demandados.xhtml).
+    //Método para generar reporte Tratamientos Más Demandados (rep_tratamientos_demandados.xhtml).
     public void repTratamientosDemandados() {
         try{
-            if (getDetallesConsultasFacade().findTratamientoDemandaReport(getFechaInicio(), getFechaFin()).isEmpty()) {
+            if (getDetallesConsultasFacade().findTratamientosMasDemandadosReporte(getFechaInicio(), getFechaFin()).isEmpty()) {
                 mensajeReporteVacio("El reporte no contiene páginas.");
             }else{
                 this.setReportDir("/views/5_reportes/");
+                this.setNombreArchivo("rep_tratamientos_demandados");
                 this.addParametro("fechaInicio", getFechaInicio());
                 this.addParametro("fechaFin", getFechaFin());
                 execute();
@@ -274,10 +323,11 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     //Método para generar reporte Listado de Insumos Médicos (rep_listado_insumos.xhtml).
     public void repListadoInsumos() {
         try{
-            if (false) {
+            if (getInsumosFacade().findListadoInsumosReporte(Boolean.TRUE).isEmpty()) {
                 mensajeReporteVacio("El reporte no contiene páginas.");
             }else{
                 this.setReportDir("/views/5_reportes/");
+                this.setNombreArchivo("rep_listado_insumos");
                 execute();
                 RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
             }
@@ -289,27 +339,45 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     //Método para generar reporte Listado de Insumos Médicos por Agotarse (rep_listadoinsumos_agotados.xhtml).
     public void repSolicitudInsumos() {
         try{
-            if (getExistenciasFacade().InsumosPorAgotarseReport(getClinicaId()).isEmpty()) {
-                mensajeReporteVacio("El reporte no contiene páginas.");
-            }else{
-                this.setReportDir("/views/5_reportes/");
-                this.addParametro("clinicaId", getClinicaId());
-                execute();
-                RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+            if(clinicaId == 0){
+                if (getExistenciasFacade().findSolicitudInsumosTodasClinicasReporte(Boolean.TRUE).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setEstadoCita(2);
+                    this.setNombreArchivo("rep_solicitud_insumos_todos");
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+            else{
+                if (getExistenciasFacade().findSolicitudInsumosPorClinicasReporte(Boolean.TRUE, getClinicaId()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_solicitud_insumos");
+                    this.setEstadoCita(2);
+                    this.addParametro("clinicaId", getClinicaId());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
             }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: repSolicitudInsumos.");
         }
     }
 
-    //Método para generar reporte Listado de Pacientes por Médico (rep_listadopacientes_xmedico.xhtml).
+    //Método para generar reporte Listado de Pacientes por Médico (rep_pacientes_por_medico.xhtml).
     public void repPacientesPorMedico() {
         try{
-            if (getConsultasFacade().findPacientesPorMedicoReport(getMedicoId()).isEmpty()) {
+            if (getConsultasFacade().findPacientesPorMedicoReporte(getMedicoId(), getFechaInicio(), getFechaFin()).isEmpty()) {
                 mensajeReporteVacio("El reporte no contiene páginas.");
             }else{
                 this.setReportDir("/views/5_reportes/");
+                this.setNombreArchivo("rep_pacientes_por_medico");
                 this.addParametro("medicoId", getMedicoId());
+                this.addParametro("fechaInicio", getFechaInicio());
+                this.addParametro("fechaFin", getFechaFin());
                 execute();
                 RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
             }
@@ -318,49 +386,210 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
         }
     }
     
-    //Método para generar reporte Listado Tratamientos realizados a paciente (rep_tratamientos_apacientes.xhtml).
-    public void repTratamientosPaciente() {
+    //Método para generar reporte Listado Tratamientos realizados a Paciente (rep_tratamientos_por_pacientes.xhtml).
+    public void repTratamientosPorPaciente() {
         try{
-            if (false) {
+            if (getDetallesConsultasFacade().findTratamientosPorPacienteReporte(getPacienteId()).isEmpty()) {
                 mensajeReporteVacio("El reporte no contiene páginas.");
             }else{
                 this.setReportDir("/views/5_reportes/");
+                this.setNombreArchivo("rep_tratamientos_por_paciente");
                 this.addParametro("pacienteId", getPacienteId());
                 execute();
                 RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
             }
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: repTratamientosPaciente.");
+            mensajeError("Se detuvo el proceso en el método: repTratamientosPorPaciente.");
         }
     }
 
-    //Método para generar reporte Listado de Pacientes por Clínica (rep_listadopacientes_xclinica.xhtml).
+    //Método para generar reporte Listado de Citas por Clínica (rep_citas_por_clinica.xhtml).
     public void repCitasPorClinica() {
         try{
-            if (getCitasFacade().findCitasPorSucursalReport(getFechaInicio(), getFechaFin(), getClinicaId(), getCitaEstado()).isEmpty()) {
-                mensajeReporteVacio("El reporte no contiene páginas.");
-            }else{
-                this.setReportDir("/views/5_reportes/");
-                this.addParametro("clinicaId", getClinicaId());
-                this.addParametro("fechaInicio", getFechaInicio());
-                this.addParametro("fechaFin", getFechaFin());
-                this.addParametro("citaEstado", getCitaEstado());
-                System.out.println("reporte entra"+getCitaEstado());
-                execute();
-                RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+            this.setEstadoCita(2);
+            if(clinicaId == 0){
+                if (getCitasFacade().findCitasPorTodasClinicasReporte(getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_citas_por_clinica_todas");
+                    this.addParametro("estadoCita", getEstadoCita());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+            else{
+                if (getCitasFacade().findCitasPorClinicaReporte(getClinicaId(), getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_citas_por_clinica");
+                    this.addParametro("estadoCita", getEstadoCita());
+                    this.addParametro("clinicaId", getClinicaId());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
             }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: repCitasPorClinica.");
         }
     }
 
+    //Método para generar reporte Listado de Citas por Médico (rep_citas_por_medico.xhtml).
+    public void repCitasPorMedico() {
+        try{
+            this.setEstadoCita(2);
+            if(medicoId == 0){
+                if (getCitasFacade().findCitasPorTodosMedicosReporte(getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_citas_por_medico_todos");
+                    this.addParametro("estadoCita", getEstadoCita());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+            else{
+                if (getCitasFacade().findCitasPorMedicoReporte(getMedicoId(), getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_citas_por_medico");
+                    this.addParametro("medicoId", getMedicoId());
+                    this.addParametro("estadoCita", getEstadoCita());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: repCitasPorMedico.");
+        }
+    }
+
+    //Método para generar reporte Listado de Citas por Estado (rep_citas_por_estado.xhtml).
+    public void repCitasPorEstado() {
+        try{
+            if(estadoCita == 1 || estadoCita == 4){
+                if (getCitasFacade().findCitasPorEstadoReporte(getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    if(estadoCita == 1){
+                        this.setCitaEstado("Reservadas");
+                    } else{
+                        this.setCitaEstado("Canceladas");
+                    }
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_citas_por_estado_sin_medico");
+                    this.addParametro("estadoCita", getEstadoCita());
+                    this.addParametro("citaEstado", getCitaEstado());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+            else{
+                if (getCitasFacade().findCitasPorEstadoReporte(getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    if(estadoCita == 2){
+                        this.setCitaEstado("Confirmadas");
+                    } 
+                    if(estadoCita == 3){
+                        this.setCitaEstado("Atendidas");
+                    }
+                    if(estadoCita == 5){
+                        this.setCitaEstado("Expiradas");
+                    }
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_citas_por_estado");
+                    this.addParametro("estadoCita", getEstadoCita());
+                    this.addParametro("citaEstado", getCitaEstado());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: repCitasPorEstado.");
+        }
+    }
+
+    //Método para generar reporte Listado de Pacientes por Clínica (rep_pacientes_por_clinica.xhtml).
+    public void repPacientesPorClinica() {
+        try{
+            this.setEstadoCita(4);
+            if (getCitasFacade().findPacientesPorClinicaReporte(getClinicaId(), getEstadoCita(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                mensajeReporteVacio("El reporte no contiene páginas.");
+            }else{
+                this.setReportDir("/views/5_reportes/");
+                this.setNombreArchivo("rep_pacientes_por_clinica");
+                this.addParametro("estadoCita", getEstadoCita());
+                this.addParametro("clinicaId", getClinicaId());
+                this.addParametro("fechaInicio", getFechaInicio());
+                this.addParametro("fechaFin", getFechaFin());
+                execute();
+                RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+            }
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: repPacientesPorClinica.");
+        }
+    }
+    
+    //Método para generar reporte Listado de Pacientes por Tratamiento (rep_pacientes_por_tratamiento.xhtml).
+    public void repPacientesPorTratamiento() {
+        try{
+            if(tratamientoId == 0){
+                if (getDetallesConsultasFacade().findPacientesPorTodosTratamientoReporte(getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_pacientes_por_tratamiento_todos");
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+            else{
+                if (getDetallesConsultasFacade().findPacientesPorTratamientoReporte(getTratamientoId(), getFechaInicio(), getFechaFin()).isEmpty()) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_pacientes_por_tratamiento");
+                    this.addParametro("tratamientoId", getTratamientoId());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: repPacientesPorTratamiento.");
+        }
+    }
+    
     //Método para generar reporte de Receta (consultas_gestionar.xhtml).
     public void repReceta() {
         try{
-            this.setReportDir("/views/5_reportes/");
-            this.addParametro("consultaId", getConsultaId());
-            execute();
-            RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+            if (getConsultasFacade().find(getConsultaId()).getConsultaReceta().equals("")) {
+                    mensajeReporteVacio("No se ha guardado una receta.");
+            }else{
+                this.setReportDir("/views/5_reportes/");
+                this.addParametro("consultaId", getConsultaId());
+                execute();
+                RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+            }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: repReceta.");
         }
@@ -398,7 +627,7 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     
     //Método para mostrar mensaje de reporte vacío.
     public void mensajeReporteVacio(String mensaje) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "mensaje", mensaje);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
     

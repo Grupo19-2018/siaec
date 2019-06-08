@@ -36,6 +36,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.findByCitaFechaModificacion", query = "SELECT c FROM Citas c WHERE c.citaFechaModificacion = :citaFechaModificacion"),
     @NamedQuery(name = "Citas.findByCitaUsuarioModificacion", query = "SELECT c FROM Citas c WHERE c.citaUsuarioModificacion = :citaUsuarioModificacion"),
 
+    //Reportes
+    @NamedQuery(name = "Citas.findByCitasPorClinicaReporte", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinicaId AND c.citaEstado = :estado AND c.citaFecha BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "Citas.findByCitasPorTodasClinicasReporte", query = "SELECT c FROM Citas c WHERE c.citaEstado = :estado AND c.citaFecha BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "Citas.findByCitasPorMedicoReporte", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaEstado = :estado AND c.citaFecha BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "Citas.findByCitasPorTodosMedicosReporte", query = "SELECT c FROM Citas c WHERE c.citaEstado = :estado AND c.citaFecha BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "Citas.findByCitasPorEstadoReporte", query = "SELECT c FROM Citas c WHERE c.citaEstado = :citaEstado AND c.citaFecha BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "Citas.findByPacientesPorClinicaReporte", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinicaId AND c.citaEstado = :citaEstado AND c.citaFecha BETWEEN :fechaInicio AND :fechaFin"),
+    
     @NamedQuery(name = "Citas.findByCitasTotalEstado", query = "SELECT c FROM Citas c WHERE c.citaEstado = :idEstado"),
     @NamedQuery(name = "Citas.findByCitasMesEstado", query = "SELECT c FROM Citas c WHERE c.citaFecha > :fecha_inferior AND c.citaFecha < :fecha_superior "),
     @NamedQuery(name = "Citas.findByCitaAtendidaPorSucursal", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :idClinica AND c.citaEstado = :idEstado"),

@@ -6,6 +6,7 @@
 package dao;
 
 import entities.Consultas;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,9 +36,14 @@ public class ConsultasFacade extends AbstractFacade<Consultas> {
         return getEntityManager().createNamedQuery("Consultas.findByConsultasPorPaciente").setParameter("pacienteId", pacienteId).getResultList();
     }
     
-    //Lista de pacientes de un medico en especifico, para validacion de reporte de paciente por un medico en especifico
-    public List<Consultas> findPacientesPorMedicoReport(int medicoId) {
-        return getEntityManager().createNamedQuery("Consultas.findPacientesPorMedicoReport").setParameter("medicoId", medicoId).getResultList();
+    //Lista de pacientes de un medico en especifico, para validacion de reporte de paciente por medico en especifico (rep_pacientes_por_medico).
+    public List<Consultas> findPacientesPorMedicoReporte(int medicoId, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Consultas.findPacientesPorMedicoReporte").setParameter("medicoId", medicoId).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+    //Lista de consultas con promoción distinta de null, para validacion de reporte de promociones más demandadas (rep_promociones_demandadas.xhtml).
+    public List<Consultas> findPromocionesMasDemandadasReporte(Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Consultas.findPromocionesMasDemandadasReporte").setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
     }
     
 }

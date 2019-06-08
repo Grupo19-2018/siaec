@@ -69,6 +69,14 @@ public class ExistenciasFacade extends AbstractFacade<Existencias> {
         return getEntityManager().createNamedQuery("Existencias.findInsumosPorClinica").setParameter("clinicaId", clinicaId).getResultList();
     }
     
+    //Lista de Insumos próximos a agotarse e todas las clínicas, para validacion de reporte solicitud de insumos médicos (rep_solicitud_insumos.xhtml).
+    public List<Existencias> findSolicitudInsumosTodasClinicasReporte(boolean estado){
+        return getEntityManager().createNamedQuery("Existencias.findSolicitudInsumosTodasClinicasReporte").setParameter("estado", estado).getResultList();
+    }
     
+    //Lista de Insumos próximos a agotarse por clínica, para validacion de reporte solicitud de insumos médicos (rep_solicitud_insumos.xhtml).
+    public List<Existencias> findSolicitudInsumosPorClinicasReporte(boolean estado, int clinicaId){
+        return getEntityManager().createNamedQuery("Existencias.findSolicitudInsumosPorClinicasReporte").setParameter("estado", estado).setParameter("clinicaId", clinicaId).getResultList();
+    }
     
 }

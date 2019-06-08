@@ -39,7 +39,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaUsuarioCreacio", query = "SELECT d FROM DetallesConsultas d WHERE d.detalleconsultaUsuarioCreacio = :detalleconsultaUsuarioCreacio"),
     
     @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPaciente", query = "SELECT d FROM DetallesConsultas d WHERE d.pacienteId.pacienteId = :pacienteId"),
-    @NamedQuery(name = "DetallesConsultas.findDemandaTratamientoReport", query = "SELECT d FROM DetallesConsultas d WHERE d.detalleconsultaFechaCreacion between :fechainicio and :fechafin and d.tratamientoId is not null"),
+    @NamedQuery(name = "DetallesConsultas.findTratamientosMasDemandadosReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId is not null AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "DetallesConsultas.findByTratamientosPorPacienteReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.pacienteId.pacienteId = :pacienteId AND d.tratamientoId.tratamientoId IS NOT NULL"),
+    @NamedQuery(name = "DetallesConsultas.findByPacientesPorTratamientoReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId = :tratamientoId AND d.pacienteId.pacienteId IS NOT NULL AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "DetallesConsultas.findByPacientesPorTodosTratamientoReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId IS NOT NULL AND d.pacienteId.pacienteId IS NOT NULL AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
     
     /*@NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaOclusal", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaOclusal != 0 ORDER BY d.detalleconsultaId ASC"),
     @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaVestibular", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaVestibular != 0 ORDER BY d.detalleconsultaId ASC"),

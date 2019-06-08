@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a709cf38-6823-408a-ac7a-fbfa90a24fd3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT i.insumo_nombre, i.insumo_descripcion, i.insumo_minimo, e.existencia_cantidad, u.unidadmedida_nombre, c.clinica_id, c.clinica_nombre
+FROM insumos i, existencias e, unidades_medidas u, clinicas c
+WHERE i.insumo_id = e.insumo_id
+AND e.clinica_id = c.clinica_id
+AND i.unidadmedida_id = u.unidadmedida_id
+AND i.insumo_estado = TRUE
+AND e.existencia_cantidad <= i.insumo_minimo
+GROUP BY i.insumo_nombre, i.insumo_descripcion, i.insumo_minimo, e.existencia_cantidad, u.unidadmedida_nombre, c.clinica_id
+ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
+	</queryString>
+	<field name="insumo_nombre" class="java.lang.String"/>
+	<field name="insumo_descripcion" class="java.lang.String"/>
+	<field name="insumo_minimo" class="java.lang.Integer"/>
+	<field name="existencia_cantidad" class="java.lang.Double"/>
+	<field name="unidadmedida_nombre" class="java.lang.String"/>
+	<field name="clinica_id" class="java.lang.Integer"/>
+	<field name="clinica_nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="513" y="30" width="52" height="15" forecolor="#464646" uuid="e9410d33-50f3-4b50-a345-7991e79c29bc"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="45" width="80" height="15" forecolor="#464646" uuid="fdae261a-70ff-4e0e-9a98-d790776b4c27"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="25" width="280" height="15" forecolor="#464646" uuid="03bfa3c9-4396-45b7-9bad-b460a9750079"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<text><![CDATA[SOLICITUD DE INSUMOS MÉDICOS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="117600ff-4f06-4081-9ac7-8f2ad5db9610"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="170" y="1" width="240" height="24" forecolor="#464646" uuid="9c4522b6-32bb-4308-8391-6baff3036ec6"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLÍNICA DENTAL SMILING]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="475" y="30" width="40" height="15" forecolor="#464646" uuid="7a6354e8-26c3-45d7-ad9c-85d860eb30e5"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="140" height="60" uuid="1f1dd35a-b343-4ffb-bf9b-ae13dfd6d820"/>
+				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
+			</image>
+			<textField evaluationTime="Report">
+				<reportElement x="557" y="45" width="14" height="15" forecolor="#464646" uuid="895abcff-b86c-4052-ab16-ea111a5bbc7c"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="425" y="5" width="65" height="15" forecolor="#464646" uuid="7d3921a7-0491-460d-b34c-3f549c109745"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Requerido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="5" width="65" height="15" forecolor="#464646" uuid="9965f3e9-83e3-4822-be3b-ac96e606e712"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Existencia]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="570" height="1" forecolor="#808080" uuid="d7687237-f62a-46bf-a417-b73a32317e1d"/>
+			</line>
+			<staticText>
+				<reportElement x="495" y="5" width="75" height="15" forecolor="#464646" uuid="1a18915e-46bb-4eab-b376-b58d67a49401"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unid. Medida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="5" width="200" height="15" forecolor="#464646" uuid="6363b533-f61d-4feb-8c6a-dbff9997b0a2"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Insumo]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="4" width="570" height="1" forecolor="#808080" uuid="401a09c7-ac64-4fa6-b66e-edd50feabe7f"/>
+			</line>
+			<staticText>
+				<reportElement x="210" y="5" width="140" height="15" forecolor="#464646" uuid="e986ac83-8d6f-4ebf-9671-a776a2a6b194"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clínica]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement x="425" y="3" width="50" height="15" forecolor="#464646" uuid="20f46f87-203d-4bea-8e33-7c17835a000f"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{insumo_minimo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement x="355" y="3" width="50" height="15" forecolor="#464646" uuid="19e5e906-2144-4048-8e1e-1eb6b6342c2f"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{existencia_cantidad}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="495" y="3" width="75" height="15" forecolor="#464646" uuid="c7b40907-ea45-4c54-a0ad-c7ad0f016523"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidadmedida_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="5" y="3" width="200" height="15" forecolor="#464646" uuid="c30522c6-c3dd-4a70-ae57-819bc0d273f2"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{insumo_nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="210" y="3" width="140" height="15" forecolor="#464646" uuid="65fe3e2a-d87e-4af3-8f53-c33b686b5f50"/>
+				<textElement>
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clinica_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="110" y="5" width="350" height="15" forecolor="#464646" uuid="2e2fc82d-b83e-4149-8894-a8b5b355d1c7"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="11" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[© SIAEC "LA FELICIDAD SE REFLEJA EN TU SONRISA"]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="5" splitType="Stretch"/>
+	</summary>
+</jasperReport>

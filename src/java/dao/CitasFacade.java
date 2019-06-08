@@ -45,6 +45,36 @@ public class CitasFacade extends AbstractFacade<Citas> {
         super(Citas.class);
     }
     
+    //Método que obtiene lista de citas por clínica, para validacion de reporte de citas por clínica (rep_citas_por_clinica.xhtml)
+    public List<Citas> findCitasPorClinicaReporte(int clinicaId, int estado, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Citas.findByCitasPorClinicaReporte").setParameter("clinicaId", clinicaId).setParameter("estado", estado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+    //Método que obtiene lista de citas por todas las clínicas, para validacion de reporte de citas por clínica (rep_citas_por_clinica.xhtml)
+    public List<Citas> findCitasPorTodasClinicasReporte(int estado, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Citas.findByCitasPorTodasClinicasReporte").setParameter("estado", estado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+    //Método que obtiene lista de citas por médico, para validacion de reporte de citas por médico (rep_citas_por_medico.xhtml)
+    public List<Citas> findCitasPorMedicoReporte(int medicoId, int estado, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Citas.findByCitasPorMedicoReporte").setParameter("medicoId", medicoId).setParameter("estado", estado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+    //Método que obtiene lista de citas por todos los médicos, para validacion de reporte de citas por médico (rep_citas_por_medico.xhtml)
+    public List<Citas> findCitasPorTodosMedicosReporte(int estado, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Citas.findByCitasPorTodosMedicosReporte").setParameter("estado", estado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+    //Método que obtiene lista de citas por estado, para validacion de reporte de citas por estado (rep_citas_por_estado.xhtml)
+    public List<Citas> findCitasPorEstadoReporte(int citaEstado, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Citas.findByCitasPorEstadoReporte").setParameter("citaEstado", citaEstado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+    //Método que obtiene lista de citas atendidas, para validacion de reporte de pacientes por clínica (rep_pacientes_por_clinica.xhtml)
+    public List<Citas> findPacientesPorClinicaReporte(int clinicaId, int citaEstado, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("Citas.findByPacientesPorClinicaReporte").setParameter("clinicaId", clinicaId).setParameter("citaEstado", citaEstado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
     public List<Citas> citasAtendidasEstado(Integer estadoId) {         //http://alejandroayala.solmedia.ec/?p=947
         List <Citas> results = getEntityManager().createNamedQuery("Citas.findByCitasTotalEstado").setParameter("idEstado", estadoId).getResultList();
         return results;

@@ -36,9 +36,24 @@ public class DetallesConsultasFacade extends AbstractFacade<DetallesConsultas> {
         return getEntityManager().createNamedQuery("DetallesConsultas.findByDetalleconsultaPorPaciente").setParameter("pacienteId", pacienteId).getResultList();
     }
     
-    //LISTA DE TRATAMIENTOS ENTRE DOS FECHAS EXISTENTES, PARA VALIDACION DE TRATAMIENTOS DEMANDADAS
-     public List<DetallesConsultas> findTratamientoDemandaReport(Date fechainicio, Date fechafin){
-        return getEntityManager().createNamedQuery("DetallesConsultas.findDemandaTratamientoReport").setParameter("fechainicio", fechainicio).setParameter("fechafin", fechafin).getResultList();
+    //Lista de Detalles de Consulta con tratamientos distintos de null, para validacion de reporte de tratamientos más demandados (rep_tratamientos_demandados.xhtml).
+     public List<DetallesConsultas> findTratamientosMasDemandadosReporte(Date fechaInicio, Date fechaFin){
+        return getEntityManager().createNamedQuery("DetallesConsultas.findTratamientosMasDemandadosReporte").setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+     
+    //Método que obtiene lista de detalles de consultas por paciente, para validacion de reporte de tratamientos por pacientes (rep_tratamientos_por_pacientes.xhtml).
+    public List<DetallesConsultas> findTratamientosPorPacienteReporte(int pacienteId) {
+        return getEntityManager().createNamedQuery("DetallesConsultas.findByTratamientosPorPacienteReporte").setParameter("pacienteId", pacienteId).getResultList();
+    }
+    
+    //Método que obtiene lista de detalles de consultas por tratamiento, para validacion de reporte de pacientes por tratamientos (rep_pacientes_por_tratamiento.xhtml).
+    public List<DetallesConsultas> findPacientesPorTratamientoReporte(int tratamientoId, Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("DetallesConsultas.findByPacientesPorTratamientoReporte").setParameter("tratamientoId", tratamientoId).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
+    }
+    
+   //Método que obtiene lista de detalles de consultas por todos tratamiento, para validacion de reporte de pacientes por tratamientos (rep_pacientes_por_tratamiento.xhtml).
+    public List<DetallesConsultas> findPacientesPorTodosTratamientoReporte(Date fechaInicio, Date fechaFin) {
+        return getEntityManager().createNamedQuery("DetallesConsultas.findByPacientesPorTodosTratamientoReporte").setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
     }
     
 }

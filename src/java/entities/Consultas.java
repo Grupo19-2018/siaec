@@ -41,7 +41,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Consultas.findByConsultaUsuarioModificacion", query = "SELECT c FROM Consultas c WHERE c.consultaUsuarioModificacion = :consultaUsuarioModificacion"),
 
     @NamedQuery(name = "Consultas.findByConsultasPorPaciente", query = "SELECT c FROM Consultas c WHERE c.pacienteId.pacienteId = :pacienteId ORDER BY c.consultaFechaCreacion DESC"),
-    @NamedQuery(name = "Consultas.findPacientesPorMedicoReport", query = "SELECT c FROM Consultas c WHERE c.medicoId.medicoId = :medicoId and c.pacienteId.pacienteId is not null")})
+    
+    @NamedQuery(name = "Consultas.findPacientesPorMedicoReporte", query = "SELECT c FROM Consultas c WHERE c.medicoId.medicoId = :medicoId AND c.consultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
+    @NamedQuery(name = "Consultas.findPromocionesMasDemandadasReporte", query = "SELECT c FROM Consultas c WHERE c.promocionId.promocionId is not null AND c.consultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin")})
 public class Consultas implements Serializable {
 
     private static final long serialVersionUID = 1L;

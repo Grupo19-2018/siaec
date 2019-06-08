@@ -39,7 +39,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "Existencias.findByExistenciaAgotada", query = "SELECT e FROM Existencias e WHERE e.existenciaCantidad = :agotado"),
     @NamedQuery(name = "Existencias.findByExistenciaPorAgotarse", query = "SELECT e FROM Existencias e WHERE e.existenciaCantidad <= e.insumoId.insumoMinimo AND e.existenciaCantidad > :agotado"),
     @NamedQuery(name = "Existencias.findInsumosPorAgotarseReport", query = "SELECT e FROM Existencias e WHERE e.clinicaId.clinicaId= :clinicaId AND e.existenciaCantidad <= e.insumoId.insumoMinimo"),
-    @NamedQuery(name = "Existencias.findInsumosPorClinica", query = "SELECT e FROM Existencias e WHERE e.clinicaId.clinicaId= :clinicaId")})
+    @NamedQuery(name = "Existencias.findInsumosPorClinica", query = "SELECT e FROM Existencias e WHERE e.clinicaId.clinicaId= :clinicaId"),
+
+    @NamedQuery(name = "Existencias.findSolicitudInsumosTodasClinicasReporte", query = "SELECT e FROM Existencias e WHERE e.insumoId.insumoEstado = :estado AND e.existenciaCantidad <= e.insumoId.insumoMinimo"),
+    @NamedQuery(name = "Existencias.findSolicitudInsumosPorClinicasReporte", query = "SELECT e FROM Existencias e WHERE e.clinicaId.clinicaId = :clinicaId AND e.insumoId.insumoEstado = :estado AND e.existenciaCantidad <= e.insumoId.insumoMinimo")})
 public class Existencias implements Serializable {
 
     private static final long serialVersionUID = 1L;

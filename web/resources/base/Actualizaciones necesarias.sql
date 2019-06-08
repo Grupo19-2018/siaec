@@ -98,3 +98,23 @@ alter table citas add column cita_paciente Integer;
 
 --Para dar privilegios de consulta de expedientes a rol asistente
 insert into sub_menus_por_roles values(4, 11);
+
+--Cambio de nombres a los reportes
+update public.submenus set submenu_url = '/views/5_reportes/rep_tratamientos_demandados.xhtml', sumbenu_nombre = 'Tratamientos Más Demandados por Pacientes' where submenu_id=20;
+update public.submenus set submenu_url = '/views/5_reportes/rep_promociones_demandadas.xhtml', sumbenu_nombre = 'Promociones Más Demandadas por Pacientes' where submenu_id=21;
+update public.submenus set submenu_url = '/views/5_reportes/rep_pacientes_por_medico.xhtml', sumbenu_nombre = 'Listado de Pacientes por Médico' where submenu_id=22;
+update public.submenus set submenu_url = '/views/5_reportes/rep_pacientes_por_tratamiento.xhtml', sumbenu_nombre = 'Listado de Pacientes Atendidos por Tratamiento' where submenu_id=23;
+update public.submenus set submenu_url = '/views/5_reportes/rep_pacientes_por_clinica.xhtml', sumbenu_nombre = 'Listado de Pacientes Atendidos por Clínica' where submenu_id=24;
+update public.submenus set submenu_url = '/views/5_reportes/rep_citas_por_estado.xhtml', sumbenu_nombre = 'Listado de Citas por Estado' where submenu_id=25;
+update public.submenus set submenu_url = '/views/5_reportes/rep_tratamientos_por_paciente.xhtml', sumbenu_nombre = 'Tratamientos Realizados a Paciente' where submenu_id=26;
+update public.submenus set submenu_url = '/views/5_reportes/rep_solicitud_insumos.xhtml', sumbenu_nombre = 'Solicitud de Insumos Médicos' where submenu_id=27;
+update public.submenus set submenu_url = '/views/5_reportes/rep_listado_insumos.xhtml', sumbenu_nombre = 'Listado de Insumos Médicos' where submenu_id=28;
+update public.submenus set submenu_url = '/views/5_reportes/rep_citas_por_clinica.xhtml', sumbenu_nombre = 'Agenda de Citas Programadas por Clínica' where submenu_id=29;
+update public.submenus set submenu_url = '/views/5_reportes/rep_citas_por_medico.xhtml', sumbenu_nombre = 'Agenda de Citas Programadas por Médico' where submenu_id=30;
+
+--Para dar acceso a todos los reportes al rol director
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 26);
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 27);
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 28);
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 29);
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 30);

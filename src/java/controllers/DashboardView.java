@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.EJB;
@@ -41,9 +40,9 @@ public class DashboardView implements Serializable {
 
     private PieChartModel graficoCircularPaciente;                      //Grafico circular de pacientes por sexo. 
     private LineChartModel sucursalModelo;                              //Grafico lineal de citasGrafico. 
+    private List<Citas> citasGrafico = new ArrayList<>();               //Usado por metodo: consultaPorSucursal()
     private Integer citasSeleccionable = 3;                             //Utilizada para seleccionar el tipo de estadisticas. 
-    private List<Citas> citasGrafico = new ArrayList<>();                      //Usado por metodo: consultaPorSucursal()
-
+    
     public DashboardView() {
     }
 
@@ -84,7 +83,7 @@ public class DashboardView implements Serializable {
 //****************************************************************************//
 //                                Métodos                                     //
 //****************************************************************************//    
-//Carga grafica lineal. 
+//Carga grafica lineal de citas. 
 //Usuado en: estadisticas.xhtml
     public LineChartModel graficoLinealCitas() {
         sucursalModelo = new LineChartModel();
@@ -106,15 +105,17 @@ public class DashboardView implements Serializable {
     
 //Usado: graficoLinealCitas()
     private String tituloGraficoCitas(){
+    Calendar fecha = Calendar.getInstance();
+    int anyo = fecha.get(Calendar.YEAR);
     switch(citasSeleccionable){
             case 1:
-                return "Total de Citas Reservadas";
+                return "Total de Citas Reservadas " + anyo;
             case 2:
-                return "Total de Citas Confirmadas";
+                return "Total de Citas Confirmadas " + anyo;
             case 3:
-                return "Total de Pacientes Atendidos";
+                return "Total de Pacientes Atendidos " + anyo;
             case 4:
-                return "Total de Citas Canceladas";
+                return "Total de Citas Canceladas " + anyo;
         }
     return "";
     }
@@ -122,7 +123,13 @@ public class DashboardView implements Serializable {
 //Metodo para extraer las citasGrafico del anyo y dividirlas en meses segun el tipo. 
 //Usado: metodo sucursalEstadistica(Integer idSucursal)
     private int[] consultasPorSucursal(Integer idSucursal) {
-        citasGrafico = getCitasfacade().citasAtendidasPorSucursal(idSucursal, citasSeleccionable);
+        //citasGrafico = getCitasfacade().citasAtendidasPorSucursal(idSucursal, citasSeleccionable);
+        Calendar fechaInicio = Calendar.getInstance();
+        int year = fechaInicio.get(Calendar.YEAR);
+        fechaInicio.set(year, Calendar.JANUARY, 1, 0, 0, 0);
+        Calendar fechaFin = Calendar.getInstance();
+        fechaFin.set(year + 1, Calendar.JANUARY, 1, 0, 0, 0);
+        citasGrafico = getCitasfacade().findPacientesPorClinicaReporte(idSucursal, citasSeleccionable, fechaInicio.getTime(), fechaFin.getTime());
         Integer month = 13;
         int contador[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         for (Citas next : citasGrafico) {
@@ -219,7 +226,6 @@ public class DashboardView implements Serializable {
         return sucursal1;
     }
 
-
 //Usado en: estadisticas.xhtml
     public PieChartModel graficoPacientesPorSexo() {
         graficoCircularPaciente = new PieChartModel();
@@ -266,6 +272,4 @@ public class DashboardView implements Serializable {
         List<Pacientes> pacientes = getPacientefacade().pacientesFechaCreacionRango(inicio.getTime(), fecha.getTime());
         return pacientes.size();
     }
-    
-
 }

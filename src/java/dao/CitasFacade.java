@@ -70,7 +70,7 @@ public class CitasFacade extends AbstractFacade<Citas> {
         return getEntityManager().createNamedQuery("Citas.findByCitasPorEstadoReporte").setParameter("citaEstado", citaEstado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
     }
     
-    //Método que obtiene lista de citas atendidas, para validacion de reporte de pacientes por clínica (rep_pacientes_por_clinica.xhtml)
+    //Método que obtiene lista de citas atendidas, para validacion de reporte de pacientes por clínica (rep_pacientes_por_clinica.xhtml, dashboard.java)
     public List<Citas> findPacientesPorClinicaReporte(int clinicaId, int citaEstado, Date fechaInicio, Date fechaFin) {
         return getEntityManager().createNamedQuery("Citas.findByPacientesPorClinicaReporte").setParameter("clinicaId", clinicaId).setParameter("citaEstado", citaEstado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
     }
@@ -92,6 +92,8 @@ public class CitasFacade extends AbstractFacade<Citas> {
         List <Citas> results = getEntityManager().createNamedQuery("Citas.findByCitaAtendidaPorSucursal").setParameter("idClinica", sucursalId).setParameter("idEstado", estadoId).getResultList();
         return results;
     }
+    
+    
     
     //Metodo que obtiene las citas reservadas en la clinica.
     //Fecha: 12/febrero/2019

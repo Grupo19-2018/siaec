@@ -180,12 +180,12 @@
 
 
                         <p:panel id="citasGrafico">
-                            <p:chart type="line" model="#{dashboard.createLineModels3()}" responsive="true" />
+                            <p:chart type="line" model="#{dashboard.graficoLinealCitas()}" responsive="true" />
                         </p:panel> 
                     </div>
                     <div class="col-md-4 margen-estadisticas-cirular">
                         <p:panel id="grafico2">
-                            <p:chart type="pie" model="#{dashboard.createPieModel()}" responsive="true"/>
+                            <p:chart type="pie" model="#{dashboard.graficoPacientesPorSexo()}" responsive="true"/>
                         </p:panel>
                     </div>
                 </div>

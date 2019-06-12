@@ -16,7 +16,6 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import org.primefaces.model.DashboardModel;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
@@ -40,14 +39,10 @@ public class DashboardView implements Serializable {
     @EJB
     private ClinicasFacade clinicaFacade;
 
-    private DashboardModel model;
-    private LineChartModel lineModel1 = new LineChartModel();
-    private PieChartModel pieModel;
-    private LineChartModel sucursalModelo;
-    private List<LineChartSeries> sucursales = new ArrayList<>();
-    private Integer citasSeleccionable = 3;
-    private String citasSeleccionableS = "1";
-    List<Citas> citas = new ArrayList<>();
+    private PieChartModel graficoCircularPaciente;                      //Grafico circular de pacientes por sexo. 
+    private LineChartModel sucursalModelo;                              //Grafico lineal de citasGrafico. 
+    private Integer citasSeleccionable = 3;                             //Utilizada para seleccionar el tipo de estadisticas. 
+    private List<Citas> citasGrafico = new ArrayList<>();                      //Usado por metodo: consultaPorSucursal()
 
     public DashboardView() {
     }
@@ -55,7 +50,7 @@ public class DashboardView implements Serializable {
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-//Usado en:  createLineModels3() 
+//Usado en:  graficoLinealCitas() 
     private List<Clinicas> todasClinicas() {
         return getClinicaFacade().findAll();
     }
@@ -78,22 +73,6 @@ public class DashboardView implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//    
-    public DashboardModel getModel() {
-        return model;
-    }
-
-    public LineChartModel getLineModel1() {
-        return lineModel1;
-    }
-
-    public PieChartModel getPieModel() {
-        return pieModel;
-    }
-
-    public void setPieModel(PieChartModel pieModel) {
-        this.pieModel = pieModel;
-    }
-
     public Integer getCitasSeleccionable() {
         return citasSeleccionable;
     }
@@ -102,20 +81,12 @@ public class DashboardView implements Serializable {
         this.citasSeleccionable = citasSeleccionable;
     }
 
-    public String getCitasSeleccionableS() {
-        return citasSeleccionableS;
-    }
-
-    public void setCitasSeleccionableS(String citasSeleccionableS) {
-        this.citasSeleccionableS = citasSeleccionableS;
-    }
-
 //****************************************************************************//
 //                                Métodos                                     //
 //****************************************************************************//    
 //Carga grafica lineal. 
 //Usuado en: estadisticas.xhtml
-    public LineChartModel createLineModels3() {
+    public LineChartModel graficoLinealCitas() {
         sucursalModelo = new LineChartModel();
         for (Clinicas c : todasClinicas()) {
             LineChartSeries clinicaSerie = new LineChartSeries();
@@ -123,7 +94,7 @@ public class DashboardView implements Serializable {
             clinicaSerie.setLabel(c.getClinicaNombre());
             sucursalModelo.addSeries(clinicaSerie);
         }
-        sucursalModelo.setTitle("Total de Pacientes Atendidos");
+        sucursalModelo.setTitle(tituloGraficoCitas());
         sucursalModelo.setLegendPosition("e");
         sucursalModelo.setShowPointLabels(true);
         sucursalModelo.getAxes().put(AxisType.X, new CategoryAxis("Mes"));
@@ -132,84 +103,79 @@ public class DashboardView implements Serializable {
         yAxis.setTickFormat("%d");
         return sucursalModelo;
     }
+    
+//Usado: graficoLinealCitas()
+    private String tituloGraficoCitas(){
+    switch(citasSeleccionable){
+            case 1:
+                return "Total de Citas Reservadas";
+            case 2:
+                return "Total de Citas Confirmadas";
+            case 3:
+                return "Total de Pacientes Atendidos";
+            case 4:
+                return "Total de Citas Canceladas";
+        }
+    return "";
+    }
 
-//Usado en metodo: sucursalEstadistica(Integer idSucursal)
-    private int[] consultasAtendidasPorSucursal(Integer idSucursal) {
-        //System.err.println("citasSeleccionable " + citasSeleccionable);
-        //System.out.println("controllers.DashboardView.consultasAtendidasPorSucursal()");
-        //System.out.println("String de s " + citasSeleccionableS);
-        //Integer s = Integer.parseInt(citasSeleccionableS);
-        citas = getCitasfacade().citasAtendidasPorSucursal(idSucursal, citasSeleccionable);
-        // citas = getCitasfacade().findAll();
+//Metodo para extraer las citasGrafico del anyo y dividirlas en meses segun el tipo. 
+//Usado: metodo sucursalEstadistica(Integer idSucursal)
+    private int[] consultasPorSucursal(Integer idSucursal) {
+        citasGrafico = getCitasfacade().citasAtendidasPorSucursal(idSucursal, citasSeleccionable);
         Integer month = 13;
         int contador[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        for (Iterator<Citas> iterator = citas.iterator(); iterator.hasNext();) {
-            Citas next = iterator.next();
+        for (Citas next : citasGrafico) {
             month = next.getCitaFecha().getMonth();
-            String monthString = "";
             switch (month) {
-                case 0:
+                case 0: //Enero
                     contador[0] += 1;
-                    monthString = "January";
                     break;
-                case 1:
+                case 1: //Febrero
                     contador[1] += 1;
-                    monthString = "February";
                     break;
-                case 2:
+                case 2: //Marzo
                     contador[2] += 1;
-                    monthString = "March";
                     break;
-                case 3:
+                case 3: //Abril
                     contador[3] += 1;
-                    monthString = "April";
                     break;
-                case 4:
+                case 4: //Mayo
                     contador[4] += 1;
-                    monthString = "May";
                     break;
-                case 5:
+                case 5: //Junio
                     contador[5] += 1;
-                    monthString = "June";
                     break;
-                case 6:
+                case 6: //Julio
                     contador[6] += 1;
-                    monthString = "July";
                     break;
-                case 7:
+                case 7: //Agosto
                     contador[7] += 1;
-                    monthString = "August";
                     break;
-                case 8:
+                case 8: //Septiembre
                     contador[8] += 1;
-                    monthString = "September";
                     break;
-                case 9:
+                case 9: //Octubre
                     contador[9] += 1;
-                    monthString = "October";
                     break;
-                case 10:
+                case 10: //Noviembre
                     contador[10] += 1;
-                    monthString = "November";
                     break;
-                case 11:
+                case 11: //Diciembre
                     contador[11] += 1;
-                    monthString = "December";
                     break;
                 default:
-                    monthString = "Invalid month";
                     break;
-            }//Fin Switch 
-        }// Fin de iterador Citas
+            } 
+        } 
         return contador;
     }
 
-//Usado en metodo: createLineModels3()
+//Carga al grafico lienal los 12 meses y las citasGrafico atendidas en esos meses. 
+//Usado en metodo: graficoLinealCitas()
     private LineChartSeries sucursalEstadistica(Integer idSucursal) {
-        //LineChartModel model2 = new LineChartModel();
-        int contador[] = consultasAtendidasPorSucursal(idSucursal);
+        int contador[] = consultasPorSucursal(idSucursal);
         LineChartSeries sucursal1 = new LineChartSeries();
-        //sucursal1.setLabel("Sucursal 1");
         for (int i = 0; i < contador.length; i++) {
             switch (i) {
                 case 0:
@@ -250,23 +216,22 @@ public class DashboardView implements Serializable {
                     break;
             }
         }
-        //model2.addSeries(sucursal1);
         return sucursal1;
     }
 
 
 //Usado en: estadisticas.xhtml
-    public PieChartModel createPieModel() {
-        pieModel = new PieChartModel();
-        pieModel.setData(datosPieModel());
-        pieModel.setTitle("Total de pacientes registrados por sexo");
-        pieModel.setLegendPosition("w");
-        pieModel.setShadow(false);
-        return pieModel;
+    public PieChartModel graficoPacientesPorSexo() {
+        graficoCircularPaciente = new PieChartModel();
+        graficoCircularPaciente.setData(datosPacientesPorSexo());
+        graficoCircularPaciente.setTitle("Total de pacientes registrados por sexo");
+        graficoCircularPaciente.setLegendPosition("w");
+        graficoCircularPaciente.setShadow(false);
+        return graficoCircularPaciente;
     }
 
-//Usado en: createPieModel
-    private Map datosPieModel() {
+//Usado en:  graficoPacientesPorSexo()
+    private Map datosPacientesPorSexo() {
         Map<String, Number> data = new HashMap<>();
         data.put("Hombres", getPacientefacade().todosPacientesPorSexo(true).size());
         data.put("Mujeres", getPacientefacade().todosPacientesPorSexo(false).size());

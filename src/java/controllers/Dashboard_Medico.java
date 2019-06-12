@@ -10,8 +10,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
 //@Named(value = "dashboardView")
 @ManagedBean(name = "dashboardMedico")

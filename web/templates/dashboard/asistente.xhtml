@@ -19,7 +19,7 @@
                 <h:form>
                     <p:selectOneMenu id="sucursal" value="#{citasBean.clinicaSeleccionada}" filter="true"  filterMatchMode="startsWith" panelStyle="width: 33%" style="width: 50%;">
                         <f:selectItem itemLabel="Todas las sucursales" itemValue="0"/>
-                        <f:selectItems value="#{dashboardAsistente.todasClinicas()}" var="clinica" itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
+                        <f:selectItems value="#{dashboard.todasClinicas()}" var="clinica" itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
                         <p:ajax update=":form" oncomplete="estiloTabla();"/> 
                     </p:selectOneMenu>  
                 </h:form>
@@ -82,7 +82,7 @@
                                         &nbsp;
                                         <!--Casos para mostrar los botones para el dashboard. -->
                                         <!--Caso 1: Solo tiene expediente-->
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
+                                        <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
                                             <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
                                                 <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
@@ -95,7 +95,7 @@
                                             </h:link>
                                         </h:panelGroup>
                                         <!--Caso 2: Solo tiene usuario-->
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
+                                        <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
                                             <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                             </h:link> 
@@ -105,7 +105,7 @@
                                             </h:link>
                                         </h:panelGroup> 
                                         <!--Caso 3: Tiene expediente y usuario-->
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
+                                        <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
                                             <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Consultar ficha de datos">
                                                 <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
@@ -113,12 +113,9 @@
                                             </h:link> 
                                         </h:panelGroup>
                                         <!--Caso 4: Error -->
-                                        <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
+                                        <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
                                             Error.
                                         </h:panelGroup>
-
-
-
                                     </td>
                                 </tr>
                             </ui:repeat>

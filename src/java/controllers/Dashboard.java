@@ -6,6 +6,7 @@ import dao.PacientesFacade;
 import entities.Citas;
 import entities.Clinicas;
 import entities.Pacientes;
+import entities.Usuarios;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +25,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 @Named(value = "dashboard")
 @ViewScoped
-public class DashboardView implements Serializable {
+public class Dashboard implements Serializable {
 
 //****************************************************************************//
 //                          Declaración de variables                          //
@@ -42,16 +43,30 @@ public class DashboardView implements Serializable {
     private LineChartModel sucursalModelo;                              //Grafico lineal de citasGrafico. 
     private List<Citas> citasGrafico = new ArrayList<>();               //Usado por metodo: consultaPorSucursal()
     private Integer citasSeleccionable = 3;                             //Utilizada para seleccionar el tipo de estadisticas. 
-    
-    public DashboardView() {
+
+    public Dashboard() {
     }
 
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-//Usado en:  graficoLinealCitas() 
-    private List<Clinicas> todasClinicas() {
+//Todas clinicas utilizado.
+//Usado en: metodo[graficoLinealCitas()], vista[asistente.xhtml]
+    public List<Clinicas> todasClinicas() {
         return getClinicaFacade().findAll();
+    }
+
+//Citas activas: Estado reservadas o pendiente (1) y confirmadas (2)
+//Usado: Dashboard_Paciente.xhtml.
+    public List<Citas> citaActiva(Usuarios usuario) {
+        if (usuario != null) {
+            if (usuario.getPacienteId() != null) {
+                return getCitasfacade().citaActiva(usuario.getPacienteId().getPacienteId());
+            }
+            return getCitasfacade().citaActiva(usuario.getUsuarioUsuario());
+        }
+        System.err.println("Metodo: citasActiva() de Dashboard paciente null");
+        return null;
     }
 
 //****************************************************************************//
@@ -71,7 +86,7 @@ public class DashboardView implements Serializable {
 
 //****************************************************************************//
 //                             Métodos Get y SET                              //
-//****************************************************************************//    
+//****************************************************************************//
     public Integer getCitasSeleccionable() {
         return citasSeleccionable;
     }
@@ -102,12 +117,12 @@ public class DashboardView implements Serializable {
         yAxis.setTickFormat("%d");
         return sucursalModelo;
     }
-    
+
 //Usado: graficoLinealCitas()
-    private String tituloGraficoCitas(){
-    Calendar fecha = Calendar.getInstance();
-    int anyo = fecha.get(Calendar.YEAR);
-    switch(citasSeleccionable){
+    private String tituloGraficoCitas() {
+        Calendar fecha = Calendar.getInstance();
+        int anyo = fecha.get(Calendar.YEAR);
+        switch (citasSeleccionable) {
             case 1:
                 return "Total de Citas Reservadas " + anyo;
             case 2:
@@ -117,13 +132,12 @@ public class DashboardView implements Serializable {
             case 4:
                 return "Total de Citas Canceladas " + anyo;
         }
-    return "";
+        return "";
     }
 
 //Metodo para extraer las citasGrafico del anyo y dividirlas en meses segun el tipo. 
 //Usado: metodo sucursalEstadistica(Integer idSucursal)
     private int[] consultasPorSucursal(Integer idSucursal) {
-        //citasGrafico = getCitasfacade().citasAtendidasPorSucursal(idSucursal, citasSeleccionable);
         Calendar fechaInicio = Calendar.getInstance();
         int year = fechaInicio.get(Calendar.YEAR);
         fechaInicio.set(year, Calendar.JANUARY, 1, 0, 0, 0);
@@ -173,8 +187,8 @@ public class DashboardView implements Serializable {
                     break;
                 default:
                     break;
-            } 
-        } 
+            }
+        }
         return contador;
     }
 
@@ -272,4 +286,95 @@ public class DashboardView implements Serializable {
         List<Pacientes> pacientes = getPacientefacade().pacientesFechaCreacionRango(inicio.getTime(), fecha.getTime());
         return pacientes.size();
     }
+
+//Usado en: asistente.xhtml
+    public Integer usuarioPacienteExiste(Usuarios usuario, Pacientes paciente) {
+        //Retorno 1 si tiene solo expediente, se puede asociar un usuario existente.
+        //Retorno 2 si tiene solo un usuario, se puede asociar un expediente o crear expediente. 
+        //Retorno 3 si tiene expediente y usuario. 
+        //Retorno 0 si no tiene nada, error al guardar la cita.
+        //Verifica los parametros de la cita.
+        if (usuario != null && paciente != null) {
+            return 3;
+        } else if (usuario != null) {
+            return 2;
+        } else if (paciente != null) {
+            return 1;
+        }
+        return 0;
+    }
+
+//Mostrar citas a atende en el Dia. 
+//Usado en: medico.xhtml
+    public List<Citas> citasDelDia(Usuarios usuario) {
+        if (usuario != null) {
+            return getCitasfacade().citasDelDiaMedico(usuario.getMedicoId().getMedicoId());
+        }
+        return null;
+    }
+
+//Mostrar citas en el Dia.
+//Usado en: medico.xhtml
+    public String cantidadCitasDia(Usuarios usuario) {
+        if (!agendaMedico(usuario).isEmpty()) {
+            if (citasDelDia(usuario).size() == 1) {
+                return "Tiene " + agendaMedico(usuario).size() + " cita agendada";
+            } else {
+                return "Tiene " + agendaMedico(usuario).size() + " citas agendadas";
+            }
+        } else {
+            return "No tiene citas agendadas";
+        }
+    }
+
+//Metodo para mostrar agenda.
+//Usado en: cita_clinica_agenda.xhtml
+    public List<Citas> agendaMedico(Usuarios usuario) {
+        if (usuario.getMedicoId() != null) {
+            return getCitasfacade().agendaMedico(usuario.getMedicoId().getMedicoId());
+        }
+        return null;
+    }
+
+//Metodo para mostrar si tiene citas o no tiene citas
+    //Usado en: paciente.xhtml
+    public String dashboardCita(Usuarios usuario) {
+        if (usuario != null) {
+            //Validar de cualquier forma que se envie la sentencia regrese
+            //solo una cita.
+            List<Citas> c = citaActiva(usuario);
+            if (c.size() > 0) {
+                Integer tipo = 0;
+                for (Citas citas : c) {
+                    tipo = citas.getCitaEstado();
+                }
+                switch (tipo) {
+                    case 1:
+                        return "Tiene una cita pendiente.";
+                    case 2:
+                        return "Tiene una cita confirmada.";
+                    default:
+                        return "Tiene que verificar la cita.";
+                }
+            } else {
+                return "No tiene ninguna cita registrada.";
+            }
+        }
+        return "";
+    }
+
+//Metodo para habilitar o deshabilitar, el boton de registrar Cita. 
+//Usado en: paciente.xhtml  
+    public Boolean registrarBoton(Usuarios usuario) {
+        if (!getCitasfacade().citaActiva(usuario.getUsuarioUsuario()).isEmpty()) {
+            return true;
+        }
+        if (usuario.getPacienteId() != null) {
+            if (!getCitasfacade().citaActiva(usuario.getPacienteId().getPacienteId()).isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

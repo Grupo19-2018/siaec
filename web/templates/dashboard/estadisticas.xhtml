@@ -14,7 +14,7 @@
         <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
             <div class="row">
                 <div class="col-lg-12">
-                    #{dashboardMedico.cantidadCitasDia()}
+                    #{dashboard.cantidadCitasDia(sesionBean.appSession.usuario)}
                     &nbsp;
                     <h:link outcome="AgendaDoctor" class="btn btn-default glyphicon glyphicon-calendar btn-sm btn-tabla-naranja " title="Ver agenda de citas">
                     </h:link> 
@@ -43,7 +43,7 @@
                             </thead>
                             <!-- Cuerpo de la tabla -->
                             <tbody>
-                                <ui:repeat value="#{dashboardMedico.citasDelDia()}" var="cita">
+                                <ui:repeat value="#{dashboard.citasDelDia(sesionBean.appSession.usuario)}" var="cita">
                                     <tr>
                                         <td align="center">
                                             <span style="font-weight: bold">
@@ -77,7 +77,7 @@
                                                     <f:param name="retorno" value="1"/>
                                                 </h:link>
                                                 &nbsp;
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
+                                                <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
                                                     <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
@@ -95,7 +95,7 @@
                                                         <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
+                                                <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
                                                     <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link> 
@@ -104,7 +104,7 @@
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link>
                                                 </h:panelGroup> 
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
+                                                <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
                                                     <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
                                                         <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                         <f:param name="citaid" value="#{cita.citaId}"/>
@@ -120,7 +120,7 @@
 
 
                                                 </h:panelGroup>
-                                                <h:panelGroup rendered="#{dashboardAsistente.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
+                                                <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
                                                     Error
                                                 </h:panelGroup>
 

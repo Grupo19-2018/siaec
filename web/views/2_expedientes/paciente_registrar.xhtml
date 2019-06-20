@@ -67,7 +67,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Fecha de nacimiento *</b></h6>
                                 <p:calendar id="fechanacimientoregistro" value="#{expedientesBean.pacienteNuevo.pacienteFechaNacimiento}" class="tamaniocalendario" readonlyInput="true"
-                                            yearRange="c-80:c-2" locale="es" navigator="true" pattern="dd-MM-yyyy" required="#{request.getParameter('datos')}" requiredMessage="Fecha es requerida." >
+                                            yearRange="c-80:c+0" locale="es" navigator="true" pattern="dd-MM-yyyy" required="#{request.getParameter('datos')}" requiredMessage="Fecha es requerida." >
                                     <f:passThroughAttribute name="onkeypress" value="return false;" />
                                 </p:calendar>
                                 <p:message for="fechanacimientoregistro"/>

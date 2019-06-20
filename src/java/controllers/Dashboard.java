@@ -103,7 +103,7 @@ public class Dashboard implements Serializable {
     public LineChartModel graficoLinealCitas() {
         sucursalModelo = new LineChartModel();
         for (Clinicas c : todasClinicas()) {
-            LineChartSeries clinicaSerie = new LineChartSeries();
+            LineChartSeries clinicaSerie;// = new LineChartSeries();
             clinicaSerie = sucursalEstadistica(c.getClinicaId());
             clinicaSerie.setLabel(c.getClinicaNombre());
             sucursalModelo.addSeries(clinicaSerie);
@@ -337,7 +337,7 @@ public class Dashboard implements Serializable {
     }
 
 //Metodo para mostrar si tiene citas o no tiene citas
-    //Usado en: paciente.xhtml
+//Usado en: paciente.xhtml
     public String dashboardCita(Usuarios usuario) {
         if (usuario != null) {
             //Validar de cualquier forma que se envie la sentencia regrese

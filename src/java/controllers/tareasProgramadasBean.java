@@ -18,6 +18,7 @@ import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 import util.CorreoBasico;
+import util.CorreoPlantilla;
 
 @Stateless
 public class tareasProgramadasBean {
@@ -82,6 +83,7 @@ public class tareasProgramadasBean {
             Configuraciones correoConfiguracion = getConfiguracionFacade().find(1);
             if (correoConfiguracion != null) {
                 if (correoConfiguracion.getConfiguracionCorreoActivo()) {
+                    CorreoPlantilla correoP = new CorreoPlantilla();
                     String cuerpo = "";
                     Integer enviadosMes = correoConfiguracion.getConfiguracionCorreoEnviadoMes();
                     Integer enviadosDia = correoConfiguracion.getConfiguracionCorreoEnviadoDia();
@@ -120,26 +122,7 @@ public class tareasProgramadasBean {
                                                 getPromocionesFacade().edit(promo);
                                             }
                                             System.out.println("Promociones " + cuerpo);
-                                            String body = "<div style=\"margin-top: 0px; margin-bottom: 35px;\">"
-                                                    + "      <h1 style=\"text-align: center; background: #0B6EAC; color: white\">Clinica Dental Smiling</h1>    "
-                                                    + "    </div>"
-                                                    + "    <div style=\"margin-top: 10px; margin-bottom: 60px;\">"
-                                                    + "      <p>"
-                                                    + "          <br/>" + cuerpo + "<br/>"
-                                                    + "      </p>"
-                                                    + "    </div>"
-                                                    + "    <div style=\"background-color:#0B6EAC; color: white;\">"
-                                                    + "      <div style=\"text-align: right\">"
-                                                    + "         <p>Horario de lunes a viernes de 8:00 a.m. a 6:00 p.m.<br/>"
-                                                    + "            Sabádo de 8:00 a.m. a 2:30 p.m. <br/>"
-                                                    + "            Diagonal Dr Arturo Romero edificio 444 local # 4 Edificio del Subway . Col medica.<br/>"
-                                                    + "         </p>"
-                                                    + "      </div>"
-                                                    + "         <div style=\"padding:5px; text-align: center; border-top: 1px double white\">"
-                                                    + "              © 2019 <b>SIAEC</b> Todos los Derechos Reservados."
-                                                    + "         </div> "
-                                                    + "      </div>";
-
+                                            String body = correoP.plantillaN2(cuerpo);
                                             if (promocionesEnviar.size() == 1) {
                                                 // enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
                                                 System.out.println("se envio para uno");
@@ -173,6 +156,7 @@ public class tareasProgramadasBean {
             Configuraciones correoConfiguracion = getConfiguracionFacade().find(1);
             if (correoConfiguracion != null) {
                 if (correoConfiguracion.getConfiguracionCorreoActivo()) {
+                    CorreoPlantilla correoP = new CorreoPlantilla();
                     String cuerpo = "";
                     Integer enviadosMes = correoConfiguracion.getConfiguracionCorreoEnviadoMes();
                     Integer enviadosDia = correoConfiguracion.getConfiguracionCorreoEnviadoDia();
@@ -209,25 +193,7 @@ public class tareasProgramadasBean {
                                             getPromocionesFacade().edit(promo);
                                         }
                                         System.out.println("Promociones " + cuerpo);
-                                        String body = "<div style=\"margin-top: 0px; margin-bottom: 35px;\">"
-                                                + "      <h1 style=\"text-align: center; background: #0B6EAC; color: white\">Clinica Dental Smiling</h1>    "
-                                                + "    </div>"
-                                                + "    <div style=\"margin-top: 10px; margin-bottom: 60px;\">"
-                                                + "      <p>"
-                                                + "          <br/>" + cuerpo + "<br/>"
-                                                + "      </p>"
-                                                + "    </div>"
-                                                + "    <div style=\"background-color:#0B6EAC; color: white;\">"
-                                                + "      <div style=\"text-align: right\">"
-                                                + "         <p>Horario de lunes a viernes de 8:00 a.m. a 6:00 p.m.<br/>"
-                                                + "            Sabádo de 8:00 a.m. a 2:30 p.m. <br/>"
-                                                + "            Diagonal Dr Arturo Romero edificio 444 local # 4 Edificio del Subway . Col medica.<br/>"
-                                                + "         </p>"
-                                                + "      </div>"
-                                                + "         <div style=\"padding:5px; text-align: center; border-top: 1px double white\">"
-                                                + "              © 2019 <b>SIAEC</b> Todos los Derechos Reservados."
-                                                + "         </div> "
-                                                + "      </div>";
+                                        String body = correoP.plantillaN2(cuerpo);
                                         if (promocionesEnviar.size() == 1) {
                                             // enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
                                             System.out.println("se envio para uno");

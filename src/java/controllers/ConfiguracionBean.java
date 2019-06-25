@@ -7,11 +7,9 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
-import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
 import util.CorreoBasico;
 
@@ -94,6 +92,8 @@ public class ConfiguracionBean implements Serializable {
             temp.setConfiguracionCorreoEnviadoDia(0);
             temp.setConfiguracionCorreoEnviadoMes(0);
             temp.setConfiguracionCorreoActivo(Boolean.FALSE);
+            temp.setConfiguracionPromocionCumpleanyos(Boolean.FALSE);
+            temp.setConfiguracionPromocionGeneral(Boolean.FALSE);
             getConfiguracionFacade().create(temp);
             configuracionEditar = getConfiguracionFacade().find(1);
         }
@@ -191,6 +191,24 @@ public class ConfiguracionBean implements Serializable {
             return correo;
         }else{
             return "Verificar correo.";
+        }
+    }
+    
+    public void activarDesactivarPromocionesCumpleanyos(boolean cumpleanyos){
+        try {
+            configuracionEditar = getConfiguracionFacade().find(1);
+            configuracionEditar.setConfiguracionPromocionCumpleanyos(cumpleanyos);
+            getConfiguracionFacade().edit(configuracionEditar);
+        } catch (Exception e) {
+        }
+    }
+    
+    public void activarDesactivarPromocionesGenerales(boolean general){
+        try {
+            configuracionEditar = getConfiguracionFacade().find(1);
+            configuracionEditar.setConfiguracionPromocionGeneral(general);
+            getConfiguracionFacade().edit(configuracionEditar);
+        } catch (Exception e) {
         }
     }
 

@@ -6,7 +6,6 @@ import dao.PromocionesFacade;
 import entities.Configuraciones;
 import entities.Pacientes;
 import entities.Promociones;
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +14,6 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.ejb.Stateless;
-import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
 import util.CorreoBasico;
 import util.CorreoPlantilla;
 
@@ -28,33 +25,29 @@ public class tareasProgramadasBean {
 //****************************************************************************//
     @EJB
     private PacientesFacade pacientesFacade;
-    private Pacientes paciente = new Pacientes();
 
     @EJB
     private PromocionesFacade promocionesFacade;
-    private Promociones promociones;
-    private Calendar mes = Calendar.getInstance();
-    private Calendar mesActual = Calendar.getInstance();
-
+    
     @EJB
     private ConfiguracionesFacade configuracionFacade;
 
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-    public List<Pacientes> todosPacientes() {
-        return getPacientesFacade().findAll();
+    private List<Pacientes> pacientesEnviarPromocion(Boolean promocionGeneral) {
+        return getPacientesFacade().pacientesEnvioPromocion(promocionGeneral);
     }
 
-    public List<Pacientes> pacientesPorCorreo(Integer desde) {
-        return getPacientesFacade().pacientesNotificarCorreDesde(desde);
+    private List<Pacientes> pacientesCumpleanyerosMes(String mes, Boolean promocionCumpleanyos) {
+        return getPacientesFacade().pacienteCumpleanyero(mes, promocionCumpleanyos);
     }
 
-    public List<Promociones> promocionesCumpleanyosMes() {
+    private List<Promociones> promocionesCumpleanyosMes() {
         return getPromocionesFacade().promocionesFechaMes();
     }
 
-    public List<Promociones> promocionesEspeciales() {
+    private List<Promociones> promocionesGenerales() {
         return getPromocionesFacade().promocionesEspeciales();
     }
 
@@ -77,12 +70,12 @@ public class tareasProgramadasBean {
 //                   Métodos para tareas programas                            //
 //****************************************************************************//
     //@Schedule(dayOfMonth = "*", hour = "*", minute = "*/4", persistent = false)
+    @Schedule(dayOfMonth = "1,2,3,4,5", hour = "19", minute = "0", persistent = false)
     public void enviarPromocionesCumpleanyos() {
         try {
-            System.out.println("Se ejecuto el metodo envio de promociones para cumpleañeros a las:" + new Date());
             Configuraciones correoConfiguracion = getConfiguracionFacade().find(1);
             if (correoConfiguracion != null) {
-                if (correoConfiguracion.getConfiguracionCorreoActivo()) {
+                if (correoConfiguracion.getConfiguracionCorreoActivo() && correoConfiguracion.getConfiguracionPromocionCumpleanyos()) {
                     CorreoPlantilla correoP = new CorreoPlantilla();
                     String cuerpo = "";
                     Integer enviadosMes = correoConfiguracion.getConfiguracionCorreoEnviadoMes();
@@ -91,48 +84,30 @@ public class tareasProgramadasBean {
                     Integer limiteDia = correoConfiguracion.getConfiguracionCorreoDia();
                     if (((enviadosMes < limiteMes && enviadosDia < limiteDia) || correoConfiguracion.getConfiguracionCorreoIlimitada())
                             && !correoConfiguracion.getConfiguracionCorreoCuenta().isEmpty()) {
-                        Integer desde = 0;
                         List<Promociones> promocionesEnviar = promocionesCumpleanyosMes();
                         if (!promocionesEnviar.isEmpty()) {
-                            //System.out.println("El primer valor es " + promocionesEnviar.get(0).getPromocionCorreoLimitadoEspera() + "Id " + promocionesEnviar.get(0).getPromocionId());
-                            if (promocionesEnviar.size() > 1) {
-                                desde = promocionesEnviar.get(0).getPromocionCorreoLimitadoEspera();
-                                for (Promociones promociones1 : promocionesEnviar) {
-                                    if (desde > promociones1.getPromocionCorreoLimitadoEspera()) {
-                                        desde = promociones1.getPromocionCorreoLimitadoEspera();
-                                    }
-                                }
-                            } else {
-                                desde = promocionesEnviar.get(0).getPromocionCorreoLimitadoEspera();
-                            }
-                            System.out.println("Comenzare desde el paciente con id: " + desde);
-                            List<Pacientes> pacientesEnviar = pacientesPorCorreo(desde);
+                            List<Pacientes> pacientesEnviar = pacientesCumpleanyerosMes(mesCumpleanyosEnviar(), Boolean.FALSE);
                             if (!pacientesEnviar.isEmpty()) {
-                                //CorreoBasico enviar = new CorreoBasico(correoConfiguracion);
+                                CorreoBasico enviar = new CorreoBasico(correoConfiguracion);
                                 for (Pacientes p : pacientesEnviar) {
-                                    if (mes.get(Calendar.MONTH) == mesActual.get(Calendar.MONTH)) {
-                                        if ((enviadosMes < limiteMes && enviadosDia < limiteDia) || correoConfiguracion.getConfiguracionCorreoIlimitada()) {
-                                            System.out.println("El paciente: " + p.getPacientePrimerNombre() + " recibira.");
-                                            enviadosDia++;
-                                            enviadosMes++;
-                                            System.out.println("En su mes de cumpleanyos " + mes.get(Calendar.MONTH));
-                                            for (Promociones promo : promocionesEnviar) {
-                                                cuerpo = cuerpo + promo.getPromocionMensaje() + "<br/>";
-                                                promo.setPromocionCorreoLimitadoEspera(p.getPacienteId());
-                                                getPromocionesFacade().edit(promo);
-                                            }
-                                            System.out.println("Promociones " + cuerpo);
-                                            String body = correoP.plantillaN2(cuerpo);
-                                            if (promocionesEnviar.size() == 1) {
-                                                // enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
-                                                System.out.println("se envio para uno");
-                                            } else {
-                                                // enviar.sendMailHTML(p.getPacienteCorreo(), "Ven y descubre las promociones que tenemos en el mes de tu cumpleaños!", body);
-                                                System.out.println("se envio para muchos");
-                                            }
-                                        }//Fin de if enviadosDia <= limiteDia
-                                    }//Fin de if cumpleanyeros
-                                }//Fin de if de pacientes vacio
+                                    if ((enviadosMes < limiteMes && enviadosDia < limiteDia) || correoConfiguracion.getConfiguracionCorreoIlimitada()) {
+                                        System.out.println("El paciente: " + p.getPacientePrimerNombre() + " recibira.");
+                                        enviadosDia++;
+                                        enviadosMes++;
+                                        for (Promociones promo : promocionesEnviar) {
+                                            cuerpo = cuerpo + promo.getPromocionMensaje() + "<br/>";
+                                        }
+                                        System.out.println("Promociones " + cuerpo);
+                                        String body = correoP.plantillaN2(cuerpo);
+                                        if (promocionesEnviar.size() == 1) {
+                                            enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
+                                            System.out.println("se envio para uno");
+                                        } else {
+                                            enviar.sendMailHTML(p.getPacienteCorreo(), "Ven y descubre las promociones que tenemos en el mes de tu cumpleaños!", body);
+                                            System.out.println("se envio para muchos");
+                                        }
+                                    }//Fin de if enviadosDia <= limiteDia
+                                }//For paciente
                             }//Fin de for paciente
                         }//Fin del if promociones vacias 
                     }//Fin de correo ilimato y cuenta no null
@@ -142,20 +117,19 @@ public class tareasProgramadasBean {
                 }//Fin de correo activo
             }
         } catch (Exception e) {
-            System.err.println("error en enviarPromocionesCumpleanyos");
+            System.err.println( new Date() + " Error en enviarPromocionesCumpleanyos");
         } finally {
-            System.out.println("enviarPromocionesCumpleanyos() finally");
+            System.out.println(new Date() + " Se termino de mandar las promociones de cumpleañeros");
         }
-
     }
 
-    //@Schedule(dayOfMonth = "*", hour = "*", minute = "*", persistent = false)
-    public void promocionesEspecialesEnviar() {
+    //@Schedule(dayOfMonth = "*", hour = "*", minute = "*/5", persistent = false)
+    @Schedule(dayOfMonth = "*", hour = "20", minute = "0", persistent = false)
+    public void promocionesGeneralesEnviar() {
         try {
-            System.out.println("Se esta ejecutando promociones especiales" + new Date());
             Configuraciones correoConfiguracion = getConfiguracionFacade().find(1);
             if (correoConfiguracion != null) {
-                if (correoConfiguracion.getConfiguracionCorreoActivo()) {
+                if (correoConfiguracion.getConfiguracionCorreoActivo() && correoConfiguracion.getConfiguracionPromocionGeneral()) {
                     CorreoPlantilla correoP = new CorreoPlantilla();
                     String cuerpo = "";
                     Integer enviadosMes = correoConfiguracion.getConfiguracionCorreoEnviadoMes();
@@ -164,60 +138,44 @@ public class tareasProgramadasBean {
                     Integer limiteDia = correoConfiguracion.getConfiguracionCorreoDia();
                     if ((enviadosMes < limiteMes && enviadosDia < limiteDia) || correoConfiguracion.getConfiguracionCorreoIlimitada()) {
                         if (!correoConfiguracion.getConfiguracionCorreoCuenta().isEmpty()) {
-                            List<Promociones> promocionesEnviar = promocionesEspeciales();
+                            List<Promociones> promocionesEnviar = promocionesGenerales();
                             if (!promocionesEnviar.isEmpty()) {
-                                //CorreoBasico enviar = new CorreoBasico(correoConfiguracion);
-                                Integer desde = 0;
-                                System.out.println("El primer valor es " + promocionesEnviar.get(0).getPromocionCorreoLimitadoEspera() + "Id " + promocionesEnviar.get(0).getPromocionId());
-                                if (promocionesEnviar.size() > 1) {
-                                    desde = promocionesEnviar.get(0).getPromocionCorreoLimitadoEspera();
-                                    for (Promociones promociones1 : promocionesEnviar) {
-                                        if (desde > promociones1.getPromocionCorreoLimitadoEspera()) {
-                                            desde = promociones1.getPromocionCorreoLimitadoEspera();
-                                        }
-                                    }
-                                } else {
-                                    desde = promocionesEnviar.get(0).getPromocionCorreoLimitadoEspera();
-                                }
-                                System.out.println("Valor minimo de salida" + desde);
-                                List<Pacientes> pacientesEnviar = pacientesPorCorreo(desde);
+                                CorreoBasico enviar = new CorreoBasico(correoConfiguracion);
+                                List<Pacientes> pacientesEnviar = pacientesEnviarPromocion(Boolean.FALSE);
                                 for (Pacientes p : pacientesEnviar) {
                                     if ((enviadosMes < limiteMes && enviadosDia < limiteDia) || correoConfiguracion.getConfiguracionCorreoIlimitada()) {
-                                        System.out.println("El paciente: " + p.getPacientePrimerNombre() + " recibira.");
                                         enviadosDia++;
                                         enviadosMes++;
                                         for (Promociones promo : promocionesEnviar) {
-                                            // System.out.println("Promocion: " + promo.getPromocionMensaje());
                                             cuerpo = cuerpo + promo.getPromocionMensaje() + "<br/>";
-                                            promo.setPromocionCorreoLimitadoEspera(p.getPacienteId());
-                                            getPromocionesFacade().edit(promo);
                                         }
-                                        System.out.println("Promociones " + cuerpo);
                                         String body = correoP.plantillaN2(cuerpo);
                                         if (promocionesEnviar.size() == 1) {
-                                            // enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
+                                            enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
                                             System.out.println("se envio para uno");
                                         } else {
-                                            //      enviar.sendMailHTML(p.getPacienteCorreo(), "Aprovecha estas promociones especiales para ti!", body);
+                                            enviar.sendMailHTML(p.getPacienteCorreo(), "Aprovecha estas promociones especiales para ti!", body);
                                             System.out.println("se envio para muchos");
                                         }
                                     }//Fin de if enviadosDia <= limiteDia
                                 }//Fin de for paciente
-                            }//Fin if si preugnta si hay promociones
-                        }//Fin de if si cuenta esta vacia.  
-                    }//Fin de if limitado o mandar correos ilimitados
+                            }//Fin de hay promociones
+                        }//Fin de si cuenta esta vacia.  
+                    }//Fin de mandar correos limitado o ilimitados
                     correoConfiguracion.setConfiguracionCorreoEnviadoDia(enviadosDia);
                     correoConfiguracion.setConfiguracionCorreoEnviadoMes(enviadosMes);
                     getConfiguracionFacade().edit(correoConfiguracion);
                 }//Fin de correo activo.
             }
         } catch (Exception e) {
-            System.err.println(new Date() + "Error con el metodo promocionesEspeciales(): " + e);
+            System.err.println(new Date() + "Error con el metodo promocionesGeneralesEnviar(): " + e);
+        }finally{
+            System.out.println( new Date() + "Se termino de mandar las promociones generales.");
         }
-
     }
 
     //@Schedule(dayOfMonth = "*", hour = "*", minute = "*/3", persistent = false)
+    @Schedule(dayOfMonth = "*", hour = "22", minute = "50", persistent = false)
     public void reiniciarMensajesDia() {
         try {
             System.out.println("reiniciando hora" + new Date());
@@ -232,6 +190,7 @@ public class tareasProgramadasBean {
     }
 
     //@Schedule(dayOfMonth = "*", hour = "*", minute = "*/5", persistent = false)
+    @Schedule(dayOfMonth = "Last", hour = "23", minute = "0", persistent = false)
     public void reiniciarMensajesMes() {
         try {
             System.out.println("reiniciando mes " + new Date());
@@ -245,21 +204,17 @@ public class tareasProgramadasBean {
         }
     }
 
-    //Solo se utilizara para las promociones de cumpleanyos y especiales
-    //@Schedule(dayOfMonth = "*", hour = "*", minute = "*/5", persistent = false)
-    public void reiniciarCorreoPromocionesVigentesEspAndCump() {
-        try {
-            System.out.println("Reiniciando las promociones especiales y cumpleaños. " + new Date());
-            List<Promociones> reiniciarPromo = getPromocionesFacade().promocionesReinicioCumpAndEsp();
-            if (!reiniciarPromo.isEmpty()) {
-                for (Promociones promociones1 : reiniciarPromo) {
-                    promociones1.setPromocionCorreoLimitadoEspera(0);
-                    getPromocionesFacade().edit(promociones);
-                }
-            }
-        } catch (Exception e) {
-            System.err.println(new Date() + " Error con el metodo reinicarCorreoPromocionesVigentes. " + e);
+//****************************************************************************//
+//                   Métodos para tareas programas                            //
+//****************************************************************************//
+    //Utilizado en: enviarPromocionesCumpleanyos()
+    private String mesCumpleanyosEnviar() {
+        Calendar mesEvaluar = Calendar.getInstance();
+        Integer m1 = mesEvaluar.get(Calendar.MONTH) + 1;
+        if(m1<10){
+         return "0"+Integer.toString(m1);
         }
+        return Integer.toString(m1);
     }
 
 }

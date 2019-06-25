@@ -14,48 +14,64 @@ and open the template in the editor.
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
-                
+                <f:viewAction action="#{configuracionBean.cargarConfiguracion()}"/>
             </f:metadata>
         </ui:define>
         <ui:define name="content">
             <div class="banda1"><b>Tareas Automaticas</b></div>
             <br/>
-            <p:tooltip />
+
             <h:form class="container-fluid" id="frmAsignaTareas" enctype="multipart/form-data" >
                 <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
                     <p:focus for=""/>
                     <div class="row">
                         <div class="col-md-12">
-                            
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Tarea</th>
+                                        <th>Descripción</th>
+                                        <th>Hora</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Promociones para cumpleañeros</td>
+                                        <td>Envia las promociones activas a los cumpleañeros del mes. </td>
+                                        <td>20:00h</td>
+                                        <td>
+                                            <label class="switch">
+                                                <h:selectBooleanCheckbox value="#{configuracionBean.configuracionEditar.configuracionPromocionCumpleanyos}" >
+                                                    <f:ajax  listener="#{configuracionBean.activarDesactivarPromocionesCumpleanyos(configuracionBean.configuracionEditar.configuracionPromocionCumpleanyos)}"/>
+                                                </h:selectBooleanCheckbox>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Promociones</td>
+                                        <td>Envia las promociones activas a los pacientes.</td>
+                                        <td>21:00h</td>
+                                        <td>
+                                            <label class="switch">
+                                                <h:selectBooleanCheckbox  value="#{configuracionBean.configuracionEditar.configuracionPromocionGeneral}" >
+                                                    <f:ajax  listener="#{configuracionBean.activarDesactivarPromocionesGenerales(configuracionBean.configuracionEditar.configuracionPromocionGeneral)}"/>
+                                                </h:selectBooleanCheckbox>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-
-                        <div class="col-md-12">
-                            
-                        </div>
-                        <div class="col-md-12">
-                            <br/>
-                        </div>
-
-                        <div class="col-md-12">
-                            
-
-                        </div>
-
-
                     </div>
                 </p:panel>
                 <br/>
-                <div class="row">
-                    <h:commandButton type="submit" class="btn btn-dark btn-lg btn-block " value="Enviar" action="#" >
-                      
-                    </h:commandButton>
-                </div>
+
                 <br/><br/>
             </h:form>
         </ui:define>
-
-
-
     </ui:composition>
 
 </html>

@@ -41,6 +41,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Configuraciones.findByConfiguracionCorreoActivo", query = "SELECT c FROM Configuraciones c WHERE c.configuracionCorreoActivo = :configuracionCorreoActivo")})
 public class Configuraciones implements Serializable {
 
+    @Column(name = "configuracion_promocion_general")
+    private Boolean configuracionPromocionGeneral;
+    @Column(name = "configuracion_promocion_cumpleanyos")
+    private Boolean configuracionPromocionCumpleanyos;
     @Size(max = 50)
     @Column(name = "configuracion_titulo")
     private String configuracionTitulo;
@@ -213,6 +217,22 @@ public class Configuraciones implements Serializable {
         this.configuracionCorreoActivo = configuracionCorreoActivo;
     }
 
+    public Boolean getConfiguracionPromocionCumpleanyos() {
+        return configuracionPromocionCumpleanyos;
+    }
+
+    public void setConfiguracionPromocionCumpleanyos(Boolean configuracionPromocionCumpleanyos) {
+        this.configuracionPromocionCumpleanyos = configuracionPromocionCumpleanyos;
+    }
+
+    public Boolean getConfiguracionPromocionGeneral() {
+        return configuracionPromocionGeneral;
+    }
+
+    public void setConfiguracionPromocionGeneral(Boolean configuracionPromocionGeneral) {
+        this.configuracionPromocionGeneral = configuracionPromocionGeneral;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

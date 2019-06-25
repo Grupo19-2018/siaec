@@ -99,7 +99,7 @@ alter table citas add column cita_paciente Integer;
 --Para dar privilegios de consulta de expedientes a rol asistente
 insert into sub_menus_por_roles values(4, 11);
 
---Cambio de nombres a los reportes
+--Cambio de nombres a los reportes`
 update public.submenus set submenu_url = '/views/5_reportes/rep_tratamientos_demandados.xhtml', sumbenu_nombre = 'Tratamientos Más Demandados por Pacientes' where submenu_id=20;
 update public.submenus set submenu_url = '/views/5_reportes/rep_promociones_demandadas.xhtml', sumbenu_nombre = 'Promociones Más Demandadas por Pacientes' where submenu_id=21;
 update public.submenus set submenu_url = '/views/5_reportes/rep_pacientes_por_medico.xhtml', sumbenu_nombre = 'Listado de Pacientes por Médico' where submenu_id=22;
@@ -118,3 +118,25 @@ INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 27);
 INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 28);
 INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 29);
 INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 30);
+
+--Update 75
+--Para el envio de las tareas automaticas 
+---Promociones cumpleanyos
+alter table configuraciones add column configuracion_promocion_cumpleanyos BOOLEAN;
+update configuraciones set configuracion_promocion_cumpleanyos = false;
+
+--Se notifico al paciente sobre promociones sobre cumpleanyos. 
+--False para no enviados.
+--True para enviados. 
+alter table pacientes add column paciente_promocion_cumpleanyos BOOLEAN;
+--update pacientes set paciente_promocion_cumpleanyos= false;
+
+--Se notificara al paciente sobre promociones generales. 
+--False para no enviados. 
+alter table pacientes add column paciente_promocion_general boolean;
+--update pacientes set paciente_promocion_general= false;
+
+--Para el envio de promociones generales automaticas
+--Promociones cumpleanyos
+alter table configuraciones add column configuracion_promocion_general BOOLEAN;
+update configuraciones set configuracion_promocion_general = false;

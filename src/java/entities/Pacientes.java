@@ -53,10 +53,19 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pacientes.findByPacientePorNombre", query = "SELECT p FROM Pacientes p WHERE UPPER(CONCAT(p.pacientePrimerNombre,' ',p.pacienteSegundoNombre,' ',p.pacientePrimerApellido,' ',p.pacienteSegundoApellido)) LIKE CONCAT('%',UPPER(:nombre),'%')"),
     @NamedQuery(name = "Pacientes.findByUltimoNumeroExpediente", query = "SELECT MAX(p.pacienteExpediente) FROM Pacientes p"),
     @NamedQuery(name = "Pacientes.findByFechaCreacionRango", query = "SELECT p FROM Pacientes p WHERE p.pacienteFechaCreacion >= :fecha_inicio AND p.pacienteFechaCreacion <= :fecha_fin"),
-    @NamedQuery(name = "Pacientes.enviarCorreoDesde", query = "SELECT p FROM Pacientes p WHERE p.pacienteNotificarCorreo = true AND p.pacienteId > :desde")
+    @NamedQuery(name = "Pacientes.enviarCorreoDesde", query = "SELECT p FROM Pacientes p WHERE p.pacienteNotificarCorreo = true AND p.pacienteId > :desde"),
+    @NamedQuery(name = "Pacientes.cumpleanyerosDelMes", query = "SELECT p FROM Pacientes p WHERE SUBSTRING(CAST(p.pacienteFechaNacimiento AS text),6,2) = :mes "),
+    @NamedQuery(name = "Pacientes.cumpleanyerosDelMesPromociones", query = "SELECT p FROM Pacientes p WHERE SUBSTRING(CAST(p.pacienteFechaNacimiento AS text),6,2) = :mes AND  p.pacientePromocionCumpleanyos = :promocionCumpleanyos AND p.pacienteNotificarCorreo = true "),
+    @NamedQuery(name = "Pacientes.envioPromocionesGenerales", query = "SELECT p FROM Pacientes p WHERE p.pacientePromocionGeneral = :promocionGenaral AND p.pacienteNotificarCorreo = true"),
     })
 public class Pacientes implements Serializable {
 
+    @Column(name = "paciente_promocion_general")
+    private Boolean pacientePromocionGeneral;
+    
+    @Column(name = "paciente_promocion_cumpleanyos")
+    private Boolean pacientePromocionCumpleanyos;
+    
     @Column(name = "paciente_codigo")
     private Integer pacienteCodigo;
 
@@ -386,6 +395,22 @@ public class Pacientes implements Serializable {
         this.odontogramasList = odontogramasList;
     }
 
+    public Boolean getPacientePromocionCumpleanyos() {
+        return pacientePromocionCumpleanyos;
+    }
+
+    public void setPacientePromocionCumpleanyos(Boolean pacientePromocionCumpleanyos) {
+        this.pacientePromocionCumpleanyos = pacientePromocionCumpleanyos;
+    }
+
+    public Boolean getPacientePromocionGeneral() {
+        return pacientePromocionGeneral;
+    }
+
+    public void setPacientePromocionGeneral(Boolean pacientePromocionGeneral) {
+        this.pacientePromocionGeneral = pacientePromocionGeneral;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

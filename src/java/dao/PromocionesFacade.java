@@ -38,7 +38,7 @@ public class PromocionesFacade extends AbstractFacade<Promociones> {
     //Para promociones a mostrarse en carrusel.
     public List<Promociones> promocionesActivas(boolean promocionEstado){
         Date fechaActual = new Date();
-        return getEntityManager().createNamedQuery("Promociones.findByPromocionEstadoActiva").setParameter("promocionEstado", promocionEstado).setParameter("fechaActual", fechaActual).getResultList();
+         return getEntityManager().createNamedQuery("Promociones.findByPromocionEstadoActiva").setParameter("promocionEstado", promocionEstado).setParameter("fechaActual", fechaActual).getResultList();
     }
     
     //Para correos Erick

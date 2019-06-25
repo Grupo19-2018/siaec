@@ -3,9 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/*
-Fecha de actualizacion: 04/febrero/2019
-*/
 package dao;
 
 import entities.Pacientes;
@@ -20,13 +17,6 @@ import javax.persistence.PersistenceContext;
  *
  * @author Fam. Gomez Aldana
  */
-/*
-Notas de actualizacion:
-*******************************************************************************
-Fecha: 04/febrero/2019
-Encargado: Erick.
--Agregando metodo para buscar al usuario desde la paciente. 
-*/
 @Stateless
 public class PacientesFacade extends AbstractFacade<Pacientes> {
 
@@ -65,11 +55,15 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
         return getEntityManager().createNamedQuery("Pacientes.findByFechaCreacionRango").setParameter("fecha_inicio", inicio).setParameter("fecha_fin", fin).getResultList();
     }
     
-    //Para correos Erick
+    //Para correos Erick Descartar
     public List<Pacientes> pacientesNotificarCorreDesde(Integer desde){
         return  getEntityManager().createNamedQuery("Pacientes.enviarCorreoDesde").setParameter("desde", desde).getResultList();
     }
-    
+
+    //Usado en: tareasProgramadasBean.java
+    public List<Pacientes> pacientesEnvioPromocion(Boolean promocionGeneral){
+        return getEntityManager().createNamedQuery("Pacientes.envioPromocionesGenerales").setParameter("promocionGenaral", promocionGeneral).getResultList();
+    }
    
     //Lo ocupo en reportes
     public List<Pacientes> pacientesDisponibles(boolean pacienteEstado){
@@ -89,5 +83,15 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
     public List<Pacientes> pacienteUsuario(String usuario){
         return getEntityManager().createNamedQuery("Pacientes.usuarioUsuario").setParameter("usuario", usuario).getResultList();
     }
-
+    
+    
+    public List<Pacientes> pacienteCumpleanyero(String mes){
+        return getEntityManager().createNamedQuery("Pacientes.cumpleanyerosDelMes").setParameter("mes", mes).getResultList();
+    }
+    
+    //Lista a los pacientes cumpleanyeros del mes que no han recibido las promociones y ha autorizado el recibir correos por parte de la clinica. 
+    //Usado en: tareasProgramadasBean.java
+    public List<Pacientes> pacienteCumpleanyero(String mes, Boolean promocionCumpleanyos){
+        return getEntityManager().createNamedQuery("Pacientes.cumpleanyerosDelMesPromociones").setParameter("mes", mes).setParameter("promocionCumpleanyos", promocionCumpleanyos).getResultList();
+    }
 }

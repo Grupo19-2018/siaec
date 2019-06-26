@@ -51,8 +51,8 @@
                     <p:tab title="Odontograma">
                         <div class="fondo">
                             <h5  class="titulo-expediente">Expediente: <p:outputLabel value="#{expedientesBean.pacienteEditar.pacienteId}"><f:convertNumber minIntegerDigits="5" pattern="#####"/></p:outputLabel> - 
-                                <p:outputLabel value="#{expedientesBean.pacienteEditar.pacientePrimerNombre} #{expedientesBean.pacienteEditar.pacienteSegundoNombre} #{expedientesBean.pacienteEditar.pacientePrimerApellido} #{expedientesBean.pacienteEditar.pacienteSegundoApellido}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <p:outputLabel value="Saldo pendiente: $ #{expedientesBean.calcularSaldoPendiente()}" style="color: red; align-self: flex-end"/></h5>
+                                <p:outputLabel value="#{expedientesBean.pacienteEditar.pacientePrimerNombre} #{expedientesBean.pacienteEditar.pacienteSegundoNombre} #{expedientesBean.pacienteEditar.pacientePrimerApellido} #{expedientesBean.pacienteEditar.pacienteSegundoApellido}"/>&nbsp;
+                                <p:outputLabel value="(Saldo pendiente: $ #{expedientesBean.calcularSaldoPendienteGestionar()})" style="color: red; align-self: flex-end"/></h5>
                         </div>
                         
                         <ui:include src="odontograma_gestionar.xhtml"/>

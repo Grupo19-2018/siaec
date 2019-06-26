@@ -49,18 +49,18 @@
                             <div class="panel-body" align="right" style="border: solid 1px #D5D5D5">
                                 <p:inputTextarea id="motivonuevo" value="#{expedientesBean.consultaNueva.consultaMotivo}" required="#{request.getParameter('consulta')}" maxlength="200" rows="6"
                                                  requiredMessage="Motivo de consulta requerido." validatorMessage="Motivo de consulta no válido." style="width: 105%; margin-left: -11pt; margin-top: -11pt; margin-bottom: -15pt; border: 0"/>
-                                <p:message for="motivonuevo"/>
                             </div>
+                            <p:message for="motivonuevo"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading" align="center" style="background: #f8f8f8; height: 30pt"><h6 style="margin-top: -1pt"><b>Diagnóstico</b></h6></div>
                             <div class="panel-body" align="right" style="border: solid 1px #D5D5D5">
-                                <p:inputTextarea id="diagnosticonuevo" value="#{expedientesBean.consultaNueva.consultaDiagnostico}" maxlength="1000" rows="6"
-                                                 validatorMessage="Diagnóstico no válido." style="width: 105%; margin-left: -11pt; margin-top: -11pt; margin-bottom: -15pt; border: 0"/>
-                                <p:message for="diagnosticonuevo"/>
+                                <p:inputTextarea id="diagnosticonuevo" value="#{expedientesBean.consultaNueva.consultaDiagnostico}" required="#{request.getParameter('consulta')}" maxlength="1000" rows="6"
+                                                 requiredMessage="Diagnóstico requerido." validatorMessage="Diagnóstico no válido." style="width: 105%; margin-left: -11pt; margin-top: -11pt; margin-bottom: -15pt; border: 0"/>
                             </div>
+                            <p:message for="diagnosticonuevo"/>
                         </div>
                     </div>
                 </div>

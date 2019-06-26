@@ -1493,11 +1493,24 @@ public class ExpedientesBean implements Serializable {
     }
     
     // Método para calcular saldo pendiente de paciente (expediente)
-    public double calcularSaldoPendiente() {
+    public double calcularSaldoPendienteGestionar() {
         double cargo = 0.0;
         double abono = 0.0;
         double saldo = 0.0;
         for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteGestionar()){
+            cargo = cargo + detalle.getDetalleconsultaCargo();
+            abono = abono + detalle.getDetalleconsultaAbono();
+        }
+        saldo = cargo - abono;
+        return saldo;
+    }
+    
+    // Método para calcular saldo pendiente de paciente (expediente)
+    public double calcularSaldoPendienteConsultar() {
+        double cargo = 0.0;
+        double abono = 0.0;
+        double saldo = 0.0;
+        for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteConsultar()){
             cargo = cargo + detalle.getDetalleconsultaCargo();
             abono = abono + detalle.getDetalleconsultaAbono();
         }

@@ -67,13 +67,15 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Hora apertura</b></h6>
-                                <p:calendar id="aperturasucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaHorarioApertura}" readonly="true"
-                                            class="tamaniocalendario" locale="es" pattern="HH:mm" timeOnly="true"/>
+                                <p:calendar id="aperturasucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaHorarioApertura}" required="#{request.getParameter('datos')}" readonlyInput="true"
+                                            class="tamaniocalendario" locale="es" pattern="HH:mm" timeOnly="true" requiredMessage="Hora apertura requerida."/>
+                                <p:message for="aperturasucursalnuevo"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Hora cierre</b></h6>
-                                <p:calendar id="cierresucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaHorarioCierre}" readonly="true"
-                                            class="tamaniocalendario" locale="es" pattern="HH:mm" timeOnly="true"/>
+                                <p:calendar id="cierresucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaHorarioCierre}" required="#{request.getParameter('datos')}" readonlyInput="true"
+                                            class="tamaniocalendario" locale="es" pattern="HH:mm" timeOnly="true" requiredMessage="Hora cierre requerida."/>
+                                <p:message for="cierresucursalnuevo"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             </div>

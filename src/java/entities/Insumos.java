@@ -43,7 +43,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Insumos.findByInsumoFechaModificacion", query = "SELECT i FROM Insumos i WHERE i.insumoFechaModificacion = :insumoFechaModificacion"),
     @NamedQuery(name = "Insumos.findByInsumoUsuarioModificacion", query = "SELECT i FROM Insumos i WHERE i.insumoUsuarioModificacion = :insumoUsuarioModificacion"),
 
-    @NamedQuery(name = "Insumos.findListadoInsumosReporte", query = "SELECT i FROM Insumos i WHERE i.insumoEstado = :estado")})
+    @NamedQuery(name = "Insumos.findListadoInsumosReporte", query = "SELECT i FROM Insumos i WHERE i.insumoEstado = :insumoEstado")})
 public class Insumos implements Serializable {
 
     private static final long serialVersionUID = 1L;

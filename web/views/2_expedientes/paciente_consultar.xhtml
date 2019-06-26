@@ -35,7 +35,7 @@
                                         Que su nombre incluya la palabra
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
-                                        <p:inputText id="nombreconsultar" value="#{expedientesBean.nombre}" style="width: 100%">
+                                        <p:inputText id="nombreconsultar" value="#{expedientesBean.nombre}" maxlength="50" style="width: 100%">
                                             <p:ajax event="keyup" update="panelnombre" listener="#{expedientesBean.todosPacientesPorNombre()}" />
                                         </p:inputText>
                                     </div>
@@ -72,7 +72,7 @@
                                                 </p:column>
 
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-folder-open" title="Consultar">
                                                         <f:param name="expedienteconsultar" value="#{paciente.pacienteId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>
@@ -94,7 +94,7 @@
                                         Número de expediente
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
-                                        <p:inputNumber id="expedienteconsultar" value="#{expedientesBean.expediente}" decimalPlaces="0" maxlength="5" style="width: 100%">
+                                        <p:inputNumber id="expedienteconsultar" value="#{expedientesBean.expediente}" decimalPlaces="0" maxValue="99999" thousandSeparator="" style="width: 100%">
                                             <p:ajax event="keyup" update="panelexpediente" listener="#{expedientesBean.todosPacientesPorExpediente()}" />
                                         </p:inputNumber>
                                     </div>
@@ -131,7 +131,7 @@
                                                 </p:column>
 
                                                 <p:column headerText="Ver" style="text-align: center; width: 15%">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-folder-open" title="Consultar">
                                                         <f:param name="expedienteconsultar" value="#{pac.pacienteId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>

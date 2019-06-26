@@ -64,15 +64,15 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <h7><b>Fecha de inicio*</b></h7>
                                     <p:calendar id="iniciopromocionnuevo" value="#{promocionesBean.promocionNuevo.promocionInicio}" required="true" navigator="true" locale="es"
-                                                requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" styleClass="smiling-calendar">
+                                                yearRange="c-2:c+2" requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" >
                                         <p:ajax event="dateSelect" update="finpromocionnuevo"/>
                                     </p:calendar>
                                     <p:message for="iniciopromocionnuevo"/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <h7><b>Fecha de finalización*</b></h7>
-                                    <p:calendar id="finpromocionnuevo" value="#{promocionesBean.promocionNuevo.promocionFin}" required="true" navigator="true" styleClass="smiling-calendar" locale="es"
-                                                requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" mindate="#{promocionesBean.promocionNuevo.promocionInicio}"/>
+                                    <p:calendar id="finpromocionnuevo" value="#{promocionesBean.promocionNuevo.promocionFin}" required="true" navigator="true" locale="es"
+                                                yearRange="c-10:c+2" requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" mindate="#{promocionesBean.promocionNuevo.promocionInicio}"/>
                                     <p:message for="finpromocionnuevo"/>
                                 </div>
                             </div>

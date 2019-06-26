@@ -65,7 +65,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <h7><b>Fecha de inicio *</b></h7>
                                     <p:calendar id="iniciopromocioneditar" value="#{promocionesBean.promocionEditar.promocionInicio}" required="#{request.getParameter('promo')}" navigator="true" locale="es"
-                                                requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" styleClass="smiling-calendar">
+                                                yearRange="c-2:c+2" requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true">
                                         <p:ajax event="dateSelect" update="finpromocioneditar"/>
                                     </p:calendar>
                                     <p:message for="iniciopromocioneditar"/>
@@ -73,7 +73,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                     <h7><b>Fecha de finalización *</b></h7>
                                     <p:calendar id="finpromocioneditar" value="#{promocionesBean.promocionEditar.promocionFin}" required="#{request.getParameter('promo')}" navigator="true" locale="es"
-                                                requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" mindate="#{promocionesBean.promocionEditar.promocionInicio}"/>
+                                                yearRange="c-10:c+2" requiredMessage="Fecha es requerida." class="tamaniocalendario" pattern="dd-MM-yyyy" mask="true" mindate="#{promocionesBean.promocionEditar.promocionInicio}"/>
                                     <p:message for="finpromocioneditar"/>
                                 </div>
                             </div>

@@ -2,6 +2,9 @@ body{
     
 }
 
+label{
+    font-weight: 100;
+}
 
 a {
     color:white;

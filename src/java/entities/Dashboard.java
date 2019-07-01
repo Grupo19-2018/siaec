@@ -34,12 +34,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Dashboard.findByDashboardNombre", query = "SELECT d FROM Dashboard d WHERE d.dashboardNombre = :dashboardNombre"),
     @NamedQuery(name = "Dashboard.findByDashboardDescripcion", query = "SELECT d FROM Dashboard d WHERE d.dashboardDescripcion = :dashboardDescripcion"),
     @NamedQuery(name = "Dashboard.findByDashboardUrl", query = "SELECT d FROM Dashboard d WHERE d.dashboardUrl = :dashboardUrl"),
-    @NamedQuery(name = "Dashboard.findByDashboardImagen", query = "SELECT d FROM Dashboard d WHERE d.dashboardImagen = :dashboardImagen")})
+    @NamedQuery(name = "Dashboard.findByDashboardImagen", query = "SELECT d FROM Dashboard d WHERE d.dashboardImagen = :dashboardImagen"),
+    @NamedQuery(name = "Dashboard.dashboardPermitidos", query = "SELECT d FROM Dashboard d WHERE d.dashboardId = 1 OR d.dashboardId = 7")})
 public class Dashboard implements Serializable {
 
     @OneToMany(mappedBy = "dashboardId")
     private List<Roles> rolesList;
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +59,7 @@ public class Dashboard implements Serializable {
     @Size(max = 150)
     @Column(name = "dashboard_imagen")
     private String dashboardImagen;
-        
+
     public Dashboard() {
     }
 
@@ -105,7 +106,7 @@ public class Dashboard implements Serializable {
     public void setDashboardImagen(String dashboardImagen) {
         this.dashboardImagen = dashboardImagen;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -138,5 +139,5 @@ public class Dashboard implements Serializable {
     public void setRolesList(List<Roles> rolesList) {
         this.rolesList = rolesList;
     }
-          
+
 }

@@ -140,3 +140,12 @@ alter table pacientes add column paciente_promocion_general boolean;
 --Promociones cumpleanyos
 alter table configuraciones add column configuracion_promocion_general BOOLEAN;
 update configuraciones set configuracion_promocion_general = false;
+
+--Update 77
+--Pantalla para crear nuevo rol,
+--Agregando un nuevo dashboard a la base de datos 
+--Dashboard Vacio.
+INSERT INTO public.dashboard(dashboard_id,dashboard_nombre, dashboard_descripcion           , dashboard_url         , dashboard_imagen)
+	             VALUES ( 7          ,'Vacío'         , 'Muestra una pantalla en blanco', '/templates/dashboard/vacio.xhtml', '/templates/dashboard/vacio.jpg');
+
+

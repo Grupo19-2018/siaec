@@ -6,6 +6,7 @@
 package dao;
 
 import entities.Dashboard;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,10 @@ public class DashboardFacade extends AbstractFacade<Dashboard> {
 
     public DashboardFacade() {
         super(Dashboard.class);
+    }
+    
+    public List<Dashboard> dashboardPermitidos(){
+        return getEntityManager().createNamedQuery("Dashboard.dashboardPermitidos").getResultList();
     }
     
 }

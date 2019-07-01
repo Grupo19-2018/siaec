@@ -17,13 +17,14 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import org.primefaces.context.RequestContext;
 
 /*
 Notas:
  */
-@Named(value = "AdministracionBean")
+@ManagedBean(name = "AdministracionBean")
 @SessionScoped
 public class AdministracionBean implements Serializable {
 //****************************************************************************//
@@ -45,8 +46,13 @@ public class AdministracionBean implements Serializable {
     @EJB
     private PrivilegiosFacade privilegiosFacade;
 
-    @EJB 
+    @EJB
     private DashboardFacade dashboardFacade;
+    private Dashboard dashboardSeleccionado = new Dashboard();
+
+    @ManagedProperty(value = "#{appSession}")     // Sesion
+    private AppSession appSession;
+
 //*************************SubMenus *******************************************//
     private List<Submenus> submenu1 = new ArrayList<>(); // Agenda
     private List<Submenus> submenu2 = new ArrayList<>(); // Paciente
@@ -122,6 +128,10 @@ public class AdministracionBean implements Serializable {
         return getPrivilegiosFacade().privilegiosPorSubmenu(submenu_id);
     }
 
+    public List<Dashboard> dashboardPermitidos() {
+        return dashboardFacade.dashboardPermitidos();
+    }
+
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//    
@@ -144,7 +154,7 @@ public class AdministracionBean implements Serializable {
     public DashboardFacade getDashboardFacade() {
         return dashboardFacade;
     }
-    
+
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************// 
@@ -373,6 +383,14 @@ public class AdministracionBean implements Serializable {
         this.sGestionarSucursales = sGestionarSucursales;
     }
 
+    public AppSession getAppSession() {
+        return appSession;
+    }
+
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+
     //********************** Pantalla Gestionar Medicos ************************
     public List<Privilegios> getGestionarMedicos() {
         return gestionarMedicos;
@@ -462,8 +480,6 @@ public class AdministracionBean implements Serializable {
 //                                  Métodos                                   //
 //****************************************************************************//    
     //Usado en: [cat_roles_nuevo.xhtml]
-    //Estado: Usado
-    //Actualizado: 20/febrero/2019
     public void guardarRol() {
         try {
             List<Submenus> temp = new ArrayList<>();
@@ -590,11 +606,11 @@ public class AdministracionBean implements Serializable {
             rolNuevo.setSubmenusList(temp);
             rolNuevo.setPrivilegiosList(tempPrivilegios);
             rolNuevo.setRolFechaCreacion(new Date());
-            //rolNuevo.setRolUsuarioCreacion();
-            Dashboard dashboardId = getDashboardFacade().find(1);
-            rolNuevo.setDashboardId(dashboardId);
-            rolNuevo.setRolNotificacion(false);
-            rolNuevo.setRolAlerta(false);
+
+            if (getAppSession() != null) {
+                rolNuevo.setRolUsuarioCreacion(getAppSession().getUsuario().getUsuarioUsuario());
+            }
+            
             getRolesFacade().create(rolNuevo);
             mensajeGuardado("El rol fue guardado.");
             limpiandoNuevoRol();
@@ -602,7 +618,8 @@ public class AdministracionBean implements Serializable {
             limpiarPrivilegiosBooleanos();
         } catch (Exception e) {
             mensajeError("Error al guardar el rol.");
-            System.out.println("controllers.AdministracionBean.guardarRol()" + e);
+            System.out.println("controllers.AdministracionBean.guardarRol() ");
+            System.err.println(e);
         }
     }
 
@@ -1004,11 +1021,10 @@ public class AdministracionBean implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
     //Metodo para ocultar los roles por defecto:[Administrador/a, Asistente, Director/a, Doctor/a, Paciente]
     //Usado en: cat_roles_listado.xhtml
-    //Estado: Prueba
-    public Boolean rolesFijos(Roles rol){
-        return !(rol.getRolId()>= 1 && rol.getRolId()<=5);
+    public Boolean rolesFijos(Roles rol) {
+        return !(rol.getRolId() >= 1 && rol.getRolId() <= 5);
     }
 }

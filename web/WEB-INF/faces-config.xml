@@ -168,9 +168,11 @@
             <from-outcome>RolEditar</from-outcome>
             <to-view-id>/views/6_administracion/cat_roles_editar.xhtml</to-view-id>
         </navigation-case>
-        
-        
-        
+        <navigation-case>
+            <from-outcome>RolConsultar</from-outcome>
+            <to-view-id>/views/6_administracion/cat_roles_consultar.xhtml</to-view-id>
+        </navigation-case>
+
     </navigation-rule>
 </faces-config>
 

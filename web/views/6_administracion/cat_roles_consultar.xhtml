@@ -10,6 +10,8 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewParam name="rol" value="#{AdministracionBean.rol_id}"/>
+                <f:viewAction  action="#{AdministracionBean.establecerPrivilegiosRolEditar()}"/>
             </f:metadata>
         </ui:define>
         <ui:define name="content">
@@ -19,88 +21,249 @@
 
             <p:panel id="roles-panel" style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
                 <!-- Botón para agregar un nuevo registro -->
-                <h:form id="roles-formulario"  class="container" >
+                <h:form id="roles-formulario"  class="container" enctype="multipart/form-data" acceptcharset="ISO-8859-1">
                     <br/>
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <h6><b>Nombre*</b></h6>
-                            <p:inputText id="nombreRol" value="#{AdministracionBean.rolConsultar.rolNombre}" disabled="true"  style="width: 100%"/>
+                            <h6><b>Nombre</b></h6>
+                            <p:inputText id="nombreRol" value="#{AdministracionBean.rolEditar.rolNombre}" disabled="true"  style="width: 100%"/>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                             <h6><b>Descripción</b></h6>
-                            <p:inputText id="descripcionRol" value="#{AdministracionBean.rolConsultar.rolDescripcion}" disabled="true" style="width: 100%" />
+                            <p:inputText id="descripcionRol" value="#{AdministracionBean.rolEditar.rolDescripcion}" disabled="true" style="width: 100%" />
                         </div>
+
                     </div>
                     <br/>
-
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <h6><b>Privilegios</b></h6>
+                            <h5><b>Tablero </b></h5>
+                            <hr style="border: solid 1px #D5D5D5"/>
                         </div>
                     </div>
-
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <h6><b>Nombre</b></h6>
+                                <p:inputText id="nombreTablero" value="#{AdministracionBean.rolEditar.dashboardId.dashboardNombre}" disabled="true"  style="width: 100%"/>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <h6><b>Descripción</b></h6>
+                                <p:inputText id="descripcionTablero" value="#{AdministracionBean.rolEditar.dashboardId.dashboardDescripcion}" disabled="true"  style="width: 100%"/>
+                            </div>
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                                <br/>
+                                <img src="../..#{AdministracionBean.rolEditar.dashboardId.dashboardImagen}" class="img-thumbnail" alt="" width="100%" height="100%" style="margin-bottom: 1pt"/>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <!--***************************************Alerta y Notificacioens ******************************************* -->
+                    <br/>
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h5><b>Alertas y notificaciones</b></h5>
+                            <hr style="border: solid 1px #D5D5D5"/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <p:selectBooleanCheckbox value="#{AdministracionBean.rolEditar.rolNotificacion}" itemLabel="Notificaciones de cita" disabled="true"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <p:selectBooleanCheckbox value="#{AdministracionBean.rolEditar.rolAlerta}" itemLabel="Altera de Insumo" disabled="true"/>
+                        </div>
+                    </div>
+                    <!--***************************************Pantalla ******************************************* -->
+                    <br/>
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h5><b>Pantalla</b></h5>
+                            <hr style="border: solid 1px #D5D5D5"/>
+                        </div>
+                    </div>
+                    <!-- Lista de pantallas-->
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <!-- *****************Pantallas de Menu Agenda ******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Agenda</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu1}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
-                                <f:selectItems value="#{AdministracionBean.subMenusPorMenu(1)}" var="submenu1" itemLabel="#{submenu1.sumbenuNombre}" itemValue="#{submenu1}"/>
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu1}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
+                                <f:selectItems value="#{AdministracionBean.subMenusPorMenu(1)}" var="submenu1" itemLabel="#{submenu1.sumbenuNombre}" itemValue="#{submenu1}" itemDescription="#{submenu1.submenuDescripcion}"/>
+                                <p:ajax update="tituloCitasConfimadas, selectCitasAprobadas"/> 
+                                <p:ajax update="tituloCitasPendientes, selectCitasPendientes"/>
+                                <p:ajax update="moduloAgendaPri"/>
                             </p:selectManyCheckbox>
                         </div>
-
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <br/>
+                        <!-- *****************Pantallas de Menu Paciente ******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Paciente</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu2}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
-                                <f:selectItems value="#{AdministracionBean.subMenusPorMenu(2)}" var="submenu2" itemLabel="#{submenu2.sumbenuNombre}" itemValue="#{submenu2}"/>
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu2}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
+                                <f:selectItems value="#{AdministracionBean.subMenusPorMenu(2)}" var="submenu2" itemLabel="#{submenu2.sumbenuNombre}" itemValue="#{submenu2}" itemDescription="#{submenu2.submenuDescripcion}"/>
                             </p:selectManyCheckbox>
                         </div>
-
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <br/>
+                        <!-- *****************Pantallas de Menu Insumos ******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Insumos</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu3}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu3}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(3)}" var="submenu3" itemLabel="#{submenu3.sumbenuNombre}" itemValue="#{submenu3}"/>
+                                <p:ajax update="permisosSubmenu3"/>
                             </p:selectManyCheckbox>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <!-- *****************Pantallas de Menu Promociones******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Promociones</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu4}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu4}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(4)}" var="submenu4" itemLabel="#{submenu4.sumbenuNombre}" itemValue="#{submenu4}"/>
+                                <p:ajax update="permisosSubmenu4"/>
                             </p:selectManyCheckbox>
                         </div>
                     </div>
                     <br/>
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <!-- *****************Pantallas de Menu Reportes******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Reportes</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu5}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu5}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(5)}" var="submenu5" itemLabel="#{submenu5.sumbenuNombre}" itemValue="#{submenu5}"/>
                             </p:selectManyCheckbox>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <!-- **********Pantallas de Menu Administracion******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Administración</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu6}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu6}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(6)}" var="submenu6" itemLabel="#{submenu6.sumbenuNombre}" itemValue="#{submenu6}"/>
+                                <p:ajax update="permisosSubmenu6"/>
                             </p:selectManyCheckbox>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <!-- ***********Pantallas de Menu Configuracion******-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Configuración</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu7}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu7}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(7)}" var="submenu7" itemLabel="#{submenu7.sumbenuNombre}" itemValue="#{submenu7}"/>
                             </p:selectManyCheckbox>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <!-- *****************Pantallas de Menu Ayuda*********-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h6><b>Ayuda</b></h6>
-                            <p:selectManyCheckbox value="#{AdministracionBean.submenu8}" layout="grid" columns="1" converter="#{subMenusConvertidor}">
+                            <p:selectManyCheckbox value="#{AdministracionBean.submenu8}" layout="responsive" columns="3" converter="#{subMenusConvertidor}" disabled="true">
                                 <f:selectItems value="#{AdministracionBean.subMenusPorMenu(8)}" var="submenu7" itemLabel="#{submenu7.sumbenuNombre}" itemValue="#{submenu7}"/>
                             </p:selectManyCheckbox>
                         </div>
                     </div>
 
                     <br/>
+
+                    <!--****************** Fila 3 ****************************-->
+                    <!-- Inicio de permisos especiales -->
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h6><b>Permisos Especiales</b></h6>
+                            <hr style="border: solid 1px #D5D5D5"/>
+                        </div>
+
+                        <p:panel id="permisosSubmenu1">
+                            <h:panelGroup id="moduloAgendaPri">
+                                <p:outputLabel value="Agenda"  style="font-size: 16px;font-weight: 700;" rendered="#{AdministracionBean.getsCitasAprobadas() || AdministracionBean.getsCitasPendientes()}"/><br/>
+                            </h:panelGroup>
+                            <h:panelGroup id="tituloCitasConfimadas">
+                                <p:outputLabel  value="Citas Confirmadas Clinica" rendered="#{AdministracionBean.getsCitasAprobadas()}"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="selectCitasAprobadas" styleClass="#{AdministracionBean.getsCitasAprobadas() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox   value="#{AdministracionBean.citasAprobadas}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3"  disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(2)}" var="permisos1" itemLabel="#{permisos1.privilegioAccion}" itemValue="#{permisos1}" />
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+                            <h:panelGroup id="tituloCitasPendientes">
+                                <p:outputLabel value="Citas Pendiente Clinica" rendered="#{AdministracionBean.getsCitasPendientes()}"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="selectCitasPendientes" styleClass="#{AdministracionBean.getsCitasPendientes() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.citasPendientes}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(3)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+                        </p:panel>
+
+                        <!--Permisos  especiales de Insumos  -->
+                        <p:panel id="permisosSubmenu3">
+                            <p:outputLabel value="Insumos"  style="font-size: 16px;font-weight: 700;" rendered="#{AdministracionBean.getsGestionarInsumos()}"/><br/>
+                            <p:outputLabel value="Gestionar Insumos" rendered="#{AdministracionBean.getsGestionarInsumos()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarInsumos() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarInsumos}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(13)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+                        </p:panel>
+
+                        <!--Permisos  especiales de Promociones  -->
+                        <p:panel id="permisosSubmenu4">
+                            <p:outputLabel value="Promociones"  style="font-size: 16px;font-weight: 700;" rendered="#{AdministracionBean.getsListadoPromociones()}"/><br/>
+                            <p:outputLabel value="Listado de Promociones" rendered="#{AdministracionBean.getsListadoPromociones()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsListadoPromociones() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.listadoPromociones}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(19)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+                        </p:panel>
+
+                        <!--Permisos  especiales de Administracion  -->
+                        <p:panel id="permisosSubmenu6">
+                            <p:outputLabel value="Administración"  style="font-size: 16px;font-weight: 700;" 
+                                           rendered="#{AdministracionBean.getsGestionarSucursales() || AdministracionBean.getsGestionarMedicos() || AdministracionBean.getsGestionarTratamientos() || AdministracionBean.getsGestionarPatologias() || AdministracionBean.getsGestionarTipoInsumo() || AdministracionBean.getsGestionarUnidadMedida()}"/><br/>
+                            <p:outputLabel value="Gestionar Sucursales" rendered="#{AdministracionBean.getsGestionarSucursales()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarSucursales() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarSucursales}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(34)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="Gestionar Medicos" rendered="#{AdministracionBean.getsGestionarMedicos()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarMedicos() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarMedicos}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(35)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="Gestionar Tratamientos" rendered="#{AdministracionBean.getsGestionarTratamientos()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarTratamientos() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarTratamientos}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(36)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="Gestionar Patologias" rendered="#{AdministracionBean.getsGestionarPatologias()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarPatologias() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarPatologias}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(37)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="Gestionar Tipo de Insumo" rendered="#{AdministracionBean.getsGestionarTipoInsumo()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarTipoInsumo() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarTipoInsumo}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(38)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="Gestionar Unidades de Medida" rendered="#{AdministracionBean.getsGestionarUnidadMedida()}"/>
+                            <h:panelGroup styleClass="#{AdministracionBean.getsGestionarUnidadMedida() ? 'showSmiling' : 'hideSmiling'}" >
+                                <p:selectManyCheckbox value="#{AdministracionBean.gestionarUnidadMedida}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" disabled="true">
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(39)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                </p:selectManyCheckbox>
+                            </h:panelGroup>
+                        </p:panel>
+                    </div>
+                    <!--Fin de permisos especiales -->
+                    
+
 
                     <br/>
                     <div class="row" style="margin-left: 5px; margin-right: 5px">

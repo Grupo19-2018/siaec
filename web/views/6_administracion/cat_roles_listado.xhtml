@@ -54,10 +54,9 @@
                                                 #{rol.rolDescripcion} 
                                             </td>
                                             <td align="center">
-                                                <h:commandLink action="cat_roles_consultar.xhtml" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
-                                                    <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolConsultar}"/>
-                                                    <f:actionListener binding="#{AdministracionBean.establecerPrivilegiosRolConsultar()}"/>
-                                                </h:commandLink> 
+                                                <h:link outcome="RolConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">
+                                                    <f:param name="rol" value="#{rol.rolId}"/>
+                                                </h:link>
                                                 <h:panelGroup rendered="#{AdministracionBean.rolesFijos(rol)}">
                                                     <h:link outcome="RolEditar" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
                                                         <f:param name="rol" value="#{rol.rolId}"/>

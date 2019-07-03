@@ -31,4 +31,8 @@ public class PrivilegiosFacade extends AbstractFacade<Privilegios> {
         public Privilegios privilegioAccion(int id_accion) {
             return (Privilegios) getEntityManager().createNamedQuery("Privilegio.privilegio").setParameter("id_accion", id_accion).getSingleResult();
         }
+        
+    public Privilegios privilegioPK(Integer privilegio_id, Integer submenu_id){
+        return  (Privilegios) getEntityManager().createNamedQuery("Privilegio.privilegioPK").setParameter("privilegio_id", privilegio_id).setParameter("submenu_id", submenu_id).getSingleResult();
+    }    
 }

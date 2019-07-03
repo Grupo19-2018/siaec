@@ -15,27 +15,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 
-/*
-Notas:
- */
 @ManagedBean(name = "AdministracionBean")
-@SessionScoped
+@ViewScoped
 public class AdministracionBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
-
     @EJB
     private RolesFacade rolesFacade;
     private Roles rolNuevo = new Roles();
     private Roles rolConsultar = new Roles();
     private Roles rolEditar = new Roles();
+    private int rol_id = 0;
 
     @EJB
     private MenusFacade menusFacades;
@@ -52,7 +49,7 @@ public class AdministracionBean implements Serializable {
 
     @ManagedProperty(value = "#{appSession}")     // Sesion
     private AppSession appSession;
-
+    
 //*************************SubMenus *******************************************//
     private List<Submenus> submenu1 = new ArrayList<>(); // Agenda
     private List<Submenus> submenu2 = new ArrayList<>(); // Paciente
@@ -65,46 +62,46 @@ public class AdministracionBean implements Serializable {
 
 //*******************************Permisos **************************************
 //*******************************Menu Agenda ***********************************
-//*******************************Pantalla Citas Aprobadas***********************
+//Pantalla Citas Aprobadas
     private List<Privilegios> citasAprobadas = new ArrayList<>();
     private Boolean sCitasAprobadas = false;
 
-//*******************************Pantalla Citas Pendientes**********************
+//Pantalla Citas Pendientes
     private List<Privilegios> citasPendientes = new ArrayList<>();
     private Boolean sCitasPendientes = false;
 
 //*******************************Menu Insumos **********************************
-//*******************************Pantalla Gestionar Insumos*********************
+//Pantalla Gestionar Insumos
     private List<Privilegios> gestionarInsumos = new ArrayList<>();
     private Boolean sGestionarInsumos = false;
 
 //*******************************Menu Promociones ******************************
-//*******************************Pantalla Listado de Promociones ***************
+//Pantalla Listado de Promociones 
     private List<Privilegios> listadoPromociones = new ArrayList<>();
     private Boolean sListadoPromociones = false;
 
 //********************************Menu Administracions  ************************
-//********************************Pantalla Gestionar Sucursales ****************
+//Pantalla Gestionar Sucursales 
     private List<Privilegios> gestionarSucursales = new ArrayList<>();
     private Boolean sGestionarSucursales = false;
 
-//********************************Pantalla Gestionar Medicos *******************
+//Pantalla Gestionar Medicos
     private List<Privilegios> gestionarMedicos = new ArrayList<>();
     private Boolean sGestionarMedicos = false;
 
-//********************************Pantalla Gestionar Tratamientos **************
+//Pantalla Gestionar Tratamientos 
     private List<Privilegios> gestionarTratamientos = new ArrayList<>();
     private Boolean sGestionarTratamientos = false;
 
-//******************************** Pantalla Gestionar Patologias ***************
+//Pantalla Gestionar Patologias
     private List<Privilegios> gestionarPatologias = new ArrayList<>();
     private Boolean sGestionarPatologias = false;
 
-//********************************Pantalla GestionarTipoInsumo *****************
+//Pantalla GestionarTipoInsumo 
     private List<Privilegios> gestionarTipoInsumo = new ArrayList<>();
     private Boolean sGestionarTipoInsumo = false;
 
-//*******************************Pantalla Gestionar Unidades de Medida *********
+//Pantalla Gestionar Unidades de Medida 
     private List<Privilegios> gestionarUnidadMedida = new ArrayList<>();
     private Boolean sGestionarUnidadMedida = false;
 
@@ -158,6 +155,14 @@ public class AdministracionBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************// 
+    public int getRol_id() {
+        return rol_id;
+    }
+
+    public void setRol_id(int rol_id) {
+        this.rol_id = rol_id;
+    }
+    
     public Roles getRolConsultar() {
         return rolConsultar;
     }
@@ -174,6 +179,7 @@ public class AdministracionBean implements Serializable {
         this.rolEditar = rolEditar;
     }
 
+    
     public Roles getRolNuevo() {
         return rolNuevo;
     }
@@ -298,7 +304,7 @@ public class AdministracionBean implements Serializable {
         this.submenu8 = submenu8;
     }
 
-    //********************** Pantalla Citas Aprobadas **************************
+    //Pantalla Citas Aprobadas
     public List<Privilegios> getCitasAprobadas() {
         return citasAprobadas;
     }
@@ -315,12 +321,13 @@ public class AdministracionBean implements Serializable {
         this.sCitasAprobadas = sCitasAprobadas;
     }
 
-    //********************** Pantalla Citas Pendientes *************************
+    //Pantalla Citas Pendientes 
     public List<Privilegios> getCitasPendientes() {
         return citasPendientes;
     }
 
     public void setCitasPendientes(List<Privilegios> citasPendientes) {
+        System.out.println("Entra a set citas pendiente");
         this.citasPendientes = citasPendientes;
     }
 
@@ -332,7 +339,7 @@ public class AdministracionBean implements Serializable {
         this.sCitasPendientes = sCitasPendientes;
     }
 
-    //********************** Pantalla Gestionar Insumo *************************
+    //Pantalla Gestionar Insumo 
     public List<Privilegios> getGestionarInsumos() {
         return gestionarInsumos;
     }
@@ -349,7 +356,7 @@ public class AdministracionBean implements Serializable {
         this.sGestionarInsumos = sGestionarInsumos;
     }
 
-    //********************** Pantalla Listado Promociones **********************
+    //Pantalla Listado Promociones 
     public List<Privilegios> getListadoPromociones() {
         return listadoPromociones;
     }
@@ -366,7 +373,7 @@ public class AdministracionBean implements Serializable {
         this.sListadoPromociones = sListadoPromociones;
     }
 
-    //********************** Pantalla Gestionar Sucursales *********************
+    //Pantalla Gestionar Sucursales 
     public List<Privilegios> getGestionarSucursales() {
         return gestionarSucursales;
     }
@@ -391,7 +398,7 @@ public class AdministracionBean implements Serializable {
         this.appSession = appSession;
     }
 
-    //********************** Pantalla Gestionar Medicos ************************
+    // Pantalla Gestionar Medicos 
     public List<Privilegios> getGestionarMedicos() {
         return gestionarMedicos;
     }
@@ -408,7 +415,7 @@ public class AdministracionBean implements Serializable {
         this.sGestionarMedicos = sGestionarMedicos;
     }
 
-    //**********************Pantalla Gestionar Tratamientos ********************
+    //Pantalla Gestionar Tratamientos 
     public List<Privilegios> getGestionarTratamientos() {
         return gestionarTratamientos;
     }
@@ -425,7 +432,7 @@ public class AdministracionBean implements Serializable {
         this.sGestionarTratamientos = sGestionarTratamientos;
     }
 
-    //********************** Pantalla Gestionar Patologia **********************
+    //Pantalla Gestionar Patologia
     public List<Privilegios> getGestionarPatologias() {
         return gestionarPatologias;
     }
@@ -442,7 +449,7 @@ public class AdministracionBean implements Serializable {
         this.sGestionarPatologias = sGestionarPatologias;
     }
 
-    //********************** Pantalla Gestionar Tipo Insumo ********************
+    //Pantalla Gestionar Tipo Insumo
     public List<Privilegios> getGestionarTipoInsumo() {
         return gestionarTipoInsumo;
     }
@@ -459,7 +466,7 @@ public class AdministracionBean implements Serializable {
         this.sGestionarTipoInsumo = sGestionarTipoInsumo;
     }
 
-    //********************** Pantalla Gestionar Unidad de Medida ***************
+    //Pantalla Gestionar Unidad de Medida
     public List<Privilegios> getGestionarUnidadMedida() {
         return gestionarUnidadMedida;
     }
@@ -490,8 +497,8 @@ public class AdministracionBean implements Serializable {
                 for (Submenus list : submenu1) {
                     //Pantalla: Citas Aprobadas
                     if (list.getSubmenuId() == 2) {
-                        for (Privilegios p : citasAprobadas) {
-                            tempPrivilegios.add(p);
+                        for (Privilegios pri : citasAprobadas) {
+                            tempPrivilegios.add(pri);
                         }
                     }
                     //Pantalla: Cita Pendiente
@@ -607,11 +614,11 @@ public class AdministracionBean implements Serializable {
             rolNuevo.setPrivilegiosList(tempPrivilegios);
             rolNuevo.setRolFechaCreacion(new Date());
 
-            if (getAppSession() != null) {
+            if (getAppSession().getUsuario() != null) {
                 rolNuevo.setRolUsuarioCreacion(getAppSession().getUsuario().getUsuarioUsuario());
             }
-            
             getRolesFacade().create(rolNuevo);
+
             mensajeGuardado("El rol fue guardado.");
             limpiandoNuevoRol();
             limpiandoPrivilegios();
@@ -624,9 +631,11 @@ public class AdministracionBean implements Serializable {
     }
 
     //Establece los valores del rol a la pantalla
-    //Estado: Activo
     //Usado en: cat_roles_listado.xhtml
     public void establecerPrivilegiosRolEditar() {
+        System.out.println("veamos que tiene" + rolEditar);
+        rolEditar = getRolesFacade().find(rol_id);
+        System.out.println("veamos que tiene tomar el id" + rolEditar);
         if (rolEditar != null) {
             limpiandoPantallas();
             limpiandoPrivilegios();
@@ -869,9 +878,11 @@ public class AdministracionBean implements Serializable {
 
     //Objetivo: Guarda los submenus y privilegios
     //Metodo usado en cat_roles_editar.xhtml
-    //Estado: Usado
     public void editarRol() {
         try {
+            System.out.println("Este rol por " + rol_id);
+            System.out.println("Rol al iniciar" + rolEditar);
+            System.out.println("Rol al iniciar ID" + rolEditar.getRolId());
             List<Submenus> temp = new ArrayList<>();
             List<Menus> tempMenu = new ArrayList<>();
             List<Privilegios> tempPrivilegios = new ArrayList<>();
@@ -881,12 +892,16 @@ public class AdministracionBean implements Serializable {
                 for (Submenus list : submenu1) {
                     switch (list.getSubmenuId()) {
                         case 2: //Pantalla: Citas Aprobadas
+                            System.out.println("Citas pendientes entradno antes del for");
                             for (Privilegios p : citasAprobadas) {
+                                System.out.println("Citas aprobadas entrando");
                                 tempPrivilegios.add(p);
                             }
                             break;
                         case 3: //Pantalla: Cita Pendiente
+                            System.out.println("Citas pendientes entradno antes del for");
                             for (Privilegios pri : citasPendientes) {
+                                System.out.println("Citas pendientes entradno");
                                 tempPrivilegios.add(pri);
                             }
                             break;
@@ -994,19 +1009,32 @@ public class AdministracionBean implements Serializable {
                 }
                 tempMenu.add(getMenusFacades().find(submenu8.get(0).getMenuId().getMenuId()));
             }
-            rolEditar.getMenusList().clear();
-            rolEditar.getSubmenusList().clear();
+            /*rolNuevo.setMenusList(tempMenu);
+            rolNuevo.setSubmenusList(temp);
+            rolNuevo.setPrivilegiosList(tempPrivilegios);
+            rolNuevo.setRolFechaCreacion(new Date());
+
+            if (getAppSession().getUsuario() != null) {
+                rolNuevo.setRolUsuarioCreacion(getAppSession().getUsuario().getUsuarioUsuario());
+            }
+            getRolesFacade().create(rolNuevo);*/
             rolEditar.getPrivilegiosList().clear();
+            //rolEditar.setPrivilegiosList(null);
+            rolEditar.getSubmenusList().clear();
+            rolEditar.getMenusList().clear();
             rolEditar.setMenusList(tempMenu);
             rolEditar.setSubmenusList(temp);
             rolEditar.setPrivilegiosList(tempPrivilegios);
-            //  rolEditar.setPrivilegiosList(tempPrivilegios);
-
+            rolEditar.setRolFechaModificacion(new Date());
+            if (getAppSession().getUsuario() != null) {
+                rolEditar.setRolUsuarioModificacion(getAppSession().getUsuario().getUsuarioUsuario());
+            }
+            System.out.println("Rol " + rolEditar);
             getRolesFacade().edit(rolEditar);
             mensajeGuardado("Rol actualizado adecuadamente.");
         } catch (Exception e) {
             mensajeError("Error al actualizar rol.");
-            System.err.println("" + e);
+            System.err.println("Error" + e);
         }
     }
 

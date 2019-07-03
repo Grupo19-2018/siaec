@@ -1,3 +1,11 @@
+.showSmiling {
+    display: block;
+}
+ 
+.hideSmiling {
+    display: none;
+}
+
 body{
     
 }

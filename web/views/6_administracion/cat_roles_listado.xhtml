@@ -49,7 +49,7 @@
                                     <ui:repeat value="#{AdministracionBean.todosRolesActivos()}" var="rol" >
                                         <tr>
                                             <td align="center"></td>
-                                            <td>#{rol.rolNombre}</td>
+                                            <td>#{rol.rolNombre} #{rol.rolId}</td>
                                             <td>
                                                 #{rol.rolDescripcion} 
                                             </td>
@@ -59,10 +59,9 @@
                                                     <f:actionListener binding="#{AdministracionBean.establecerPrivilegiosRolConsultar()}"/>
                                                 </h:commandLink> 
                                                 <h:panelGroup rendered="#{AdministracionBean.rolesFijos(rol)}">
-                                                    <h:commandLink action="cat_roles_editar.xhtml" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
-                                                        <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolEditar}"/>
-                                                        <f:actionListener binding="#{AdministracionBean.establecerPrivilegiosRolEditar()}"/>
-                                                    </h:commandLink> 
+                                                    <h:link outcome="RolEditar" class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" title="Editar">
+                                                        <f:param name="rol" value="#{rol.rolId}"/>
+                                                    </h:link>
                                                     <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                    pt:data-toggle="modal" pt:data-target="#eliminarRoles">
                                                         <f:setPropertyActionListener value="#{rol}" target="#{AdministracionBean.rolEditar}"/>

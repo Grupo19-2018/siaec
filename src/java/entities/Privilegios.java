@@ -18,10 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "privilegios")
 @NamedQueries({
@@ -29,7 +25,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Privilegios.findByPrivilegioId", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.privilegioId = :privilegioId"),
     @NamedQuery(name = "Privilegios.findBySubmenuId", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.submenuId = :submenuId"),
     @NamedQuery(name = "Privilegios.findByPrivilegioAccion", query = "SELECT p FROM Privilegios p WHERE p.privilegioAccion = :privilegioAccion"),
-    @NamedQuery(name = "Privilegio.privilegio", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.privilegioId = :id_accion")})
+    @NamedQuery(name = "Privilegio.privilegio", query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.privilegioId = :id_accion"),
+    @NamedQuery(name = "Privilegio.privilegioPK",query = "SELECT p FROM Privilegios p WHERE p.privilegiosPK.privilegioId = :privilegio_id AND p.privilegiosPK.submenuId = :submenu_id" )})
 public class Privilegios implements Serializable {
 
     private static final long serialVersionUID = 1L;

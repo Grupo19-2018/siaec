@@ -30,7 +30,7 @@
                                 </thead>
                                 <!-- Cuerpo de la tabla -->
                                 <tbody>
-                                    <ui:repeat value="#{dashboardMedico.agendaMedico()}" var="cita" >
+                                    <ui:repeat value="#{dashboard.agendaMedico(sesionBean.appSession.usuario)}" var="cita" >
                                         <tr>
                                             <td align="center">
                                                 <h:outputText value="#{cita.citaFecha}" style="width: 100%">

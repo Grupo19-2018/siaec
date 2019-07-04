@@ -1,8 +1,15 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
+import dao.MenusFacade;
 import dao.PacientesFacade;
+import dao.PrivilegiosFacade;
+import dao.RolesFacade;
+import dao.SubmenusFacade;
+import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Citas;
 import entities.Clinicas;
 import entities.Pacientes;
@@ -39,6 +46,24 @@ public class Dashboard implements Serializable {
     @EJB
     private ClinicasFacade clinicaFacade;
 
+    @EJB
+    private RolesFacade rolesFacade;
+    
+    @EJB
+    private MenusFacade menusFacade;
+    
+    @EJB
+    private SubmenusFacade submenusFacade;
+
+    @EJB
+    private PrivilegiosFacade privilegiosFacade;
+    
+    @EJB 
+    private UsuariosFacade usuariosFacade;
+    
+    @EJB
+    private  BitacoraFacade bitacoraFacade;
+            
     private PieChartModel graficoCircularPaciente;                      //Grafico circular de pacientes por sexo. 
     private LineChartModel sucursalModelo;                              //Grafico lineal de citasGrafico. 
     private List<Citas> citasGrafico = new ArrayList<>();               //Usado por metodo: consultaPorSucursal()
@@ -69,6 +94,40 @@ public class Dashboard implements Serializable {
         return null;
     }
 
+//Usado en: dashboard administracion.xhmlt
+public Integer totalRoles(){
+    return getRolesFacade().findAll().size();
+}
+
+//Usado en: dashboard administracion.xhmlt
+public Integer totalMenus(){
+    return getMenusFacade().findAll().size();
+}
+
+//Usado en: dashboard administracion.xhmlt
+public Integer totalSubmenus(){
+    return getSubmenusFacade().findAll().size();
+}
+
+//Usado en: dashboard administracion.xhmlt
+public Integer totalPrivilegios(){
+    return getPrivilegiosFacade().findAll().size();
+}
+
+//Usado en: dashboard administracion.xhmlt
+public Integer totalUsuarios(){
+    return getUsuariosFacade().findAll().size();
+}
+
+//Usado en: dashboard administracion.xhmlt
+public Integer totalRegistroBitacora(){
+    return getBitacoraFacade().findAll().size();
+}
+
+//Usado en: dashboard administracion.xhmlt
+public List<Bitacora> todosRegistroBitacora(){
+    return getBitacoraFacade().findAll();
+}
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
@@ -84,6 +143,29 @@ public class Dashboard implements Serializable {
         return clinicaFacade;
     }
 
+    public RolesFacade getRolesFacade() {
+        return rolesFacade;
+    }
+
+    public MenusFacade getMenusFacade() {
+        return menusFacade;
+    }
+
+    public SubmenusFacade getSubmenusFacade() {
+        return submenusFacade;
+    }
+
+    public PrivilegiosFacade getPrivilegiosFacade() {
+        return privilegiosFacade;
+    }
+
+    public UsuariosFacade getUsuariosFacade() {
+        return usuariosFacade;
+    }
+
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//

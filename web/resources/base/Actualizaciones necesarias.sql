@@ -148,4 +148,10 @@ update configuraciones set configuracion_promocion_general = false;
 INSERT INTO public.dashboard(dashboard_id,dashboard_nombre, dashboard_descripcion           , dashboard_url         , dashboard_imagen)
 	             VALUES ( 7          ,'Vacío'         , 'Muestra una pantalla en blanco', '/templates/dashboard/vacio.xhtml', '/templates/dashboard/vacio.jpg');
 
+--Update 80
+--Actualizaciones para dashboard administrador
+--Actualizando rol
+UPDATE roles set dashboard_id= 5 where rol_id =1;
+--Actualizando imagen 
+UPDATE dashboard set dashboard_imagen = '/templates/dashboard/administracion.png' WHERE dashboard_id = 5;
 

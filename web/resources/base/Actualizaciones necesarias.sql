@@ -155,3 +155,6 @@ UPDATE roles set dashboard_id= 5 where rol_id =1;
 --Actualizando imagen 
 UPDATE dashboard set dashboard_imagen = '/templates/dashboard/administracion.png' WHERE dashboard_id = 5;
 
+--Update 81
+--Actualizando tipo de dato para fecha y hora en bitacora
+ALTER TABLE bitacora ALTER COLUMN bitacora_fecha_hora SET DATA TYPE TIMESTAMP;

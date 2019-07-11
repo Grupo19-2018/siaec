@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Fam. Gomez Aldana
+ * @author Gerardo Serrano
  */
 @Entity
 @Table(name = "bitacora")
@@ -41,7 +41,7 @@ public class Bitacora implements Serializable {
     @Column(name = "bitacora_id")
     private Integer bitacoraId;
     @Column(name = "bitacora_fecha_hora")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date bitacoraFechaHora;
     @Size(max = 50)
     @Column(name = "bitacora_usuario")

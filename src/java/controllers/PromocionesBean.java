@@ -1,6 +1,8 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.PromocionesFacade;
+import entities.Bitacora;
 import entities.Promociones;
 import entities.Submenus;
 import java.io.File;
@@ -32,6 +34,11 @@ public class PromocionesBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
+    
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
+
     @EJB
     private PromocionesFacade promocionesFacade;
     private Promociones promocionNuevo = new Promociones();
@@ -67,6 +74,10 @@ public class PromocionesBean implements Serializable {
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
     public PromocionesFacade getPromocionesFacade() {
         return promocionesFacade;
     }
@@ -130,9 +141,30 @@ public class PromocionesBean implements Serializable {
         this.appSession = appSession;
     }
 
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+    
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
+    
+
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
+
     //Método para inicializar los valores de fechas para promoción de tipo cumpleaños (promocion_nuevo.xhtml).
     public void inicializaFechasNuevo() {
         try {
@@ -189,6 +221,7 @@ public class PromocionesBean implements Serializable {
             promocionNuevo.setPromocionCorreoLimitadoEspera(0);
             getPromocionesFacade().create(promocionNuevo);
             subeArchivoNuevo(file);
+            guardarBitacora("Registró una promoción ("+promocionNuevo.getPromocionNombre()+").");
             promocionNuevo = new Promociones();
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarPromocion.");
@@ -264,6 +297,7 @@ public class PromocionesBean implements Serializable {
             promocionNuevo.setPromocionImagenNombre(getFile().getFileName());
             promocionNuevo.setPromocionImagenUrl(directorioArchivo + "/" + getFile().getFileName());
             getPromocionesFacade().edit(promocionNuevo);
+            guardarBitacora("Editó una promoción ("+promocionEditar.getPromocionNombre()+").");
             promocionNuevo = new Promociones();
             mensajeGuardado("La promoción se ha guardado.");
         } catch (IOException e) {
@@ -377,6 +411,7 @@ public class PromocionesBean implements Serializable {
             promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
             promocionEditar.setPromocionFechaModificacion(new Date());
             getPromocionesFacade().edit(promocionEditar);
+            guardarBitacora("Editó una promoción ("+promocionEditar.getPromocionNombre()+").");
             mensajeGuardado("La promoción se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarPromocion.");
@@ -398,6 +433,7 @@ public class PromocionesBean implements Serializable {
                     promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
                     promocionEditar.setPromocionFechaModificacion(new Date());
                     getPromocionesFacade().edit(promocionEditar);
+                    guardarBitacora("Eliminó una promoción ("+promocionEditar.getPromocionNombre()+").");
                     mensajeGuardado("La promoción se ha eliminado.");
                 }
             } else {
@@ -408,6 +444,7 @@ public class PromocionesBean implements Serializable {
                 promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
                 promocionEditar.setPromocionFechaModificacion(new Date());
                 getPromocionesFacade().edit(promocionEditar);
+                guardarBitacora("Eliminó una promoción ("+promocionEditar.getPromocionNombre()+").");
                 mensajeGuardado("La promoción se ha eliminado.");
             }
         } catch (Exception e) {

@@ -3,6 +3,7 @@ Actualizado: 28/febrero/2019
 */
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.CitasFacade;
 import dao.ConsultasFacade;
 import dao.PatologiasFacade;
@@ -22,6 +23,7 @@ import dao.MedicosFacade;
 import dao.PromocionesFacade;
 import dao.TratamientosFacade;
 import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Citas;
 import entities.Consultas;
 import entities.DetallesConsultas;
@@ -65,6 +67,9 @@ public class ExpedientesBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
     @EJB
     private ImagenesFacade imagenesFacade;
     private Imagenes imagenNueva = new Imagenes();
@@ -340,6 +345,10 @@ public class ExpedientesBean implements Serializable {
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
+
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
 
     public UsuariosFacade getUsuarioFacade() {
         return usuarioFacade;
@@ -998,11 +1007,30 @@ public class ExpedientesBean implements Serializable {
     public void setCitaId(int citaId) {
         this.citaId = citaId;
     }
-       
+      
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+    
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
     
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
+
     //Método para guardar Paciente y su Dirección (paciente_registrar.xhtml)
     public void guardarPaciente() {
         try{
@@ -1021,6 +1049,7 @@ public class ExpedientesBean implements Serializable {
             crearOdontograma(pacienteNuevo);
             direccionNuevo.setPacienteId(new Pacientes(pacienteNuevo.getPacienteId()));
             getDireccionesFacade().create(direccionNuevo);
+            guardarBitacora("Registró un paciente ("+pacienteNuevo.getPacientePrimerNombre()+" "+pacienteNuevo.getPacientePrimerApellido()+").");
             pacienteNuevo = new Pacientes();
             direccionNuevo = new Direcciones();
             this.setDepartamentoId(0);
@@ -1222,6 +1251,7 @@ public class ExpedientesBean implements Serializable {
             pacienteEditar.setPacienteUsuarioModificacion("Nombre de usuario");
             pacienteEditar.setPacienteFechaModificacion(new Date());
             getPacientesFacade().edit(pacienteEditar);
+            guardarBitacora("Editó datos de paciente ("+pacienteEditar.getPacientePrimerNombre()+" "+pacienteEditar.getPacientePrimerApellido()+").");
             this.setTabIndex(0);
             this.setTabIndexFicha(0);
             mensajeConfirmacion("Los datos del paciente se han actualizado.");
@@ -1234,6 +1264,7 @@ public class ExpedientesBean implements Serializable {
     public void editarDireccion() {
         try{
             getDireccionesFacade().edit(direccionEditar);
+            guardarBitacora("Editó la dirección de paciente ("+direccionEditar.getPacienteId().getPacientePrimerNombre()+" "+direccionEditar.getPacienteId().getPacientePrimerApellido()+").");
             this.setTabIndex(0);
             this.setTabIndexFicha(1);
             mensajeConfirmacion("La dirección de residencia se ha actualizado.");
@@ -1246,6 +1277,7 @@ public class ExpedientesBean implements Serializable {
     public void guardarPatologias() {
         try{
             getPacientesFacade().edit(pacienteEditar);
+            guardarBitacora("Editó patologias de paciente ("+pacienteEditar.getPacientePrimerNombre()+" "+pacienteEditar.getPacientePrimerApellido()+").");
             this.setTabIndex(1);
             mensajeConfirmacion("Los antecedentes se han actualizado.");
         } catch (Exception e) {
@@ -1259,6 +1291,8 @@ public class ExpedientesBean implements Serializable {
             consultaNueva.setConsultaFechaCreacion(fechaSistema);
             consultaNueva.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
             getConsultasFacade().create(consultaNueva);
+            guardarBitacora("Registró una consulta a paciente ("+consultaNueva.getPacienteId().getPacientePrimerNombre()+" "+consultaNueva.getPacienteId().getPacientePrimerApellido()+").");
+            
             if(citaId > 0){
                 citaSeleccionada = getCitasFacade().find(citaId);
                 if(citaSeleccionada != null){
@@ -1295,6 +1329,7 @@ public class ExpedientesBean implements Serializable {
     public void editarConsulta() {
         try{
             getConsultasFacade().edit(consultaEditar);
+            guardarBitacora("Editó una consulta de paciente ("+consultaEditar.getPacienteId().getPacientePrimerNombre()+" "+consultaEditar.getPacienteId().getPacientePrimerApellido()+").");
             this.setTabIndex(2);
             mensajeConfirmacion("La consulta se ha actualizado.");
         } catch (Exception e) {
@@ -1442,6 +1477,7 @@ public class ExpedientesBean implements Serializable {
     public void editarPieza(){
         try{
             getOdontogramasFacade().edit(piezaEditar);
+            guardarBitacora("Editó odontograma de paciente ("+piezaEditar.getPacienteId().getPacientePrimerNombre()+" "+piezaEditar.getPacienteId().getPacientePrimerApellido()+").");
             piezaEditar = new Odontogramas();
             this.setTabIndex(3);
         } catch (Exception e) {
@@ -1454,6 +1490,7 @@ public class ExpedientesBean implements Serializable {
         try{
             if(detalleConsultaNuevo.getDetalleconsultaId() != null){
                 getDetallesConsultasFacade().edit(detalleConsultaNuevo);
+                guardarBitacora("Editó un tratamiento de paciente ("+detalleConsultaNuevo.getPacienteId().getPacientePrimerNombre()+" "+detalleConsultaNuevo.getPacienteId().getPacientePrimerApellido()+").");
                 detalleConsultaNuevo = new DetallesConsultas();
                 this.setTabIndex(3);
                 mensajeConfirmacion("El tratamiento se ha actualizado.");
@@ -1463,6 +1500,7 @@ public class ExpedientesBean implements Serializable {
                 detalleConsultaNuevo.setDetalleconsultaFechaCreacion(fechaSistema);
                 detalleConsultaNuevo.setDetalleconsultaUsuarioCreacio("Nombre Usuario");
                 getDetallesConsultasFacade().create(detalleConsultaNuevo);
+                guardarBitacora("Registró un tratamiento a paciente ("+pacienteEditar.getPacientePrimerNombre()+" "+pacienteEditar.getPacientePrimerApellido()+").");
                 detalleConsultaNuevo = new DetallesConsultas();
                 this.setTabIndex(3);
                 mensajeConfirmacion("El tratamiento se ha guardado.");
@@ -1476,6 +1514,7 @@ public class ExpedientesBean implements Serializable {
     //Método para eliminar un Detalle de Consulta (odontograma_gestionar.xhtml)
     public void eliminarDetalleConsulta() {
         try {
+            guardarBitacora("Eliminó un tratamiento de paciente ("+detalleConsultaEditar.getPacienteId().getPacientePrimerNombre()+" "+detalleConsultaEditar.getPacienteId().getPacientePrimerApellido()+").");
             getDetallesConsultasFacade().remove(detalleConsultaEditar);
             mensajeConfirmacion("El tratamiento se ha eliminado.");
         } catch (Exception e) {
@@ -1533,6 +1572,7 @@ public class ExpedientesBean implements Serializable {
     // Método para eliminar una imagen (imagenes_gestionar.xhtml)
     public void eliminarImagen(){
         try{
+            guardarBitacora("Eliminó una imagen de paciente ("+imagenEditar.getPacienteId().getPacientePrimerNombre()+" "+imagenEditar.getPacienteId().getPacientePrimerApellido()+").");
             getImagenesFacade().remove(imagenEditar);
             eliminarArchivo();
             mensajeConfirmacion("La imagen se ha eliminado.");
@@ -1621,6 +1661,7 @@ public class ExpedientesBean implements Serializable {
             imagenNueva.setImagenFechaCreacion(new Date());
             imagenNueva.setImagenUsuarioCreacion("Nombre Usuario");
             getImagenesFacade().create(imagenNueva);
+            guardarBitacora("Registró una imagen a paciente ("+imagenNueva.getPacienteId().getPacientePrimerNombre()+" "+imagenNueva.getPacienteId().getPacientePrimerApellido()+").");
             Thread.sleep(3000);
             imagenNueva = new Imagenes();
             this.setTabIndex(4);

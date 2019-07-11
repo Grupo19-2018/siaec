@@ -1,11 +1,13 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.ClinicasFacade;
 import dao.ExistenciasFacade;
 import dao.InsumosFacade;
 import dao.MovimientosFacade;
 import dao.TiposInsumosFacade;
 import dao.UnidadesMedidasFacade;
+import entities.Bitacora;
 import entities.Clinicas;
 import entities.Existencias;
 import entities.Insumos;
@@ -35,6 +37,10 @@ public class InsumosBean implements Serializable {
 //                          Declaración de variables                          //
 //****************************************************************************//
     
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
+
     @EJB
     private InsumosFacade insumosFacade;
     private Insumos insumoNuevo = new Insumos();
@@ -138,6 +144,10 @@ public class InsumosBean implements Serializable {
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//    
     
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
     public InsumosFacade getInsumosFacade() {
         return insumosFacade;
     }
@@ -242,10 +252,29 @@ public class InsumosBean implements Serializable {
     public void setExistenciaId(int existenciaId) {
         this.existenciaId = existenciaId;
     }
+    
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
             
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
+
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
 
     //Método para guardar un nuevo Insumo (insumo_nuevo.xhtml)
     public void guardarInsumo(){
@@ -261,6 +290,7 @@ public class InsumosBean implements Serializable {
               getExistenciasFacade().create(existenciaNueva);
               existenciaNueva = new Existencias();
             }
+            guardarBitacora("Registró un insumo ("+insumoNuevo.getInsumoNombre()+").");
             insumoNuevo = new Insumos();
             mensajeConfirmacion("El insumo se ha guardado.");
         } catch (Exception e) {
@@ -273,6 +303,7 @@ public class InsumosBean implements Serializable {
             insumoEditar.setInsumoUsuarioModificacion("Nombre de usuario");
             insumoEditar.setInsumoFechaModificacion(new Date());
             getInsumosFacade().edit(insumoEditar);
+            guardarBitacora("Editó un insumo ("+insumoEditar.getInsumoNombre()+").");
             mensajeConfirmacion("El insumo se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarInsumo.");
@@ -286,6 +317,7 @@ public class InsumosBean implements Serializable {
             insumoEditar.setInsumoUsuarioModificacion("Nombre de usuario");
             insumoEditar.setInsumoFechaModificacion(new Date());
             getInsumosFacade().edit(insumoEditar);
+            guardarBitacora("Eliminó un insumo ("+insumoEditar.getInsumoNombre()+").");
             mensajeConfirmacion("El insumo se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarInsumo.");
@@ -324,9 +356,11 @@ public class InsumosBean implements Serializable {
             movimientoNuevo.setExistenciaId(new Existencias(existenciaEditar.getExistenciaId()));
             getMovimientosFacade().create(movimientoNuevo);
             if(movimientoNuevo.getMovimientoTipo()){
+                guardarBitacora("Ingresó existencias de insumo ("+existenciaEditar.getInsumoId().getInsumoNombre()+").");
                 mensajeConfirmacion("La entrada de insumo se ha guardado.");
             }
             else{
+                guardarBitacora("Retiró existencias de insumo ("+existenciaEditar.getInsumoId().getInsumoNombre()+").");
                 mensajeConfirmacion("La salida de insumo se ha guardado.");
             }
             existenciaEditar = new Existencias();

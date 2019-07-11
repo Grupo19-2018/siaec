@@ -1,9 +1,12 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +21,10 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class SesionBean implements Serializable {
+
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
 
     @EJB
     private UsuariosFacade usuariosFacade;
@@ -38,6 +45,12 @@ public class SesionBean implements Serializable {
 //****************************************************************************//
 //                                   Métodos                                  //
 //****************************************************************************//
+    
+    //Método Get para obtener datos de entidad Bitacora
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
     //Método Get para obtener datos de entidad Usuarios
     public UsuariosFacade getUsuariosFacade() {
         return usuariosFacade;
@@ -61,6 +74,7 @@ public class SesionBean implements Serializable {
                 } else if (usuarioLogueado.getUsuarioContrasenia().equals(password)) {
                     if(usuarioLogueado.getUsuarioActivacion()){
                         appSession.setUsuario(usuarioLogueado);
+                        guardarBitacora("Inicio sesion.");
                         //System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
                         usuarioLogueado.setUsuarioIntentoFallido(0);
                         //System.out.println("AppSession: "+appSession.getUsuario().getUsuarioUsuario());
@@ -122,6 +136,18 @@ public class SesionBean implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
         } catch (IOException e) {
             mensajeError("Se detuvo el proceso en el método: salirSistema.");
+        }
+    }
+
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
         }
     }
 
@@ -193,6 +219,11 @@ public class SesionBean implements Serializable {
         this.codigo = codigo;
     }
 
-    
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
  
 }

@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 
@@ -71,7 +72,7 @@ public class SesionBean implements Serializable {
                     mensajeError("El usuario no existe.");
                 } else if (!(usuarioLogueado.getUsuarioBloqueado())) {
                     mensajeError("Su cuenta está bloqueada.");
-                } else if (usuarioLogueado.getUsuarioContrasenia().equals(password)) {
+                } else if (usuarioLogueado.getUsuarioContrasenia().equals(DigestUtils.md5Hex(password))) {
                     if(usuarioLogueado.getUsuarioActivacion()){
                         appSession.setUsuario(usuarioLogueado);
                         guardarBitacora("Inicio sesion.");
@@ -122,7 +123,7 @@ public class SesionBean implements Serializable {
                 mensajeError("El código ingresado es incorrecto.");
             }
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: iniciarSesion.");
+            mensajeError("No se ingresó un código.");
         }
     }
 

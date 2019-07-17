@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
@@ -279,6 +280,11 @@ public class HomeBean implements Serializable {
         return "Sin teléfono";
     }
     
+    public void reenviarCodigo(String usuario){
+        Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
+        enviarCorreo(usuarioLogueado);
+    } 
+    
     public void enviarCorreo(Usuarios usuario) {
         configuracionCorreo = getConfiguracionFacade().find(1);
         try {
@@ -363,6 +369,7 @@ public class HomeBean implements Serializable {
             usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
             usuarioNuevo.setUsuarioActivacion(Boolean.FALSE);
+            usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
             enviarCorreo(usuarioNuevo);
             getUsuariosFacade().create(usuarioNuevo);
                 PrimeFaces current = PrimeFaces.current();

@@ -44,6 +44,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.context.RequestContext;
 
 /* @author Equipo 19-2018 FIA-UES */
@@ -1085,6 +1086,7 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
             usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
             usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
+            usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
             if(rolId == 3){
                 usuarioNuevo.setMedicoId(new Medicos(medicoId));
                 medicoSeleccionado = getMedicosFacade().find(medicoId);

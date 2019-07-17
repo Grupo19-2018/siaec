@@ -158,3 +158,7 @@ UPDATE dashboard set dashboard_imagen = '/templates/dashboard/administracion.png
 --Update 81
 --Actualizando tipo de dato para fecha y hora en bitacora
 ALTER TABLE bitacora ALTER COLUMN bitacora_fecha_hora SET DATA TYPE TIMESTAMP;
+
+--Update 82
+--Encriptando la contrasenia de todos los registros en la base equivalente a 000000
+UPDATE usuarios SET usuario_contrasenia = '670b14728ad9902aecba32e22fa4f6bd';

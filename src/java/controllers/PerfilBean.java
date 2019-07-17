@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.context.RequestContext;
 
 /* @author Equipo 19-2018 FIA-UES */
@@ -147,7 +148,7 @@ public class PerfilBean implements Serializable {
         try {
             if(contraseniaNueva2.equals(contraseniaNueva1)){
                 usuarioLogueado = appSession.getUsuario();
-                usuarioLogueado.setUsuarioContrasenia(contraseniaNueva1);
+                usuarioLogueado.setUsuarioContrasenia(DigestUtils.md5Hex(contraseniaNueva1));
                 getUsuariosFacade().edit(usuarioLogueado);
                 contraseniaNueva1 = "";
                 contraseniaNueva2 = "";
@@ -172,7 +173,7 @@ public class PerfilBean implements Serializable {
             banderaPanel2 = false;
             banderaPanel3 = false;
             banderaPanel4 = false;
-            if (contraseniaActual.equals(appSession.getUsuario().getUsuarioContrasenia())) {
+            if (DigestUtils.md5Hex(contraseniaActual).equals(appSession.getUsuario().getUsuarioContrasenia())) {
                 banderaPanel1 = false;
                 banderaPanel2 = true;
                 banderaPanel3 = false;
@@ -193,14 +194,14 @@ public class PerfilBean implements Serializable {
             banderaPanel2 = true;
             banderaPanel3 = false;
             banderaPanel3 = false;
-            if (contraseniaNueva1.length() > 5 && contraseniaNueva1.length() < 21) {
+            if (contraseniaNueva1.length() > 5 && contraseniaNueva1.length() < 11) {
                 banderaPanel1 = false;
                 banderaPanel2 = false;
                 banderaPanel3 = true;
                 banderaPanel4 = false;
             }
             else{
-                addMensaje("La contraseña debe tener entre 6 y 20 caracteres.");
+                addMensaje("La contraseña debe tener entre 6 y 10 caracteres.");
             }
         } catch (Exception e){
             mensajeError("Se detuvo el proceso en el método: nuevaContrasenia.");

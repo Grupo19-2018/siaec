@@ -61,19 +61,19 @@
                                                 <h:outputText value="#{((promocionesBean.fechaSistema ge promo.promocionInicio) and (promo.promocionFin ge promocionesBean.fechaSistema))?'Activa':'Inactiva'}"/>
                                             </td>
                                             <td align="center">
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(16)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(10)}">
                                                     <h:link outcome="PromocionConsultar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-search" title="Consultar">
                                                         <f:param name="promocionconsultar" value="#{promo.promocionId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 &nbsp;
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(17)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(11)}">
                                                     <h:link outcome="PromocionEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
                                                         <f:param name="promocioneditar" value="#{promo.promocionId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 &nbsp;
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(18)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(12)}">
                                                     <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                    pt:data-toggle="modal" pt:data-target="#eliminarPromocion">
                                                         <f:setPropertyActionListener value="#{promo}" target="#{promocionesBean.promocionEditar}"/>

@@ -54,13 +54,13 @@
                                             <td align="center"></td>
                                             <td>#{pato.patologiaNombre}</td>
                                             <td align="center">
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(27)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(21)}">
                                                     <h:link outcome="PatologiasEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
                                                         <f:param name="patologia" value="#{pato.patologiaId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 &nbsp;
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(28)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(22)}">
                                                     <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                    pt:data-toggle="modal" pt:data-target="#eliminarPatologia">
                                                         <f:setPropertyActionListener value="#{pato}" target="#{catalogosBean.patologiaEditar}"/>

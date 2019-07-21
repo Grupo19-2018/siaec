@@ -223,7 +223,7 @@ public class AdministracionBean implements Serializable {
     public void setSubmenu3(List<Submenus> submenu3) {
         sGestionarInsumos = false;
         for (Submenus submenus : submenu3) {
-            if (submenus.getSubmenuId() == 13) {
+            if (submenus.getSubmenuId() == 11) {
                 sGestionarInsumos = true;
             }
         }
@@ -237,7 +237,7 @@ public class AdministracionBean implements Serializable {
     public void setSubmenu4(List<Submenus> submenu4) {
         sListadoPromociones = false;
         for (Submenus submenus : submenu4) {
-            if (submenus.getSubmenuId() == 19) {
+            if (submenus.getSubmenuId() == 17) {
                 sListadoPromociones = true;
             }
         }
@@ -265,22 +265,22 @@ public class AdministracionBean implements Serializable {
         sGestionarUnidadMedida = false;
         for (Submenus submenus : submenu6) {
             switch (submenus.getSubmenuId()) {
-                case 34:
+                case 31:
                     sGestionarSucursales = true;
                     break;
-                case 35:
+                case 32:
                     sGestionarMedicos = true;
                     break;
-                case 36:
+                case 33:
                     sGestionarTratamientos = true;
                     break;
-                case 37:
+                case 34:
                     sGestionarPatologias = true;
                     break;
-                case 38:
+                case 35:
                     sGestionarTipoInsumo = true;
                     break;
-                case 39:
+                case 36:
                     sGestionarUnidadMedida = true;
                     break;
             }
@@ -522,7 +522,7 @@ public class AdministracionBean implements Serializable {
             if (!submenu3.isEmpty()) {
                 for (Submenus list : submenu3) {
                     //Pantalla: Gestionar Insumos
-                    if (list.getSubmenuId() == 13) {
+                    if (list.getSubmenuId() == 11) {
                         for (Privilegios pri : gestionarInsumos) {
                             tempPrivilegios.add(pri);
                         }
@@ -535,7 +535,7 @@ public class AdministracionBean implements Serializable {
             if (!submenu4.isEmpty()) {
                 for (Submenus list : submenu4) {
                     //Pantalla: Listado de Promociones
-                    if (list.getSubmenuId() == 19) {
+                    if (list.getSubmenuId() == 17) {
                         for (Privilegios pri : listadoPromociones) {
                             tempPrivilegios.add(pri);
                         }
@@ -555,37 +555,37 @@ public class AdministracionBean implements Serializable {
             if (!submenu6.isEmpty()) {
                 for (Submenus list : submenu6) {
                     //Pantalla: Gestionar Sucursales
-                    if (list.getSubmenuId() == 34) {
+                    if (list.getSubmenuId() == 31) {
                         for (Privilegios pri : gestionarSucursales) {
                             tempPrivilegios.add(pri);
                         }
                     }
                     //Pantalla: Gestionar Medicos
-                    if (list.getSubmenuId() == 35) {
+                    if (list.getSubmenuId() == 32) {
                         for (Privilegios pri : gestionarMedicos) {
                             tempPrivilegios.add(pri);
                         }
                     }
                     //Pantalla: Gestionar Tratamientos
-                    if (list.getSubmenuId() == 36) {
+                    if (list.getSubmenuId() == 33) {
                         for (Privilegios pri : gestionarTratamientos) {
                             tempPrivilegios.add(pri);
                         }
                     }
                     //Pantalla: Gestionar Tipo de Insumo
-                    if (list.getSubmenuId() == 37) {
+                    if (list.getSubmenuId() == 34) {
                         for (Privilegios pri : gestionarPatologias) {
                             tempPrivilegios.add(pri);
                         }
                     }
                     //Pantalla: Gestionar Tipo de Insumo
-                    if (list.getSubmenuId() == 38) {
+                    if (list.getSubmenuId() == 35) {
                         for (Privilegios pri : gestionarTipoInsumo) {
                             tempPrivilegios.add(pri);
                         }
                     }
                     //Pantalla: Gestionar Tipo de Insumo
-                    if (list.getSubmenuId() == 39) {
+                    if (list.getSubmenuId() == 36) {
                         for (Privilegios pri : gestionarUnidadMedida) {
                             tempPrivilegios.add(pri);
                         }
@@ -661,7 +661,7 @@ public class AdministracionBean implements Serializable {
                             break;
                         case 3:
                             switch (item.getSubmenuId()) {
-                                case 13:
+                                case 11:
                                     sGestionarInsumos = true;
                                     break;
                             }
@@ -669,7 +669,7 @@ public class AdministracionBean implements Serializable {
                             break;
                         case 4:
                             switch (item.getSubmenuId()) {
-                                case 19:
+                                case 17:
                                     sListadoPromociones = true;
                                     break;
                             }
@@ -680,22 +680,22 @@ public class AdministracionBean implements Serializable {
                             break;
                         case 6:
                             switch (item.getSubmenuId()) {
-                                case 34:
+                                case 32:
                                     sGestionarSucursales = true;
                                     break;
-                                case 35:
+                                case 33:
                                     sGestionarMedicos = true;
                                     break;
-                                case 36:
+                                case 34:
                                     sGestionarTratamientos = true;
                                     break;
-                                case 37:
+                                case 35:
                                     sGestionarPatologias = true;
                                     break;
                                 case 38:
                                     sGestionarTipoInsumo = true;
                                     break;
-                                case 39:
+                                case 36:
                                     sGestionarUnidadMedida = true;
                                     break;
                             }
@@ -724,40 +724,40 @@ public class AdministracionBean implements Serializable {
                     case 6:
                         citasPendientes.add(privilegio);
                         break;
+                    case 7:
+                    case 8:
+                    case 9:
+                        gestionarInsumos.add(privilegio);
+                        break;
+                    case 10:
+                    case 11:
+                    case 12:
+                        listadoPromociones.add(privilegio);
+                        break;
                     case 13:
                     case 14:
                     case 15:
-                        gestionarInsumos.add(privilegio);
+                        gestionarSucursales.add(privilegio);
                         break;
                     case 16:
                     case 17:
                     case 18:
-                        listadoPromociones.add(privilegio);
+                        gestionarMedicos.add(privilegio);
                         break;
                     case 19:
                     case 20:
-                    case 21:
-                        gestionarSucursales.add(privilegio);
+                        gestionarTratamientos.add(privilegio);
                         break;
+                    case 21:
                     case 22:
+                        gestionarPatologias.add(privilegio);
+                        break;
                     case 23:
                     case 24:
-                        gestionarMedicos.add(privilegio);
+                        gestionarTipoInsumo.add(privilegio);
                         break;
                     case 25:
                     case 26:
-                        gestionarTratamientos.add(privilegio);
-                        break;
-                    case 27:
-                    case 28:
-                        gestionarPatologias.add(privilegio);
-                        break;
-                    case 29:
-                    case 30:
-                        gestionarTipoInsumo.add(privilegio);
-                        break;
-                    case 31:
-                    case 32:
                         gestionarUnidadMedida.add(privilegio);
                         break;
                 }
@@ -923,7 +923,7 @@ public class AdministracionBean implements Serializable {
             if (!submenu3.isEmpty()) {
                 for (Submenus list : submenu3) {
                     //Pantalla: Gestionar Insumos
-                    if (list.getSubmenuId() == 13) {
+                    if (list.getSubmenuId() == 11) {
                         for (Privilegios pri : gestionarInsumos) {
                             tempPrivilegios.add(pri);
                         }
@@ -937,7 +937,7 @@ public class AdministracionBean implements Serializable {
             if (!submenu4.isEmpty()) {
                 for (Submenus list : submenu4) {
                     //Pantalla: Listado de Promociones
-                    if (list.getSubmenuId() == 19) {
+                    if (list.getSubmenuId() == 17) {
                         for (Privilegios pri : listadoPromociones) {
                             tempPrivilegios.add(pri);
                         }
@@ -959,32 +959,32 @@ public class AdministracionBean implements Serializable {
             if (!submenu6.isEmpty()) {
                 for (Submenus list : submenu6) {
                     switch (list.getSubmenuId()) {
-                        case 34: //Pantalla: Gestionar Sucursales
+                        case 31: //Pantalla: Gestionar Sucursales
                             for (Privilegios pri : gestionarSucursales) {
                                 tempPrivilegios.add(pri);
                             }
                             break;
-                        case 35: //Pantalla: Gestionar Medicos
+                        case 32: //Pantalla: Gestionar Medicos
                             for (Privilegios pri : gestionarMedicos) {
                                 tempPrivilegios.add(pri);
                             }
                             break;
-                        case 36: //Pantalla: Gestionar Tratamientos
+                        case 33: //Pantalla: Gestionar Tratamientos
                             for (Privilegios pri : gestionarTratamientos) {
                                 tempPrivilegios.add(pri);
                             }
                             break;
-                        case 37: //Pantalla: Gestionar Tipo de Insumo
+                        case 34: //Pantalla: Gestionar Patologia 
                             for (Privilegios pri : gestionarPatologias) {
                                 tempPrivilegios.add(pri);
                             }
                             break;
-                        case 38: //Pantalla: Gestionar Tipo de Insumo
+                        case 35: //Pantalla: Gestionar Tipo de Insumo
                             for (Privilegios pri : gestionarTipoInsumo) {
                                 tempPrivilegios.add(pri);
                             }
                             break;
-                        case 39: //Pantalla: Gestionar Tipo de Insumo
+                        case 36: //Pantalla: Gestionar Unidad de Medida 
                             for (Privilegios pri : gestionarUnidadMedida) {
                                 tempPrivilegios.add(pri);
                             }

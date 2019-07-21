@@ -193,7 +193,7 @@
                             <p:outputLabel value="Gestionar Insumos" rendered="#{AdministracionBean.getsGestionarInsumos()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarInsumos() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarInsumos}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(13)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(11)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
                         </p:panel>
@@ -204,7 +204,7 @@
                             <p:outputLabel value="Listado de Promociones" rendered="#{AdministracionBean.getsListadoPromociones()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsListadoPromociones() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.listadoPromociones}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(19)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(17)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
                         </p:panel>
@@ -223,35 +223,35 @@
                             <p:outputLabel value="Gestionar Medicos" rendered="#{AdministracionBean.getsGestionarMedicos()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarMedicos() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarMedicos}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(35)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(32)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
 
                             <p:outputLabel value="Gestionar Tratamientos" rendered="#{AdministracionBean.getsGestionarTratamientos()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarTratamientos() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarTratamientos}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(36)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(33)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
 
                             <p:outputLabel value="Gestionar Patologias" rendered="#{AdministracionBean.getsGestionarPatologias()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarPatologias() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarPatologias}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(37)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(34)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
 
                             <p:outputLabel value="Gestionar Tipo de Insumo" rendered="#{AdministracionBean.getsGestionarTipoInsumo()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarTipoInsumo() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarTipoInsumo}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(38)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(35)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
 
                             <p:outputLabel value="Gestionar Unidades de Medida" rendered="#{AdministracionBean.getsGestionarUnidadMedida()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarUnidadMedida() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarUnidadMedida}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(39)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(36)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
                         </p:panel>

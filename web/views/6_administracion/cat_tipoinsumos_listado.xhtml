@@ -56,13 +56,13 @@
                                             <td>#{tipo.tipoinsumoNombre}</td>
                                             <td>#{tipo.tipoinsumoDescripcion}</td>
                                             <td align="center">
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(29)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(23)}">
                                                     <h:link outcome="TipoInsumosEditar" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-pencil" title="Editar">
                                                         <f:param name="tipoinsumo" value="#{tipo.tipoinsumoId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 &nbsp;
-                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(30)}">
+                                                <h:panelGroup rendered="#{appSession.usuario.rolId.privilegio(24)}">
                                                     <h:commandLink class="btn btn-default glyphicon glyphicon-trash btn-sm btn-tabla-expediente2" title="Eliminar"
                                                                    pt:data-toggle="modal" pt:data-target="#eliminarTipoinsumo">
                                                         <f:setPropertyActionListener value="#{tipo}" target="#{catalogosBean.tipoInsumoEditar}"/>

@@ -134,7 +134,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>CitasListaAprobadas</from-outcome>
-            <to-view-id>/views/1_citas/cita_clinica_listado_aprobadas.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/views/1_citas/cita_clinica_listado_confirmadas.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>CitasListaPendientes</from-outcome>

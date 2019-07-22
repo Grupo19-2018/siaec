@@ -7,13 +7,17 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{citasBean.verificaAcceso(5)}"/>
                 <f:viewAction action="#{citasBean.cargarPaciente()}"/>
                 <f:viewAction action="#{citasBean.pantallaCita(1)}"/>
             </f:metadata>
         </ui:define>
+        
         <ui:define name="content">
+            
             <div class="banda1"><b>NUEVA CITA</b></div>
             <br/>
             <!-- Panel color blanco -->

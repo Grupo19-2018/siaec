@@ -1746,10 +1746,7 @@ public class ExpedientesBean implements Serializable {
     }
     
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
-    public void verificaAcceso(String pagina){
-        //System.out.println("Entra al método del usuario.");
-        //System.out.println("Valor de parámetro: " + pagina);
-        //System.out.println("Valor de usuario: " + appSession.getUsuario().getUsuarioPrimerNombre());
+    public void verificaAcceso(int pagina){
         boolean acceso = false;
         try{
             FacesContext context = FacesContext.getCurrentInstance();
@@ -1763,7 +1760,7 @@ public class ExpedientesBean implements Serializable {
                 if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
                     for (Submenus submenu : todosSubmenusDisponibles()){
                         //System.out.println("Submenu: " + submenu.getSumbenuNombre());
-                        if(submenu.getSumbenuNombre().equals(pagina)){
+                        if(submenu.getSubmenuId() == pagina){
                             acceso = true;
                         }
                     }

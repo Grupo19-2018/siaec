@@ -463,7 +463,7 @@ public class PromocionesBean implements Serializable {
     }
 
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
-    public void verificaAcceso(String pagina) {
+    public void verificaAcceso(int pagina) {
         //System.out.println("Entra al método del usuario.");
         boolean acceso = false;
         try {
@@ -476,7 +476,7 @@ public class PromocionesBean implements Serializable {
             } else if (!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())) {
                 for (Submenus submenu : todosSubmenusDisponibles()) {
                     //System.out.println("Submenu: " + submenu.getSumbenuNombre());
-                    if (submenu.getSumbenuNombre().equals(pagina)) {
+                    if (submenu.getSubmenuId() == pagina) {
                         acceso = true;
                     }
                 }

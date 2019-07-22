@@ -9,6 +9,13 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
 
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <f:viewAction action="#{reportesBean.verificaAcceso(21)}"/>
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
             <div class="banda1"><b>LISTADO DE PACIENTES ATENDIDOS POR TRATAMIENTO</b></div>
             <br/>
 

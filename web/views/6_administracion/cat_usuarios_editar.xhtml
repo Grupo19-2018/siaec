@@ -11,7 +11,7 @@
 
             <ui:define name="meta-data">
                 <f:metadata>
-                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Usuarios')}"/>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso(30)}"/>
                     <f:viewParam name="usuarioeditar" value="#{catalogosBean.usuarioUsuario}"/>
                     <f:event type="preRenderView" listener="#{catalogosBean.cargarUsuarioEditar()}"/>
                 </f:metadata>

@@ -13,7 +13,9 @@ import entities.Clinicas;
 import entities.Configuraciones;
 import entities.Medicos;
 import entities.Pacientes;
+import entities.Submenus;
 import entities.Usuarios;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +25,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import util.CorreoBasico;
 import util.CorreoPlantilla;
 
@@ -673,4 +677,39 @@ public class CitasBean implements Serializable {
         setTelefono(p.getPacienteTelefonoMovil());
         setCorreo(p.getPacienteCorreo());
     }
+    
+    //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
+    public void verificaAcceso(int pagina){
+        //System.out.println("Entra al método del usuario.");
+        boolean acceso = false;
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+            String contextPath = origRequest.getContextPath();
+
+            if(appSession.getUsuario() == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+            else{
+                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
+                    for (Submenus submenu : todosSubmenusDisponibles()){
+                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        if(submenu.getSubmenuId() == pagina){
+                            acceso = true;
+                        }
+                    }
+                }
+            }
+            if(!acceso){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+        } catch(IOException e){
+            System.out.println("La variable appSession es nula.");
+        }
+    }
+    
+    public List<Submenus> todosSubmenusDisponibles(){
+        return appSession.getUsuario().getRolId().getSubmenusList();
+    }
+    
 }

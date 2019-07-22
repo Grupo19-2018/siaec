@@ -9,6 +9,7 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{citasBean.verificaAcceso(6)}"/>
                 <f:viewParam name="citaConsultarId" value="#{citasBean.citaConsultarId}"/>
                 <f:viewAction action="#{citasBean.cargarCitaConsultar()}"/>
             </f:metadata>

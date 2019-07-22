@@ -11,7 +11,7 @@
 
             <ui:define name="meta-data">
                 <f:metadata>
-                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Sucursales')}"/>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso(31)}"/>
                     <f:viewParam name="sucursalconsultar" value="#{catalogosBean.sucursalId}"/>
                     <f:event type="preRenderView" listener="#{catalogosBean.cargarSucursalConsultar()}"/>
                 </f:metadata>

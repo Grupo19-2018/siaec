@@ -14,6 +14,7 @@ and open the template in the editor.
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{insumosBean.verificaAcceso(39)}"/>
                 <f:viewAction action="#{configuracionBean.cargarConfiguracion()}"/>
             </f:metadata>
         </ui:define>

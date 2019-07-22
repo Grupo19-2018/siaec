@@ -11,7 +11,7 @@
             
             <ui:define name="meta-data">
                 <f:metadata>
-                    <f:viewAction action="#{expedientesBean.verificaAcceso('Gestionar Expediente')}"/>
+                    <f:viewAction action="#{expedientesBean.verificaAcceso(10)}"/>
                     <f:viewParam name="expedientegestionar" value="#{expedientesBean.expedienteId}"/>
                     <f:viewParam name="citaid" value="#{expedientesBean.citaId}"/>
                     <f:viewParam name="consultaseleccionada" value="#{expedientesBean.consultaId}"/>

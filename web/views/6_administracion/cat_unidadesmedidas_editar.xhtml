@@ -11,7 +11,7 @@
 
             <ui:define name="meta-data">
                 <f:metadata>
-                    <f:viewAction action="#{catalogosBean.verificaAcceso('Gestionar Unidades de Medida')}"/>
+                    <f:viewAction action="#{catalogosBean.verificaAcceso(36)}"/>
                     <f:viewParam name="unidadmedida" value="#{catalogosBean.unidadMedidaId}"/>
                     <f:event type="preRenderView" listener="#{catalogosBean.cargarUnidadMedida()}"/>
                 </f:metadata>

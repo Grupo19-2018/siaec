@@ -9,7 +9,7 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
-                <f:viewAction action="#{expedientesBean.verificaAcceso('Gestionar Expediente')}"/>
+                <f:viewAction action="#{expedientesBean.verificaAcceso(10)}"/>
                 <f:viewAction action="#{expedientesBean.inicializaBusquedaPaciente()}" />
             </f:metadata>
         </ui:define>

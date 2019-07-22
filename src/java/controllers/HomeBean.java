@@ -7,6 +7,7 @@ import dao.UsuariosFacade;
 import entities.Configuraciones;
 import entities.Pacientes;
 import entities.Roles;
+import entities.Submenus;
 import entities.Usuarios;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
@@ -78,7 +80,9 @@ public class HomeBean implements Serializable {
         this.valorContra = valorContra;
     }
     
-    
+    //Session
+    @ManagedProperty(value = "#{appSession}")
+    private AppSession appSession;
     
     public HomeBean() {
     }
@@ -224,6 +228,13 @@ public class HomeBean implements Serializable {
         this.fileLogin = fileLogin;
     }
 
+    public AppSession getAppSession() {
+        return appSession;
+    }
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+    
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//   
@@ -609,4 +620,38 @@ public class HomeBean implements Serializable {
         configuracionEditar = getConfiguracionesFacade().find(1);
     }
 
+    //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
+    public void verificaAcceso(int pagina){
+        //System.out.println("Entra al método del usuario.");
+        boolean acceso = false;
+        try{
+            FacesContext context = FacesContext.getCurrentInstance();
+            HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+            String contextPath = origRequest.getContextPath();
+
+            if(appSession.getUsuario() == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+            else{
+                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
+                    for (Submenus submenu : todosSubmenusDisponibles()){
+                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
+                        if(submenu.getSubmenuId() == pagina){
+                            acceso = true;
+                        }
+                    }
+                }
+            }
+            if(!acceso){
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            }
+        } catch(IOException e){
+            System.out.println("La variable appSession es nula.");
+        }
+    }
+    
+    public List<Submenus> todosSubmenusDisponibles(){
+        return appSession.getUsuario().getRolId().getSubmenusList();
+    }
+    
 }

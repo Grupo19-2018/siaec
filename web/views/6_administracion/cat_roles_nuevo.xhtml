@@ -10,6 +10,7 @@
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="meta-data">
             <f:metadata>
+                <f:viewAction action="#{catalogosBean.verificaAcceso(29)}"/>
                 <f:viewAction action="#{AdministracionBean.limpiandoNuevoRol()}" />
             </f:metadata>
         </ui:define>

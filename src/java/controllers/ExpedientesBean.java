@@ -1038,6 +1038,8 @@ public class ExpedientesBean implements Serializable {
             pacienteNuevo.setPacienteFechaCreacion(new Date());
             pacienteNuevo.setPacienteEstado(Boolean.TRUE);
             pacienteNuevo.setPacienteRecordatorio(Boolean.TRUE);
+            pacienteNuevo.setPacientePromocionCumpleanyos(Boolean.FALSE);
+            pacienteNuevo.setPacientePromocionGeneral(Boolean.FALSE);
             /*Codigo agregado para guardar cuando se quiera anexar un usuario valido*/
             //Valir la String que sea diferente de ""
             //y valir que exista un usuario con ese tipo

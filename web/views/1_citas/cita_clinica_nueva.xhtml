@@ -130,7 +130,7 @@
                                         <f:actionListener binding="#{citasBean.guardarCita()}" />
                                     </p:commandButton>
 
-                                    <button type="reset" class="btn " onclick="window.location.href = '/siaec/dashboard.xhtml'"
+                                    <button type="reset" class="btn " onclick="window.location.href = '#{request.contextPath}/dashboard.xhtml'"
                                             style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:grey; font-weight:bold; border:solid 1px grey; -webkit-appearance:none; border-radius: 5px">
                                         <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
                                     </button>

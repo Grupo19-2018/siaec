@@ -203,6 +203,21 @@ public class tareasProgramadasBean {
             System.err.println(e);
         }
     }
+    
+    @Schedule(dayOfMonth = "1", hour = "1", minute = "0", persistent = false)
+    public void reiniciarEnvioPromociones(){
+        try {
+            List<Pacientes> p = getPacientesFacade().findAll();
+            for (Pacientes paciente : p ) {
+                paciente.setPacientePromocionGeneral(Boolean.FALSE);
+                paciente.setPacientePromocionCumpleanyos(Boolean.FALSE);
+                getPacientesFacade().edit(paciente);
+            }
+        } catch (Exception e) {
+            System.err.println("Error en el metodo reiniciarEnvioPromocionesGenerales, fecha: " + new Date());
+            System.err.println(e);
+        }
+    }
 
 //****************************************************************************//
 //                   Métodos para tareas programas                            //

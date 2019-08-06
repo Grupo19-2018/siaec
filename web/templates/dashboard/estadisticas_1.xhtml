@@ -2,26 +2,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES</b></div>
+    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES - CITAS DEL DÍA</b></div>
     <br/>
 
-    <!-- Panel color blanco -->
-    <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-        <div class="banda2"><b> CITAS DEL DÍA</b></div>
-        <p:spacer height="10"/>
-        <h:form>
-
+    <h:form id="estadistica">
+        <!-- Panel color blanco -->
+        <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
             <div class="row">
                 <div class="col-lg-12">
                     #{dashboard.cantidadCitasDia(sesionBean.appSession.usuario)}
                     &nbsp;
                     <h:link outcome="AgendaDoctor" class="btn btn-default glyphicon glyphicon-calendar btn-sm btn-tabla-naranja " title="Ver agenda de citas">
                     </h:link> 
-
                 </div>
             </div>
 
@@ -53,24 +49,14 @@
                                             <span style="font-weight: bold">
                                                 <h:outputText value="#{cita.citaHora}">
                                                     <f:convertDateTime dateStyle="full" pattern="HH:mm" timeZone="GMT-6"/>
-                                                </h:outputText> 
+                                                </h:outputText>  
                                             </span>
                                         </td>
                                         <td align="left">
-                                            <h:panelGroup rendered="#{cita.pacienteId != null}">
-                                                #{cita.pacienteId.pacientePrimerNombre} #{cita.pacienteId.pacienteSegundoNombre} #{cita.pacienteId.pacientePrimerApellido} #{cita.pacienteId.pacienteSegundoApellido}
-                                            </h:panelGroup>
-                                            <h:panelGroup rendered="#{cita.pacienteId == null}">
-                                                #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido}
-                                            </h:panelGroup>  
+                                            <span style="font-weight: bold">Nombres</span>  
                                         </td>
                                         <td align="center">
-                                            <h:panelGroup rendered="#{cita.pacienteId != null}">
-                                                #{cita.pacienteId.pacienteTelefonoMovil}
-                                            </h:panelGroup>
-                                            <h:panelGroup rendered="#{cita.pacienteId == null}">
-                                                #{cita.usuarioUsuario.usuarioTelefono}
-                                            </h:panelGroup>
+                                            Telefono
                                         </td>
                                         <td>
                                             <center>
@@ -91,55 +77,54 @@
                                                     <f:param name="retorno" value="1"/>
                                                 </h:link>
                                                 &nbsp;
-                                                <!--Casos para mostrar los botones para el dashboard. -->
-                                                <!--Caso 1: Solo tiene expediente-->
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>
                                                     </h:link>
                                                     &nbsp;
-                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon  glyphicon-file  btn-sm btn-tabla-expediente2" title="Nueva consulta">
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
                                                         <f:param name="expedientegestionar" value="#{cita.pacienteId.pacienteId}"/>
                                                         <f:param name="citaid" value="#{cita.citaId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
                                                     </h:link> 
                                                     &nbsp;
-                                                    <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" title="Crear un usuario">
+                                                    <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-phone-alt btn-sm btn-tabla-expediente2" title="Crear un usuario">
                                                         <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
-                                                <!--Caso 2: Solo tiene usuario-->
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
-                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear expediente">
+                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Ver expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link> 
                                                     &nbsp;
                                                     <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                     </h:link>
-                                                </h:panelGroup>
-                                                <!--Caso 3: Tiene expediente y usuario-->
+                                                </h:panelGroup> 
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Ver expediente">
-                                                        <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
-                                                        <f:param name="consultaseleccionada" value="#{0}"/>
-                                                        <f:param name="tabindex" value="#{0}"/>
-                                                    </h:link>
-                                                    &nbsp;
-                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Nueva consulta">
+                                                    <h:link outcome="ConsultaNueva" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Nueva consulta">
                                                         <f:param name="expedientegestionar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                         <f:param name="citaid" value="#{cita.citaId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{2}"/>
-                                                    </h:link> 
+                                                    </h:link> &nbsp;
+
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                        <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
+
+
                                                 </h:panelGroup>
-                                                <!--Caso 4: Error -->
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
                                                     Error
                                                 </h:panelGroup>
+
+
                                             </center>
                                         </td>
                                     </tr>
@@ -148,19 +133,93 @@
                         </table>
                     </div>
 
-
                 </div>
                 <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-
             </div>
 
-        </h:form>
-    </p:panel>
+            <div class="row margen-estadisticas-tablero" >
+                <div class="col-md-12">
+                    <div class="col-md-4" >
+                        <p:panel class="estadisticas" style="padding: 0">
+                            <div style="text-align: center">Total de pacientes registrados </div>
+                            <div style="text-align: center">#{dashboard.totalPacientesRegistrado()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4">
+                        <p:panel class="estadisticas" style="padding: 0">
+                            <div style="text-align: center">Total de paciente registrados en éste mes</div>
+                            <div style="text-align: center">#{dashboard.pacientesRegistradosMes()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4" >
+                        <p:panel  class="estadisticas" style="padding: 0">
+                            <div style="text-align: center">Total de consultas realizadas</div>
+                            <div style="text-align: center">#{dashboard.totalConsultasRealizadas()}</div>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="row margen-estadisticas-tablero">
+                <div class="col-md-12">
+                    <div class="col-md-12" >
+                        <p:selectOneMenu id="citasSeleccionable" value="#{dashboard.citasSeleccionable}" > 
+                            <f:selectItem itemLabel="Reservadas" itemValue="1"  />
+                            <f:selectItem itemLabel="Confirmadas" itemValue="2"/>
+                            <f:selectItem itemLabel="Atendidas" itemValue="3"  />
+                            <f:selectItem itemLabel="Canceladas" itemValue="4" />
+                            <p:ajax update="citasGrafico"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="col-md-8">
+
+
+                        <p:panel id="citasGrafico">
+                            <p:chart type="line" model="#{dashboard.graficoLinealCitas()}" responsive="true" />
+                        </p:panel> 
+                    </div>
+                    <div class="col-md-4 margen-estadisticas-cirular">
+                        <p:panel id="grafico2">
+                            <p:chart type="pie" model="#{dashboard.graficoPacientesPorSexo()}" responsive="true"/>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+        </p:panel>
+    </h:form>
+    <script type="text/javascript">
+        $(window).resize(function () {
+            ancho();
+        });
+
+        $(document).ready(function ($) {
+            setTimeout('ancho()', 250);
+        });
+
+        function ancho() {
+            var anchoMovil = 751;
+            var max = 0;
+            var ventana_ancho = $(window).width();
+
+            $(".estadisticas").each(function () {
+                if ($(this).height() > max) {
+                    max = $(this).height();
+                }
+            });
+
+            if (ventana_ancho >= anchoMovil) {
+                $(".estadisticas").css({'min-height': max});
+            } else {
+                $(".estadisticas").css({'min-height': 'auto'});
+            }
+        }
+
+    </script>
     <script>
         $(document).ready(function () {
             estiloTabla();

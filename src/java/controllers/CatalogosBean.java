@@ -1,6 +1,7 @@
 package controllers;
 
 import dao.BitacoraFacade;
+import dao.CitasFacade;
 import dao.ClinicasFacade;
 import dao.DepartamentosFacade;
 import dao.DireccionesFacade;
@@ -16,6 +17,7 @@ import dao.TratamientosFacade;
 import dao.UnidadesMedidasFacade;
 import dao.UsuariosFacade;
 import entities.Bitacora;
+import entities.Citas;
 import entities.Clinicas;
 import entities.Departamentos;
 import entities.Direcciones;
@@ -55,7 +57,6 @@ public class CatalogosBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
-    
     @EJB
     private BitacoraFacade bitacoraFacade;
     private Bitacora bitacoraNueva = new Bitacora();
@@ -124,6 +125,11 @@ public class CatalogosBean implements Serializable {
 
     @EJB
     private RolesFacade rolesFacade;
+
+    @EJB
+    private CitasFacade citasFacade;
+    private Citas citaEditar = new Citas();
+    private int citaUsuario = 0;
 
     private Integer tabIndex = 0;
     private int departamentoId;
@@ -207,19 +213,21 @@ public class CatalogosBean implements Serializable {
     public List<Usuarios> todosUsuarios() {
         return getUsuariosFacade().findAll();
     }
-    
+
     public List<Usuarios> todosUsuariosActivos() {
-        switch(usuarios) {
-            case 1: return getUsuariosFacade().todosUsuariosClinicas();
-            case 2: return getUsuariosFacade().todosUsuariosPacientes();
-            default: return getUsuariosFacade().todosUsuariosActivos();
+        switch (usuarios) {
+            case 1:
+                return getUsuariosFacade().todosUsuariosClinicas();
+            case 2:
+                return getUsuariosFacade().todosUsuariosPacientes();
+            default:
+                return getUsuariosFacade().todosUsuariosActivos();
         }
     }
 
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
-    
     public BitacoraFacade getBitacoraFacade() {
         return bitacoraFacade;
     }
@@ -278,6 +286,10 @@ public class CatalogosBean implements Serializable {
 
     public RolesFacade getRolesFacade() {
         return rolesFacade;
+    }
+
+    public CitasFacade getCitasFacade() {
+        return citasFacade;
     }
 
 //****************************************************************************//
@@ -470,6 +482,7 @@ public class CatalogosBean implements Serializable {
     public Usuarios getUsuarioConsultar() {
         return usuarioConsultar;
     }
+
     public void setUsuarioConsultar(Usuarios usuarioConsultar) {
         this.usuarioConsultar = usuarioConsultar;
     }
@@ -477,13 +490,15 @@ public class CatalogosBean implements Serializable {
     public Usuarios getUsuarioEditar() {
         return usuarioEditar;
     }
+
     public void setUsuarioEditar(Usuarios usuarioEditar) {
         this.usuarioEditar = usuarioEditar;
     }
-    
+
     public Date getFechaActual() {
         return fechaActual;
     }
+
     public void setFechaActual(Date fechaActual) {
         this.fechaActual = fechaActual;
     }
@@ -491,6 +506,7 @@ public class CatalogosBean implements Serializable {
     public Existencias getExistenciaNuevo() {
         return existenciaNuevo;
     }
+
     public void setExistenciaNuevo(Existencias existenciaNuevo) {
         this.existenciaNuevo = existenciaNuevo;
     }
@@ -578,6 +594,7 @@ public class CatalogosBean implements Serializable {
     public String getUsuarioUsuario() {
         return usuarioUsuario;
     }
+
     public void setUsuarioUsuario(String usuarioUsuario) {
         this.usuarioUsuario = usuarioUsuario;
     }
@@ -585,6 +602,7 @@ public class CatalogosBean implements Serializable {
     public int getUsuarios() {
         return usuarios;
     }
+
     public void setUsuarios(int usuarios) {
         this.usuarios = usuarios;
     }
@@ -592,14 +610,21 @@ public class CatalogosBean implements Serializable {
     public Bitacora getBitacoraNueva() {
         return bitacoraNueva;
     }
+
     public void setBitacoraNueva(Bitacora bitacoraNueva) {
         this.bitacoraNueva = bitacoraNueva;
     }
-       
+
+    public int getCitaUsuario() {
+        return citaUsuario;
+    }
+
+    public void setCitaUsuario(int citaUsuario) {
+        this.citaUsuario = citaUsuario;
+    }
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
-    
     //Método para guardar en la Bitacora.
     public void guardarBitacora(String transaccion) {
         try {
@@ -617,7 +642,7 @@ public class CatalogosBean implements Serializable {
         try {
             tipoInsumoNuevo.setTipoinsumoEstado(Boolean.TRUE);
             getTiposInsumosFacade().create(tipoInsumoNuevo);
-            guardarBitacora("Registró un tipo de insumo ("+tipoInsumoNuevo.getTipoinsumoNombre()+").");
+            guardarBitacora("Registró un tipo de insumo (" + tipoInsumoNuevo.getTipoinsumoNombre() + ").");
             tipoInsumoNuevo = new TiposInsumos();
             mensajeConfirmacion("El tipo de insumo se ha guardado.");
         } catch (Exception e) {
@@ -629,7 +654,7 @@ public class CatalogosBean implements Serializable {
     public void editarTipoInsumo() {
         try {
             getTiposInsumosFacade().edit(tipoInsumoEditar);
-            guardarBitacora("Editó un tipo de insumo ("+tipoInsumoEditar.getTipoinsumoNombre()+").");
+            guardarBitacora("Editó un tipo de insumo (" + tipoInsumoEditar.getTipoinsumoNombre() + ").");
             mensajeConfirmacion("El tipo de insumo se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarTipoInsumo.");
@@ -641,7 +666,7 @@ public class CatalogosBean implements Serializable {
         try {
             tipoInsumoEditar.setTipoinsumoEstado(Boolean.FALSE);
             getTiposInsumosFacade().edit(tipoInsumoEditar);
-            guardarBitacora("Eliminó un tipo de insumo ("+tipoInsumoEditar.getTipoinsumoNombre()+").");
+            guardarBitacora("Eliminó un tipo de insumo (" + tipoInsumoEditar.getTipoinsumoNombre() + ").");
             mensajeConfirmacion("El tipo de insumo se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarTipoInsumo.");
@@ -653,7 +678,7 @@ public class CatalogosBean implements Serializable {
         try {
             unidadMedidaNuevo.setUnidadmedidaEstado(Boolean.TRUE);
             getUnidadesMedidasFacade().create(unidadMedidaNuevo);
-            guardarBitacora("Registró una unidad de medida ("+unidadMedidaNuevo.getUnidadmedidaNombre()+").");
+            guardarBitacora("Registró una unidad de medida (" + unidadMedidaNuevo.getUnidadmedidaNombre() + ").");
             unidadMedidaNuevo = new UnidadesMedidas();
             mensajeConfirmacion("La unidad de medida se ha guardado.");
         } catch (Exception e) {
@@ -665,7 +690,7 @@ public class CatalogosBean implements Serializable {
     public void editarUnidadMedida() {
         try {
             getUnidadesMedidasFacade().edit(unidadMedidaEditar);
-            guardarBitacora("Editó una unidad de medida ("+unidadMedidaEditar.getUnidadmedidaNombre()+").");
+            guardarBitacora("Editó una unidad de medida (" + unidadMedidaEditar.getUnidadmedidaNombre() + ").");
             mensajeConfirmacion("La unidad de medida se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarUnidadMedida.");
@@ -677,7 +702,7 @@ public class CatalogosBean implements Serializable {
         try {
             unidadMedidaEditar.setUnidadmedidaEstado(Boolean.FALSE);
             getUnidadesMedidasFacade().edit(unidadMedidaEditar);
-            guardarBitacora("Eliminó una unidad de medida ("+unidadMedidaEditar.getUnidadmedidaNombre()+").");
+            guardarBitacora("Eliminó una unidad de medida (" + unidadMedidaEditar.getUnidadmedidaNombre() + ").");
             mensajeConfirmacion("La unidad de medida se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarUnidadMedida.");
@@ -691,7 +716,7 @@ public class CatalogosBean implements Serializable {
             tratamientoNuevo.setTratamientoFechaCreacion(new Date());
             tratamientoNuevo.setTratamientoEstado(Boolean.TRUE);
             getTratamientosFacade().create(tratamientoNuevo);
-            guardarBitacora("Registró un tratamiento ("+tratamientoNuevo.getTratamientoNombre()+").");
+            guardarBitacora("Registró un tratamiento (" + tratamientoNuevo.getTratamientoNombre() + ").");
             tratamientoNuevo = new Tratamientos();
             mensajeConfirmacion("El tratamiento se ha guardado.");
         } catch (Exception e) {
@@ -705,7 +730,7 @@ public class CatalogosBean implements Serializable {
             tratamientoEditar.setTratamientoUsuarioModificacio(appSession.getUsuario().getUsuarioUsuario());
             tratamientoEditar.setTratamientoFechaModificacion(new Date());
             getTratamientosFacade().edit(tratamientoEditar);
-            guardarBitacora("Editó un tratamiento ("+tratamientoEditar.getTratamientoNombre()+").");
+            guardarBitacora("Editó un tratamiento (" + tratamientoEditar.getTratamientoNombre() + ").");
             mensajeConfirmacion("El tratamiento se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarTratamiento.");
@@ -719,7 +744,7 @@ public class CatalogosBean implements Serializable {
             tratamientoEditar.setTratamientoFechaModificacion(new Date());
             tratamientoEditar.setTratamientoEstado(Boolean.FALSE);
             getTratamientosFacade().edit(tratamientoEditar);
-            guardarBitacora("Eliminó un tratamiento ("+tratamientoEditar.getTratamientoNombre()+").");
+            guardarBitacora("Eliminó un tratamiento (" + tratamientoEditar.getTratamientoNombre() + ").");
             mensajeConfirmacion("El tratamiento se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarTratamiento.");
@@ -742,7 +767,7 @@ public class CatalogosBean implements Serializable {
                 getExistenciasFacade().create(existenciaNuevo);
                 existenciaNuevo = new Existencias();
             }
-            guardarBitacora("Registró una sucursal ("+sucursalNuevo.getClinicaNombre()+").");
+            guardarBitacora("Registró una sucursal (" + sucursalNuevo.getClinicaNombre() + ").");
             sucursalNuevo = new Clinicas();
             direccionNuevo = new Direcciones();
             departamentoId = 0;
@@ -759,7 +784,7 @@ public class CatalogosBean implements Serializable {
             sucursalEditar.setClinicaUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             sucursalEditar.setClinicaFechaModificacion(new Date());
             getClinicasFacade().edit(sucursalEditar);
-            guardarBitacora("Editó una sucursal ("+sucursalEditar.getClinicaNombre()+").");
+            guardarBitacora("Editó una sucursal (" + sucursalEditar.getClinicaNombre() + ").");
             mensajeConfirmacion("La sucursal se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarSucursal.");
@@ -783,7 +808,7 @@ public class CatalogosBean implements Serializable {
             sucursalEditar.setClinicaFechaModificacion(new Date());
             sucursalEditar.setClinicaEstado(Boolean.FALSE);
             getClinicasFacade().edit(sucursalEditar);
-            guardarBitacora("Eliminó una sucursal ("+sucursalEditar.getClinicaNombre()+").");
+            guardarBitacora("Eliminó una sucursal (" + sucursalEditar.getClinicaNombre() + ").");
             mensajeConfirmacion("La sucursal se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarSucursal.");
@@ -797,7 +822,7 @@ public class CatalogosBean implements Serializable {
             patologiaNuevo.setPatologiaFechaCreacion(new Date());
             patologiaNuevo.setPatologiaEstado(Boolean.TRUE);
             getPatologiasFacade().create(patologiaNuevo);
-            guardarBitacora("Registró una patología ("+patologiaNuevo.getPatologiaNombre()+").");
+            guardarBitacora("Registró una patología (" + patologiaNuevo.getPatologiaNombre() + ").");
             patologiaNuevo = new Patologias();
             mensajeConfirmacion("La patología se ha guardado.");
         } catch (Exception e) {
@@ -811,7 +836,7 @@ public class CatalogosBean implements Serializable {
             patologiaEditar.setPatologiaUsuarioModificacio(appSession.getUsuario().getUsuarioUsuario());
             patologiaEditar.setPatologiaFechaModificacion(new Date());
             getPatologiasFacade().edit(patologiaEditar);
-            guardarBitacora("Editó una patología ("+patologiaEditar.getPatologiaNombre()+").");
+            guardarBitacora("Editó una patología (" + patologiaEditar.getPatologiaNombre() + ").");
             mensajeConfirmacion("La patologia se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarPatologia.");
@@ -825,7 +850,7 @@ public class CatalogosBean implements Serializable {
             patologiaEditar.setPatologiaFechaModificacion(new Date());
             patologiaEditar.setPatologiaEstado(Boolean.FALSE);
             getPatologiasFacade().edit(patologiaEditar);
-            guardarBitacora("Eliminó una patología ("+patologiaEditar.getPatologiaNombre()+").");
+            guardarBitacora("Eliminó una patología (" + patologiaEditar.getPatologiaNombre() + ").");
             mensajeConfirmacion("La patologia se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarPatologia.");
@@ -841,7 +866,7 @@ public class CatalogosBean implements Serializable {
             getMedicosFacade().create(medicoNuevo);
             direccionNuevo.setMedicoId(new Medicos(medicoNuevo.getMedicoId()));
             getDireccionesFacade().create(direccionNuevo);
-            guardarBitacora("Registró un médico ("+medicoNuevo.getMedicoPrimerNombre()+" "+medicoNuevo.getMedicoPrimerApellido()+").");
+            guardarBitacora("Registró un médico (" + medicoNuevo.getMedicoPrimerNombre() + " " + medicoNuevo.getMedicoPrimerApellido() + ").");
             medicoNuevo = new Medicos();
             direccionNuevo = new Direcciones();
             departamentoId = 0;
@@ -858,7 +883,7 @@ public class CatalogosBean implements Serializable {
             medicoEditar.setMedicoUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             medicoEditar.setMedicoFechaModificacion(new Date());
             getMedicosFacade().edit(medicoEditar);
-            guardarBitacora("Editó un médico ("+medicoEditar.getMedicoPrimerNombre()+" "+medicoEditar.getMedicoPrimerApellido()+").");
+            guardarBitacora("Editó un médico (" + medicoEditar.getMedicoPrimerNombre() + " " + medicoEditar.getMedicoPrimerApellido() + ").");
             mensajeConfirmacion("El médico se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarMedico.");
@@ -872,7 +897,7 @@ public class CatalogosBean implements Serializable {
             medicoEditar.setMedicoFechaModificacion(new Date());
             medicoEditar.setMedicoEstado(Boolean.FALSE);
             getMedicosFacade().edit(medicoEditar);
-            guardarBitacora("Eliminó un médico ("+medicoEditar.getMedicoPrimerNombre()+" "+medicoEditar.getMedicoPrimerApellido()+").");
+            guardarBitacora("Eliminó un médico (" + medicoEditar.getMedicoPrimerNombre() + " " + medicoEditar.getMedicoPrimerApellido() + ").");
             mensajeConfirmacion("El médico se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarMedico.");
@@ -885,7 +910,7 @@ public class CatalogosBean implements Serializable {
             usuarioEditar.setUsuarioFechaModificacion(fechaActual);
             usuarioEditar.setUsuarioEstado(Boolean.FALSE);
             getUsuariosFacade().edit(usuarioEditar);
-            guardarBitacora("Eliminó un usuario ("+usuarioEditar.getUsuarioUsuario()+").");
+            guardarBitacora("Eliminó un usuario (" + usuarioEditar.getUsuarioUsuario() + ").");
             mensajeConfirmacion("El usuario se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarUsuario.");
@@ -1071,8 +1096,8 @@ public class CatalogosBean implements Serializable {
     }
 
     //Método para guardar un nuevo Usuario (cat_usuarios_nuevo.xhtml)
-    public void guardarUsuario(){
-        try{
+    public void guardarUsuario() {
+        try {
             for (Usuarios usuario : todosUsuarios()) {
                 if (usuarioNuevo.getUsuarioUsuario().equals(usuario.getUsuarioUsuario())) {
                     mensajeError("Ya existe una cuenta con el mismo nombre de usuario");
@@ -1087,24 +1112,24 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
             usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
             usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
-            if(rolId == 3){
+            if (rolId == 3) {
                 usuarioNuevo.setMedicoId(new Medicos(medicoId));
                 medicoSeleccionado = getMedicosFacade().find(medicoId);
             }
-            if(rolId == 5){
+            if (rolId == 5) {
                 usuarioNuevo.setPacienteId(new Pacientes(pacienteId));
                 pacienteSeleccionado = getPacientesFacade().find(pacienteId);
             }
             getUsuariosFacade().create(usuarioNuevo);
-            if(rolId == 2 || rolId ==3){
+            if (rolId == 2 || rolId == 3) {
                 medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
                 getMedicosFacade().edit(medicoSeleccionado);
             }
             //if(rolId == 5){
             //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
-              //  getPacientesFacade().edit(pacienteSeleccionado);
+            //  getPacientesFacade().edit(pacienteSeleccionado);
             //}
-            guardarBitacora("Registró un usuario ("+usuarioNuevo.getUsuarioUsuario()+").");
+            guardarBitacora("Registró un usuario (" + usuarioNuevo.getUsuarioUsuario() + ").");
             usuarioNuevo = new Usuarios();
             medicoSeleccionado = new Medicos();
             pacienteSeleccionado = new Pacientes();
@@ -1116,7 +1141,7 @@ public class CatalogosBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: guardarUsuario.");
         }
     }
-    
+
     //Método para guardar un nuevo Usuario (cita_clinica_paciente_usuario.xhtml)
     public void guardarUsuarioSugerencia() {
         try {
@@ -1131,15 +1156,22 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioIntentoFallido(0);
             usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
+            usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
             System.out.println("controllers.CatalogosBean.guardarUsuarioSugerencia() rolId" + rolId);
-            if(rolId == 5){
-               //Pacientes p = getPacientesFacade().find(pacienteId);
-               //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
-               usuarioNuevo.setPacienteId(pacienteSeleccionado);
-               //getPacientesFacade().edit(pacienteSeleccionado);
+            if (rolId == 5) {
+                //Pacientes p = getPacientesFacade().find(pacienteId);
+                //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
+                usuarioNuevo.setPacienteId(pacienteSeleccionado);
+                //getPacientesFacade().edit(pacienteSeleccionado);
             }
             getUsuariosFacade().create(usuarioNuevo);
-            guardarBitacora("Registró un usuario ("+usuarioNuevo.getUsuarioUsuario()+").");
+
+            if (rolId==5 && citaUsuario>0) {
+                citaEditar = citasFacade.find(citaUsuario);
+                citaEditar.setUsuarioUsuario(usuarioNuevo);
+                citasFacade.edit(citaEditar);
+            }
+            guardarBitacora("Registró un usuario (" + usuarioNuevo.getUsuarioUsuario() + ").");
             usuarioNuevo = new Usuarios();
             pacienteId = 0;
             rolId = 0;

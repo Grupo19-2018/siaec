@@ -6,16 +6,15 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES </b></div>
+    <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES - <span>BITÁCORA DEL SISTEMA</span></b></div>
     <br/>
     <div class="container-fluid ">
         <h:form id="administracion">
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-                <div class="banda2"><b> BITÁCORA DEL SISTEMA</b></div>
-                <p:spacer height="10"/>
+                
+
                 <!--*************************TABLA******************************* -->
                 <div class="container-fluid">
-                    
                     <table id="tabla" class="table table-striped table-bordered table-hover table-condensed table-boostrap-expediente">
                         <!-- Cabecera de la tabla -->
                         <thead>
@@ -38,9 +37,9 @@
                                             </h:outputText>
                                         </span>
                                     </td>
-                                    <td align="center">
+                                    <td align="left">
                                         <span style="font-weight: bold">
-                                            <h:outputText value="#{bitacora.bitacoraFechaHora}">
+                                            <h:outputText value="">
                                                 <f:convertDateTime dateStyle="full" pattern="HH:mm" timeZone="GMT-6"/>
                                             </h:outputText>  </span>  
                                     </td>
@@ -69,13 +68,31 @@
                     </div>
                     <div class="col-md-4">
                         <p:panel>
+                            <div style="text-align: center">Total de Menus</div>
+                            <div style="text-align: center">#{dashboard.totalMenus()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4">
+                        <p:panel>
+                            <div style="text-align: center">Total de pantallas</div>
+                            <div style="text-align: center">#{dashboard.totalSubmenus()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4">
+                        <p:panel>
+                            <div style="text-align: center">Total de privilegios</div>
+                            <div style="text-align: center">#{dashboard.totalPrivilegios()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4">
+                        <p:panel>
                             <div style="text-align: center">Total de usuarios</div>
                             <div style="text-align: center">#{dashboard.totalUsuarios()}</div>
                         </p:panel>
                     </div>
                     <div class="col-md-4">
                         <p:panel>
-                            <div style="text-align: center">Total de registros en bitácora</div>
+                            <div style="text-align: center">Total de registros en bitacora</div>
                             <div style="text-align: center">#{dashboard.totalRegistroBitacora()}</div>
                         </p:panel>
                     </div>

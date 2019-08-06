@@ -13,6 +13,7 @@
                 <f:metadata>
                     <f:viewAction action="#{expedientesBean.verificaAcceso(7)}"/>
                     <f:viewParam name="us" value="#{expedientesBean.us}"/>
+                     <f:viewParam name="ci" value="#{expedientesBean.citaUsuario}"/>
                     <f:event type="preRenderView" listener="#{expedientesBean.cargarRegistroPaciente()}"/>
                 </f:metadata>
             </ui:define>

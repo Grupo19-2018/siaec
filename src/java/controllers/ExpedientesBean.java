@@ -1,6 +1,3 @@
-/*
-Actualizado: 28/febrero/2019
-*/
 package controllers;
 
 import dao.BitacoraFacade;
@@ -54,12 +51,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 
-/* @author Equipo 19-2018 FIA-UES */
-/*Notas de actualizacion:
- ******************************************************************************
-Fecha: 06/febrero/2019
--Se agrego metodo para vincular el Expediente con el dashboard del Medico
-*/
 @ManagedBean
 @ViewScoped
 public class ExpedientesBean implements Serializable {
@@ -175,30 +166,31 @@ public class ExpedientesBean implements Serializable {
     private Date fechaSistema = new Date();
     private int expedienteId;
     private int consultaId;
-    
+
     //Asociando a Usuario con expediente
     //Usado en: asistente.xhtml-> paciente_listado_asociar.xhtml
     @EJB
     private UsuariosFacade usuarioFacade;
     private Usuarios usuario = new Usuarios();
-    private String us= "";
-    
+    private String us = ""; // Para buscar al usuario, variable por  url.
+
     @EJB
     private CitasFacade citasFacade;
     private Citas citaSeleccionada = new Citas();
     private int citaId;
+    private int citaUsuario = 0;
+
     
     //Session
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
-        
+
     public ExpedientesBean() {
     }
 
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-    
     public List<Patologias> todosPatologiasDisponibles() {
         return getPatologiasFacade().patologiasDisponibles(Boolean.TRUE);
     }
@@ -228,8 +220,8 @@ public class ExpedientesBean implements Serializable {
     }
 
     public List<Pacientes> todosPacientes() {
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext(); 
-        String relativePath="/images/pacientes/"; 
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        String relativePath = "/images/pacientes/";
         String ubicacion2 = ec.getRealPath(relativePath);
         System.out.println("Dirección2: " + ubicacion2);
         return getPacientesFacade().findAll();
@@ -276,76 +268,84 @@ public class ExpedientesBean implements Serializable {
     public List<Promociones> todasPromocionesDisponibles() {
         return getPromocionesFacade().promocionesDisponibles(Boolean.TRUE);
     }
-    
+
     public List<Tratamientos> todosTratamientosDisponibles() {
         return getTratamientosFacade().tratamientosDisponibles(Boolean.TRUE);
     }
-    
+
     public List<DetallesConsultas> todosDetallesConsultasPorPacienteGestionar() {
         return getDetallesConsultasFacade().detalleConsultaPorPaciente(pacienteEditar.getPacienteId());
     }
-    
+
     public List<DetallesConsultas> todosDetallesConsultasPorPacienteConsultar() {
         return getDetallesConsultasFacade().detalleConsultaPorPaciente(pacienteConsultar.getPacienteId());
     }
 
-    public List<Submenus> todosSubmenusDisponibles(){
+    public List<Submenus> todosSubmenusDisponibles() {
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
-    
+
     //usuario en pacientes_listado_asociar.xhtml
-    public List<Usuarios> todosUsuarios(){
+    public List<Usuarios> todosUsuarios() {
         return getUsuarioFacade().findAll();
     }
-    
+
     //usuario en pacientes_listado_asociar.xhtml
     //Estado: En prueba
-    public void usuarioBuscar(){
-        if(!(us=="")){
+    public void usuarioBuscar() {
+        if (!(us == "")) {
             usuario = usuarioFacade.find(us);
         }
     }
-    
+
     //metodo para actualizar Al expediente
     //Usado en paciente_listado_asociar.xhtml
-    public void actualizarPacienteUsuario(){
+    public void actualizarPacienteUsuario() {
         try {
+            if (!(us == "") && (citaUsuario > 0)) {
+                usuario = usuarioFacade.find(us);
+                usuario.setPacienteId(pacienteEditar);
+                citaSeleccionada = getCitasFacade().find(citaUsuario);
+                citaSeleccionada.setPacienteId(pacienteEditar);
+                
+                getUsuarioFacade().edit(usuario);
+                getCitasFacade().edit(citaSeleccionada);
+                mensajeConfirmacion("Usuario asociado a expediente.");
+            }
             //pacienteEditar.setPacienteUsuarioUsuario(usuario.getUsuarioUsuario());
-            getPacientesFacade().edit(pacienteEditar);
-            mensajeConfirmacion("Usuario asociado.");
+            //getPacientesFacade().edit(pacienteEditar);
         } catch (Exception e) {
             mensajeError("No se pudo asociar el usuario con el expediente.");
         }
-        
+
     }
-    
-    
+
     //Extrayendo el id del expediente
     //Usado en : asistente.xhtml dashboard.
     Pacientes pacienteId = new Pacientes();
-    public int numeroExpediente(String usuario){
-        if(!(getPacientesFacade().pacienteUsuario(usuario).isEmpty())){
+
+    public int numeroExpediente(String usuario) {
+        if (!(getPacientesFacade().pacienteUsuario(usuario).isEmpty())) {
             pacienteId = getPacientesFacade().pacienteUsuario(usuario).get(0);
             return pacienteId.getPacienteId();
         }
         return 0;
     }
-    
+
     //Estado:posible descarte
-    public int numeroExpediente(String usuario, Integer paciente){
-        if(paciente != null){
+    public int numeroExpediente(String usuario, Integer paciente) {
+        if (paciente != null) {
             return paciente;
-        }else if(!(getPacientesFacade().pacienteUsuario(usuario).isEmpty())){
+        } else if (!(getPacientesFacade().pacienteUsuario(usuario).isEmpty())) {
             pacienteId = getPacientesFacade().pacienteUsuario(usuario).get(0);
             return pacienteId.getPacienteId();
         }
         return 0;
     }
-    
+
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
-
     public BitacoraFacade getBitacoraFacade() {
         return bitacoraFacade;
     }
@@ -389,7 +389,7 @@ public class ExpedientesBean implements Serializable {
     public PromocionesFacade getPromocionesFacade() {
         return promocionesFacade;
     }
-    
+
     public TratamientosFacade getTratamientosFacade() {
         return tratamientosFacade;
     }
@@ -409,10 +409,10 @@ public class ExpedientesBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
-
     public String getUs() {
         return us;
     }
+
     public void setUs(String us) {
         this.us = us;
     }
@@ -425,11 +425,10 @@ public class ExpedientesBean implements Serializable {
         this.usuario = usuario;
     }
 
-    
-    
     public Pacientes getPacienteNuevo() {
         return pacienteNuevo;
     }
+
     public void setPacienteNuevo(Pacientes pacienteNuevo) {
         this.pacienteNuevo = pacienteNuevo;
     }
@@ -437,6 +436,7 @@ public class ExpedientesBean implements Serializable {
     public Direcciones getDireccionNuevo() {
         return direccionNuevo;
     }
+
     public void setDireccionNuevo(Direcciones direccionNuevo) {
         this.direccionNuevo = direccionNuevo;
     }
@@ -444,6 +444,7 @@ public class ExpedientesBean implements Serializable {
     public Direcciones getDireccionEditar() {
         return direccionEditar;
     }
+
     public void setDireccionEditar(Direcciones direccionEditar) {
         this.direccionEditar = direccionEditar;
     }
@@ -451,6 +452,7 @@ public class ExpedientesBean implements Serializable {
     public Direcciones getDireccionConsultar() {
         return direccionConsultar;
     }
+
     public void setDireccionConsultar(Direcciones direccionConsultar) {
         this.direccionConsultar = direccionConsultar;
     }
@@ -458,6 +460,7 @@ public class ExpedientesBean implements Serializable {
     public Integer getDepartamentoId() {
         return departamentoId;
     }
+
     public void setDepartamentoId(Integer departamentoId) {
         this.departamentoId = departamentoId;
     }
@@ -465,6 +468,7 @@ public class ExpedientesBean implements Serializable {
     public Integer getDepartametoIdConsultar() {
         return departametoIdConsultar;
     }
+
     public void setDepartametoIdConsultar(Integer departametoIdConsultar) {
         this.departametoIdConsultar = departametoIdConsultar;
     }
@@ -472,6 +476,7 @@ public class ExpedientesBean implements Serializable {
     public String getExpediente() {
         return expediente;
     }
+
     public void setExpediente(String expediente) {
         this.expediente = expediente;
     }
@@ -479,6 +484,7 @@ public class ExpedientesBean implements Serializable {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -486,6 +492,7 @@ public class ExpedientesBean implements Serializable {
     public Pacientes getPacienteConsultar() {
         return pacienteConsultar;
     }
+
     public void setPacienteConsultar(Pacientes pacienteConsultar) {
         this.pacienteConsultar = pacienteConsultar;
     }
@@ -493,6 +500,7 @@ public class ExpedientesBean implements Serializable {
     public Pacientes getPacienteEditar() {
         return pacienteEditar;
     }
+
     public void setPacienteEditar(Pacientes pacienteEditar) {
         this.pacienteEditar = pacienteEditar;
     }
@@ -500,6 +508,7 @@ public class ExpedientesBean implements Serializable {
     public Imagenes getImagenNueva() {
         return imagenNueva;
     }
+
     public void setImagenNueva(Imagenes imagenNueva) {
         this.imagenNueva = imagenNueva;
     }
@@ -507,6 +516,7 @@ public class ExpedientesBean implements Serializable {
     public UploadedFile getFile() {
         return file;
     }
+
     public void setFile(UploadedFile file) {
         this.file = file;
     }
@@ -514,6 +524,7 @@ public class ExpedientesBean implements Serializable {
     public Consultas getConsultaSeleccionada() {
         return consultaSeleccionada;
     }
+
     public void setConsultaSeleccionada(Consultas consultaSeleccionada) {
         this.consultaSeleccionada = consultaSeleccionada;
     }
@@ -521,6 +532,7 @@ public class ExpedientesBean implements Serializable {
     public Consultas getConsultaNueva() {
         return consultaNueva;
     }
+
     public void setConsultaNueva(Consultas consultaNueva) {
         this.consultaNueva = consultaNueva;
     }
@@ -528,6 +540,7 @@ public class ExpedientesBean implements Serializable {
     public Date getFechaSistema() {
         return fechaSistema;
     }
+
     public void setFechaSistema(Date fechaSistema) {
         this.fechaSistema = fechaSistema;
     }
@@ -535,6 +548,7 @@ public class ExpedientesBean implements Serializable {
     public Integer getDepartametoIdGestionar() {
         return departametoIdGestionar;
     }
+
     public void setDepartametoIdGestionar(Integer departametoIdGestionar) {
         this.departametoIdGestionar = departametoIdGestionar;
     }
@@ -542,6 +556,7 @@ public class ExpedientesBean implements Serializable {
     public Imagenes getImagenConsultar() {
         return imagenConsultar;
     }
+
     public void setImagenConsultar(Imagenes imagenConsultar) {
         this.imagenConsultar = imagenConsultar;
     }
@@ -549,13 +564,15 @@ public class ExpedientesBean implements Serializable {
     public Imagenes getImagenEditar() {
         return imagenEditar;
     }
+
     public void setImagenEditar(Imagenes imagenEditar) {
         this.imagenEditar = imagenEditar;
     }
-      
+
     public Consultas getConsultaEditar() {
         return consultaEditar;
     }
+
     public void setConsultaEditar(Consultas consultaEditar) {
         this.consultaEditar = consultaEditar;
     }
@@ -563,6 +580,7 @@ public class ExpedientesBean implements Serializable {
     public int getExpedienteId() {
         return expedienteId;
     }
+
     public void setExpedienteId(int expedienteId) {
         this.expedienteId = expedienteId;
     }
@@ -570,13 +588,15 @@ public class ExpedientesBean implements Serializable {
     public int getConsultaId() {
         return consultaId;
     }
+
     public void setConsultaId(int consultaId) {
         this.consultaId = consultaId;
     }
-    
+
     public Odontogramas getPiezaNuevo() {
         return piezaNuevo;
     }
+
     public void setPiezaNuevo(Odontogramas piezaNuevo) {
         this.piezaNuevo = piezaNuevo;
     }
@@ -584,6 +604,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPiezaConsultar() {
         return piezaConsultar;
     }
+
     public void setPiezaConsultar(Odontogramas piezaConsultar) {
         this.piezaConsultar = piezaConsultar;
     }
@@ -591,13 +612,15 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPiezaEditar() {
         return piezaEditar;
     }
+
     public void setPiezaEditar(Odontogramas piezaEditar) {
         this.piezaEditar = piezaEditar;
     }
-    
+
     public Odontogramas getPieza11() {
         return pieza11;
     }
+
     public void setPieza11(Odontogramas pieza11) {
         this.pieza11 = pieza11;
     }
@@ -605,6 +628,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza12() {
         return pieza12;
     }
+
     public void setPieza12(Odontogramas pieza12) {
         this.pieza12 = pieza12;
     }
@@ -612,6 +636,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza13() {
         return pieza13;
     }
+
     public void setPieza13(Odontogramas pieza13) {
         this.pieza13 = pieza13;
     }
@@ -619,6 +644,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza14() {
         return pieza14;
     }
+
     public void setPieza14(Odontogramas pieza14) {
         this.pieza14 = pieza14;
     }
@@ -626,6 +652,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza15() {
         return pieza15;
     }
+
     public void setPieza15(Odontogramas pieza15) {
         this.pieza15 = pieza15;
     }
@@ -633,6 +660,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza16() {
         return pieza16;
     }
+
     public void setPieza16(Odontogramas pieza16) {
         this.pieza16 = pieza16;
     }
@@ -640,6 +668,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza17() {
         return pieza17;
     }
+
     public void setPieza17(Odontogramas pieza17) {
         this.pieza17 = pieza17;
     }
@@ -647,6 +676,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza18() {
         return pieza18;
     }
+
     public void setPieza18(Odontogramas pieza18) {
         this.pieza18 = pieza18;
     }
@@ -654,6 +684,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza21() {
         return pieza21;
     }
+
     public void setPieza21(Odontogramas pieza21) {
         this.pieza21 = pieza21;
     }
@@ -661,6 +692,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza22() {
         return pieza22;
     }
+
     public void setPieza22(Odontogramas pieza22) {
         this.pieza22 = pieza22;
     }
@@ -668,6 +700,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza23() {
         return pieza23;
     }
+
     public void setPieza23(Odontogramas pieza23) {
         this.pieza23 = pieza23;
     }
@@ -675,6 +708,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza24() {
         return pieza24;
     }
+
     public void setPieza24(Odontogramas pieza24) {
         this.pieza24 = pieza24;
     }
@@ -682,6 +716,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza25() {
         return pieza25;
     }
+
     public void setPieza25(Odontogramas pieza25) {
         this.pieza25 = pieza25;
     }
@@ -689,6 +724,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza26() {
         return pieza26;
     }
+
     public void setPieza26(Odontogramas pieza26) {
         this.pieza26 = pieza26;
     }
@@ -696,6 +732,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza27() {
         return pieza27;
     }
+
     public void setPieza27(Odontogramas pieza27) {
         this.pieza27 = pieza27;
     }
@@ -703,6 +740,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza28() {
         return pieza28;
     }
+
     public void setPieza28(Odontogramas pieza28) {
         this.pieza28 = pieza28;
     }
@@ -710,6 +748,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza31() {
         return pieza31;
     }
+
     public void setPieza31(Odontogramas pieza31) {
         this.pieza31 = pieza31;
     }
@@ -717,6 +756,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza32() {
         return pieza32;
     }
+
     public void setPieza32(Odontogramas pieza32) {
         this.pieza32 = pieza32;
     }
@@ -724,6 +764,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza33() {
         return pieza33;
     }
+
     public void setPieza33(Odontogramas pieza33) {
         this.pieza33 = pieza33;
     }
@@ -731,6 +772,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza34() {
         return pieza34;
     }
+
     public void setPieza34(Odontogramas pieza34) {
         this.pieza34 = pieza34;
     }
@@ -738,6 +780,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza35() {
         return pieza35;
     }
+
     public void setPieza35(Odontogramas pieza35) {
         this.pieza35 = pieza35;
     }
@@ -745,6 +788,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza36() {
         return pieza36;
     }
+
     public void setPieza36(Odontogramas pieza36) {
         this.pieza36 = pieza36;
     }
@@ -752,6 +796,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza37() {
         return pieza37;
     }
+
     public void setPieza37(Odontogramas pieza37) {
         this.pieza37 = pieza37;
     }
@@ -759,6 +804,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza38() {
         return pieza38;
     }
+
     public void setPieza38(Odontogramas pieza38) {
         this.pieza38 = pieza38;
     }
@@ -766,6 +812,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza41() {
         return pieza41;
     }
+
     public void setPieza41(Odontogramas pieza41) {
         this.pieza41 = pieza41;
     }
@@ -773,6 +820,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza42() {
         return pieza42;
     }
+
     public void setPieza42(Odontogramas pieza42) {
         this.pieza42 = pieza42;
     }
@@ -780,6 +828,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza43() {
         return pieza43;
     }
+
     public void setPieza43(Odontogramas pieza43) {
         this.pieza43 = pieza43;
     }
@@ -787,6 +836,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza44() {
         return pieza44;
     }
+
     public void setPieza44(Odontogramas pieza44) {
         this.pieza44 = pieza44;
     }
@@ -794,6 +844,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza45() {
         return pieza45;
     }
+
     public void setPieza45(Odontogramas pieza45) {
         this.pieza45 = pieza45;
     }
@@ -801,6 +852,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza46() {
         return pieza46;
     }
+
     public void setPieza46(Odontogramas pieza46) {
         this.pieza46 = pieza46;
     }
@@ -808,6 +860,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza47() {
         return pieza47;
     }
+
     public void setPieza47(Odontogramas pieza47) {
         this.pieza47 = pieza47;
     }
@@ -815,6 +868,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza48() {
         return pieza48;
     }
+
     public void setPieza48(Odontogramas pieza48) {
         this.pieza48 = pieza48;
     }
@@ -822,6 +876,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza51() {
         return pieza51;
     }
+
     public void setPieza51(Odontogramas pieza51) {
         this.pieza51 = pieza51;
     }
@@ -829,6 +884,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza52() {
         return pieza52;
     }
+
     public void setPieza52(Odontogramas pieza52) {
         this.pieza52 = pieza52;
     }
@@ -836,6 +892,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza53() {
         return pieza53;
     }
+
     public void setPieza53(Odontogramas pieza53) {
         this.pieza53 = pieza53;
     }
@@ -843,6 +900,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza54() {
         return pieza54;
     }
+
     public void setPieza54(Odontogramas pieza54) {
         this.pieza54 = pieza54;
     }
@@ -850,6 +908,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza55() {
         return pieza55;
     }
+
     public void setPieza55(Odontogramas pieza55) {
         this.pieza55 = pieza55;
     }
@@ -857,6 +916,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza61() {
         return pieza61;
     }
+
     public void setPieza61(Odontogramas pieza61) {
         this.pieza61 = pieza61;
     }
@@ -864,6 +924,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza62() {
         return pieza62;
     }
+
     public void setPieza62(Odontogramas pieza62) {
         this.pieza62 = pieza62;
     }
@@ -871,6 +932,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza63() {
         return pieza63;
     }
+
     public void setPieza63(Odontogramas pieza63) {
         this.pieza63 = pieza63;
     }
@@ -878,6 +940,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza64() {
         return pieza64;
     }
+
     public void setPieza64(Odontogramas pieza64) {
         this.pieza64 = pieza64;
     }
@@ -885,6 +948,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza65() {
         return pieza65;
     }
+
     public void setPieza65(Odontogramas pieza65) {
         this.pieza65 = pieza65;
     }
@@ -892,6 +956,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza71() {
         return pieza71;
     }
+
     public void setPieza71(Odontogramas pieza71) {
         this.pieza71 = pieza71;
     }
@@ -899,6 +964,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza72() {
         return pieza72;
     }
+
     public void setPieza72(Odontogramas pieza72) {
         this.pieza72 = pieza72;
     }
@@ -906,6 +972,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza73() {
         return pieza73;
     }
+
     public void setPieza73(Odontogramas pieza73) {
         this.pieza73 = pieza73;
     }
@@ -913,6 +980,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza74() {
         return pieza74;
     }
+
     public void setPieza74(Odontogramas pieza74) {
         this.pieza74 = pieza74;
     }
@@ -920,6 +988,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza75() {
         return pieza75;
     }
+
     public void setPieza75(Odontogramas pieza75) {
         this.pieza75 = pieza75;
     }
@@ -927,6 +996,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza81() {
         return pieza81;
     }
+
     public void setPieza81(Odontogramas pieza81) {
         this.pieza81 = pieza81;
     }
@@ -934,6 +1004,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza82() {
         return pieza82;
     }
+
     public void setPieza82(Odontogramas pieza82) {
         this.pieza82 = pieza82;
     }
@@ -941,6 +1012,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza83() {
         return pieza83;
     }
+
     public void setPieza83(Odontogramas pieza83) {
         this.pieza83 = pieza83;
     }
@@ -948,6 +1020,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza84() {
         return pieza84;
     }
+
     public void setPieza84(Odontogramas pieza84) {
         this.pieza84 = pieza84;
     }
@@ -955,6 +1028,7 @@ public class ExpedientesBean implements Serializable {
     public Odontogramas getPieza85() {
         return pieza85;
     }
+
     public void setPieza85(Odontogramas pieza85) {
         this.pieza85 = pieza85;
     }
@@ -962,6 +1036,7 @@ public class ExpedientesBean implements Serializable {
     public DetallesConsultas getDetalleConsultaNuevo() {
         return detalleConsultaNuevo;
     }
+
     public void setDetalleConsultaNuevo(DetallesConsultas detalleConsultaNuevo) {
         this.detalleConsultaNuevo = detalleConsultaNuevo;
     }
@@ -969,6 +1044,7 @@ public class ExpedientesBean implements Serializable {
     public DetallesConsultas getDetalleConsultaEditar() {
         return detalleConsultaEditar;
     }
+
     public void setDetalleConsultaEditar(DetallesConsultas detalleConsultaEditar) {
         this.detalleConsultaEditar = detalleConsultaEditar;
     }
@@ -976,6 +1052,7 @@ public class ExpedientesBean implements Serializable {
     public Integer getTabIndex() {
         return tabIndex;
     }
+
     public void setTabIndex(Integer tabIndex) {
         this.tabIndex = tabIndex;
     }
@@ -983,6 +1060,7 @@ public class ExpedientesBean implements Serializable {
     public Integer getTabIndexFicha() {
         return tabIndexFicha;
     }
+
     public void setTabIndexFicha(Integer tabIndexFicha) {
         this.tabIndexFicha = tabIndexFicha;
     }
@@ -990,6 +1068,7 @@ public class ExpedientesBean implements Serializable {
     public AppSession getAppSession() {
         return appSession;
     }
+
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
@@ -997,6 +1076,7 @@ public class ExpedientesBean implements Serializable {
     public Citas getCitaSeleccionada() {
         return citaSeleccionada;
     }
+
     public void setCitaSeleccionada(Citas citaSeleccionada) {
         this.citaSeleccionada = citaSeleccionada;
     }
@@ -1004,21 +1084,30 @@ public class ExpedientesBean implements Serializable {
     public int getCitaId() {
         return citaId;
     }
+
     public void setCitaId(int citaId) {
         this.citaId = citaId;
     }
-      
+
+    public int getCitaUsuario() {
+        return citaUsuario;
+    }
+
+    public void setCitaUsuario(int citaUsuario) {
+        this.citaUsuario = citaUsuario;
+    }
+    
     public Bitacora getBitacoraNueva() {
         return bitacoraNueva;
     }
+
     public void setBitacoraNueva(Bitacora bitacoraNueva) {
         this.bitacoraNueva = bitacoraNueva;
     }
-    
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
-    
     //Método para guardar en la Bitacora.
     public void guardarBitacora(String transaccion) {
         try {
@@ -1033,25 +1122,31 @@ public class ExpedientesBean implements Serializable {
 
     //Método para guardar Paciente y su Dirección (paciente_registrar.xhtml)
     public void guardarPaciente() {
-        try{
+        try {
             pacienteNuevo.setPacienteCodigo((int) (Math.random() * 999) + 999);
             pacienteNuevo.setPacienteFechaCreacion(new Date());
             pacienteNuevo.setPacienteEstado(Boolean.TRUE);
             pacienteNuevo.setPacienteRecordatorio(Boolean.TRUE);
             pacienteNuevo.setPacientePromocionCumpleanyos(Boolean.FALSE);
             pacienteNuevo.setPacientePromocionGeneral(Boolean.FALSE);
-            /*Codigo agregado para guardar cuando se quiera anexar un usuario valido*/
-            //Valir la String que sea diferente de ""
-            //y valir que exista un usuario con ese tipo
-            if(!"".equals(us) && !getUsuarioFacade().usuariosSimiliares(us).isEmpty() ){
-                System.out.println("Entra para asociar usuario " + us );
-                //pacienteNuevo.setPacienteUsuarioUsuario(us);
-            }
             getPacientesFacade().create(pacienteNuevo);
             crearOdontograma(pacienteNuevo);
             direccionNuevo.setPacienteId(new Pacientes(pacienteNuevo.getPacienteId()));
             getDireccionesFacade().create(direccionNuevo);
-            guardarBitacora("Registró un paciente ("+pacienteNuevo.getPacientePrimerNombre()+" "+pacienteNuevo.getPacientePrimerApellido()+").");
+            /*Codigo agregado para guardar cuando se quiera anexar un usuario valido*/
+            //Valir la String que sea diferente de ""
+            //y valir que exista un usuario con ese tipo
+            if (!"".equals(us) && !getUsuarioFacade().usuariosSimiliares(us).isEmpty() && citaUsuario >0) {
+                System.out.println("Entra para asociar usuario " + us);
+                //pacienteNuevo.setPacienteUsuarioUsuario(us);
+                citaSeleccionada = citasFacade.find(citaUsuario);
+                citaSeleccionada.setPacienteId(pacienteNuevo);
+                usuario = usuarioFacade.find(us);
+                usuario.setPacienteId(pacienteNuevo);
+                citasFacade.edit(citaSeleccionada);
+                usuarioFacade.edit(usuario);
+            }
+            guardarBitacora("Registró un paciente (" + pacienteNuevo.getPacientePrimerNombre() + " " + pacienteNuevo.getPacientePrimerApellido() + ").");
             pacienteNuevo = new Pacientes();
             direccionNuevo = new Direcciones();
             this.setDepartamentoId(0);
@@ -1063,7 +1158,7 @@ public class ExpedientesBean implements Serializable {
 
     //Método que crea un odontograma a un nuevo paciente (paciente_registrar.xhtml)
     public void crearOdontograma(Pacientes paciente) {
-        try{
+        try {
             piezaNuevo.setPacienteId(new Pacientes(paciente.getPacienteId()));
             piezaNuevo.setOdontogramaPieza("11");
             piezaNuevo.setOdontogramaDistal(0);
@@ -1198,7 +1293,7 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: crearOdontograma.");
         }
     }
-    
+
     // Método para calcular edad de los pacientes (pacientes_listado.xhtml)
     public int edadPaciente(Date fechaNacimiento) {
         Date fechaActual = new Date();
@@ -1211,49 +1306,73 @@ public class ExpedientesBean implements Serializable {
         }
         return anio;
     }
-    
+
     // Método para obtener mes de nacimiento de los pacientes (pacientes_listado.xhtml)
-    public String mesPaciente(Date fechaNacimiento){
+    public String mesPaciente(Date fechaNacimiento) {
         String mes = "";
         int mesEntero = fechaNacimiento.getMonth() + 1;
-        switch(mesEntero){
-            case 1: mes = "Enero"; break;
-            case 2: mes = "Febrero"; break;
-            case 3: mes = "Marzo"; break;
-            case 4: mes = "Abril"; break;
-            case 5: mes = "Mayo"; break;
-            case 6: mes = "Junio"; break;
-            case 7: mes = "Julio"; break;
-            case 8: mes = "Agosto"; break;
-            case 9: mes = "Septiembre"; break;
-            case 10: mes = "Octubre"; break;
-            case 11: mes = "Noviembre"; break;
-            case 12: mes = "Diciembre"; break;
+        switch (mesEntero) {
+            case 1:
+                mes = "Enero";
+                break;
+            case 2:
+                mes = "Febrero";
+                break;
+            case 3:
+                mes = "Marzo";
+                break;
+            case 4:
+                mes = "Abril";
+                break;
+            case 5:
+                mes = "Mayo";
+                break;
+            case 6:
+                mes = "Junio";
+                break;
+            case 7:
+                mes = "Julio";
+                break;
+            case 8:
+                mes = "Agosto";
+                break;
+            case 9:
+                mes = "Septiembre";
+                break;
+            case 10:
+                mes = "Octubre";
+                break;
+            case 11:
+                mes = "Noviembre";
+                break;
+            case 12:
+                mes = "Diciembre";
+                break;
         }
         return mes;
     }
-    
+
     // Método para extraer el teléfono de los pacientes (pacientes_listado.xhtml)
     public String telefonoPaciente(Pacientes paciente) {
-        if(paciente.getPacienteTelefonoMovil() != null){
+        if (paciente.getPacienteTelefonoMovil() != null) {
             return paciente.getPacienteTelefonoMovil();
         }
-        if(paciente.getPacienteTelefonoCasa() != null){
+        if (paciente.getPacienteTelefonoCasa() != null) {
             return paciente.getPacienteTelefonoCasa();
         }
-        if(paciente.getPacienteTelefonoOficina() != null){
+        if (paciente.getPacienteTelefonoOficina() != null) {
             return paciente.getPacienteTelefonoOficina();
         }
         return "Sin teléfono";
     }
-    
+
     //Método para editar un Paciente (fichadatos_gestionar.xhtml)
     public void editarPaciente() {
-        try{
+        try {
             pacienteEditar.setPacienteUsuarioModificacion("Nombre de usuario");
             pacienteEditar.setPacienteFechaModificacion(new Date());
             getPacientesFacade().edit(pacienteEditar);
-            guardarBitacora("Editó datos de paciente ("+pacienteEditar.getPacientePrimerNombre()+" "+pacienteEditar.getPacientePrimerApellido()+").");
+            guardarBitacora("Editó datos de paciente (" + pacienteEditar.getPacientePrimerNombre() + " " + pacienteEditar.getPacientePrimerApellido() + ").");
             this.setTabIndex(0);
             this.setTabIndexFicha(0);
             mensajeConfirmacion("Los datos del paciente se han actualizado.");
@@ -1264,9 +1383,9 @@ public class ExpedientesBean implements Serializable {
 
     //Método para editar la Dirección de un Paciente (fichadatos_gestionar.xhtml)
     public void editarDireccion() {
-        try{
+        try {
             getDireccionesFacade().edit(direccionEditar);
-            guardarBitacora("Editó la dirección de paciente ("+direccionEditar.getPacienteId().getPacientePrimerNombre()+" "+direccionEditar.getPacienteId().getPacientePrimerApellido()+").");
+            guardarBitacora("Editó la dirección de paciente (" + direccionEditar.getPacienteId().getPacientePrimerNombre() + " " + direccionEditar.getPacienteId().getPacientePrimerApellido() + ").");
             this.setTabIndex(0);
             this.setTabIndexFicha(1);
             mensajeConfirmacion("La dirección de residencia se ha actualizado.");
@@ -1274,12 +1393,12 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: editarDireccion.");
         }
     }
- 
+
     //Método para guardar Patologias de un paciente (antecedentes_gestionar.xhtml)
     public void guardarPatologias() {
-        try{
+        try {
             getPacientesFacade().edit(pacienteEditar);
-            guardarBitacora("Editó patologias de paciente ("+pacienteEditar.getPacientePrimerNombre()+" "+pacienteEditar.getPacientePrimerApellido()+").");
+            guardarBitacora("Editó patologias de paciente (" + pacienteEditar.getPacientePrimerNombre() + " " + pacienteEditar.getPacientePrimerApellido() + ").");
             this.setTabIndex(1);
             mensajeConfirmacion("Los antecedentes se han actualizado.");
         } catch (Exception e) {
@@ -1289,15 +1408,15 @@ public class ExpedientesBean implements Serializable {
 
     //Método para guardar Consulta de un paciente (consultas_gestionar.xhtml)
     public void guardarConsulta() throws InterruptedException {
-        try{
+        try {
             consultaNueva.setConsultaFechaCreacion(fechaSistema);
             consultaNueva.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
             getConsultasFacade().create(consultaNueva);
-            guardarBitacora("Registró una consulta a paciente ("+consultaNueva.getPacienteId().getPacientePrimerNombre()+" "+consultaNueva.getPacienteId().getPacientePrimerApellido()+").");
-            
-            if(citaId > 0){
+            guardarBitacora("Registró una consulta a paciente (" + consultaNueva.getPacienteId().getPacientePrimerNombre() + " " + consultaNueva.getPacienteId().getPacientePrimerApellido() + ").");
+
+            if (citaId > 0) {
                 citaSeleccionada = getCitasFacade().find(citaId);
-                if(citaSeleccionada != null){
+                if (citaSeleccionada != null) {
                     citaSeleccionada.setCitaEstado(3);
                     getCitasFacade().edit(citaSeleccionada);
                 }
@@ -1305,7 +1424,7 @@ public class ExpedientesBean implements Serializable {
             consultaEditar = getConsultasFacade().find(consultaNueva.getConsultaId());
             //consultaNueva = new Consultas();
             this.setTabIndex(2);
-            refrescaPagina("/views/2_expedientes/consultas_plantilla_gestionar.xhtml?expedientegestionar="+pacienteEditar.getPacienteId()+"&consultaseleccionada="+consultaNueva.getConsultaId()+"&tabindex=2");
+            refrescaPagina("/views/2_expedientes/consultas_plantilla_gestionar.xhtml?expedientegestionar=" + pacienteEditar.getPacienteId() + "&consultaseleccionada=" + consultaNueva.getConsultaId() + "&tabindex=2");
             //Thread.sleep(5000);
             mensajeConfirmacion("La consulta se ha guardado.");
         } catch (Exception e) {
@@ -1314,35 +1433,34 @@ public class ExpedientesBean implements Serializable {
     }
 
     //Método para direccionar a una página (consultas_nuevo.xhtml)
-    public void refrescaPagina(String url){
+    public void refrescaPagina(String url) {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
         String contextPath = origRequest.getContextPath();
-        try{
-            FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+url);
-        }
-        catch(IOException e){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + url);
+        } catch (IOException e) {
             e.printStackTrace();
             mensajeError("Se detuvo el proceso en el método: refrescaPagina.");
         }
     }
-    
+
     //Método para editar una Consulta (consultas_gestionar.xhtml)
     public void editarConsulta() {
-        try{
+        try {
             getConsultasFacade().edit(consultaEditar);
-            guardarBitacora("Editó una consulta de paciente ("+consultaEditar.getPacienteId().getPacientePrimerNombre()+" "+consultaEditar.getPacienteId().getPacientePrimerApellido()+").");
+            guardarBitacora("Editó una consulta de paciente (" + consultaEditar.getPacienteId().getPacientePrimerNombre() + " " + consultaEditar.getPacienteId().getPacientePrimerApellido() + ").");
             this.setTabIndex(2);
             mensajeConfirmacion("La consulta se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarConsulta.");
         }
     }
-    
+
     //Método para seleccionar extracción en una pieza (odontograma_gestionar.xhtml)
-    public void extraccionSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaExtraccion() == true){
+    public void extraccionSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaExtraccion() == true) {
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
                 piezaEditar.setOdontogramaProtesis(Boolean.FALSE);
@@ -1355,11 +1473,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: extraccionSeleccionada.");
         }
     }
-   
+
     //Método para seleccionar ausente en una pieza (odontograma_gestionar.xhtml)
-    public void ausenteSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaAusente() == true){
+    public void ausenteSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaAusente() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
                 piezaEditar.setOdontogramaProtesis(Boolean.FALSE);
@@ -1372,11 +1490,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: ausenteSeleccionada.");
         }
     }
-   
+
     //Método para seleccionar fractura en una pieza (odontograma_gestionar.xhtml)
-    public void fracturaSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaFractura() == true){
+    public void fracturaSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaFractura() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaProtesis(Boolean.FALSE);
@@ -1389,11 +1507,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: fracturaSeleccionada.");
         }
     }
-   
+
     //Método para seleccionar protesis en una pieza (odontograma_gestionar.xhtml)
-    public void protesisSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaProtesis() == true){
+    public void protesisSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaProtesis() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
@@ -1406,11 +1524,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: protesisSeleccionada.");
         }
     }
-   
+
     //Método para seleccionar implante en una pieza (odontograma_gestionar.xhtml)
-    public void implanteSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaImplante() == true){
+    public void implanteSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaImplante() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
@@ -1423,11 +1541,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: implanteSeleccionada.");
         }
     }
-    
+
     //Método para seleccionar endodoncia en una pieza (odontograma_gestionar.xhtml)
-    public void endodonciaSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaEndodoncia() == true){
+    public void endodonciaSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaEndodoncia() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
@@ -1440,11 +1558,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: endodonciaSeleccionada.");
         }
     }
-   
+
     //Método para seleccionar protesis reincidente en una pieza (odontograma_gestionar.xhtml)
-    public void protesisReincidenteSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaProtesisReincide() == true){
+    public void protesisReincidenteSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaProtesisReincide() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
@@ -1457,11 +1575,11 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: protesisReincidenteSeleccionada.");
         }
     }
-   
+
     //Método para seleccionar endodoncia reincidente en una pieza (odontograma_gestionar.xhtml)
-    public void endodonciaReincidenteSeleccionada(){
-        try{
-            if(piezaEditar.getOdontogramaEndodonciaReincide() == true){
+    public void endodonciaReincidenteSeleccionada() {
+        try {
+            if (piezaEditar.getOdontogramaEndodonciaReincide() == true) {
                 piezaEditar.setOdontogramaExtraccion(Boolean.FALSE);
                 piezaEditar.setOdontogramaAusente(Boolean.FALSE);
                 piezaEditar.setOdontogramaFractura(Boolean.FALSE);
@@ -1474,35 +1592,34 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: endodonciaReincidenteSeleccionada.");
         }
     }
-   
+
     //Método para editar una Pieza (odontograma_gestionar.xhtml)
-    public void editarPieza(){
-        try{
+    public void editarPieza() {
+        try {
             getOdontogramasFacade().edit(piezaEditar);
-            guardarBitacora("Editó odontograma de paciente ("+piezaEditar.getPacienteId().getPacientePrimerNombre()+" "+piezaEditar.getPacienteId().getPacientePrimerApellido()+").");
+            guardarBitacora("Editó odontograma de paciente (" + piezaEditar.getPacienteId().getPacientePrimerNombre() + " " + piezaEditar.getPacienteId().getPacientePrimerApellido() + ").");
             piezaEditar = new Odontogramas();
             this.setTabIndex(3);
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarPieza.");
         }
     }
-    
+
     //Método para guardar Detalle de Consulta (odontograma_gestionar.xhtml)
     public void guardarDetalleConsulta() {
-        try{
-            if(detalleConsultaNuevo.getDetalleconsultaId() != null){
+        try {
+            if (detalleConsultaNuevo.getDetalleconsultaId() != null) {
                 getDetallesConsultasFacade().edit(detalleConsultaNuevo);
-                guardarBitacora("Editó un tratamiento de paciente ("+detalleConsultaNuevo.getPacienteId().getPacientePrimerNombre()+" "+detalleConsultaNuevo.getPacienteId().getPacientePrimerApellido()+").");
+                guardarBitacora("Editó un tratamiento de paciente (" + detalleConsultaNuevo.getPacienteId().getPacientePrimerNombre() + " " + detalleConsultaNuevo.getPacienteId().getPacientePrimerApellido() + ").");
                 detalleConsultaNuevo = new DetallesConsultas();
                 this.setTabIndex(3);
                 mensajeConfirmacion("El tratamiento se ha actualizado.");
-            }
-            else{
+            } else {
                 detalleConsultaNuevo.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
                 detalleConsultaNuevo.setDetalleconsultaFechaCreacion(fechaSistema);
                 detalleConsultaNuevo.setDetalleconsultaUsuarioCreacio("Nombre Usuario");
                 getDetallesConsultasFacade().create(detalleConsultaNuevo);
-                guardarBitacora("Registró un tratamiento a paciente ("+pacienteEditar.getPacientePrimerNombre()+" "+pacienteEditar.getPacientePrimerApellido()+").");
+                guardarBitacora("Registró un tratamiento a paciente (" + pacienteEditar.getPacientePrimerNombre() + " " + pacienteEditar.getPacientePrimerApellido() + ").");
                 detalleConsultaNuevo = new DetallesConsultas();
                 this.setTabIndex(3);
                 mensajeConfirmacion("El tratamiento se ha guardado.");
@@ -1516,14 +1633,14 @@ public class ExpedientesBean implements Serializable {
     //Método para eliminar un Detalle de Consulta (odontograma_gestionar.xhtml)
     public void eliminarDetalleConsulta() {
         try {
-            guardarBitacora("Eliminó un tratamiento de paciente ("+detalleConsultaEditar.getPacienteId().getPacientePrimerNombre()+" "+detalleConsultaEditar.getPacienteId().getPacientePrimerApellido()+").");
+            guardarBitacora("Eliminó un tratamiento de paciente (" + detalleConsultaEditar.getPacienteId().getPacientePrimerNombre() + " " + detalleConsultaEditar.getPacienteId().getPacientePrimerApellido() + ").");
             getDetallesConsultasFacade().remove(detalleConsultaEditar);
             mensajeConfirmacion("El tratamiento se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarDetalleConsulta.");
         }
     }
-    
+
     //Método para cargar un Detalle de Consulta (odontograma_gestionar.xhtml)
     public void cargarDetalleConsulta() {
         try {
@@ -1532,60 +1649,60 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: eliminarDetalleConsulta.");
         }
     }
-    
+
     // Método para calcular saldo pendiente de paciente (expediente)
     public double calcularSaldoPendienteGestionar() {
         double cargo = 0.0;
         double abono = 0.0;
         double saldo = 0.0;
-        for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteGestionar()){
+        for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteGestionar()) {
             cargo = cargo + detalle.getDetalleconsultaCargo();
             abono = abono + detalle.getDetalleconsultaAbono();
         }
         saldo = cargo - abono;
         return saldo;
     }
-    
+
     // Método para calcular saldo pendiente de paciente (expediente)
     public double calcularSaldoPendienteConsultar() {
         double cargo = 0.0;
         double abono = 0.0;
         double saldo = 0.0;
-        for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteConsultar()){
+        for (DetallesConsultas detalle : todosDetallesConsultasPorPacienteConsultar()) {
             cargo = cargo + detalle.getDetalleconsultaCargo();
             abono = abono + detalle.getDetalleconsultaAbono();
         }
         saldo = cargo - abono;
         return saldo;
     }
-    
+
     // Método para extraer la ubicación de imágenes (imagenes_consultar.xhtml)
     public String imagenPacienteConsultar(Imagenes imagen) {
-        String direccion = "../../images/pacientes/"+pacienteConsultar.getPacienteId()+"/"+imagen.getImagenNombre();
+        String direccion = "../../images/pacientes/" + pacienteConsultar.getPacienteId() + "/" + imagen.getImagenNombre();
         return direccion;
     }
-    
+
     // Método para extraer la ubicación de imágenes (imagenes_gestionar.xhtml)
     public String imagenPacienteGestionar(Imagenes imagen) {
-        String direccion = "../../images/pacientes/"+pacienteEditar.getPacienteId()+"/"+imagen.getImagenNombre();
+        String direccion = "../../images/pacientes/" + pacienteEditar.getPacienteId() + "/" + imagen.getImagenNombre();
         return direccion;
     }
-    
+
     // Método para eliminar una imagen (imagenes_gestionar.xhtml)
-    public void eliminarImagen(){
-        try{
-            guardarBitacora("Eliminó una imagen de paciente ("+imagenEditar.getPacienteId().getPacientePrimerNombre()+" "+imagenEditar.getPacienteId().getPacientePrimerApellido()+").");
+    public void eliminarImagen() {
+        try {
+            guardarBitacora("Eliminó una imagen de paciente (" + imagenEditar.getPacienteId().getPacientePrimerNombre() + " " + imagenEditar.getPacienteId().getPacientePrimerApellido() + ").");
             getImagenesFacade().remove(imagenEditar);
             eliminarArchivo();
             mensajeConfirmacion("La imagen se ha eliminado.");
-        } catch (Exception e){
+        } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarImagen.");
         }
     }
-    
+
     // Método para eliminar fisicamente una imagen (imagenes_gestionar.xhtml)
     public void eliminarArchivo() throws FileNotFoundException {
-        try{
+        try {
             File archivoEliminar = new File(imagenEditar.getImagenUrl());
             //System.out.println("Imagen a eliminar: "+archivoEliminar);
             if (archivoEliminar.exists()) {
@@ -1593,42 +1710,40 @@ public class ExpedientesBean implements Serializable {
                 if (archivoEliminar.delete()) {
                     //System.out.println("El archivo se eliminó.");
                 }
-            }
-            else{
+            } else {
                 //System.out.println("El archivo no existe.");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarArchivo.");
         }
     }
-    
+
     //Método para verificar si ya existe la imagen a subir (imagenes_gestionar.xhtml)
     public void existeArchivo() {
-        try{
-            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext(); 
-            String pathRelativo = "/images/pacientes/"; 
+        try {
+            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+            String pathRelativo = "/images/pacientes/";
             String directorio = dir.getRealPath(pathRelativo);
             //System.out.println("Directorio 1" + directorio);
             //FacesContext cty = FacesContext.getCurrentInstance();
             //String directorio = cty.getExternalContext().getInitParameter("directory_path_patients");
-            File archivo1 = new File(directorio + "/" + pacienteEditar.getPacienteId() + "/" + getFile().getFileName()+"/");
+            File archivo1 = new File(directorio + "/" + pacienteEditar.getPacienteId() + "/" + getFile().getFileName() + "/");
             //System.out.println("Directorio 2" + directorio + "/" + pacienteEditar.getPacienteId() + "/" + getFile().getFileName()+"/");
             if (archivo1.exists()) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para este paciente.");
                 RequestContext.getCurrentInstance().showMessageInDialog(message);
-            }
-            else{
+            } else {
                 subeArchivo(file);
             }
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: existeArchivo.");
         }
     }
-      
+
     //Método que guarda el archivo seleccionado (ver_aprobacion) y (ver_perfil).
     public void subeArchivo(UploadedFile file) throws InterruptedException {
-        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext(); 
-        String pathRelativo = "/images/pacientes/"; 
+        ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/pacientes/";
         String directorioArchivo = dire.getRealPath(pathRelativo);
         //System.out.println("Directorio 3" + directorioArchivo);
         //System.out.println("Directorio 4" + directorioArchivo + "/" + pacienteEditar.getPacienteId());
@@ -1663,7 +1778,7 @@ public class ExpedientesBean implements Serializable {
             imagenNueva.setImagenFechaCreacion(new Date());
             imagenNueva.setImagenUsuarioCreacion("Nombre Usuario");
             getImagenesFacade().create(imagenNueva);
-            guardarBitacora("Registró una imagen a paciente ("+imagenNueva.getPacienteId().getPacientePrimerNombre()+" "+imagenNueva.getPacienteId().getPacientePrimerApellido()+").");
+            guardarBitacora("Registró una imagen a paciente (" + imagenNueva.getPacienteId().getPacientePrimerNombre() + " " + imagenNueva.getPacienteId().getPacientePrimerApellido() + ").");
             Thread.sleep(3000);
             imagenNueva = new Imagenes();
             this.setTabIndex(4);
@@ -1672,9 +1787,9 @@ public class ExpedientesBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: subeArchivo.");
         }
     }
-    
+
     //Método para inicializar los valores en pantalla de busqueda de pacientes (paciente_consultar.xhtml y paciente_gestionar.xhtml).
-    public void inicializaBusquedaPaciente(){
+    public void inicializaBusquedaPaciente() {
         this.setExpediente("");
         this.setNombre("");
     }
@@ -1682,114 +1797,113 @@ public class ExpedientesBean implements Serializable {
     // Método para extraer el nombre de los médicos (consultas_nuevo.xhtml) y (consultas_gestionar.xhtml)
     public String nombreMedico(Medicos medico) {
         String nombre = "Dra. ";
-        if(medico.getMedicoSexo()){
+        if (medico.getMedicoSexo()) {
             nombre = "Dr. ";
         }
-        if(medico.getMedicoPrimerNombre() != null){
+        if (medico.getMedicoPrimerNombre() != null) {
             nombre = nombre + medico.getMedicoPrimerNombre();
         }
-        if(medico.getMedicoSegundoNombre() != null){
+        if (medico.getMedicoSegundoNombre() != null) {
             nombre = nombre + " " + medico.getMedicoSegundoNombre();
         }
-        if(medico.getMedicoPrimerApellido() != null){
+        if (medico.getMedicoPrimerApellido() != null) {
             nombre = medico + " " + medico.getMedicoPrimerApellido();
         }
-        if(medico.getMedicoSegundoApellido() != null){
+        if (medico.getMedicoSegundoApellido() != null) {
             nombre = medico + " " + medico.getMedicoSegundoApellido();
         }
         return nombre;
     }
-    
-    public void asignaTab(){
+
+    public void asignaTab() {
         this.setTabIndex(4);
     }
-    
+
     //Este método no se donde carajo se ocupa jajaja
     //Ya me acordé, lo utilizo en paciente_consultar.xhtml y paciente_gestionar.xhtml
     //Estado: En uso 
-    public void direccionPaciente(){
+    public void direccionPaciente() {
         direccionConsultar = new Direcciones();
         direccionConsultar = getDireccionesFacade().DireccionDePaciente(pacienteConsultar.getPacienteId());
         Municipios mup = getMunicipiosFacade().MunicipioDePaciente(direccionConsultar.getMunicipioId().getMunicipioId());
         departametoIdConsultar = mup.getDepartamentoId().getDepartamentoId();
     }
-        
+
     //Metodo para direccionar el darhboard del Medico a un expediente especifico
     //Solo cargare el expediente en la variables correspondientes
     //Consultar
     //Usado en: medico.xhtml
     //Estado: En uso.
     //Fecha: 06/febrero/2019
-    public void dashboarExpedienteConsultar(String usuarioUsuario){
-        try{
+    public void dashboarExpedienteConsultar(String usuarioUsuario) {
+        try {
             pacienteConsultar = getPacientesFacade().pacienteUsuario(usuarioUsuario).get(0);
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println("controllers.ExpedientesBean.dashboarExpedienteConsultar()");
             System.err.println(e);
         }
-        
+
     }
-    
+
     //Metodo para direccionar el darhboard del Medico a un expediente especifico
     //Solo cargare el expediente en la variables correspondientes
     //Editar
     //Usado en: medico.xhtml
     //Estado: En uso.
     //Fecha: 06/febrero/2019
-    public void dashboarExpedienteEditar(String usuarioUsuario){
-        try{
+    public void dashboarExpedienteEditar(String usuarioUsuario) {
+        try {
             pacienteEditar = getPacientesFacade().pacienteUsuario(usuarioUsuario).get(0);
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             System.out.println("controllers.ExpedientesBean.dashboarExpedienteConsultar()");
             System.err.println(e);
         }
     }
-    
+
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
-    public void verificaAcceso(int pagina){
+    public void verificaAcceso(int pagina) {
         boolean acceso = false;
-        try{
+        try {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
             String contextPath = origRequest.getContextPath();
-            
-            if(appSession.getUsuario() == null){
-                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
-            }
-            else{
-                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
-                    for (Submenus submenu : todosSubmenusDisponibles()){
+
+            if (appSession.getUsuario() == null) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
+            } else {
+                if (!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())) {
+                    for (Submenus submenu : todosSubmenusDisponibles()) {
                         //System.out.println("Submenu: " + submenu.getSumbenuNombre());
-                        if(submenu.getSubmenuId() == pagina){
+                        if (submenu.getSubmenuId() == pagina) {
                             acceso = true;
                         }
                     }
                 }
             }
-            if(!acceso){
-                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            if (!acceso) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.out.println("La variable appSession es nula.");
         }
     }
-    
+
     //Método para mostrar mensaje de guardado/actualizado.
     public void mensajeConfirmacion(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-    
+
     //Método para mostrar mensaje de error en el sistema.
     public void mensajeError(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
         RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
-        
+
     //Método para cargar expediente seleccionado para consultar. (paciente_expediente_consultar.xhtml y consultas_plantilla_consultar.xhtml)
-    public void cargarExpedienteConsultar(){
+    public void cargarExpedienteConsultar() {
         pacienteConsultar = getPacientesFacade().find(expedienteId);
         consultaSeleccionada = getConsultasFacade().find(consultaId);
         this.direccionConsultar = getDireccionesFacade().direccionPorPaciente(pacienteConsultar.getPacienteId());
@@ -1846,15 +1960,15 @@ public class ExpedientesBean implements Serializable {
         this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "84");
         this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteConsultar.getPacienteId(), "85");
     }
-    
+
     //Método para cargar expediente seleccionado para gestionara. (paciente_expediente_gestionar.xhtml y consultas_plantilla_nuevo.xhtml)
-    public void cargarExpedienteGestionar(){
+    public void cargarExpedienteGestionar() {
         //System.out.println("pacienteId: "+expedienteId);
         pacienteEditar = getPacientesFacade().find(expedienteId);
         //System.out.println("consultaId: "+consultaId);
         consultaEditar = getConsultasFacade().find(consultaId);
         //System.out.println("hola: ");
-        if(appSession.getUsuario().getRolId().getRolId() == 3){
+        if (appSession.getUsuario().getRolId().getRolId() == 3) {
             consultaNueva.setMedicoId(appSession.getUsuario().getMedicoId());
         }
         this.direccionEditar = getDireccionesFacade().direccionPorPaciente(pacienteEditar.getPacienteId());
@@ -1911,11 +2025,11 @@ public class ExpedientesBean implements Serializable {
         this.pieza84 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "84");
         this.pieza85 = getOdontogramasFacade().odontogramaPorPiezaPaciente(pacienteEditar.getPacienteId(), "85");
     }
-    
+
     //Método para cargar datos de usuario seleccionado para registrar paciente. (paciente_registrar.xhtml)
     public void cargarRegistroPaciente() {
         usuario = getUsuarioFacade().find(us);
-        if(usuario != null){
+        if (usuario != null) {
             pacienteNuevo.setPacientePrimerNombre(usuario.getUsuarioPrimerNombre());
             pacienteNuevo.setPacienteSegundoNombre(usuario.getUsuarioSegundoNombre());
             pacienteNuevo.setPacientePrimerApellido(usuario.getUsuarioPrimerApellido());
@@ -1924,5 +2038,5 @@ public class ExpedientesBean implements Serializable {
             pacienteNuevo.setPacienteTelefonoMovil(usuario.getUsuarioTelefono());
         }
     }
-    
+
 }

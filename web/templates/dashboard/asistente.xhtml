@@ -11,9 +11,8 @@
 
     <!-- Panel color blanco -->
     <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-
-        <br/>
-
+        <div class="banda2"><b> CITAS DEL DÍA</b></div>
+        <p:spacer height="10"/>
         <div class="row">
             <div class="col-md-12">
                 <h:form>
@@ -57,7 +56,10 @@
                                             #{cita.pacienteId.pacientePrimerNombre} #{cita.pacienteId.pacienteSegundoNombre} #{cita.pacienteId.pacientePrimerApellido} #{cita.pacienteId.pacienteSegundoApellido}
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{cita.pacienteId == null}">
-                                            #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido}
+                                            #{cita.usuarioUsuario.usuarioPrimerNombre} #{cita.usuarioUsuario.usuarioSegundoNombre} #{cita.usuarioUsuario.usuarioPrimerApellido} #{cita.usuarioUsuario.usuarioSegundoApellido} <span class="glyphicon glyphicon-ban-circle" style="color:#066ead; "></span>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{citasBean.cumplenieroDia(cita.pacienteId)}">
+                                            <span class="glyphicon glyphicon-gift" style="color:#066ead; font-size: smaller;"/>
                                         </h:panelGroup>
                                     </td>
                                     <td align="left">
@@ -91,6 +93,7 @@
                                             &nbsp;
                                             <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" title="Crear un usuario">
                                                 <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
+                                                <f:param name="ci" value="#{cita.citaId}"/>
                                                 <!--Actualizar la cita con el usuario-->
                                             </h:link>
                                         </h:panelGroup>
@@ -98,10 +101,12 @@
                                         <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
                                             <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear expediente">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                <f:param name="ci" value="#{cita.citaId}"/>
                                             </h:link> 
                                             &nbsp;
                                             <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                <f:param name="ci" value="#{cita.citaId}"/>
                                             </h:link>
                                         </h:panelGroup> 
                                         <!--Caso 3: Tiene expediente y usuario-->
@@ -122,10 +127,24 @@
                         </tbody> 
                     </table>
                 </div>
+
+
             </h:form>
         </div>
-
-
+    </p:panel>
+     <p:spacer height="10"/>
+    <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+        <div class="row">
+            <div class="col-md-4">
+                <span class="glyphicon glyphicon-ban-circle" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Sin ficha de datos</span>
+            </div>
+            <div class="col-md-4">
+                <span class="glyphicon glyphicon-gift" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Cumpleañero de día </span>
+            </div>
+            <div class="col-md-4">
+               
+            </div>
+        </div>
     </p:panel>
 
     <br/>

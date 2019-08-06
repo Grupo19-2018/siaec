@@ -13,6 +13,7 @@
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewParam name="p" value="#{catalogosBean.pacienteId}"/>
+                    <f:viewParam name="ci" value="#{catalogosBean.citaUsuario}"/>
                     <f:viewAction action="#{catalogosBean.cargarInformacionPacienteDashboard()}"/>
                 </f:metadata>
             </ui:define>

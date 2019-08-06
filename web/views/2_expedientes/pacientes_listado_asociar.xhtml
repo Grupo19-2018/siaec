@@ -13,6 +13,7 @@
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewParam name="us" value="#{expedientesBean.us}"/>
+                    <f:viewParam name="ci" value="#{expedientesBean.citaUsuario}"/>
                 </f:metadata>
             </ui:define>
 
@@ -83,7 +84,7 @@
                                     <!-- Cabecera del modal -->
                                     <div class="modal-header" style="background-color: #066EAD">
                                         <button type="button" class="close btn btn-default" data-dismiss="modal" style="width: 20pt; height: 25pt; background-color: #FF7F27; color: white" aria-hidden="true"><b>X</b></button>
-                                        <h5 class="modal-title"><b><font color="#fff">Usuario-Paciente</font></b></h5>
+                                        <h5 class="modal-title"><b><font color="#fff">Asociar Usuario a Expediente</font></b></h5>
                                     </div>
 
                                     <!-- Cuerpo del modal -->
@@ -111,7 +112,7 @@
                                                     <center>
                                                         <h:commandLink type="submit" class="btn btn-default" action="#{expedientesBean.actualizarPacienteUsuario()}"
                                                                        style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
-                                                            <i class="glyphicon glyphicon-user"></i> Actualizar
+                                                            <i class="glyphicon glyphicon-user"></i> Asociar
                                                         </h:commandLink>
                                                         &nbsp;
                                                         <button type="button" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt" data-dismiss="modal" aria-hidden="true">

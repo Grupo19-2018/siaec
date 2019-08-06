@@ -282,40 +282,40 @@ public List<Bitacora> todosRegistroBitacora(){
         for (int i = 0; i < contador.length; i++) {
             switch (i) {
                 case 0:
-                    sucursal1.set("Enero", contador[i]);
+                    sucursal1.set("Ene", contador[i]);
                     break;
                 case 1:
-                    sucursal1.set("Febrero", contador[i]);
+                    sucursal1.set("Feb", contador[i]);
                     break;
                 case 2:
-                    sucursal1.set("Marzo", contador[i]);
+                    sucursal1.set("Mar", contador[i]);
                     break;
                 case 3:
-                    sucursal1.set("Abril", contador[i]);
+                    sucursal1.set("Abr", contador[i]);
                     break;
                 case 4:
-                    sucursal1.set("Mayo", contador[i]);
+                    sucursal1.set("May", contador[i]);
                     break;
                 case 5:
-                    sucursal1.set("Junio", contador[i]);
+                    sucursal1.set("Jun", contador[i]);
                     break;
                 case 6:
-                    sucursal1.set("Julio", contador[i]);
+                    sucursal1.set("Jul", contador[i]);
                     break;
                 case 7:
-                    sucursal1.set("Agosto", contador[i]);
+                    sucursal1.set("Ago", contador[i]);
                     break;
                 case 8:
-                    sucursal1.set("Septiember", contador[i]);
+                    sucursal1.set("Sep", contador[i]);
                     break;
                 case 9:
-                    sucursal1.set("Octubre", contador[i]);
+                    sucursal1.set("Oct", contador[i]);
                     break;
                 case 10:
-                    sucursal1.set("Noviembre", contador[i]);
+                    sucursal1.set("Nov", contador[i]);
                     break;
                 case 11:
-                    sucursal1.set("Diciembre", contador[i]);
+                    sucursal1.set("Dic", contador[i]);
                     break;
             }
         }

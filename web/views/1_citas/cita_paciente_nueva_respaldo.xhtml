@@ -7,7 +7,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
-
+        
         <ui:define name="meta-data">
             <f:metadata>
                 <f:viewAction action="#{citasBean.verificaAcceso(5)}"/>
@@ -15,9 +15,9 @@
                 <f:viewAction action="#{citasBean.pantallaCita(1)}"/>
             </f:metadata>
         </ui:define>
-
+        
         <ui:define name="content">
-
+            
             <div class="banda1"><b>NUEVA CITA</b></div>
             <br/>
             <!-- Panel color blanco -->
@@ -30,51 +30,49 @@
                             <div class="col-md-8">
 
                                 <div class="col-md-6 col-sm-12">
-                                    <h6><b>Nombres</b></h6>
-                                    <p:inputText id="nombre" value="#{citasBean.nombre}" style="width: 100% ; background:#D8D8D8" disabled="true">
+                                    <h6><b>Nombres *</b></h6>
+                                    <p:inputText id="nombre" value="#{citasBean.nombre}" style="width: 100%" disabled="true">
                                     </p:inputText>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
-                                    <h6><b>Apellidos</b></h6>
-                                    <p:inputText id="apellido" value="#{citasBean.apellido}" style="width: 100% ; background: #D8D8D8" required="true" disabled="true">
+                                    <h6><b>Apellidos *</b></h6>
+                                    <p:inputText id="apellido" value="#{citasBean.apellido}" style="width: 100%" required="true" disabled="true">
                                     </p:inputText>
                                 </div>
 
 
                                 <div class="col-md-6 col-sm-6">
-                                    <h6><b>Teléfono</b></h6>
-                                    <p:inputMask id="telefono" value="#{citasBean.telefono}" mask="9999-9999" style="width: 100%; background: #D8D8D8" disabled="true"/>
+                                    <h6><b>Teléfono </b></h6>
+                                    <p:inputMask id="telefono" value="#{citasBean.telefono}" mask="9999-9999" style="width: 100%" disabled="true"/>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Correo</b></h6>
-                                    <p:inputText id="correo" value="#{citasBean.correo}" style="width: 100%; background: #D8D8D8" disabled="true">
+                                    <p:inputText id="correo" value="#{citasBean.correo}" style="width: 100%" disabled="true">
                                     </p:inputText>
                                 </div>
 
 
                                 <div class="col-md-6 col-sm-6">
-                                    <h6><b>Sucursal*</b></h6>
+                                    <h6><b>Sucursal *</b></h6>
                                     <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}"  required="true" 
                                                      requiredMessage="Clinica requerida" style="width: 100%"  >
-
+                                        
                                         <f:selectItem itemLabel="Seleccione uno..." itemValue="0"  />
                                         <f:selectItems value="#{citasBean.todasClinicas()}" var="clinica" 
                                                        itemLabel="#{clinica.clinicaNombre}" itemValue="#{clinica.clinicaId}"/>
                                         <p:ajax process="@this" partialSubmit="true"/>
                                         <p:ajax update="console2, panelHorario "/>
-                                        <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                     </p:selectOneMenu>
                                     <p:message for="clinica2" />
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Médico</b></h6>
-                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%">
+                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" >
                                         <f:selectItem itemLabel="Seleccione uno..." itemValue=""/>
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
                                                        itemValue="#{medico}"/>
                                         <p:ajax update="console2"/>
-                                        <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                     </p:selectOneMenu>
                                 </div>
 
@@ -88,37 +86,29 @@
                             <div class="col-md-4 ">
 
                                 <div class="col-md-12 col-sm-6 cita-espacio">
+
                                     <center>
-                                        <h6><b>Fecha*</b> (dd-mm-aaaa)</h6>
-                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" showOn="button"  mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar tamaniocalendario2" pattern="dd-MM-yyyy" readonly="true" yearRange="c-2:c+2">
+                                        <h6><b>Fecha</b></h6>
+                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" mode="inline" mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar">
                                             <p:ajax event="dateSelect" update="console2"/>
-                                            <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                         </p:calendar>
                                     </center>
                                 </div>
 
                                 <div class="col-md-12 col-sm-6 cita-espacio">
-                                    <center>
-                                        <h6><b>Hora de cita seleccionado </b></h6>
-                                        <p:inputText id="horaDeCita" value="#{citasBean.horariosAmPm(citasBean.horaE)}" style="width: 100% ; background:#D8D8D8" disabled="true"/>
-                                    </center>
-                                </div>
 
-                                <div class="col-md-12 col-sm-6 cita-espacio">
                                     <center>
-                                        <h6><b>Horarios Disponible*</b></h6>
+                                        <h6><b>Horarios </b></h6>
                                         <p:panel id="panelHorario" >
-                                            <p:panel rendered="#{citasBean.clinicaSeleccionada == 0}" style="font-style: italic">
+                                            <p:panel rendered="#{citasBean.clinicaSeleccionada == 0}">
                                                 Seleccione una sucursal
                                             </p:panel>
                                         </p:panel>
                                         <p:selectOneRadio id="console2" value="#{citasBean.horaE}" layout="grid" columns="2" required="true"
                                                           requiredMessage="Seleccione un horario">
-
                                             <f:selectItems value="#{citasBean.horariosDisponibleSucursalPaciente()}" var="h" 
                                                            itemLabel="#{h.hora}" itemValue="#{h.valor}"/>
                                             <p:ajax process="@this" partialSubmit="true"/>
-                                            <p:ajax update="horaDeCita"/>
                                         </p:selectOneRadio>
                                         <p:message for="console2" />
                                     </center>
@@ -127,11 +117,6 @@
 
                         </div>
 
-                        <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
-                            <div class="col-md-12" style="font-size: smaller; font-style: italic;">
-                                * Campos obligatorios 
-                            </div>
-                        </div>
                         <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
                             <div class="col-md-12">
                                 <center>
@@ -155,36 +140,36 @@
 
             </h:form>
             <p:spacer height="50"/>
-
+            
             <script type="text/javascript">
-                PrimeFaces.locales['es'] = {
-                    closeText: 'Cerrar',
-                    prevText: 'Anterior',
-                    nextText: 'Siguiente',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                    weekHeader: 'Semana',
-                    firstDay: 1,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: '',
-                    timeOnlyTitle: 'Sólo hora',
-                    timeText: 'Tiempo',
-                    hourText: 'Hora',
-                    minuteText: 'Minuto',
-                    secondText: 'Segundo',
-                    currentText: 'Fecha actual',
-                    ampm: false,
-                    month: 'Mes',
-                    week: 'Semana',
-                    day: 'Día',
-                    allDayText: 'Todo el día'
-                };
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
             </script>
-
+            
         </ui:define>
     </ui:composition>
 </html>

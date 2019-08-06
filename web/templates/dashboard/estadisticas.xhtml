@@ -12,6 +12,8 @@
     <h:form id="estadistica">
         <!-- Panel color blanco -->
         <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+            <div class="banda2"><b> CITAS DEL DÍA</b></div>
+            <p:spacer height="10"/>
             <div class="row">
                 <div class="col-lg-12">
                     #{dashboard.cantidadCitasDia(sesionBean.appSession.usuario)}
@@ -123,8 +125,6 @@
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 0}">
                                                     Error
                                                 </h:panelGroup>
-
-
                                             </center>
                                         </td>
                                     </tr>
@@ -136,39 +136,32 @@
                 </div>
                 <br/>
             </div>
-
-            <div class="row margen-estadisticas-tablero" >
+        </p:panel>
+    </h:form>
+    <p:spacer height="10"/>
+    
+    <h:form>
+        <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+            <div class="banda2"><b> ESTADÍSTICAS GENERALES</b></div>
+            <p:spacer height="10"/>
+            <div class="row">
                 <div class="col-md-12">
-                    <div class="col-md-4" >
-                        <p:panel class="estadisticas" style="padding: 0">
-                            <div style="text-align: center">Total de pacientes registrados </div>
-                            <div style="text-align: center">#{dashboard.totalPacientesRegistrado()}</div>
+
+                    <div class="col-md-4 margen-estadisticas-cirular">
+                        <p:panel id="grafico2">
+                            <p:chart type="pie" model="#{dashboard.graficoPacientesPorSexo()}" responsive="true"/>
                         </p:panel>
+                    </div>
+                    <div class="col-md-8">
+                        <p:panel id="citasGrafico">
+                            <p:chart type="line" model="#{dashboard.graficoLinealCitas()}" responsive="true" />
+                        </p:panel> 
                     </div>
                     <div class="col-md-4">
-                        <p:panel class="estadisticas" style="padding: 0">
-                            <div style="text-align: center">Total de paciente registrados en éste mes</div>
-                            <div style="text-align: center">#{dashboard.pacientesRegistradosMes()}</div>
-                        </p:panel>
+
                     </div>
-                    <div class="col-md-4" >
-                        <p:panel  class="estadisticas" style="padding: 0">
-                            <div style="text-align: center">Total de consultas realizadas</div>
-                            <div style="text-align: center">#{dashboard.totalConsultasRealizadas()}</div>
-                        </p:panel>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-            <div class="row margen-estadisticas-tablero">
-                <div class="col-md-12">
-                    <div class="col-md-12" >
-                        <p:selectOneMenu id="citasSeleccionable" value="#{dashboard.citasSeleccionable}" > 
+                    <div class="col-md-offset-4 col-md-4">
+                        <p:selectOneMenu id="citasSeleccionable" value="#{dashboard.citasSeleccionable}" style="width: 100%; float: right " > 
                             <f:selectItem itemLabel="Reservadas" itemValue="1"  />
                             <f:selectItem itemLabel="Confirmadas" itemValue="2"/>
                             <f:selectItem itemLabel="Atendidas" itemValue="3"  />
@@ -176,21 +169,35 @@
                             <p:ajax update="citasGrafico"/>
                         </p:selectOneMenu>
                     </div>
-                    <div class="col-md-8">
-
-
-                        <p:panel id="citasGrafico">
-                            <p:chart type="line" model="#{dashboard.graficoLinealCitas()}" responsive="true" />
-                        </p:panel> 
+                </div>
+            </div>
+        </p:panel>
+        <p:spacer height="10"/>
+        <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+            <div class="row " >
+                <div class="col-md-12">
+                    <div class="col-md-4" >
+                        <p:panel class="" style="padding: 0">
+                            <div style="text-align: center">Total de pacientes registrados </div>
+                            <div style="text-align: center">#{dashboard.totalPacientesRegistrado()}</div>
+                        </p:panel>
                     </div>
-                    <div class="col-md-4 margen-estadisticas-cirular">
-                        <p:panel id="grafico2">
-                            <p:chart type="pie" model="#{dashboard.graficoPacientesPorSexo()}" responsive="true"/>
+                    <div class="col-md-4">
+                        <p:panel class="" style="padding: 0">
+                            <div style="text-align: center">Total de paciente registrados en éste mes</div>
+                            <div style="text-align: center">#{dashboard.pacientesRegistradosMes()}</div>
+                        </p:panel>
+                    </div>
+                    <div class="col-md-4" >
+                        <p:panel  class="" style="padding: 0">
+                            <div style="text-align: center">Total de consultas realizadas</div>
+                            <div style="text-align: center">#{dashboard.totalConsultasRealizadas()}</div>
                         </p:panel>
                     </div>
                 </div>
             </div>
         </p:panel>
+        <p:spacer height="50"/>
     </h:form>
     <script type="text/javascript">
         $(window).resize(function () {

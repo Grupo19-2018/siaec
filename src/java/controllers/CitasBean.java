@@ -87,7 +87,6 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
-    
 //Usado en:
     public List<Clinicas> todasClinicas() {
         return getClinicasFacade().findAll();
@@ -677,39 +676,86 @@ public class CitasBean implements Serializable {
         setTelefono(p.getPacienteTelefonoMovil());
         setCorreo(p.getPacienteCorreo());
     }
-    
+
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
-    public void verificaAcceso(int pagina){
+    public void verificaAcceso(int pagina) {
         //System.out.println("Entra al método del usuario.");
         boolean acceso = false;
-        try{
+        try {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
             String contextPath = origRequest.getContextPath();
 
-            if(appSession.getUsuario() == null){
-                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
-            }
-            else{
-                if(!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())){
-                    for (Submenus submenu : todosSubmenusDisponibles()){
+            if (appSession.getUsuario() == null) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
+            } else {
+                if (!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())) {
+                    for (Submenus submenu : todosSubmenusDisponibles()) {
                         //System.out.println("Submenu: " + submenu.getSumbenuNombre());
-                        if(submenu.getSubmenuId() == pagina){
+                        if (submenu.getSubmenuId() == pagina) {
                             acceso = true;
                         }
                     }
                 }
             }
-            if(!acceso){
-                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath+"/login.xhtml");
+            if (!acceso) {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.out.println("La variable appSession es nula.");
         }
     }
-    
-    public List<Submenus> todosSubmenusDisponibles(){
+
+    public List<Submenus> todosSubmenusDisponibles() {
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
-    
+
+    public String horariosAmPm(Integer i) {
+        String s = "";
+        if (i != null) {
+            if (i > 0) {
+                if (i < 13) {
+                    s = i + ":00 AM";
+                } else {
+                    s = (i - 12) + ":00 PM";
+                }
+            }
+        }
+        return s;
+
+    }
+
+    public void resetHorarioE() {
+        horaE = 0;
+    }
+
+    public String nombrePaciente(Usuarios u, Pacientes p) {
+        if (p != null) {
+            return p.getPacientePrimerNombre() + " " + p.getPacienteSegundoNombre() + " " + p.getPacientePrimerApellido() + " " + p.getPacienteSegundoApellido();
+        } else if (u != null) {
+            return u.getUsuarioPrimerNombre() + " " + u.getUsuarioSegundoNombre() + " " + u.getUsuarioPrimerApellido() + " " + u.getUsuarioSegundoApellido();
+        }
+        return "";
+    }
+
+    public Boolean cumplenieroDia(Pacientes cumpleaniero) {
+        System.out.println("Entra al metodo ");
+        
+        if (cumpleaniero != null) {
+            System.out.println("Entra al metodo " + cumpleaniero.getPacientePrimerNombre());
+            Calendar fecha = Calendar.getInstance();
+            fecha.setTime(cumpleaniero.getPacienteFechaNacimiento());
+            Calendar hoy = Calendar.getInstance();
+            System.out.println("Dia" + hoy.get(Calendar.DAY_OF_MONTH));
+            System.out.println("Dia" + fecha.get(Calendar.DAY_OF_MONTH));
+            if ((fecha.get(Calendar.MONTH) == hoy.get(Calendar.MONTH))
+                    && (fecha.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH))) {
+                System.out.println("return true");
+                return true; 
+                
+            }
+        }
+        System.out.println("return false");
+        return false;
+    }
 }

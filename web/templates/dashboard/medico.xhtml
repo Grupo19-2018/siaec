@@ -115,10 +115,12 @@
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
                                                     <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                        <f:param name="ci" value="#{cita.citaId}"/>
                                                     </h:link> 
                                                     &nbsp;
                                                     <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
+                                                        <f:param name="ci" value="#{cita.citaId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 <!--Caso 3: Tiene expediente y usuario-->

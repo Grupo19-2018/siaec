@@ -36,14 +36,7 @@ ORDER BY fecha ASC, hora ASC;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="513" y="30" width="52" height="15" forecolor="#464646" uuid="60dfffa7-7cd2-4b1d-b13f-b000e54e11e0"/>
-				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
+		<band height="66" splitType="Stretch">
 			<staticText>
 				<reportElement x="170" y="1" width="240" height="24" forecolor="#464646" uuid="0322b92d-71be-42be-bb37-4d9665e0b8c1"/>
 				<textElement textAlignment="Center">
@@ -51,26 +44,12 @@ ORDER BY fecha ASC, hora ASC;]]>
 				</textElement>
 				<text><![CDATA[CLÍNICA DENTAL SMILING]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="477" y="45" width="80" height="15" forecolor="#464646" uuid="556cd6e6-de96-4008-834d-dea62f96839e"/>
-				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="9" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="150" y="25" width="280" height="15" forecolor="#464646" uuid="18dcb0cd-510f-4513-8faa-670b6d907005"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
 				<text><![CDATA[AGENDA DE CITAS PROGRAMADAS POR MÉDICO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="475" y="30" width="40" height="15" forecolor="#464646" uuid="d1b4b4ab-f3f6-49ee-aeb7-af8a47102903"/>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<text><![CDATA[FECHA:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="298" y="40" width="25" height="15" forecolor="#464646" uuid="15ad30a3-57a1-46de-9665-41cece0b7a26"/>
@@ -85,13 +64,6 @@ ORDER BY fecha ASC, hora ASC;]]>
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="557" y="45" width="14" height="15" forecolor="#464646" uuid="aabed0f0-0a1f-4f81-81ba-72e9e6f0f91b"/>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="202" y="40" width="25" height="15" forecolor="#464646" uuid="1c9ef782-3c9e-4fca-97b1-c1ffb1a36833"/>
@@ -110,29 +82,61 @@ ORDER BY fecha ASC, hora ASC;]]>
 			<line>
 				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="0346648d-85a5-4fab-94a4-878be2ee80e3"/>
 				<graphicElement>
-					<pen lineWidth="2.0"/>
+					<pen lineWidth="1.0"/>
 				</graphicElement>
 			</line>
 			<image>
 				<reportElement x="0" y="0" width="140" height="60" uuid="ed94c11b-fa06-49fc-b1fe-d382a9ae9599"/>
 				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="f8543806-3041-4d74-b525-0f7a844ee8f0"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Total de registros:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="50" width="80" height="15" forecolor="#464646" uuid="3cdb0179-cf75-4ccf-b449-66bbc724786c"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Fecha creación:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="477" y="24" width="80" height="15" forecolor="#464646" uuid="e33abe2e-081d-4afe-96f6-82005ed3f925"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="557" y="24" width="14" height="15" forecolor="#464646" uuid="13bca37b-8df1-4fad-a58e-b179e4cbdc7b"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="513" y="50" width="52" height="15" forecolor="#464646" uuid="44a1d7b0-f4ee-4576-b7f6-991b85102828"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
-			<line>
-				<reportElement x="0" y="4" width="570" height="1" forecolor="#808080" uuid="1a31e14c-a401-4a5e-923e-6007abe81da4"/>
-			</line>
 			<line>
 				<reportElement x="0" y="20" width="570" height="1" forecolor="#808080" uuid="101454de-65ed-4127-be9d-8852abf03346"/>
 			</line>
 			<staticText>
 				<reportElement x="310" y="5" width="120" height="15" forecolor="#464646" uuid="74f9e65d-9fb4-43b0-bf85-9c0232dc4552"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Médico]]></text>
@@ -153,14 +157,14 @@ ORDER BY fecha ASC, hora ASC;]]>
 			</staticText>
 			<staticText>
 				<reportElement x="435" y="5" width="135" height="15" forecolor="#464646" uuid="9bd0daa0-4cab-478f-a32c-b3cb6c863606"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Clínica]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="135" y="5" width="170" height="15" forecolor="#464646" uuid="16ad13bf-a245-4a68-88a5-13ccd5bd5b8b"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Paciente]]></text>
@@ -207,7 +211,7 @@ ORDER BY fecha ASC, hora ASC;]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
@@ -221,6 +225,6 @@ ORDER BY fecha ASC, hora ASC;]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</summary>
 </jasperReport>

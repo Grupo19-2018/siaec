@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT P.promocion_nombre PROMOCION, P.promocion_descripcion DESCRIPCION, P.promocion_inicio INICIO, P.promocion_FIN FIN, COUNT(C.promocion_id) CANTIDAD
+		<![CDATA[SELECT P.promocion_nombre PROMOCION, P.promocion_descripcion DESCRIPCION, P.promocion_inicio INICIO, P.promocion_FIN FIN, COUNT(C.promocion_id) CANTIDAD, COUNT(P.promocion_nombre) REGISTROS
 FROM promociones P, consultas C
 WHERE P.promocion_id = C.promocion_id AND C.consulta_fecha_creacion between $P{fechaInicio} and $P{fechaFin} AND P.promocion_estado = TRUE
 GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.promocion_fin ORDER BY CANTIDAD DESC;]]>
@@ -20,11 +20,12 @@ GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.prom
 	<field name="inicio" class="java.sql.Date"/>
 	<field name="fin" class="java.sql.Date"/>
 	<field name="cantidad" class="java.lang.Long"/>
+	<field name="registros" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="66" splitType="Stretch">
 			<staticText>
 				<reportElement x="170" y="1" width="240" height="24" forecolor="#464646" uuid="a2ccd8e1-044e-44bd-a428-e896d2cc0b27"/>
 				<textElement textAlignment="Center">
@@ -37,12 +38,12 @@ GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.prom
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<text><![CDATA[PROMOCIONES MÁS DEMANDADAS POR PACIENTES]]></text>
+				<text><![CDATA[PROMOCIONES MÁS SOLICITADAS POR PACIENTES]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="faefaa51-cb17-45b9-9f23-7cd908a6c107"/>
 				<graphicElement>
-					<pen lineWidth="2.0"/>
+					<pen lineWidth="1.0"/>
 				</graphicElement>
 			</line>
 			<staticText>
@@ -78,32 +79,46 @@ GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.prom
 				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
 			</image>
 			<textField evaluationTime="Report">
-				<reportElement x="557" y="45" width="14" height="15" forecolor="#464646" uuid="e1e87467-d985-4397-8855-9e866a0d65a3"/>
+				<reportElement x="557" y="24" width="14" height="15" forecolor="#464646" uuid="1b6c463c-8e57-431c-aea8-dc3300b0128a"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="477" y="45" width="80" height="15" forecolor="#464646" uuid="c80cf962-4b25-4498-b1d6-b5a56ad22851"/>
+				<reportElement x="477" y="24" width="80" height="15" forecolor="#464646" uuid="667686a4-d4aa-4606-aecc-2cbda6bbaeb5"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="513" y="30" width="52" height="15" forecolor="#464646" uuid="72bf9bf8-b1bb-4508-b1bc-b3360412490e"/>
+				<reportElement x="513" y="50" width="52" height="15" forecolor="#464646" uuid="1f2b61e5-4fe6-4904-b1e5-81420fa0d899"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="475" y="30" width="40" height="15" forecolor="#464646" uuid="e4e95b0b-0db1-4dee-bd9c-7bad1454d3e3"/>
+				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="49c9d9f8-e0b2-487e-90e4-eedf3ef45a40"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[FECHA:]]></text>
+				<text><![CDATA[Total de registros:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="167dd2b1-8d75-46c0-bd3a-17a7222486a5"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registros}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="440" y="50" width="80" height="15" forecolor="#464646" uuid="89853646-1bbc-44e8-b84e-274f0cd7461e"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Fecha creación:]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -113,21 +128,18 @@ GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.prom
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<line>
-				<reportElement x="0" y="2" width="570" height="1" forecolor="#808080" uuid="e68041ae-96bd-4cbe-93fe-fc9dc35f36d8"/>
-			</line>
-			<line>
 				<reportElement x="0" y="20" width="570" height="1" forecolor="#808080" uuid="ca6d38b5-07f0-4218-85ef-1ec858dc2082"/>
 			</line>
 			<staticText>
 				<reportElement x="30" y="5" width="200" height="15" forecolor="#464646" uuid="c8cda23c-33c8-4075-908f-78c3f7ab12ed"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Promoción]]></text>
+				<text><![CDATA[Promoción Solicitada]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="235" y="5" width="265" height="15" forecolor="#464646" uuid="b3f719e0-7197-4b48-926f-1cdc982b4d81"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descripción]]></text>
@@ -181,7 +193,7 @@ GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.prom
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
@@ -195,6 +207,6 @@ GROUP BY P.promocion_nombre, P.promocion_descripcion, P.promocion_inicio, P.prom
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</summary>
 </jasperReport>

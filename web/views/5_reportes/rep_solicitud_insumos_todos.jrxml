@@ -25,21 +25,7 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="513" y="30" width="52" height="15" forecolor="#464646" uuid="e9410d33-50f3-4b50-a345-7991e79c29bc"/>
-				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="477" y="45" width="80" height="15" forecolor="#464646" uuid="fdae261a-70ff-4e0e-9a98-d790776b4c27"/>
-				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="9" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
-			</textField>
+		<band height="66" splitType="Stretch">
 			<staticText>
 				<reportElement x="150" y="25" width="280" height="15" forecolor="#464646" uuid="03bfa3c9-4396-45b7-9bad-b460a9750079"/>
 				<textElement textAlignment="Center">
@@ -50,7 +36,7 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 			<line>
 				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="117600ff-4f06-4081-9ac7-8f2ad5db9610"/>
 				<graphicElement>
-					<pen lineWidth="2.0"/>
+					<pen lineWidth="1.0"/>
 				</graphicElement>
 			</line>
 			<staticText>
@@ -60,28 +46,49 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 				</textElement>
 				<text><![CDATA[CLÍNICA DENTAL SMILING]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="475" y="30" width="40" height="15" forecolor="#464646" uuid="7a6354e8-26c3-45d7-ad9c-85d860eb30e5"/>
-				<textElement>
-					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<text><![CDATA[FECHA:]]></text>
-			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="140" height="60" uuid="1f1dd35a-b343-4ffb-bf9b-ae13dfd6d820"/>
 				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
 			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="513" y="50" width="52" height="15" forecolor="#464646" uuid="e8f418cf-6410-44d0-b609-29669a35fd9b"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="477" y="24" width="80" height="15" forecolor="#464646" uuid="e1f5bf9b-71a9-4c11-a0ff-59a837ed46a6"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="037ba00f-9af9-443c-a715-817695d83051"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Total de registros:]]></text>
+			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="557" y="45" width="14" height="15" forecolor="#464646" uuid="895abcff-b86c-4052-ab16-ea111a5bbc7c"/>
+				<reportElement x="557" y="24" width="14" height="15" forecolor="#464646" uuid="7ee3aff2-4321-4f0e-a82c-a4502d560aa3"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="440" y="50" width="80" height="15" forecolor="#464646" uuid="61c1728a-45f6-4fca-a52f-59716243a855"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Fecha creación:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
@@ -104,24 +111,21 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 			</line>
 			<staticText>
 				<reportElement x="495" y="5" width="75" height="15" forecolor="#464646" uuid="1a18915e-46bb-4eab-b376-b58d67a49401"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Unid. Medida]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="5" width="200" height="15" forecolor="#464646" uuid="6363b533-f61d-4feb-8c6a-dbff9997b0a2"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Insumo]]></text>
 			</staticText>
-			<line>
-				<reportElement x="0" y="4" width="570" height="1" forecolor="#808080" uuid="401a09c7-ac64-4fa6-b66e-edd50feabe7f"/>
-			</line>
 			<staticText>
 				<reportElement x="210" y="5" width="140" height="15" forecolor="#464646" uuid="e986ac83-8d6f-4ebf-9671-a776a2a6b194"/>
-				<textElement textAlignment="Center">
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Clínica]]></text>
@@ -131,14 +135,14 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement x="425" y="3" width="50" height="15" forecolor="#464646" uuid="20f46f87-203d-4bea-8e33-7c17835a000f"/>
+				<reportElement x="425" y="3" width="55" height="15" forecolor="#464646" uuid="20f46f87-203d-4bea-8e33-7c17835a000f"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{insumo_minimo}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement x="355" y="3" width="50" height="15" forecolor="#464646" uuid="19e5e906-2144-4048-8e1e-1eb6b6342c2f"/>
+				<reportElement x="355" y="3" width="55" height="15" forecolor="#464646" uuid="19e5e906-2144-4048-8e1e-1eb6b6342c2f"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
@@ -168,7 +172,7 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
@@ -182,6 +186,6 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</summary>
 </jasperReport>

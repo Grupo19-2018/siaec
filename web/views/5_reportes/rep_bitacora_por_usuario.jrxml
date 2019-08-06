@@ -9,37 +9,24 @@
 	<parameter name="fechaFin" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="estadoCita" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
-	<parameter name="medicoId" class="java.lang.Integer">
+	<parameter name="usuarioUsuario" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[(SELECT C.cita_id, C.cita_fecha FECHA, C.cita_hora HORA, C.cita_estado ESTADO, CONCAT(P.paciente_primer_nombre, ' ', P.paciente_segundo_nombre, ' ', P.paciente_primer_apellido, ' ', P.paciente_segundo_apellido) PACIENTE, S.clinica_nombre SUCURSAL, CONCAT(M.medico_primer_nombre, ' ', M.medico_segundo_nombre, ' ', M.medico_primer_apellido, ' ', M.medico_segundo_apellido) MEDICO
-FROM citas C, pacientes P, clinicas S, medicos M
-WHERE P.paciente_id = C.paciente_id AND M.medico_id = C.medico_id AND S.clinica_id = C.clinica_id  AND C.cita_fecha BETWEEN $P{fechaInicio} and $P{fechaFin} AND C.cita_estado = $P{estadoCita} AND M.medico_id = $P{medicoId})
-
-UNION
-
-(SELECT C.cita_id, C.cita_fecha FECHA, C.cita_hora HORA, C.cita_estado ESTADO, CONCAT(U.usuario_primer_nombre, ' ', U.usuario_segundo_nombre, ' ', U.usuario_primer_apellido, ' ', U.usuario_segundo_apellido) USUARIO, S.clinica_nombre SUCURSAL, CONCAT(M.medico_primer_nombre, ' ', M.medico_segundo_nombre, ' ', M.medico_primer_apellido, ' ', M.medico_segundo_apellido) MEDICO
-FROM citas C, usuarios U, clinicas S, medicos M
-WHERE U.usuario_usuario = C.usuario_usuario AND M.medico_id = C.medico_id AND S.clinica_id = C.clinica_id AND C.cita_fecha BETWEEN $P{fechaInicio} and $P{fechaFin} AND C.cita_estado = $P{estadoCita} AND M.medico_id = $P{medicoId})
-
-ORDER BY fecha ASC, hora ASC;]]>
+		<![CDATA[SELECT B.bitacora_id, B.bitacora_fecha_hora FECHA, B.bitacora_fecha_hora HORA, B.bitacora_transaccion TRANSACCION, B.bitacora_usuario USUARIO FROM bitacora B
+WHERE B.bitacora_fecha_hora BETWEEN $P{fechaInicio} and $P{fechaFin} AND B.bitacora_usuario =  $P{usuarioUsuario}
+ORDER BY FECHA DESC, HORA DESC;]]>
 	</queryString>
-	<field name="cita_id" class="java.lang.Integer"/>
-	<field name="fecha" class="java.sql.Date"/>
-	<field name="hora" class="java.sql.Time"/>
-	<field name="estado" class="java.lang.Integer"/>
-	<field name="paciente" class="java.lang.String"/>
-	<field name="sucursal" class="java.lang.String"/>
-	<field name="medico" class="java.lang.String"/>
+	<field name="bitacora_id" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Timestamp"/>
+	<field name="hora" class="java.sql.Timestamp"/>
+	<field name="transaccion" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="66" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="230" y="40" width="65" height="15" forecolor="#464646" uuid="5767a74b-0a80-43e4-a8fe-008fd3623cfb"/>
 				<textElement>
@@ -80,7 +67,7 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<text><![CDATA[AGENDA DE CITAS PROGRAMADAS POR MÉDICO]]></text>
+				<text><![CDATA[BITÁCORA DE TRANSACCIONES]]></text>
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="140" height="60" uuid="48cd3c8e-de88-4228-9e31-891cfce0bab8"/>
@@ -136,14 +123,14 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<textElement>
 					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["MÉDICO:"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["USUARIO:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="65" y="10" width="505" height="15" forecolor="#464646" uuid="c150662f-f3af-4fda-9e1a-562d23fc3292"/>
+				<reportElement x="70" y="10" width="500" height="15" forecolor="#464646" uuid="c150662f-f3af-4fda-9e1a-562d23fc3292"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{medico}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -163,11 +150,11 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<text><![CDATA[Hora]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="5" width="165" height="15" forecolor="#464646" uuid="bb143706-fa38-464e-95b1-324f8facd930"/>
+				<reportElement x="200" y="5" width="370" height="15" forecolor="#464646" uuid="bb143706-fa38-464e-95b1-324f8facd930"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Clínica]]></text>
+				<text><![CDATA[Transacción]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="5" width="20" height="15" forecolor="#464646" uuid="000cd13e-e7a2-46c3-8d84-5fbbcc67ea95"/>
@@ -182,13 +169,6 @@ ORDER BY fecha ASC, hora ASC;]]>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Fecha]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="200" y="5" width="200" height="15" forecolor="#464646" uuid="2f556ec7-f0e0-4f28-b264-f76850e3c1db"/>
-				<textElement>
-					<font fontName="DejaVu Sans" size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Paciente]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -209,18 +189,11 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="200" y="3" width="200" height="15" forecolor="#464646" uuid="76862853-8ad0-4198-ab90-4e27d2116972"/>
+				<reportElement x="200" y="3" width="370" height="15" forecolor="#464646" uuid="3e80e93d-8381-4028-a947-032c2909204b"/>
 				<textElement>
 					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{paciente}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="405" y="3" width="165" height="15" forecolor="#464646" uuid="3e80e93d-8381-4028-a947-032c2909204b"/>
-				<textElement>
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{transaccion}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="5" y="3" width="20" height="15" forecolor="#464646" uuid="12f9eaf2-0d24-4270-b3c8-eb168bcd4b76"/>

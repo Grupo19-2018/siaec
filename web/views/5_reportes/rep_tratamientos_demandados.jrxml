@@ -10,7 +10,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT T.tratamiento_nombre NOMBRE, COUNT(D.tratamiento_id) CANTIDAD
+		<![CDATA[SELECT T.tratamiento_nombre NOMBRE, COUNT(D.tratamiento_id) CANTIDAD, COUNT(T.tratamiento_nombre) REGISTROS
 FROM tratamientos T, detalles_consultas D
 WHERE T.tratamiento_id = D.tratamiento_id AND T.tratamiento_estado = TRUE
 AND D.detalleconsulta_fecha_creacion between $P{fechaInicio} and $P{fechaFin}
@@ -19,20 +19,22 @@ ORDER BY CANTIDAD DESC;]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="cantidad" class="java.lang.Long"/>
+	<field name="registros" class="java.lang.Long"/>
+	<variable name="REGISTER_NUMBER" class="java.lang.Integer" resetType="Page" calculation="Count"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="66" splitType="Stretch">
 			<textField>
-				<reportElement x="477" y="45" width="80" height="15" forecolor="#464646" uuid="db410566-5fe7-4910-a564-7b30e725b7c1"/>
+				<reportElement x="477" y="24" width="80" height="15" forecolor="#464646" uuid="db410566-5fe7-4910-a564-7b30e725b7c1"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="557" y="45" width="14" height="15" forecolor="#464646" uuid="ee792ce5-8660-49d6-b778-96de73f06e99"/>
+				<reportElement x="557" y="24" width="14" height="15" forecolor="#464646" uuid="ee792ce5-8660-49d6-b778-96de73f06e99"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -50,26 +52,26 @@ ORDER BY CANTIDAD DESC;]]>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<text><![CDATA[TRATAMIENTOS MÁS DEMANDADOS POR PACIENTES]]></text>
+				<text><![CDATA[TRATAMIENTOS MÁS SOLICITADOS POR PACIENTES]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="513" y="30" width="52" height="15" forecolor="#464646" uuid="9dd0f978-cc4c-4ee0-9cb7-ff081cf0b1ed"/>
+				<reportElement x="513" y="50" width="52" height="15" forecolor="#464646" uuid="9dd0f978-cc4c-4ee0-9cb7-ff081cf0b1ed"/>
 				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="475" y="30" width="40" height="15" forecolor="#464646" uuid="9e8d9d44-302e-4ae8-bb8d-12c19093046b"/>
+				<reportElement x="440" y="50" width="80" height="15" forecolor="#464646" uuid="9e8d9d44-302e-4ae8-bb8d-12c19093046b"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[FECHA:]]></text>
+				<text><![CDATA[Fecha creación:]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="faefaa51-cb17-45b9-9f23-7cd908a6c107"/>
 				<graphicElement>
-					<pen lineWidth="2.0"/>
+					<pen lineWidth="1.0"/>
 				</graphicElement>
 			</line>
 			<staticText>
@@ -104,10 +106,24 @@ ORDER BY CANTIDAD DESC;]]>
 				<reportElement x="0" y="0" width="140" height="60" uuid="2933a445-a934-4f71-98b4-434582e49c98"/>
 				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="f91edea7-04a9-47ed-9672-23be8edb6479"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registros}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="4db764e2-5384-4614-a073-27ec92945f71"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<text><![CDATA[Total de registros:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
@@ -119,31 +135,28 @@ ORDER BY CANTIDAD DESC;]]>
 				<text><![CDATA[No]]></text>
 			</staticText>
 			<line>
-				<reportElement x="90" y="4" width="390" height="1" forecolor="#808080" uuid="c13bccd2-c7fd-4b86-a8c3-07cf429bb305"/>
-			</line>
-			<line>
-				<reportElement x="90" y="20" width="390" height="1" forecolor="#808080" uuid="23352a2d-6302-4ab8-aadc-a046ecbf5f3a"/>
+				<reportElement x="0" y="20" width="570" height="1" forecolor="#808080" uuid="23352a2d-6302-4ab8-aadc-a046ecbf5f3a"/>
 			</line>
 			<staticText>
-				<reportElement x="135" y="5" width="250" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="e9650dac-65e0-4ba0-87b2-1ce2022b14cf"/>
-				<textElement textAlignment="Center">
+				<reportElement x="150" y="5" width="235" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="e9650dac-65e0-4ba0-87b2-1ce2022b14cf"/>
+				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tratamiento]]></text>
+				<text><![CDATA[Tratamiento Solicitado]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="390" y="5" width="70" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="bd4cefa7-8d96-4b10-93ff-624ed9847f26"/>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Demanda]]></text>
+				<text><![CDATA[Cantidad]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement x="175" y="3" width="210" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="21bbd90b-1f5c-4102-a56f-871aa676b4a1"/>
+				<reportElement x="150" y="3" width="235" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="21bbd90b-1f5c-4102-a56f-871aa676b4a1"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
@@ -166,7 +179,7 @@ ORDER BY CANTIDAD DESC;]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
@@ -180,6 +193,6 @@ ORDER BY CANTIDAD DESC;]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="5" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</summary>
 </jasperReport>

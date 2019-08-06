@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
 import dao.ConsultasFacade;
@@ -10,12 +11,15 @@ import dao.MedicosFacade;
 import dao.PacientesFacade;
 import dao.PromocionesFacade;
 import dao.TratamientosFacade;
+import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Clinicas;
 import entities.Insumos;
 import entities.Medicos;
 import entities.Pacientes;
 import entities.Submenus;
 import entities.Tratamientos;
+import entities.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -54,7 +58,11 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     private Integer consultaId;
     private Integer estadoCita;
     private String citaEstado;
+    private String usuarioUsuario;
 
+    @EJB
+    private UsuariosFacade usuariosFacade;
+    
     @EJB
     private PacientesFacade pacientesFacade;
     
@@ -101,6 +109,10 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
         return appSession.getUsuario().getRolId().getSubmenusList();
     }
     
+    public List<Usuarios> todosUsuariosClinica() {
+        return getUsuariosFacade().todosUsuariosClinicas();
+    }
+    
     public List<Pacientes> todosPacientesDisponibles() {
         return getPacientesFacade().pacientesDisponibles(Boolean.TRUE);
     }
@@ -124,6 +136,10 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
+
+    public UsuariosFacade getUsuariosFacade() {
+        return usuariosFacade;
+    }
 
     public ExistenciasFacade getExistenciasFacade() {
         return existenciasFacade;
@@ -244,6 +260,13 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     }
     public void setFechaActual(Date fechaActual) {
         this.fechaActual = fechaActual;
+    }
+
+    public String getUsuarioUsuario() {
+        return usuarioUsuario;
+    }
+    public void setUsuarioUsuario(String usuarioUsuario) {
+        this.usuarioUsuario = usuarioUsuario;
     }
         
 //****************************************************************************//
@@ -595,6 +618,39 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
         }
     }
 
+    //Método para generar reporte Bitacora de Transacciones (rep_bitacora.xhtml).
+    public void repBitacora() {
+        try{
+            if(usuarioUsuario == null){
+                if (1 < 0) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_bitacora");
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+            else{
+                if (1 < 0) {
+                    mensajeReporteVacio("El reporte no contiene páginas.");
+                }else{
+                    this.setReportDir("/views/5_reportes/");
+                    this.setNombreArchivo("rep_bitacora_por_usuario");
+                    this.addParametro("usuarioUsuario", getUsuarioUsuario());
+                    this.addParametro("fechaInicio", getFechaInicio());
+                    this.addParametro("fechaFin", getFechaFin());
+                    execute();
+                    RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
+                }
+            }
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: repPacientesPorClinica.");
+        }
+    }
+    
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
     public void verificaAcceso(int pagina){
         //System.out.println("Entra al método del usuario.");

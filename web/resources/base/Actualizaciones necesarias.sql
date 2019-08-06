@@ -162,3 +162,10 @@ ALTER TABLE bitacora ALTER COLUMN bitacora_fecha_hora SET DATA TYPE TIMESTAMP;
 --Update 82
 --Encriptando la contrasenia de todos los registros en la base equivalente a 000000
 UPDATE usuarios SET usuario_contrasenia = '670b14728ad9902aecba32e22fa4f6bd';
+
+--Update 89
+--Agregar menu para bitacora
+INSERT INTO public.submenus (submenu_id, sumbenu_nombre, menu_id, submenu_descripcion, submenu_url) VALUES (1, 'Bitácora de Transacciones', 5, 'Clinica', '/views/5_reportes/rep_bitacora.xhtml');
+--Asignar privilegios a rol admin y director para poder ver bitacora
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (1, 42);
+INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 42);

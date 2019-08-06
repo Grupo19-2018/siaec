@@ -11,12 +11,12 @@
 
             <ui:define name="meta-data">
                 <f:metadata>
-                    <f:viewAction action="#{reportesBean.verificaAcceso(23)}"/>
+                    <f:viewAction action="#{reportesBean.verificaAcceso(42)}"/>
                 </f:metadata>
             </ui:define>
 
             <!-- Barra de título -->
-            <div class="banda1"><b>LISTADO DE CITAS POR ESTADO</b></div>
+            <div class="banda1"><b>BITACORA DE TRANSACCIONES</b></div>
             <br/>
 
             <!-- Panel color blanco -->
@@ -27,21 +27,16 @@
                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2"/>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-8">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h6  align="center"><b>Estado de cita*</b></h6>
-                                <p:selectOneMenu id="estadocita" value="#{reportesBean.estadoCita}" title="Estado de cita" style="width:100%" required="true"
-                                                 requiredMessage="Estado es requerido.">
-                                    <f:selectItem itemLabel="Seleccionar..." itemValue="#{null}"/>
-                                    <f:selectItem itemLabel="Citas reservadas" itemValue="#{1}"/>
-                                    <f:selectItem itemLabel="Citas confirmadas" itemValue="#{2}"/>
-                                    <f:selectItem itemLabel="Citas atendidas" itemValue="#{3}"/>
-                                    <f:selectItem itemLabel="Citas canceladas" itemValue="#{4}"/>
-                                    <f:selectItem itemLabel="Citas expiradas" itemValue="#{5}"/>
+                                <h6  align="center"><b>Usuario*</b></h6>
+                                <p:selectOneMenu id="usuario" value="#{reportesBean.usuarioUsuario}" title="Usuario" style="width:100%">
+                                    <f:selectItem itemLabel="Todos los usuarios" itemValue="#{null}"/>
+                                    <f:selectItems value="#{reportesBean.todosUsuariosClinica()}" var="usuario" itemLabel="#{usuario.usuarioUsuario}" itemValue="#{usuario.usuarioUsuario}"/>
                                 </p:selectOneMenu>
-                                <p:message for="estadocita"/>
+                                <p:message for="usuario"/>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6  align="center"><b>Desde*</b></h6>
-                                <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" readonlyInput="true" yearRange="c-10:c+1" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida." class="tamaniocalendario">
+                                <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" readonlyInput="true" yearRange="c-10:c+0" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida." class="tamaniocalendario">
                                     <p:ajax event="dateSelect" update="fechafin"/>
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>
@@ -49,7 +44,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6  align="center"><b>Hasta*</b></h6>
-                                <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" readonlyInput="true" yearRange="c-10:c+1" mindate="#{reportesBean.fechaInicio}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida." class="tamaniocalendario">
+                                <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" readonlyInput="true" yearRange="c-10:c+0" mindate="#{reportesBean.fechaInicio}" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida." class="tamaniocalendario">
                                     <f:attribute name="finicial" value="#{reportesBean.fechaInicio}"/>
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>
@@ -63,7 +58,7 @@
 
                     <div class="row">
                         <div class="col-lg-12" align="center">
-                            <h:commandLink action="#{reportesBean.repCitasPorEstado()}" class="btn btn-default buttonLevel1"
+                            <h:commandLink action="#{reportesBean.repBitacora()}" class="btn btn-default buttonLevel1"
                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                 <i class="glyphicon glyphicon-list"></i> Ver reporte
                             </h:commandLink>

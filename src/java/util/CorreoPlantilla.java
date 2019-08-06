@@ -60,7 +60,7 @@ public class CorreoPlantilla {
         SimpleDateFormat fechaFormato = new SimpleDateFormat("'Lo esperamos el dia' dd 'de' MMMM 'de' yyyy", espanyol);
         SimpleDateFormat horaFormato = new SimpleDateFormat("hh:mm aa");
         String mensaje = "<div>\n"
-                + "           <h1>Su cita a sido confirmada</h1>\n"
+                + "           <h1>Su cita ha sido confirmada</h1>\n"
                 + "           <p>\n"
                 + "            " + fechaFormato.format(fecha) + "<br/>\n"
                 + "            A las " + horaFormato.format(hora) + "<br/>\n"

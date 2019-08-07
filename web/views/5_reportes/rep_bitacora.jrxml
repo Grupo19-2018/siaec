@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="fechaInicio" class="java.util.Date">
+	<parameter name="fechaInicio" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fechaFin" class="java.util.Date">
+	<parameter name="fechaFin" class="java.sql.Timestamp">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>

@@ -22,7 +22,9 @@ import entities.Tratamientos;
 import entities.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -627,8 +629,10 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
                 }else{
                     this.setReportDir("/views/5_reportes/");
                     this.setNombreArchivo("rep_bitacora");
-                    this.addParametro("fechaInicio", getFechaInicio());
-                    this.addParametro("fechaFin", getFechaFin());
+                    Timestamp fechaFinal = new Timestamp(fechaFin.getYear(), fechaFin.getMonth(), fechaFin.getDate(), 23, 59, 59, 0);
+                    Timestamp fechaInicial = new Timestamp(fechaInicio.getYear(), fechaInicio.getMonth(), fechaInicio.getDate(), 0, 0, 0, 0);
+                    this.addParametro("fechaInicio", fechaInicial);
+                    this.addParametro("fechaFin", fechaFinal);
                     execute();
                     RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
                 }
@@ -639,15 +643,17 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
                 }else{
                     this.setReportDir("/views/5_reportes/");
                     this.setNombreArchivo("rep_bitacora_por_usuario");
+                    Timestamp fechaFinal = new Timestamp(fechaFin.getYear(), fechaFin.getMonth(), fechaFin.getDate(), 23, 59, 59, 0);
+                    Timestamp fechaInicial = new Timestamp(fechaInicio.getYear(), fechaInicio.getMonth(), fechaInicio.getDate(), 0, 0, 0, 0);
                     this.addParametro("usuarioUsuario", getUsuarioUsuario());
-                    this.addParametro("fechaInicio", getFechaInicio());
-                    this.addParametro("fechaFin", getFechaFin());
+                    this.addParametro("fechaInicio", fechaInicial);
+                    this.addParametro("fechaFin", fechaFinal);
                     execute();
                     RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
                 }
             }
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: repPacientesPorClinica.");
+            mensajeError("Se detuvo el proceso en el método: repBitacora.");
         }
     }
     

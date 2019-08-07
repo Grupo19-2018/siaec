@@ -274,6 +274,13 @@ padding-bottum:7px
     border-radius: 5px;
 }
 
+.btn-tabla-expediente3{
+    /* background-color: #2399E5;*/
+    background-color: #066EAD;
+    color: white !important;
+    border-radius: 5px;
+}
+
 /*Boton para dentro de tabla naranja*/
 .btn-tabla-naranja{
     /* background-color: #2399E5;*/

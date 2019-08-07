@@ -2,9 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <div class="banda1"><b>SISTEMA INFORMÁTICO PARA LA ADMINISTRACIÓN DE EXPEDIENTES</b></div>
     <br/>
@@ -13,23 +13,18 @@
     <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
         <div class="banda2"><b> CITAS DEL DÍA</b></div>
         <p:spacer height="10"/>
-        <h:form>
-
+        <h:form id="medico">
             <div class="row">
                 <div class="col-lg-12">
                     #{dashboard.cantidadCitasDia(sesionBean.appSession.usuario)}
                     &nbsp;
                     <h:link outcome="AgendaDoctor" class="btn btn-default glyphicon glyphicon-calendar btn-sm btn-tabla-naranja " title="Ver agenda de citas">
                     </h:link> 
-
                 </div>
             </div>
 
             <div class="row">
-                <!--Solo se mostraran las citas Reservadas para el dia y las restantes del medico -->
-                <!--El maximo de citas que puede tener son 9 citas dentro del sistema se pueden poner mas
-                    para ello, necesitamos parametrizar el valor de las horas  de apertura y cierre de las 
-                    clinicas. -->
+                
                 <div>
                     <br/>
                     <div class="col-md-12">
@@ -86,7 +81,7 @@
                                         <td>
                                             <center>
 
-                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar cita">
+                                                <h:link outcome="CitaConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Revisar cita">
                                                     <f:param name="citaConsultarId" value="#{cita.citaId}"/>
                                                     <f:param name="retorno" value="1"/>
                                                 </h:link>
@@ -94,7 +89,7 @@
                                                 <!--Casos para mostrar los botones para el dashboard. -->
                                                 <!--Caso 1: Solo tiene expediente-->
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Revisar expediente">
                                                         <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>
@@ -107,25 +102,26 @@
                                                         <f:param name="tabindex" value="#{2}"/>
                                                     </h:link> 
                                                     &nbsp;
-                                                    <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" title="Crear un usuario">
+                                                    <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" title="Crear usuario">
                                                         <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
+                                                        <f:param name="ci" value="#{cita.citaId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 <!--Caso 2: Solo tiene usuario-->
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
-                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear expediente">
+                                                    <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                         <f:param name="ci" value="#{cita.citaId}"/>
                                                     </h:link> 
                                                     &nbsp;
-                                                    <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
+                                                    <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar usuario a expediente">
                                                         <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                         <f:param name="ci" value="#{cita.citaId}"/>
                                                     </h:link>
                                                 </h:panelGroup>
                                                 <!--Caso 3: Tiene expediente y usuario-->
                                                 <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
-                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Revisar expediente">
                                                         <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                         <f:param name="consultaseleccionada" value="#{0}"/>
                                                         <f:param name="tabindex" value="#{0}"/>
@@ -153,17 +149,66 @@
 
                 </div>
                 <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
 
             </div>
 
         </h:form>
     </p:panel>
+
+    <p:spacer height="10"/>
+    <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+        <div class="row">
+            <div class="col-sm-4 col-lg-3">
+                <span class="glyphicon glyphicon-ban-circle" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Sin ficha de datos</span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="glyphicon glyphicon-gift" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Cumpleañero de día </span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Revisar cita </span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Revisar expediente </span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Nueva consulta</span>
+            </div>
+            <div class="col-sm-4 col-lg-3" >
+                <span class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Crear usuario</span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Asociar usuario a expediente</span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Crear ficha de datos</span>
+            </div>
+        </div>
+    </p:panel>
+    
+    <p:spacer height="50"/>
     <script>
+        $(document).ready(function () {
+            //indice();
+        });
+
+        function indice() {
+            var t = $('#tabla').DataTable({
+                "bDestroy": true,
+                "columnDefs": [{
+                        "searchable": false,
+                        "orderable": false,
+                        "targets": 0
+                    }],
+                "order": [[1, 'asc']]
+            });
+
+            t.on('order.dt search.dt', function () {
+                t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        }
+
         $(document).ready(function () {
             estiloTabla();
         });

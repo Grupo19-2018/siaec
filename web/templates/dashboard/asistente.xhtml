@@ -85,13 +85,13 @@
                                         <!--Casos para mostrar los botones para el dashboard. -->
                                         <!--Caso 1: Solo tiene expediente-->
                                         <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 1}">
-                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Ver expediente">
+                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Revisar expediente">
                                                 <f:param name="expedienteconsultar" value="#{cita.pacienteId.pacienteId}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
                                                 <f:param name="tabindex" value="#{0}"/>
                                             </h:link>
                                             &nbsp;
-                                            <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" title="Crear un usuario">
+                                            <h:link outcome="RegistrarUsuarioPaciente"  class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" title="Crear usuario">
                                                 <f:param name="p" value="#{cita.pacienteId.pacienteId}"/>
                                                 <f:param name="ci" value="#{cita.citaId}"/>
                                                 <!--Actualizar la cita con el usuario-->
@@ -99,19 +99,19 @@
                                         </h:panelGroup>
                                         <!--Caso 2: Solo tiene usuario-->
                                         <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 2}">
-                                            <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear expediente">
+                                            <h:link outcome="RegistrarAsociar" class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" title="Crear ficha de datos">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                 <f:param name="ci" value="#{cita.citaId}"/>
                                             </h:link> 
                                             &nbsp;
-                                            <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar cuenta de paciente a expediente">
+                                            <h:link outcome="ListaAsociar" class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar usuario a expediente">
                                                 <f:param name="us" value="#{cita.usuarioUsuario.usuarioUsuario}"/>
                                                 <f:param name="ci" value="#{cita.citaId}"/>
                                             </h:link>
                                         </h:panelGroup> 
                                         <!--Caso 3: Tiene expediente y usuario-->
                                         <h:panelGroup rendered="#{dashboard.usuarioPacienteExiste(cita.usuarioUsuario, cita.pacienteId)== 3}">
-                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Ver expdiente">
+                                            <h:link outcome="ConsultarExpediente" class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" title="Revisar expdiente">
                                                 <f:param name="expedienteconsultar" value="#{expedientesBean.numeroExpediente(cita.usuarioUsuario.usuarioUsuario, cita.pacienteId.pacienteId)}"/>
                                                 <f:param name="consultaseleccionada" value="#{0}"/>
                                                 <f:param name="tabindex" value="#{0}"/>
@@ -132,17 +132,32 @@
             </h:form>
         </div>
     </p:panel>
-     <p:spacer height="10"/>
+    <p:spacer height="10"/>
     <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-sm-4 col-lg-3">
                 <span class="glyphicon glyphicon-ban-circle" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Sin ficha de datos</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-sm-4 col-lg-3">
                 <span class="glyphicon glyphicon-gift" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Cumpleañero de día </span>
             </div>
-            <div class="col-md-4">
-               
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-pencil btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Editar cita </span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-folder-open btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Revisar expediente </span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-file btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Nueva consulta</span>
+            </div>
+            <div class="col-sm-4 col-lg-3" >
+                <span class="btn btn-default glyphicon glyphicon-plus btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Crear usuario</span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Asociar usuario a expediente</span>
+            </div>
+            <div class="col-sm-4 col-lg-3">
+                <span class="btn btn-default glyphicon glyphicon-list-alt btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Crear ficha de datos</span>
             </div>
         </div>
     </p:panel>

@@ -169,3 +169,10 @@ INSERT INTO public.submenus (submenu_id, sumbenu_nombre, menu_id, submenu_descri
 --Asignar privilegios a rol admin y director para poder ver bitacora
 INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (1, 42);
 INSERT INTO public.sub_menus_por_roles (rol_id, submenu_id) VALUES (2, 42);
+
+--Update 92
+--Corrección de submenu
+update public.submenus set sumbenu_nombre = 'Entrada y Salida de Insumos' where submenu_id=13;
+update public.submenus set sumbenu_nombre = 'Historial de transacciones' where submenu_id=14;
+update public.submenus set sumbenu_nombre = 'Pedido de Insumos' where submenu_id=15;
+

@@ -28,7 +28,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-8">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <h6  align="center"><b>Usuario*</b></h6>
-                                <p:selectOneMenu id="usuario" value="#{reportesBean.usuarioUsuario}" title="Usuario" style="width:100%">
+                                <p:selectOneMenu id="usuario" value="#{reportesBean.usuarioUsuario}" title="Usuario" styleClass="tamanioseleccionable" style="width:100%">
                                     <f:selectItem itemLabel="Todos los usuarios" itemValue="#{null}"/>
                                     <f:selectItems value="#{reportesBean.todosUsuariosClinica()}" var="usuario" itemLabel="#{usuario.usuarioUsuario}" itemValue="#{usuario.usuarioUsuario}"/>
                                 </p:selectOneMenu>
@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6  align="center"><b>Desde*</b></h6>
-                                <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" readonlyInput="true" yearRange="c-10:c+0" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida." class="tamaniocalendario">
+                                <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" placeholder="dd-mm-aaaa" showOn="button"  styleClass="tamaniocalendario5" readonlyInput="true" yearRange="c-10:c+0" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida." >
                                     <p:ajax event="dateSelect" update="fechafin"/>
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>
@@ -44,15 +44,19 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6  align="center"><b>Hasta*</b></h6>
-                                <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" readonlyInput="true" yearRange="c-10:c+0" mindate="#{reportesBean.fechaInicio}" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida." class="tamaniocalendario">
+                                <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" placeholder="dd-mm-aaaa" showOn="button" styleClass="tamaniocalendario5" readonlyInput="true" yearRange="c-10:c+0" mindate="#{reportesBean.fechaInicio}" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida." >
                                     <f:attribute name="finicial" value="#{reportesBean.fechaInicio}"/>
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>
                                 <p:message for="fechafin"/>
                             </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                                    * Campos obligatorios 
+                            </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2"/>
                     </div>
+
 
                     <br/><br/>
 
@@ -68,36 +72,36 @@
                 </h:form>
             </p:panel>
             <p:spacer height="50"/>
-            
+
             <script type="text/javascript">
-            PrimeFaces.locales['es'] = {
-                closeText: 'Cerrar',
-                prevText: 'Anterior',
-                nextText: 'Siguiente',
-                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-                weekHeader: 'Semana',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: '',
-                timeOnlyTitle: 'Sólo hora',
-                timeText: 'Tiempo',
-                hourText: 'Hora',
-                minuteText: 'Minuto',
-                secondText: 'Segundo',
-                currentText: 'Fecha actual',
-                ampm: false,
-                month: 'Mes',
-                week: 'Semana',
-                day: 'Día',
-                allDayText: 'Todo el día'
-            };
+                PrimeFaces.locales['es'] = {
+                    closeText: 'Cerrar',
+                    prevText: 'Anterior',
+                    nextText: 'Siguiente',
+                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                    dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                    weekHeader: 'Semana',
+                    firstDay: 1,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: '',
+                    timeOnlyTitle: 'Sólo hora',
+                    timeText: 'Tiempo',
+                    hourText: 'Hora',
+                    minuteText: 'Minuto',
+                    secondText: 'Segundo',
+                    currentText: 'Fecha actual',
+                    ampm: false,
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día',
+                    allDayText: 'Todo el día'
+                };
             </script>
-            
+
         </ui:define>
     </ui:composition>
 </html>

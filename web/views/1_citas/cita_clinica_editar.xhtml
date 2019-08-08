@@ -116,8 +116,8 @@
                                 <div class="col-md-12 col-sm-6 cita-espacio">
 
                                     <center>
-                                        <h6><b>Fecha*</b> (dd-mm-aaaa)</h6>
-                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" showOn="button" mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar"  class="tamaniocalendario4" pattern="dd-MM-yyyy" yearRange="c-2:c+2"  readonlyInput="true">
+                                        <h6><b>Fecha*</b></h6>
+                                        <p:calendar value="#{citasBean.citaDia}" placeholder="dd-mm-aaaa" navigator="true" showOn="button" mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar"  class="tamaniocalendario4" pattern="dd-MM-yyyy" yearRange="c-2:c+2"  readonlyInput="true">
                                             <p:ajax event="dateSelect" update="console2" resetValues="true"/>
                                             <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                         </p:calendar>

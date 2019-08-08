@@ -28,7 +28,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-8">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <h6  align="center"><b>Estado de cita*</b></h6>
-                                <p:selectOneMenu id="estadocita" value="#{reportesBean.estadoCita}" title="Estado de cita" style="width:100%" required="true"
+                                <p:selectOneMenu id="estadocita" value="#{reportesBean.estadoCita}" title="Estado de cita" styleClass="tamanioseleccionable" style="width:100%" required="true"
                                                  requiredMessage="Estado es requerido.">
                                     <f:selectItem itemLabel="Seleccionar..." itemValue="#{null}"/>
                                     <f:selectItem itemLabel="Citas reservadas" itemValue="#{1}"/>
@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6  align="center"><b>Desde*</b></h6>
-                                <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" readonlyInput="true" yearRange="c-10:c+1" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida." class="tamaniocalendario">
+                                <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" placeholder="dd-mm-aaaa" showOn="button"  styleClass="tamaniocalendario5" readonlyInput="true" yearRange="c-10:c+1" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida.">
                                     <p:ajax event="dateSelect" update="fechafin"/>
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>
@@ -49,17 +49,20 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <h6  align="center"><b>Hasta*</b></h6>
-                                <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" readonlyInput="true" yearRange="c-10:c+1" mindate="#{reportesBean.fechaInicio}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida." class="tamaniocalendario">
+                                <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" placeholder="dd-mm-aaaa" showOn="button"  styleClass="tamaniocalendario5" readonlyInput="true" yearRange="c-10:c+1" mindate="#{reportesBean.fechaInicio}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida.">
                                     <f:attribute name="finicial" value="#{reportesBean.fechaInicio}"/>
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>
                                 <p:message for="fechafin"/>
                             </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                                    * Campos obligatorios 
+                            </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2"/>
                     </div>
 
-                    <br/><br/>
+                    <br/>
 
                     <div class="row">
                         <div class="col-lg-12" align="center">

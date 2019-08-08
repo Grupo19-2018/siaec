@@ -16,7 +16,7 @@
             </ui:define>
 
             <!-- Barra de título -->
-            <div class="banda1"><b>SOLICITUD DE INSUMOS MÉDICOS</b></div>
+            <div class="banda1"><b>PEDIDO DE INSUMO MÉDICOS</b></div>
             <br/>
 
             <!-- Panel color blanco -->
@@ -27,16 +27,24 @@
                         <div class="col-lg-4 col-md-3 col-sm-4 col-xs-1"/>
                         <div class="col-lg-4 col-md-6 col-sm-4 col-xs-10">
                             <h6  align="center"><b>Clínica*</b></h6>
-                            <p:selectOneMenu id="sucursalnombre" value="#{reportesBean.clinicaId}" title="sucursal" style="width:100%">
+                            <p:selectOneMenu id="sucursalnombre" value="#{reportesBean.clinicaId}" title="sucursal" style="width:100%" styleClass="tamanioseleccionable">
                                 <f:selectItem itemLabel="Todas las clínicas" itemValue="#{0}"/>
                                 <f:selectItems value="#{reportesBean.todasSucursalesDisponibles()}" var="sucursal" itemLabel="#{sucursal.clinicaNombre}" itemValue="#{sucursal.clinicaId}" />
                             </p:selectOneMenu>
+
                         </div>
                         <div class="col-lg-4 col-md-3 col-sm-4 col-xs-1"/>
                     </div>
-
-                    <br/><br/>
-
+                    <br/>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-1"/>
+                        <div class="col-lg-4 col-md-6 col-sm-4 col-xs-10">
+                            <span style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                                * Campos obligatorio
+                            </span>
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-sm-4 col-xs-1"/>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12" align="center">
                             <h:commandLink action="#{reportesBean.repSolicitudInsumos()}" class="btn btn-default buttonLevel1"

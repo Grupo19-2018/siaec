@@ -93,7 +93,7 @@ ORDER BY fecha ASC, hora ASC;]]>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="8119f289-9ba4-4843-b344-1cf35c94741c"/>
+				<reportElement x="465" y="37" width="90" height="15" forecolor="#464646" uuid="8119f289-9ba4-4843-b344-1cf35c94741c"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -126,6 +126,13 @@ ORDER BY fecha ASC, hora ASC;]]>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="402e6d81-fb79-43a4-ad95-faf1a1aa94ad"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -170,8 +177,8 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<text><![CDATA[Clínica]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="5" y="5" width="20" height="15" forecolor="#464646" uuid="000cd13e-e7a2-46c3-8d84-5fbbcc67ea95"/>
-				<textElement textAlignment="Center">
+				<reportElement x="10" y="5" width="20" height="15" forecolor="#464646" uuid="000cd13e-e7a2-46c3-8d84-5fbbcc67ea95"/>
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No.]]></text>
@@ -223,11 +230,11 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<textFieldExpression><![CDATA[$F{sucursal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="3" width="20" height="15" forecolor="#464646" uuid="12f9eaf2-0d24-4270-b3c8-eb168bcd4b76"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="11" isBold="false"/>
+				<reportElement x="0" y="3" width="25" height="15" forecolor="#464646" uuid="473a6721-536e-41f3-aa6a-fd80db294f02"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

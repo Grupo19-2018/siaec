@@ -61,7 +61,7 @@ ORDER BY detalleconsulta_fecha_creacion ASC;]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="e98b5721-6a7d-4b94-85c0-e1adfed48b45"/>
+				<reportElement x="465" y="37" width="90" height="15" forecolor="#464646" uuid="e98b5721-6a7d-4b94-85c0-e1adfed48b45"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -87,6 +87,13 @@ ORDER BY detalleconsulta_fecha_creacion ASC;]]>
 					<font fontName="DejaVu Sans" size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="17470e59-31a5-4289-a606-56752bec2b0d"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -118,7 +125,7 @@ ORDER BY detalleconsulta_fecha_creacion ASC;]]>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[No]]></text>
+				<text><![CDATA[No.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="125" y="5" width="80" height="15" forecolor="#464646" uuid="18c55b7b-1751-41fb-9861-18eaccf8f7fd"/>
@@ -148,13 +155,6 @@ ORDER BY detalleconsulta_fecha_creacion ASC;]]>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
-				<reportElement x="85" y="3" width="20" height="15" forecolor="#464646" uuid="5bcc80ca-a36b-4524-b9f5-816efa24330f"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
-			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement x="125" y="3" width="80" height="15" forecolor="#464646" uuid="63577900-4c26-4581-be19-197d4ca63dd6"/>
 				<textElement textAlignment="Center">
@@ -175,6 +175,13 @@ ORDER BY detalleconsulta_fecha_creacion ASC;]]>
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detalleconsulta_cargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="3" width="25" height="15" forecolor="#464646" uuid="a1541084-82a6-4d42-bac6-213023704f4e"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

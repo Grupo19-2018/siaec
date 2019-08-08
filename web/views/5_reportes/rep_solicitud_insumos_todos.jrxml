@@ -65,7 +65,7 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="037ba00f-9af9-443c-a715-817695d83051"/>
+				<reportElement x="465" y="37" width="90" height="15" forecolor="#464646" uuid="037ba00f-9af9-443c-a715-817695d83051"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -85,6 +85,13 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 				</textElement>
 				<text><![CDATA[Fecha creación:]]></text>
 			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="1e138dab-0414-421b-9e6c-3dff53dec445"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

@@ -106,20 +106,20 @@ ORDER BY CANTIDAD DESC;]]>
 				<reportElement x="0" y="0" width="140" height="60" uuid="2933a445-a934-4f71-98b4-434582e49c98"/>
 				<imageExpression><![CDATA["logo_smiling.png"]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="f91edea7-04a9-47ed-9672-23be8edb6479"/>
-				<textElement textAlignment="Right">
-					<font fontName="DejaVu Sans" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{registros}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="4db764e2-5384-4614-a073-27ec92945f71"/>
+				<reportElement x="465" y="37" width="90" height="15" forecolor="#464646" uuid="4db764e2-5384-4614-a073-27ec92945f71"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Total de registros:]]></text>
 			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="ef4de8d9-d9ae-4751-9efa-c24e4ba4697d"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -129,10 +129,10 @@ ORDER BY CANTIDAD DESC;]]>
 		<band height="23" splitType="Stretch">
 			<staticText>
 				<reportElement x="110" y="5" width="20" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="4423057d-9ff5-4de3-bcd3-f03aa5290c2a"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[No]]></text>
+				<text><![CDATA[No.]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="20" width="570" height="1" forecolor="#808080" uuid="23352a2d-6302-4ab8-aadc-a046ecbf5f3a"/>
@@ -169,12 +169,12 @@ ORDER BY CANTIDAD DESC;]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="110" y="3" width="20" height="15" forecolor="#464646" backcolor="#FFFFFF" uuid="2e33ccfb-ddcd-4542-89f5-170192cd0d4d"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="10"/>
+			<textField>
+				<reportElement x="105" y="3" width="25" height="15" forecolor="#464646" uuid="f2810067-e833-44a4-a882-7ea2da3fb1a5"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

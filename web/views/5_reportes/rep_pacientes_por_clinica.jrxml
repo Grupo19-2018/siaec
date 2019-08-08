@@ -90,7 +90,7 @@ ORDER BY paciente ASC;]]>
 				<text><![CDATA[LISTADO DE PACIENTES ATENDIDOS POR CLÍNICA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="01a43eee-d07d-4c3f-b4a6-1ff765a199fc"/>
+				<reportElement x="460" y="37" width="90" height="15" forecolor="#464646" uuid="01a43eee-d07d-4c3f-b4a6-1ff765a199fc"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -124,6 +124,13 @@ ORDER BY paciente ASC;]]>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="aff785d4-7ef0-42a9-bd2d-b7115648e669"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -154,7 +161,7 @@ ORDER BY paciente ASC;]]>
 			</line>
 			<staticText>
 				<reportElement x="5" y="5" width="20" height="15" forecolor="#464646" uuid="47e2d44a-da99-4016-89c8-07d58d464807"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No.]]></text>
@@ -206,11 +213,11 @@ ORDER BY paciente ASC;]]>
 				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="5" y="3" width="20" height="15" forecolor="#464646" uuid="57d8a1ca-df00-40a0-83e7-f3efac0b5dc0"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="10"/>
+				<reportElement x="0" y="3" width="25" height="15" forecolor="#464646" uuid="74f40ca2-25ad-437e-b002-2a14a68415ce"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

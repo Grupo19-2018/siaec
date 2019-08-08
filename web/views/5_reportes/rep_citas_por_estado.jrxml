@@ -93,7 +93,7 @@ ORDER BY fecha ASC, hora ASC;]]>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="c2955076-3d4c-443a-ba40-fe206240999b"/>
+				<reportElement x="460" y="37" width="90" height="15" forecolor="#464646" uuid="c2955076-3d4c-443a-ba40-fe206240999b"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -126,6 +126,13 @@ ORDER BY fecha ASC, hora ASC;]]>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="46ea0160-9feb-4081-a17b-66f80e3b7cad"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

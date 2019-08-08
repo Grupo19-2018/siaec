@@ -53,7 +53,7 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="38e165f9-002e-4787-8cc5-97814c39b36e"/>
+				<reportElement x="460" y="37" width="90" height="15" forecolor="#464646" uuid="38e165f9-002e-4787-8cc5-97814c39b36e"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -80,6 +80,13 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 				</textElement>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="fc712486-5128-48da-9c92-0435ae49042f"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -95,10 +102,10 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[No]]></text>
+				<text><![CDATA[No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="155" y="5" width="180" height="15" forecolor="#464646" uuid="4ecaeb1c-dc26-4dc1-ac74-5fe9e9bc3ebe"/>
+				<reportElement x="160" y="5" width="175" height="15" forecolor="#464646" uuid="4ecaeb1c-dc26-4dc1-ac74-5fe9e9bc3ebe"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
@@ -112,7 +119,7 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 				<text><![CDATA[Existencia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="5" width="120" height="15" forecolor="#464646" uuid="c79c0c88-e651-4dc9-bdb7-b23cdba90c34"/>
+				<reportElement x="35" y="5" width="120" height="15" forecolor="#464646" uuid="c79c0c88-e651-4dc9-bdb7-b23cdba90c34"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
@@ -136,15 +143,8 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
-				<reportElement x="5" y="1" width="20" height="15" forecolor="#464646" uuid="5269009d-512b-42c8-bc7a-3dbbce4b15c6"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
-			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="30" y="1" width="120" height="15" forecolor="#464646" uuid="0ea6341f-4ce3-44ed-92d5-1752ccbb3a05"/>
+				<reportElement x="35" y="1" width="120" height="15" forecolor="#464646" uuid="0ea6341f-4ce3-44ed-92d5-1752ccbb3a05"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
@@ -158,7 +158,7 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 				<textFieldExpression><![CDATA[$F{medida}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="155" y="2" width="180" height="15" forecolor="#464646" uuid="c721dbec-86af-4f41-ac77-366c3ba7449b"/>
+				<reportElement x="160" y="2" width="175" height="15" forecolor="#464646" uuid="c721dbec-86af-4f41-ac77-366c3ba7449b"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="10"/>
 				</textElement>
@@ -177,6 +177,13 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{creacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="3" width="25" height="15" forecolor="#464646" uuid="93471345-3c12-4528-a56a-a040477cc059"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

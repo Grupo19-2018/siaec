@@ -92,7 +92,7 @@ ORDER BY fecha ASC, hora ASC;]]>
 				<text><![CDATA[CLÍNICA DENTAL SMILING]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="60ed66ff-5e3f-417d-af2a-7177bda93c17"/>
+				<reportElement x="460" y="37" width="90" height="15" forecolor="#464646" uuid="60ed66ff-5e3f-417d-af2a-7177bda93c17"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -125,6 +125,13 @@ ORDER BY fecha ASC, hora ASC;]]>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="c61026f8-3e00-499c-96cc-c3fbdce42b60"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

@@ -111,12 +111,19 @@ ORDER BY p.paciente_id ASC;]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="57a708af-db47-4f86-9429-91707f0c63a3"/>
+				<reportElement x="460" y="37" width="90" height="15" forecolor="#464646" uuid="57a708af-db47-4f86-9429-91707f0c63a3"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Total de registros:]]></text>
 			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="cc823896-14ef-4481-8271-a4988124f65a"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

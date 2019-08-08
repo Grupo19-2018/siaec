@@ -69,7 +69,7 @@ ORDER BY insumo_nombre ASC;]]>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="470" y="37" width="90" height="15" forecolor="#464646" uuid="83539683-4140-45d0-958d-1b423a7dce23"/>
+				<reportElement x="465" y="37" width="90" height="15" forecolor="#464646" uuid="83539683-4140-45d0-958d-1b423a7dce23"/>
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -89,6 +89,13 @@ ORDER BY insumo_nombre ASC;]]>
 				</textElement>
 				<text><![CDATA[Fecha creación:]]></text>
 			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="535" y="37" width="30" height="15" forecolor="#464646" uuid="a89924da-742e-44b9-ae1f-c62786b1d5c2"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -137,10 +144,10 @@ ORDER BY insumo_nombre ASC;]]>
 			</line>
 			<staticText>
 				<reportElement x="5" y="5" width="20" height="15" forecolor="#464646" uuid="d05911ff-e7a5-46f9-b8fe-24deebd39908"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[No]]></text>
+				<text><![CDATA[No.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="345" y="5" width="100" height="15" forecolor="#464646" uuid="9e892b42-99b1-48ce-a91c-095e0a44b923"/>
@@ -170,13 +177,6 @@ ORDER BY insumo_nombre ASC;]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unidadmedida_nombre}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="5" y="3" width="20" height="15" forecolor="#464646" uuid="3bdd0d93-ea33-4066-83f9-6c6039bcd726"/>
-				<textElement textAlignment="Center">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
-			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
 				<reportElement x="240" y="3" width="70" height="15" forecolor="#464646" uuid="6e2b3549-34c2-4903-8465-dfed2ca89b39"/>
 				<textElement textAlignment="Right">
@@ -190,6 +190,13 @@ ORDER BY insumo_nombre ASC;]]>
 					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{insumo_minimo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="3" width="25" height="15" forecolor="#464646" uuid="d2cac11b-f159-4530-854a-ab034f0f9697"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

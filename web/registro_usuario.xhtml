@@ -110,7 +110,7 @@
                                 <p:password id="contrasenianuevousuario" value="#{homeBean.usuarioNuevo.usuarioContrasenia}" match="confirmarnuevousuario" maxlength="20" style="width: 100%" feedback="true"
                                             promptLabel="Ingrese una contraseña" weakLabel="Seguridad baja" goodLabel="Seguridad media" strongLabel="Seguridad alta"
                                             required="true" requiredMessage="Ingrese una contraseña." validatorMessage="Contraseñas no coinciden o es muy corta.">
-                                    <f:validateRegex pattern="^(.{6,20})*$"/>
+                                    <f:validateRegex pattern="^(.{8,20})*$"/>
                                 </p:password>
                                 <p:message for="contrasenianuevousuario"/>
                             </div>

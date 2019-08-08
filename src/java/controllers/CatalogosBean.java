@@ -972,6 +972,11 @@ public class CatalogosBean implements Serializable {
         tratamientoEditar = getTratamientosFacade().find(tratamientoId);
     }
 
+    //Método para cargar usuario seleccionado para editar. (cat_usuarios_editar.xhtml)
+    public void cargarUsuario() {
+        usuarioEditar = getUsuariosFacade().find(usuarioUsuario);
+    }
+
     //Método para cargar patología seleccionada para editar. (cat_patologias_editar.xhtml)
     public void cargarPatologia() {
         patologiaEditar = getPatologiasFacade().find(patologiaId);
@@ -1135,10 +1140,21 @@ public class CatalogosBean implements Serializable {
             pacienteSeleccionado = new Pacientes();
             pacienteId = 0;
             rolId = 0;
-            guardarBitacora("Guardó un usuario.");
+            //guardarBitacora("Guardó un usuario.");
             mensajeConfirmacion("Usuario creado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarUsuario.");
+        }
+    }
+
+    //Método para editar un nuevo Usuario (cat_usuarios_nuevoeditar.xhtml)
+    public void editarUsuario() {
+        try {
+            getUsuariosFacade().edit(usuarioEditar);
+            guardarBitacora("Actualizó un usuario.");
+            mensajeConfirmacion("Usuario guardado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: editarUsuario.");
         }
     }
 

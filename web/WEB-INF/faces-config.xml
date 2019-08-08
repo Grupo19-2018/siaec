@@ -72,8 +72,12 @@
             <from-outcome>InsumoSolicitudControl</from-outcome>
             <to-view-id>/views/3_insumos/insumo_solicitud_control.xhtml</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>InsumoHistorialEditar</from-outcome>
+            <to-view-id>/views/3_insumos/insumo_historial_editar.xhtml</to-view-id>
+        </navigation-case>
     
-        <!-- Módulo Insumos -->
+        <!-- Módulo Promociones -->
         <navigation-case>
             <from-outcome>PromocionConsultar</from-outcome>
             <to-view-id>/views/4_promociones/promocion_consultar.xhtml</to-view-id>

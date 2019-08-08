@@ -4,6 +4,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
@@ -13,7 +14,7 @@
                 <f:metadata>
                     <f:viewAction action="#{catalogosBean.verificaAcceso(30)}"/>
                     <f:viewParam name="usuarioeditar" value="#{catalogosBean.usuarioUsuario}"/>
-                    <f:event type="preRenderView" listener="#{catalogosBean.cargarUsuarioEditar()}"/>
+                    <f:event type="preRenderView" listener="#{catalogosBean.cargarUsuario()}"/>
                 </f:metadata>
             </ui:define>
 
@@ -23,20 +24,90 @@
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
 
-                PANTALLA EN MANTENIMIENTO
+                <h:form id="nuevousuario">
 
-                <div class="row" style="margin-left: 5px; margin-right: 5px">
-                    <div class="col-lg-12" align="right">
-                        <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt"
-                                onclick="window.location.href = 'cat_usuarios_listado.xhtml'">
-                            <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Regresar
-                        </button>
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Rol</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.rolId.rolNombre}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        </div>
                     </div>
-                </div>
-                <br/>
-                
+                    <br/>
+
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Primer nombre</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioPrimerNombre}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Segundo nombre</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioSegundoNombre}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Primer apellido</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioPrimerApellido}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Segundo apellido</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioSegundoApellido}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Correo</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioCorreo}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Teléfono*</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioTelefono}" style="width: 100%" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Nombre de usuario</b></h6>
+                            <p:inputText value="#{catalogosBean.usuarioEditar.usuarioUsuario}" style="width: 100%; background:#D8D8D8" readonly="true"/>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <h6><b>Bloqueado*</b></h6>
+                            <p:selectOneMenu id="sexoregistro" value="#{catalogosBean.usuarioEditar.usuarioBloqueado}" style="width: 100%" styleClass="tamanioseleccionable">
+                                <f:selectItem itemLabel="Bloqueado" itemValue="false"/>
+                                <f:selectItem itemLabel="Desbloqueado" itemValue="true"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    
+                    <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
+                        <div class="col-md-12" style="font-size: smaller; font-style: italic;">
+                            * Campos obligatorios 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12" align="center">
+                            <h:commandLink type="submit" class="btn btn-default" action="#{catalogosBean.editarUsuario()}"
+                                           style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
+                                <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
+                            </h:commandLink>
+                            &nbsp;
+                            <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt"
+                                    onclick="window.location.href = 'cat_usuarios_listado.xhtml'">
+                                <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                            </button>
+                        </div>
+                    </div>
+                    <br/>
+                </h:form>
+
             </p:panel>
             <p:spacer height="50"/>
+
         </ui:define>
+
     </ui:composition>
 </html>

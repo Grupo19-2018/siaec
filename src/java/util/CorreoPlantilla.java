@@ -70,4 +70,27 @@ public class CorreoPlantilla {
                 + "       </div> ";
         return mensaje;
     }
+    
+    public String reenviarMsj(String primerNombre, String primerApellido, Integer codigo  ){
+        String body = "<div style=\"margin-top: 0px;\">"
+                                + "      <h1 style=\"text-align: center; background: #0B6EAC; color: white\">Clinica Dental Smiling</h1>    "
+                                + "    </div>"
+                                + "    <div>"
+                                + "    Hola " + primerNombre + " " + primerApellido + "."
+                                + "    <br/> El código para activación de tu cuenta es: "
+                                + "          <h2 style=\"text-align: center\">" + codigo + "</h2>"
+                                + "    </div>"
+                                + "    <div style=\"background-color:#0B6EAC; color: white;\">"
+                                + "      <div style=\"text-align: right\">"
+                                + "         <p>Horario de lunes a viernes de 8:00 a.m. a 6:00 p.m.<br/>"
+                                + "            Sabádo de 8:00 a.m. a 2:30 p.m. <br/>"
+                                + "            Diagonal Dr Arturo Romero edificio 444 local # 4 Edificio del Subway . Col medica.<br/>"
+                                + "         </p>"
+                                + "      </div>"
+                                + "         <div style=\"padding:5px; text-align: center; border-top: 1px double white\">"
+                                + "              © 2019 <b>SIAEC</b> Todos los Derechos Reservados."
+                                + "         </div> "
+                                + "      </div>";
+        return body;
+    }
 }

@@ -293,6 +293,7 @@ public class HomeBean implements Serializable {
     
     public void reenviarCodigo(String usuario){
         Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
+        System.out.println("Usuario " + usuarioLogueado);
         enviarCorreo(usuarioLogueado);
     } 
     

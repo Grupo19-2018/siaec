@@ -1,8 +1,11 @@
 package controllers;
 
+import com.sun.mail.smtp.SMTPAddressFailedException;
 import dao.BitacoraFacade;
+import dao.ConfiguracionesFacade;
 import dao.UsuariosFacade;
 import entities.Bitacora;
+import entities.Configuraciones;
 import entities.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,10 +16,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.MessagingException;
+import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
+import util.CorreoBasico;
+import util.CorreoPlantilla;
+import util.Mensajes;
 
 /* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
@@ -29,14 +37,20 @@ public class SesionBean implements Serializable {
 
     @EJB
     private UsuariosFacade usuariosFacade;
-    
+
+    @EJB
+    private ConfiguracionesFacade configuracionFacade;
+    private Configuraciones configuracionCorreo = new Configuraciones();
+
+    Mensajes msj = new Mensajes();
+
 //****************************************************************************//
 //                                  Variables                                 //
 //****************************************************************************//
     private String usuario = "";
     private String password = "";
     private Integer codigo;
-    
+
     @ManagedProperty(value = "#{appSession}")
     private AppSession appSession;
 
@@ -46,7 +60,6 @@ public class SesionBean implements Serializable {
 //****************************************************************************//
 //                                   Métodos                                  //
 //****************************************************************************//
-    
     //Método Get para obtener datos de entidad Bitacora
     public BitacoraFacade getBitacoraFacade() {
         return bitacoraFacade;
@@ -55,6 +68,10 @@ public class SesionBean implements Serializable {
     //Método Get para obtener datos de entidad Usuarios
     public UsuariosFacade getUsuariosFacade() {
         return usuariosFacade;
+    }
+
+    public ConfiguracionesFacade getConfiguracionFacade() {
+        return configuracionFacade;
     }
 
     //Método para mostrar mensaje en login (login.xhtml).
@@ -73,7 +90,7 @@ public class SesionBean implements Serializable {
                 } else if (!(usuarioLogueado.getUsuarioBloqueado())) {
                     mensajeError("Su cuenta está bloqueada.");
                 } else if (usuarioLogueado.getUsuarioContrasenia().equals(DigestUtils.md5Hex(password))) {
-                    if(usuarioLogueado.getUsuarioActivacion()){
+                    if (usuarioLogueado.getUsuarioActivacion()) {
                         appSession.setUsuario(usuarioLogueado);
                         guardarBitacora("Inicio sesion.");
                         //System.out.println("UsuarioLogueado: "+usuarioLogueado.getUsuarioUsuario());
@@ -81,8 +98,7 @@ public class SesionBean implements Serializable {
                         //System.out.println("AppSession: "+appSession.getUsuario().getUsuarioUsuario());
                         getUsuariosFacade().edit(usuarioLogueado);
                         direccionaPagina("/dashboard.xhtml");
-                    }
-                    else{
+                    } else {
                         PrimeFaces current = PrimeFaces.current();
                         current.executeScript("PF('activacion').show();");
                     }
@@ -107,17 +123,17 @@ public class SesionBean implements Serializable {
             mensajeError("Se detuvo el proceso en el método: iniciarSesion.");
         }
     }
-    
-    public void iniciarSesionNuevo(){
-        try{
+
+    public void iniciarSesionNuevo() {
+        try {
             Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
-            if(usuarioLogueado.getUsuarioCodigo().intValue() == codigo){
+            if (usuarioLogueado.getUsuarioCodigo().intValue() == codigo) {
                 appSession.setUsuario(usuarioLogueado);
                 usuarioLogueado.setUsuarioIntentoFallido(0);
                 usuarioLogueado.setUsuarioActivacion(Boolean.TRUE);
                 getUsuariosFacade().edit(usuarioLogueado);
                 direccionaPagina("/dashboard.xhtml");
-            } else{
+            } else {
                 usuario = "";
                 password = "";
                 mensajeError("El código ingresado es incorrecto.");
@@ -195,6 +211,7 @@ public class SesionBean implements Serializable {
     public String getUsuario() {
         return usuario;
     }
+
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -202,6 +219,7 @@ public class SesionBean implements Serializable {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -209,6 +227,7 @@ public class SesionBean implements Serializable {
     public AppSession getAppSession() {
         return appSession;
     }
+
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
@@ -216,6 +235,7 @@ public class SesionBean implements Serializable {
     public Integer getCodigo() {
         return codigo;
     }
+
     public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
@@ -223,8 +243,37 @@ public class SesionBean implements Serializable {
     public Bitacora getBitacoraNueva() {
         return bitacoraNueva;
     }
+
     public void setBitacoraNueva(Bitacora bitacoraNueva) {
         this.bitacoraNueva = bitacoraNueva;
     }
- 
+
+    public void reenviarCodigo() {
+        Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
+        System.out.println("Usuario " + usuarioLogueado);
+        enviarCorreo(usuarioLogueado);
+    }
+
+    public void enviarCorreo(Usuarios usuario) {
+        configuracionCorreo = getConfiguracionFacade().find(1);
+        CorreoPlantilla cp = new CorreoPlantilla();
+        try {
+            if (configuracionCorreo.getConfiguracionCorreoActivo()) {
+                if (!configuracionCorreo.getConfiguracionCorreoCuenta().isEmpty()) {
+                    if ((configuracionCorreo.getConfiguracionCorreoEnviadoMes() < configuracionCorreo.getConfiguracionCorreoMes() && configuracionCorreo.getConfiguracionCorreoEnviadoDia() < configuracionCorreo.getConfiguracionCorreoDia())
+                            || configuracionCorreo.getConfiguracionCorreoIlimitada()) {
+
+                        CorreoBasico enviarHtml = new CorreoBasico(configuracionCorreo);
+                        String body = cp.reenviarMsj(usuario.getUsuarioPrimerNombre(), usuario.getUsuarioPrimerApellido(), usuario.getUsuarioCodigo());
+                        enviarHtml.sendMailHTML(usuario.getUsuarioCorreo(), "SMILING CÓDIGO DE SEGURIDAD ", body);
+                        msj.mensajeConfirmacion("Mensaje enviado.");
+                        return;
+                    }
+                }
+            }
+            msj.mensajeError("Mensaje no enviado, pruebe en otro momento.");
+        } catch (Exception e) {
+            msj.mensajeError("Mensaje no enviado, pruebe en otro momento.");
+        }
+    }
 }

@@ -15,7 +15,7 @@
                     <br/>
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Primer nombre *</b></h6>
+                            <h6><b>Primer nombre*</b></h6>
                             <p:inputText id="primernombregestion" value="#{expedientesBean.pacienteEditar.pacientePrimerNombre}" required="true" maxlength="25"
                                          style="width: 100%" validatorMessage="Primer nombre no válido." requiredMessage="Primer nombre es requerido.">
                                 <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
@@ -31,7 +31,7 @@
                             <p:message for="segundonombregestion"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Primer apellido *</b></h6>
+                            <h6><b>Primer apellido*</b></h6>
                             <p:inputText id="primerapellidogestion" value="#{expedientesBean.pacienteEditar.pacientePrimerApellido}" required="rue" maxlength="25"
                                          style="width: 100%" validatorMessage="Primer apellido no válido." requiredMessage="Primer apellido es requerido.">
                                 <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
@@ -51,8 +51,8 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Fecha de nacimiento *</b></h6>
-                            <p:calendar id="fechanacimientogestion" value="#{expedientesBean.pacienteEditar.pacienteFechaNacimiento}" class="tamaniocalendario" readonlyInput="true"
+                            <h6><b>Fecha de nacimiento*</b></h6>
+                            <p:calendar id="fechanacimientogestion" value="#{expedientesBean.pacienteEditar.pacienteFechaNacimiento}" showOn="button" class="tamaniocalendario4" readonlyInput="true"
                                         yearRange="c-80:c-0" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true" requiredMessage="Fecha es requerida." >
                                 <f:passThroughAttribute name="onkeypress" value="return false;" />
                             </p:calendar>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <h6><b>Sexo *</b></h6>
-                            <p:selectOneMenu id="sexogestion" value="#{expedientesBean.pacienteEditar.pacienteSexo}" style="width: 100%">
+                            <p:selectOneMenu id="sexogestion" value="#{expedientesBean.pacienteEditar.pacienteSexo}" style="width: 100%" styleClass="tamanioseleccionable">
                                 <f:selectItem itemLabel="Masculino" itemValue="TRUE"/>
                                 <f:selectItem itemLabel="Femenino" itemValue="FALSE"/>
                             </p:selectOneMenu>
@@ -104,11 +104,14 @@
                     <br/>
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
                             <p:selectBooleanCheckbox id="whatsappregistro" value="#{expedientesBean.pacienteEditar.pacienteWhatsapp}"/> Posee Whatsapp
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
                             <p:selectBooleanCheckbox id="correoMandar" value="#{expedientesBean.pacienteEditar.pacienteNotificarCorreo}"/> Autoriza el envío de correos electrónicos. 
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
+                            * Campos obligatorios 
                         </div>
                     </div>
                     <br/>
@@ -183,6 +186,11 @@
                         </div>
                     </div>
                     <br/>
+                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
+                            * Campos obligatorios 
+                        </div>
+                    </div>
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-12" align="right">

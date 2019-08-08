@@ -14,21 +14,21 @@
                     <f:viewAction action="#{catalogosBean.verificaAcceso(31)}"/>
                 </f:metadata>
             </ui:define>
-            
+
             <div class="banda1"><b>NUEVA SUCURSAL</b></div>
             <br/>
 
             <h:form id="form" >
-                
+
                 <p:tabView styleClass="registro" activeIndex="#{catalogosBean.tabIndex}" style="margin-left: 10px; margin-right: 10px; border: solid 1px #D5D5D5">
                     <p:tab title="Datos generales" disabled="true">
 
                         <p:focus for="nombresucursalnuevo"/>
-                        
+
                         <br/>
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Nombre de la sucursal *</b></h6>
+                                <h6><b>Nombre de la sucursal*</b></h6>
                                 <p:inputText id="nombresucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaNombre}" required="#{request.getParameter('datos')}" maxlength="50"
                                              style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
                                     <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,50})*$"/>
@@ -66,13 +66,13 @@
                                 </p:selectOneMenu>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Hora apertura</b></h6>
+                                <h6><b>Hora apertura*</b></h6>
                                 <p:calendar id="aperturasucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaHorarioApertura}" required="#{request.getParameter('datos')}" readonlyInput="true"
                                             class="tamaniocalendario" locale="es" pattern="HH:mm" timeOnly="true" requiredMessage="Hora apertura requerida."/>
                                 <p:message for="aperturasucursalnuevo"/>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Hora cierre</b></h6>
+                                <h6><b>Hora cierre*</b></h6>
                                 <p:calendar id="cierresucursalnuevo" value="#{catalogosBean.sucursalNuevo.clinicaHorarioCierre}" required="#{request.getParameter('datos')}" readonlyInput="true"
                                             class="tamaniocalendario" locale="es" pattern="HH:mm" timeOnly="true" requiredMessage="Hora cierre requerida."/>
                                 <p:message for="cierresucursalnuevo"/>
@@ -80,8 +80,11 @@
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             </div>
                         </div>
-                        <br/>
-                        <br/>
+                        <div class="row">
+                            <div class=" col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                                * Campos obligatorios 
+                            </div>
+                        </div>
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-12" align="right">
@@ -98,17 +101,17 @@
                             </div>
                         </div>
                         <br/>
-                        
+
                     </p:tab>
-                    
+
                     <p:tab title="Dirección" disabled="true">
-                        
+
                         <p:focus for="coloniasucursalnuevo"/>
-                        
+
                         <br/>
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Colonia/Urbanización *</b></h6>
+                                <h6><b>Colonia/Urbanización*</b></h6>
                                 <p:inputText id="coloniasucursalnuevo" value="#{catalogosBean.direccionNuevo.direccionColonia}" required="#{request.getParameter('direccion')}"
                                              maxlength="50" requiredMessage="Colonia es requerida." style="width: 100%"/>
                                 <p:message for="coloniasucursalnuevo"/>
@@ -147,7 +150,7 @@
                                 </p:selectOneMenu>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Municipio *</b></h6>
+                                <h6><b>Municipio*</b></h6>
                                 <p:selectOneMenu id="municipiosucursalnuevo" value="#{catalogosBean.direccionNuevo.municipioId}" required="#{request.getParameter('direccion')}"
                                                  converter="#{municipioConvertidor}" requiredMessage="Municipio es requerido." style="width: 100%">
                                     <f:selectItem itemLabel="Seleccionar..." itemValue=""/>
@@ -157,8 +160,12 @@
                                 <p:message for="municipiosucursalnuevo"/>
                             </div>
                         </div>
-                        <br/><br/>
-
+                        <div class="row">
+                            <div class=" col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                                * Campos obligatorios 
+                            </div>
+                        </div>
+                        <br/>
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-12" align="right">
                                 <h:commandLink class="btn btn-default buttonPopupLevel2" action="#{catalogosBean.setTabIndex(0)}"
@@ -183,7 +190,7 @@
                 </p:tabView>
             </h:form>
             <p:spacer height="50"/>
-            
+
             <script type="text/javascript">
                 PrimeFaces.locales['es'] = {
                     timeOnlyTitle: 'Elije horario',
@@ -195,7 +202,7 @@
                     allDayText: 'Todo el día'
                 };
             </script>
-            
+
         </ui:define>
     </ui:composition>
 </html>

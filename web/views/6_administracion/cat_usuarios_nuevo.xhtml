@@ -28,7 +28,7 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Rol *</b></h6>
+                            <h6><b>Rol*</b></h6>
                             <p:selectOneMenu id="rolusuarionuevo" value="#{catalogosBean.rolId}" required="true" requiredMessage="Rol es requerido." style="width: 100%">
                                 <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
                                 <f:selectItems value="#{catalogosBean.todosRolesDisponibles()}" var="rol" 
@@ -69,7 +69,7 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Primer nombre *</b></h6>
+                            <h6><b>Primer nombre*</b></h6>
                             <p:inputText id="primernombreusuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioPrimerNombre}" required="#{request.getParameter('datos')}" maxlength="25"
                                          style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
                                 <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
@@ -85,7 +85,7 @@
                             <p:message for="segundonombreusuarionuevo"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Primer apellido *</b></h6>
+                            <h6><b>Primer apellido*</b></h6>
                             <p:inputText id="primerapellidousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioPrimerApellido}" required="#{request.getParameter('datos')}" maxlength="25" style="width: 100%"
                                          validatorMessage="Apellido no válido." requiredMessage="Apellido es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
                                 <f:validateRegex pattern="^([a-zA-Z ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
@@ -105,7 +105,7 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Correo *</b></h6>
+                            <h6><b>Correo*</b></h6>
                             <p:inputText id="correousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioCorreo}" required="#{request.getParameter('datos')}" maxlength="25"
                                          style="width: 100%" validatorMessage="Correo no válido." requiredMessage="Correo es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
                                 <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
@@ -113,13 +113,13 @@
                             <p:message for="correousuarionuevo"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Teléfono *</b></h6>
+                            <h6><b>Teléfono*</b></h6>
                             <p:inputMask id="telefonousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioTelefono}" required="true" mask="9999-9999" style="width: 100%"
                                          requiredMessage="Teléfono es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}"/>
                             <p:message for="telefonousuarionuevo"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Nombre de usuario *</b></h6>
+                            <h6><b>Nombre de usuario*</b></h6>
                             <p:inputText id="usuariousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioUsuario}" required="#{request.getParameter('datos')}" maxlength="25" style="width: 100%"
                                          validatorMessage="Usuario no válido." requiredMessage="Usuario es requerido." readonly="#{(catalogosBean.rolId == 0)}">
                                 <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü.]{3,25})*$"/>
@@ -127,12 +127,17 @@
                             <p:message for="usuariousuarionuevo"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Contraseña *</b></h6>
+                            <h6><b>Contraseña*</b></h6>
                             <p:inputText id="contraseniausuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioContrasenia}" style="width: 100%" readonly="true"/>
                             <p:message for="contraseniausuarionuevo"/>
                         </div>
                     </div>
                     <br/>
+                    <div class="row">
+                        <div class=" col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                            * Campos obligatorios 
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-lg-12" align="center">

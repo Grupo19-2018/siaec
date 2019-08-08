@@ -22,7 +22,7 @@
             <br/>
             <!-- Panel color blanco -->
             <h:form id="form" >
-                <p:panel id="cita" style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5" styleClass="smiling-cita">
+                <p:panel id="cita" style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5;" styleClass="smiling-cita">
 
                     <div class="container-fluid">
 
@@ -31,23 +31,23 @@
 
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Nombres</b></h6>
-                                    <p:inputText id="nombre" value="#{citasBean.nombre}" style="width: 100% ; background:#D8D8D8" disabled="true">
+                                    <p:inputText id="nombre" value="#{citasBean.nombre}" style="width: 100% ; background:#D8D8D8;" disabled="true">
                                     </p:inputText>
                                 </div>
                                 <div class="col-md-6 col-sm-12">
                                     <h6><b>Apellidos</b></h6>
-                                    <p:inputText id="apellido" value="#{citasBean.apellido}" style="width: 100% ; background: #D8D8D8" required="true" disabled="true">
+                                    <p:inputText id="apellido" value="#{citasBean.apellido}" style="width: 100% ; background: #D8D8D8;" required="true" disabled="true">
                                     </p:inputText>
                                 </div>
 
 
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Teléfono</b></h6>
-                                    <p:inputMask id="telefono" value="#{citasBean.telefono}" mask="9999-9999" style="width: 100%; background: #D8D8D8" disabled="true"/>
+                                    <p:inputMask id="telefono" value="#{citasBean.telefono}" mask="9999-9999" style="width: 100%; background: #D8D8D8;" disabled="true"/>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Correo</b></h6>
-                                    <p:inputText id="correo" value="#{citasBean.correo}" style="width: 100%; background: #D8D8D8" disabled="true">
+                                    <p:inputText id="correo" value="#{citasBean.correo}" style="width: 100%; background: #D8D8D8;" disabled="true">
                                     </p:inputText>
                                 </div>
 
@@ -55,7 +55,7 @@
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Sucursal*</b></h6>
                                     <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}"  required="true" 
-                                                     requiredMessage="Clinica requerida" style="width: 100%"  >
+                                                     requiredMessage="Clinica requerida" style="width: 100%" styleClass="tamanioseleccionable" >
 
                                         <f:selectItem itemLabel="Seleccione uno..." itemValue="0"  />
                                         <f:selectItems value="#{citasBean.todasClinicas()}" var="clinica" 
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Médico</b></h6>
-                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%">
+                                    <p:selectOneMenu id="odontologos" value="#{citasBean.citaNuevo.medicoId}" converter="#{medicoConvertidor}" style="width: 100%" styleClass="tamanioseleccionable">
                                         <f:selectItem itemLabel="Seleccione uno..." itemValue=""/>
                                         <f:selectItems value="#{citasBean.todoOdontologos()}" var="medico"
                                                        itemLabel="Od. #{medico.medicoPrimerNombre} #{medico.medicoSegundoNombre} #{medico.medicoPrimerApellido}"
@@ -90,7 +90,7 @@
                                 <div class="col-md-12 col-sm-6 cita-espacio">
                                     <center>
                                         <h6><b>Fecha*</b> (dd-mm-aaaa)</h6>
-                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" showOn="button"  mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar tamaniocalendario2" pattern="dd-MM-yyyy" readonly="true" yearRange="c-2:c+2">
+                                        <p:calendar value="#{citasBean.citaDia}" navigator="true" showOn="button"  mindate="#{citasBean.fechaActual}" locale="es" styleClass="smiling-calendar tamaniocalendario4" pattern="dd-MM-yyyy" readonlyInput="true" yearRange="c-2:c+2">
                                             <p:ajax event="dateSelect" update="console2"/>
                                             <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                         </p:calendar>

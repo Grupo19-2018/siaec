@@ -546,7 +546,7 @@ public class CitasBean implements Serializable {
         citaEditarFecha.setTime(citaEditar.getCitaFecha());
         citaEditarHora.setTime(citaEditar.getCitaHora());
         citasEditarSucursal = citaEditar.getClinicaId();
-        //horaE = citaEditar.getCitaHora().getHours(); 
+        horaE = citaEditar.getCitaHora().getHours(); 
     }
 
 //Usado en: cita_clinica_editar.xhtml

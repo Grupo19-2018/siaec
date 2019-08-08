@@ -66,8 +66,8 @@
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Fecha de nacimiento*</b></h6>
-                                <p:calendar id="fechanacimientoregistro" showOn="button" value="#{expedientesBean.pacienteNuevo.pacienteFechaNacimiento}" class="tamaniocalendario4" readonlyInput="true"
+                                <h6><b>Fecha de nacimiento *</b></h6>
+                                <p:calendar id="fechanacimientoregistro" showOn="button" value="#{expedientesBean.pacienteNuevo.pacienteFechaNacimiento}" class="tamaniocalendario3" readonlyInput="true"
                                             yearRange="c-80:c+0" locale="es" navigator="true" pattern="dd-MM-yyyy" required="#{request.getParameter('datos')}" requiredMessage="Fecha es requerida." >
                                     <f:passThroughAttribute name="onkeypress" value="return false;" />
                                 </p:calendar>
@@ -76,7 +76,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Sexo*</b></h6>
                                 <p:selectOneMenu id="sexoregistro" value="#{expedientesBean.pacienteNuevo.pacienteSexo}" required="true" style="width: 100%"
-                                                 requiredMessage="Sexo es requerido." styleClass="tamanioseleccionable">
+                                                 requiredMessage="Sexo es requerido.">
                                     <f:selectItem itemLabel="Seleccionar..." itemValue="" />
                                     <f:selectItem itemLabel="Masculino" itemValue="true" />
                                     <f:selectItem itemLabel="Femenino" itemValue="false" />
@@ -122,17 +122,13 @@
                         <br/>
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
-                                <p:selectBooleanCheckbox id="whatsappregistro" value="#{expedientesBean.pacienteNuevo.pacienteWhatsapp}" /> Posee Whatsapp
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <p:selectBooleanCheckbox id="whatsappregistro" value="#{expedientesBean.pacienteNuevo.pacienteWhatsapp}"/> Posee Whatsapp
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
                                 <p:selectBooleanCheckbox id="correoMandar" value="#{expedientesBean.pacienteNuevo.pacienteNotificarCorreo}"/> Autoriza el envío de correos electrónicos. 
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
-                                * Campos obligatorios 
-                            </div>
                         </div>
-                        
                         <br/>
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
@@ -154,7 +150,7 @@
                         <br/>
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Colonia/Urbanización*</b></h6>
+                                <h6><b>Colonia/Urbanización *</b></h6>
                                 <p:inputText id="coloniaregistro" value="#{expedientesBean.direccionNuevo.direccionColonia}" required="#{request.getParameter('direccion')}" maxlength="50"
                                              style="width: 100%" requiredMessage="Colonia es requerida."/>
                                 <p:message for="coloniaregistro"/>
@@ -185,7 +181,7 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Departamento</b></h6>
-                                <p:selectOneMenu value="#{expedientesBean.departamentoId}" style="width: 100%"  styleClass="tamanioseleccionable">
+                                <p:selectOneMenu value="#{expedientesBean.departamentoId}" style="width: 100%">
                                     <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
                                     <f:selectItems value="#{expedientesBean.todosDepartamentos()}" var="departamento" 
                                                    itemLabel="#{departamento.departamentoNombre}" itemValue="#{departamento.departamentoId}" />
@@ -193,23 +189,17 @@
                                 </p:selectOneMenu>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <h6><b>Municipio*</b></h6>
+                                <h6><b>Municipio *</b></h6>
                                 <p:selectOneMenu id="municipioregistro" value="#{expedientesBean.direccionNuevo.municipioId}" required="#{request.getParameter('direccion')}"
-                                                 converter="#{municipioConvertidor}" style="width: 100%"  styleClass="tamanioseleccionable" requiredMessage="Municipio es requerido.">
+                                                 converter="#{municipioConvertidor}" style="width: 100%" requiredMessage="Municipio es requerido.">
                                     <f:selectItem itemLabel="Seleccionar..." itemValue=""/>
                                     <f:selectItems value="#{expedientesBean.todosMunicipiosPorDepartamento()}" var="municipio"
-                                                   itemLabel="#{municipio.municipioNombre}" itemValue="#{municipio}"  />
+                                                   itemLabel="#{municipio.municipioNombre}" itemValue="#{municipio}" />
                                 </p:selectOneMenu>
                                 <p:message for="municipioregistro"/>
                             </div>
                         </div>
-                        <br/>
-                        <div class="row" style="margin-left: 5px; margin-right: 5px">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="font-size: smaller; font-style: italic;">
-                                * Campos obligatorios 
-                            </div>
-                        </div>
-                        <br/>
+                        <br/><br/>
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-12" align="right">

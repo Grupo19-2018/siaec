@@ -66,7 +66,19 @@
                                     <ui:repeat value="#{catalogosBean.todosUsuariosActivos()}" var="usuario" >
                                         <tr>
                                             <td align="center"></td>
-                                            <td align="center">#{usuario.creacionUsuario()}</td>
+                                            <td align="center">
+                                                <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                                <span style="display: none">
+                                                    <h:outputText value="#{usuario.usuarioFechaCreacion}" style="width: 100%">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                    </h:outputText>
+                                                </span>
+                                                <!-- Presentar fecha en formato dd-MM-yyyy -->
+                                                <h:outputText value="#{usuario.usuarioFechaCreacion}" style="width: 100%">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                                </h:outputText>
+                                                
+                                            </td>
                                             <td>#{usuario.usuarioUsuario}</td>
                                             <td align="center">#{usuario.rolId.rolNombre}</td>
                                             <td align="center">

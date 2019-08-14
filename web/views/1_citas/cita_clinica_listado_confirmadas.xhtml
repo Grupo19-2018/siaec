@@ -9,7 +9,7 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
-            
+
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{citasBean.verificaAcceso(2)}"/>
@@ -61,8 +61,15 @@
                                     <ui:repeat value="#{citasBean.todasCitasConfirmadas()}" var="cita" >
                                         <tr>
                                             <td align="center">
+                                                <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                                <span style="display: none">
+                                                    <h:outputText value="#{cita.citaFecha}" style="width: 100%">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                    </h:outputText>
+                                                </span>
+                                                <!-- Presentar fecha en formato dd-MM-yyyy -->
                                                 <h:outputText value="#{cita.citaFecha}" style="width: 100%">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:outputText>
                                             </td>
                                             <td align="center">

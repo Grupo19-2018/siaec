@@ -305,7 +305,7 @@ public class Usuarios implements Serializable {
     }
 
     public String creacionUsuario() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String fecha = formatter.format(usuarioFechaCreacion);
         return fecha;
     }

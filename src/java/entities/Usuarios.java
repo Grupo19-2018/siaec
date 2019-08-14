@@ -59,7 +59,7 @@ public class Usuarios implements Serializable {
     private Boolean usuarioActivacion;
     @Column(name = "usuario_codigo")
     private Integer usuarioCodigo;
-    
+
     @Size(max = 25)
     @Column(name = "usuario_primer_nombre")
     private String usuarioPrimerNombre;
@@ -133,7 +133,8 @@ public class Usuarios implements Serializable {
     public void setUsuarioUsuario(String usuarioUsuario) {
         this.usuarioUsuario = usuarioUsuario;
     }
-/*
+
+    /*
     public String getUsuarioNombre() {
         return usuarioNombre;
     }
@@ -197,7 +198,7 @@ public class Usuarios implements Serializable {
     public void setUsuarioIntentoFallido(Integer usuarioIntentoFallido) {
         this.usuarioIntentoFallido = usuarioIntentoFallido;
     }
-      
+
     public Date getUsuarioFechaCreacion() {
         return usuarioFechaCreacion;
     }
@@ -245,7 +246,7 @@ public class Usuarios implements Serializable {
     public void setPacienteId(Pacientes pacienteId) {
         this.pacienteId = pacienteId;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -270,7 +271,7 @@ public class Usuarios implements Serializable {
     public String toString() {
         return "entities.Usuarios[ usuarioUsuario=" + usuarioUsuario + " ]";
     }
-    
+
     public String getUsuarioPrimerNombre() {
         return usuarioPrimerNombre;
     }
@@ -302,8 +303,8 @@ public class Usuarios implements Serializable {
     public void setUsuarioSegundoApellido(String usuarioSegundoApellido) {
         this.usuarioSegundoApellido = usuarioSegundoApellido;
     }
-    
-    public String creacionUsuario(){
+
+    public String creacionUsuario() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String fecha = formatter.format(usuarioFechaCreacion);
         return fecha;
@@ -340,5 +341,9 @@ public class Usuarios implements Serializable {
     public void setUsuarioCodigo(Integer usuarioCodigo) {
         this.usuarioCodigo = usuarioCodigo;
     }
-    
+
+    public String nombreApellido() {
+        return usuarioNombre.toUpperCase() + " " + usuarioPrimerApellido.toUpperCase();
+    }
+
 }

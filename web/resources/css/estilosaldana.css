@@ -125,7 +125,7 @@ input:checked + .slider:before {
     width: auto;
 }
 
-@media (max-width:1200px ){
+@media (max-width:991px ){
     .smiling-paciente{
         height: auto;
     }

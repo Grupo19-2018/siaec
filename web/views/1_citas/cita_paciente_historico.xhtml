@@ -8,7 +8,7 @@
 
     <ui:composition template="./../../templates/layout/plantilla.xhtml">
         <ui:define name="content">
-            
+
             <ui:define name="meta-data">
                 <f:metadata>
                     <f:viewAction action="#{citasBean.verificaAcceso(6)}"/>
@@ -43,6 +43,11 @@
                                         <tr>
                                             <td align="center"></td>
                                             <td align="center">
+                                                <span style="display: none">
+                                                    <h:outputText value="#{cita.citaFecha}" style="width: 100%">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                    </h:outputText>
+                                                </span>
                                                 <h:outputText value="#{cita.citaFecha}" style="width: 100%">
                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:outputText>
@@ -80,7 +85,9 @@
                         </div>
                     </div>
                 </p:panel>
+                <p:spacer width="50"/>
             </h:form>
+            
         </ui:define>
         <!-- Script para funcionalidades de la tabla -->
         <ui:define name="scripts">

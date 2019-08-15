@@ -59,7 +59,7 @@
                             <p:message for="fechanacimientogestion"/>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Sexo *</b></h6>
+                            <h6><b>Sexo*</b></h6>
                             <p:selectOneMenu id="sexogestion" value="#{expedientesBean.pacienteEditar.pacienteSexo}" style="width: 100%" styleClass="tamanioseleccionable">
                                 <f:selectItem itemLabel="Masculino" itemValue="TRUE"/>
                                 <f:selectItem itemLabel="Femenino" itemValue="FALSE"/>
@@ -137,7 +137,7 @@
                     <br/>
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Colonia/Urbanización *</b></h6>
+                            <h6><b>Colonia/Urbanización*</b></h6>
                             <p:inputText id="coloniagestion" value="#{expedientesBean.direccionEditar.direccionColonia}" required="true"
                                          style="width: 100%" requiredMessage="Colonia es requerida."/>
                             <p:message for="coloniagestion"/>
@@ -176,7 +176,7 @@
                             </p:selectOneMenu>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <h6><b>Municipio *</b></h6>
+                            <h6><b>Municipio*</b></h6>
                             <p:selectOneMenu id="municipiogestion" value="#{expedientesBean.direccionEditar.municipioId}" required="true"
                                              converter="#{municipioConvertidor}" style="width: 100%" requiredMessage="Municipio es requerido.">
                                 <f:selectItems value="#{expedientesBean.todosMunicipiosPorDepartamentoEditar()}" var="municipio"

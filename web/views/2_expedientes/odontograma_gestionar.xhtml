@@ -2573,7 +2573,7 @@
                         <br/>
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
-                                <h6 style="margin-left: 15pt"><b>Diente(s)</b></h6>
+                                <h6 style="margin-left: 15pt"><b>Diente(s)*</b></h6>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-10 col-xs-9">
                                 <p:inputText id="dientes" value="#{expedientesBean.detalleConsultaNuevo.detalleconsultaPieza}" required="true" maxlength="200" style="width: 90%"
@@ -2585,7 +2585,7 @@
                         <br/>
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
-                                <h6 style="margin-left: 15pt"><b>Costo</b></h6>
+                                <h6 style="margin-left: 15pt"><b>Costo($)*</b></h6>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-10 col-xs-9">
                                 <p:inputNumber id="cargo" value="#{expedientesBean.detalleConsultaNuevo.detalleconsultaCargo}" required="true" styleClass="tamaniocien"
@@ -2598,13 +2598,21 @@
                         <br/>
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-2 col-xs-3">
-                                <h6 style="margin-left: 15pt"><b>Abono</b></h6>
+                                <h6 style="margin-left: 15pt"><b>Abono($)*</b></h6>
                             </div>
                             <div class="col-lg-9 col-md-9 col-sm-10 col-xs-9">
                                 <p:inputNumber id="abono" value="#{expedientesBean.detalleConsultaNuevo.detalleconsultaAbono}" required="true" styleClass="tamaniocien"
                                                requiredMessage="Abono es requerido." maxValue="#{expedientesBean.detalleConsultaNuevo.detalleconsultaCargo}">
                                 </p:inputNumber>
                                 <p:message for="abono"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span style="font-size: smaller; font-style: italic;margin-left: 15pt;">
+                                    * Campos obligatorios
+                                </span>
                             </div>
                         </div>
                         <br/>

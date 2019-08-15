@@ -25,7 +25,7 @@
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                            <h6><b>Nombre *</b></h6>
+                            <h6><b>Nombre*</b></h6>
                             <p:inputText id="nombreNuevoRol" value="#{AdministracionBean.rolNuevo.rolNombre}" required="true" maxlength="50"
                                          style="width: 100%" validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
                                 <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü./]{3,50})*$"/>
@@ -42,7 +42,7 @@
                     <br/>
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <h5><b>Tablero *</b></h5>
+                            <h5><b>Tablero*</b></h5>
                             <hr style="border: solid 1px #D5D5D5"/>
                         </div>
                     </div>
@@ -176,9 +176,9 @@
                                     <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(2)}" var="permisos1" itemLabel="#{permisos1.privilegioAccion}" itemValue="#{permisos1}" />
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup id="tituloCitasPendientes">
-                            <p:outputLabel value="Citas Pendiente Clinica" rendered="#{AdministracionBean.getsCitasPendientes()}"/>
+                                <p:outputLabel value="Citas Pendiente Clinica" rendered="#{AdministracionBean.getsCitasPendientes()}"/>
                             </h:panelGroup>
                             <h:panelGroup id="selectCitasPendientes" styleClass="#{AdministracionBean.getsCitasPendientes() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.citasPendientes}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3" >
@@ -257,7 +257,11 @@
                         </p:panel>
                     </div>
                     <!--Fin de permisos especiales -->
-
+                    <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
+                        <div class="col-md-12" style="font-size: smaller; font-style: italic;">
+                            * Campos obligatorios 
+                        </div>
+                    </div>
 
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-12" align="right">

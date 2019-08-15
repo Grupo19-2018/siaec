@@ -42,7 +42,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                             <h6><b>Existencias</b></h6>
                             <p:inputText id="existenciainsumocontrol" value="#{insumosBean.existenciaEditar.existenciaCantidad}" readonly="true" style="width: 100%">
-                                 <f:convertNumber maxFractionDigits="0" minIntegerDigits="1"/>
+                                <f:convertNumber maxFractionDigits="0" minIntegerDigits="1"/>
                             </p:inputText>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0">
@@ -62,7 +62,7 @@
                             <p:inputText value="Entrada" readonly="true" style="width: 100%"/>
                         </div>  
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                            <h6><b>Cantidad *</b></h6>
+                            <h6><b>Cantidad*</b></h6>
                             <p:inputNumber id="cantidadinsumocontrol" value="#{insumosBean.movimientoNuevo.movimientoCantidad}" decimalPlaces="0"
                                            required="true" requiredMessage="Cantidad es requerida." minValue="0" maxValue="999999" class="tamaniocien"/>
                             <p:message for="cantidadinsumocontrol"/>
@@ -70,7 +70,19 @@
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0">
                         </div>
                     </div>
-                    <br/><br/>
+                    <br/>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0">
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                            <span style="font-size: smaller; font-style: italic;"> 
+                                * Campos obligatorios 
+                            </span>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-0">
+                        </div>
+                    </div>
+                    <br/>
 
                     <div class="row">
                         <div class="col-lg-12" align="center">

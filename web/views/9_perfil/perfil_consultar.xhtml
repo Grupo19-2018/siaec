@@ -22,7 +22,7 @@
                         <!-- Panel -->
                         <div class="panel panel-default" style="margin-left: 15pt; margin-right: 15pt; border-radius: 10px; border: solid 1px #D5D5D5">
                             <div class="panel-body">
-                                
+
                                 <div class="row">
                                     <div class="col-xs-3">
                                         <label>Nombre</label>
@@ -52,7 +52,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <label>Correo</label>
+                                        <label>Correo*</label>
                                     </div>
                                     <div class="col-xs-9">
                                         <p:inputText id="correo" value="#{perfilBean.usuarioLogueado.usuarioCorreo}" required="true" readonly="#{perfilBean.banderaCorreo}"
@@ -71,7 +71,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-3">
-                                        <label>Teléfono</label>
+                                        <label>Teléfono*</label>
                                     </div>
                                     <div class="col-xs-5">
                                         <p:inputMask id="telefono" value="#{perfilBean.usuarioLogueado.usuarioTelefono}" mask="9999-9999" readonly="#{perfilBean.banderaTelefono}"
@@ -104,7 +104,13 @@
                                         </h:panelGroup>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <span style="font-size: smaller; font-style: italic;">
+                                            * Campos obligatorios
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

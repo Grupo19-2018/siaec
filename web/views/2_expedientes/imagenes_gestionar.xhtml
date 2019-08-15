@@ -16,7 +16,7 @@
                 <div class="row" style="margin-right: 10pt; margin-top: 10pt">
                     <div class="col-md-1"/>
                     <div class="col-md-10">
-                        <h7><b>Archivo (solamente se pueden subir imágenes en formato jpg)</b></h7>
+                        <h7><b>Archivo* (solamente se pueden subir imágenes en formato jpg)</b></h7>
                         <p:panel style="border: solid 1px #D5D5D5; width: 103%">
                             <p:fileUpload id="archivo" value="#{expedientesBean.file}" mode="simple" required="#{request.getParameter('imagen')}" requiredMessage="Archivo es requerido." allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width: 100%"/>
                         </p:panel>
@@ -35,7 +35,14 @@
                     </div>
                     <div class="col-md-1"/>
                 </div>
-                <br/>
+                
+                <div class="row" style="margin-top: 22px; margin-bottom: 10px;">
+                    <div class="col-md-1"/>
+                    <div class="col-md-10" style="font-size: smaller; font-style: italic;">
+                        * Campos obligatorios 
+                    </div>
+                    <div class="col-md-1"/>
+                </div>
 
                 <div class="row">
                     <div class="col-md-1"/>

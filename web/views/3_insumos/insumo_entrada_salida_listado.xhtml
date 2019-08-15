@@ -22,9 +22,9 @@
 
             <!-- Panel color blanco -->
             <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
-                
+
                 <h:form id="listaentradasalida">
-                    
+
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                             <h6>Filtrar por:</h6>
@@ -42,7 +42,7 @@
                     </div>
 
                     <br/>
-                    
+
                     <!-- Tabla -->
                     <div class="row" style="margin-right: 10pt; margin-left: 10pt">
                         <div class="col-md-12">
@@ -64,8 +64,16 @@
                                     <ui:repeat value="#{insumosBean.todosMovimientos()}" var="movimiento" >
                                         <tr>
                                             <td align="center"></td>
-                                            <td align="center"><h:outputText value="#{movimiento.movimientoFechaCreacion}">
-                                                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                            <td align="center">
+                                                <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                                <span style="display: none">
+                                                    <h:outputText value="#{movimiento.movimientoFechaCreacion}">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                    </h:outputText>
+                                                </span>
+                                                <!-- Presentar fecha en formato dd-MM-yyyy -->
+                                                <h:outputText value="#{movimiento.movimientoFechaCreacion}">
+                                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:outputText></td>
                                             <td>#{movimiento.existenciaId.insumoId.insumoNombre}</td>
                                             <td>#{movimiento.existenciaId.clinicaId.clinicaNombre}</td>

@@ -32,13 +32,20 @@
                                         <td>
                                             <h:commandLink pt:data-toggle="modal" pt:data-target="#dialogo">
                                                 <img src="#{expedientesBean.imagenPacienteConsultar(imagen)}" alt="" width="150pt" style="margin-bottom: 1pt"/>
-                                                    <f:setPropertyActionListener value="#{imagen}" target="#{expedientesBean.imagenConsultar}"/>
-                                                    <p:ajax process="@this" update=":pacienteconsultar:imagenes:imagenmodal :pacienteconsultar:imagenes:titulomodal"/>
+                                                <f:setPropertyActionListener value="#{imagen}" target="#{expedientesBean.imagenConsultar}"/>
+                                                <p:ajax process="@this" update=":pacienteconsultar:imagenes:imagenmodal :pacienteconsultar:imagenes:titulomodal"/>
                                             </h:commandLink>
                                         </td>
                                         <td align="center">
+                                            <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                            <span style="display: none">
+                                                <h:outputText value="#{imagen.imagenFechaCreacion}">
+                                                    <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                </h:outputText>
+                                            </span>
+                                            <!-- Presentar fecha en formato dd-MM-yyyy -->
                                             <h:outputText value="#{imagen.imagenFechaCreacion}">
-                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                                <f:convertDateTime pattern="dd-MM-yyyy"/>
                                             </h:outputText>
                                         </td>
                                         <td>#{imagen.imagenNombre}</td>
@@ -82,7 +89,7 @@
             </p:panel>
         </h:form>
         <p:spacer height="50"/>
-        
+
     </ui:composition>
 </html>
 

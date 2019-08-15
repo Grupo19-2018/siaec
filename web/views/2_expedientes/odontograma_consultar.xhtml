@@ -2408,8 +2408,15 @@
                                 <ui:repeat value="#{expedientesBean.todosDetallesConsultasPorPacienteConsultar()}" var="detalle" >
                                     <tr>
                                         <td align="center">
+                                            <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                            <span style="display: none">
+                                                <h:outputText value="#{detalle.detalleconsultaFechaCreacion}">
+                                                    <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                </h:outputText>
+                                            </span>
+                                            <!-- Presentar fecha en formato dd-MM-yyyy -->
                                             <h:outputText value="#{detalle.detalleconsultaFechaCreacion}">
-                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                                <f:convertDateTime pattern="dd-MM-yyyy"/>
                                             </h:outputText>
                                         </td>
                                         <td>#{detalle.tratamientoId.tratamientoNombre}</td>

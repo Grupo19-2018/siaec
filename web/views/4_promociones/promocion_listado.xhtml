@@ -48,11 +48,25 @@
                                             <td align="center"></td>
                                             <td>#{promo.promocionNombre}</td>
                                             <td align="center">
+                                                <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                                <span style="display: none">
+                                                    <h:outputText value="#{promo.promocionInicio}">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                    </h:outputText>
+                                                </span>
+                                                <!-- Presentar fecha en formato dd-MM-yyyy -->
                                                 <h:outputText value="#{promo.promocionInicio}">
                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:outputText>
                                             </td>
                                             <td align="center">
+                                                <!-- Ocultar la fecha en formato yyyy-MM-dd --> 
+                                                <span style="display: none">
+                                                    <h:outputText value="#{promo.promocionFin}">
+                                                        <f:convertDateTime pattern="yyyy-MM-dd "/>
+                                                    </h:outputText>
+                                                </span>
+                                                <!-- Presentar fecha en formato dd-MM-yyyy -->
                                                 <h:outputText value="#{promo.promocionFin}">
                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:outputText>

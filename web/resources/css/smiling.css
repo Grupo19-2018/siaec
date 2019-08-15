@@ -21,7 +21,18 @@ a {
 /*Quitar opacidad de los elementos*/
  .ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled{
      opacity: 1.0;
+     
  }
+ 
+ .sombra-smiling div input {
+     
+     background:#D8D8D8 !important;
+ }
+ 
+ .sombra-smiling div textarea{
+     background:#D8D8D8 !important;
+ }
+
  
 /*Clase para darle color de fondo al titulo de las viñetas*/
 .fondo {

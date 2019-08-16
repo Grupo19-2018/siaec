@@ -161,6 +161,7 @@ public class ExpedientesBean implements Serializable {
     private Integer departametoIdConsultar = 0;
     private Integer departametoIdGestionar = 0;
     private String expediente = ""; //Variable para buscar paciente por expediente.
+    private String telefono = ""; //Variable para buscar paciente por telefono.
     private String nombre = ""; //Variable para buscar paciente por nombre.
     private UploadedFile file;
     private Date fechaSistema = new Date();
@@ -236,6 +237,17 @@ public class ExpedientesBean implements Serializable {
         List<Pacientes> listaVaciaExpediente = getPacientesFacade().findAll();
         listaVaciaExpediente.clear();
         return listaVaciaExpediente;
+    }
+
+    public List<Pacientes> todosPacientesPorTelefono() {
+        if (telefono != null) {
+            if (!(telefono.equalsIgnoreCase(""))) {
+                return getPacientesFacade().todosPacientesPorTelefono(telefono);
+            }
+        }
+        List<Pacientes> listaVaciaTelefono = getPacientesFacade().findAll();
+        listaVaciaTelefono.clear();
+        return listaVaciaTelefono;
     }
 
     public List<Pacientes> todosPacientesPorNombre() {
@@ -479,6 +491,14 @@ public class ExpedientesBean implements Serializable {
 
     public void setExpediente(String expediente) {
         this.expediente = expediente;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getNombre() {

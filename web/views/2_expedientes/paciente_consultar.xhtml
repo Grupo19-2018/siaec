@@ -143,6 +143,65 @@
                                     </div>
                                 </div>
                             </p:tab>
+                            
+                            <p:tab title="Buscar por número de teléfono">
+                                <div class="row"><br/>
+                                    <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1">
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                                        Número de teléfono
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
+                                        <p:inputMask id="sas" value="#{expedientesBean.telefono}" mask="9999-9999" style="width: 150pt">
+                                            <p:ajax event="keyup" update="paneltelefono" listener="#{expedientesBean.todosPacientesPorTelefono()}" />
+                                        </p:inputMask>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1">
+                                    </div>
+                                </div>
+                                <br/>
+
+                                <div class="row"><br/>
+                                    <div class="col-lg-12">
+                                        <!-- Aqui va la tabla -->
+                                        <h:panelGroup id="paneltelefono">
+                                            <p:dataTable var="pac" class="tabla-expediente" value="#{expedientesBean.todosPacientesPorTelefono()}" rowIndexVar="rowIndex" emptyMessage="Ningun dato disponible en esta tabla" style="border: 2px solid #90B6DE">
+                                                <p:column headerText="N°" style="text-align: center; width: 5%">
+                                                    <h:outputText value="#{rowIndex + 1}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Expediente" style="text-align: center; width: 15%">
+                                                    <h:outputText value="#{pac.pacienteId}">
+                                                        <f:convertNumber minIntegerDigits="5" pattern="#####"/>
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:column headerText="Nombres" style="width: 25%">
+                                                    <h:outputText value="#{pac.pacientePrimerNombre} #{pac.pacienteSegundoNombre}" />
+                                                </p:column>
+
+                                                <p:column headerText="Apellidos" style="width: 25%">
+                                                    <h:outputText value="#{pac.pacientePrimerApellido} #{pac.pacienteSegundoApellido}" />
+                                                </p:column>
+
+                                                <p:column headerText="Teléfono" style="text-align: center; width: 15%">
+                                                    <h:outputText value="#{expedientesBean.telefonoPaciente(pac)}"/>
+                                                </p:column>
+
+                                                <p:column headerText="Ver" style="text-align: center; width: 15%">
+                                                    <h:link outcome="ConsultarExpediente" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-folder-open" title="Consultar">
+                                                        <f:param name="expedienteconsultar" value="#{pac.pacienteId}"/>
+                                                        <f:param name="consultaseleccionada" value="#{0}"/>
+                                                        <f:param name="tabindex" value="#{0}"/>
+                                                    </h:link>
+                                                </p:column>
+
+                                            </p:dataTable>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            
                         </p:tabView>
                     </h:form>
                     <br/>

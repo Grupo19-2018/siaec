@@ -37,6 +37,11 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
         return getEntityManager().createNamedQuery("Pacientes.findByPacientePorExpediente").setParameter("expediente", expediente).getResultList();
     }
     
+    //Método que obtiene lista de pacientes por telefono. (paciente_consultar.xhtml)
+    public List<Pacientes> todosPacientesPorTelefono(String telefono) {
+        return getEntityManager().createNamedQuery("Pacientes.findByPacientePorTelefono").setParameter("telefono", telefono).getResultList();
+    }
+    
     //Método que obtiene lista de pacientes por nombre. (paciente_gestionar.xhtml)
     public List<Pacientes> todosPacientesPorNombre(String nombre) {
         return getEntityManager().createNamedQuery("Pacientes.findByPacientePorNombre").setParameter("nombre", nombre).getResultList();

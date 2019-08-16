@@ -50,6 +50,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Pacientes.findByPacienteUsuarioModificacion", query = "SELECT p FROM Pacientes p WHERE p.pacienteUsuarioModificacion = :pacienteUsuarioModificacion"),
 
     @NamedQuery(name = "Pacientes.findByPacientePorExpediente", query = "SELECT p FROM Pacientes p WHERE CAST(p.pacienteId AS TEXT) LIKE CONCAT('%',:expediente,'%')"),
+    @NamedQuery(name = "Pacientes.findByPacientePorTelefono", query = "SELECT p FROM Pacientes p WHERE p.pacienteTelefonoCasa LIKE CONCAT('%',:telefono,'%') OR p.pacienteTelefonoMovil LIKE CONCAT('%',:telefono,'%') OR p.pacienteTelefonoOficina LIKE CONCAT('%',:telefono,'%')"),
     @NamedQuery(name = "Pacientes.findByPacientePorNombre", query = "SELECT p FROM Pacientes p WHERE UPPER(CONCAT(p.pacientePrimerNombre,' ',p.pacienteSegundoNombre,' ',p.pacientePrimerApellido,' ',p.pacienteSegundoApellido)) LIKE CONCAT('%',UPPER(:nombre),'%')"),
     @NamedQuery(name = "Pacientes.findByUltimoNumeroExpediente", query = "SELECT MAX(p.pacienteExpediente) FROM Pacientes p"),
     @NamedQuery(name = "Pacientes.findByFechaCreacionRango", query = "SELECT p FROM Pacientes p WHERE p.pacienteFechaCreacion >= :fecha_inicio AND p.pacienteFechaCreacion <= :fecha_fin"),

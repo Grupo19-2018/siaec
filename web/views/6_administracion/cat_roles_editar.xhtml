@@ -269,7 +269,7 @@
                             <p:commandButton id="botonActualizarRol" type="sumbit" value="Guardar" update="roles-panel" styleClass="btn-expediente-alternativa" action="#{AdministracionBean.editarRol()}" icon="icon-smiling-position icono-smiling glyphicon glyphicon-floppy-disk">
                             </p:commandButton>
                             &#160;
-                            <button type="reset" class="btn " onclick="window.location.href = '/siaec/views/6_administracion/cat_roles_listado.xhtml'"
+                            <button type="reset" class="btn " onclick="window.location.href = '#{request.contextPath}/views/6_administracion/cat_roles_listado.xhtml'"
                                     style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:grey; font-weight:bold; border:solid 1px grey; -webkit-appearance:none; border-radius: 5px">
                                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
                             </button>

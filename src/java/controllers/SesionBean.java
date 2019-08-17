@@ -276,4 +276,6 @@ public class SesionBean implements Serializable {
             msj.mensajeError("Mensaje no enviado, pruebe en otro momento.");
         }
     }
+    
+    
 }

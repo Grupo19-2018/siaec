@@ -343,7 +343,7 @@ public class Usuarios implements Serializable {
     }
 
     public String nombreApellido() {
-        return usuarioNombre.toUpperCase() + " " + usuarioPrimerApellido.toUpperCase();
+        return usuarioPrimerNombre.toUpperCase() + " " + usuarioPrimerApellido.toUpperCase();
     }
 
 }

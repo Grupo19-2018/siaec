@@ -1432,7 +1432,7 @@ public class ExpedientesBean implements Serializable {
             consultaNueva.setConsultaFechaCreacion(fechaSistema);
             consultaNueva.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
             getConsultasFacade().create(consultaNueva);
-            guardarBitacora("Registró una consulta a paciente (" + consultaNueva.getPacienteId().getPacientePrimerNombre() + " " + consultaNueva.getPacienteId().getPacientePrimerApellido() + ").");
+            guardarBitacora("Registró una consulta a paciente");
 
             if (citaId > 0) {
                 citaSeleccionada = getCitasFacade().find(citaId);

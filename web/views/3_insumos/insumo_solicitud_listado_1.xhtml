@@ -56,6 +56,7 @@
                                         <th width="10%">Existencia</th>
                                         <th width="10%">Mín.Requerido</th>
                                         <th width="10%">Unid.Medida</th>
+                                        <th width="5%">Cargar</th>
                                     </tr>
                                 </thead>
                                 <!-- Cuerpo de la tabla -->
@@ -76,7 +77,11 @@
                                                 </h:outputText>
                                             </td>
                                             <td>#{solicitud.insumoId.unidadmedidaId.unidadmedidaNombre}</td>
-                                            
+                                            <td>
+                                                <h:link outcome="InsumoSolicitudControl" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-upload" title="Abastecer">
+                                                    <f:param name="existenciacontrol" value="#{solicitud.existenciaId}"/>
+                                                </h:link>
+                                            </td>
                                         </tr>
                                     </ui:repeat>
                                 </tbody> 

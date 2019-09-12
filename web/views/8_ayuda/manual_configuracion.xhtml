@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <!--<f:viewAction action="#{catalogosBean.verificaAcceso(43)}"/>-->
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
+            <div class="banda1"><b>MANUAL DE CONFIGURACION</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <h3 class="text-center"><a name="indice"></a><strong>Indice</strong></h3>
+                        <ul>
+                            <li>
+                                <a href="#manualConfiguracion" title="Modulo configuración">Configuración</a>
+                                <ul>
+                                    <li><a href="#publicidad" >Configuración de publicidad</a></li>
+                                    <li><a href="#correo" >Configuración de correo</a></li>
+                                    <li><a href="#tareasAutomaticas" >Tareas automáticas</a></li>
+                                </ul> 
+                            </li>
+                        </ul>
+                        <a href="../../resources/documents/manual_configuracion.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="publicidad"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Configuración de publicidad</span></h6>
+                        <p>Dentro de configuración de publicidad podremos cambiar el mensaje de home, los banners publicitarios superior e inferior y además de la imagen del login, para realizar cualquier cambio debe seguir los siguientes pasos:</p>
+                        <ol>
+                            <li>Modifique el titulo y descripción, estos aparecen en el home del sistema.</li>
+                            <li>En la sección banner superior o inferior de clic en “Seleccionar archivo” o “Examinar” y ubicar la nueva imagen que deseamos colocar.</li>
+                            <li>En la sección banner de login de clic en “Seleccionar archivo” o “Examinar” y ubicar la nueva imagen que deseamos colocar.</li>
+                            <li>De clic en guardar. </li>
+                        </ol>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/07_manual_configuracion/01.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="correo"></a><h6 class="text-uppercase"><strong>Configuración de correo</strong></h6>
+                        <p>La configuración del correo electrónico es esencial para eventos tales como: la notificación de una cita confirmada o cancelada y el envío de promociones a los pacientes que lo han autorizado. Debe de consultar a su proveedor de correo electrónico las especificaciones para enviar correos, queda aclarar que solo esta configuración es solamente para enviar correos y no recibir correos electrónicos.</p>
+                        <p>En dado caso no desee enviar correos electrónicos se aconseja de-seleccionar la casilla de <strong>Activar envío de correo</strong>.</p>
+                        <p>Para configurar el correo electrónico siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Ingrese la dirección SMTP.</li>
+                            <li>Ingrese el puerto SMTP.</li>
+                            <li>Ingrese el correo electrónico de su clínica. </li>
+                            <li>Ingrese la contraseña del correo.</li>
+                            <li>Seleccione el protocolo de encriptamiento si no utiliza uno seleccione sin encriptación.</li>
+                            <li>Marque la casilla de autorización requerida de cuenta y credenciales.</li>
+                            <li>Marque la casilla de Activar envío de correo.</li>
+                            <li>De clic en guardar.</li>
+                            <li>Realice un test de conexión, si este falla verifique su configuración.</li>
+                            <li>Revise su bandeja de correo electrónico, si todo a salido bien encontrara un correo del test realizado, sino verifique su configuración.</li>
+                        </ol>
+                        <img src="#{request.contextPath}/images/manual/07_manual_configuracion/02.png" class="img-responsive img-rounded"> </img>
+                        <p>Tenga en cuenta que:</p>
+                        <ul>
+                            <li>Pueden darse casos que la configuración que realice este adecuada pero incluso así puede no tener una salida exitosa, esto puede deberse a permisos que se tienen que realizar con su correo electrónico.</li>
+                            <li>Con expandir Opciones avanzadas puede configurar el limite de envío de correo por día y por mes.</li>
+                        </ul>                        
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="tareasAutomaticas"></a><h6 class="text-uppercase"><strong>Tareas automáticas</strong></h6>
+                        <p>Representan todas las tareas que se realizan en segundo plano en el sistema, como es el envío masivo de correos,  para las promociones  generales y cumpleaños, esta operación esta íntimamente relacionado con la configuración de correo electrónico.</p>
+                        <p>Para activarlas  o desactivarlas, posiciónese en la tarea que desea y de clic en el estado de esta.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/07_manual_configuracion/03.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <ul>
+                            <li>Estado activo.</li>
+                            <li>Estado inactivo.</li>
+                        </ul>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                </div>
+                <br/>
+
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <!--<f:viewAction action="#{catalogosBean.verificaAcceso(43)}"/>-->
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
+            <div class="banda1"><b>MANUAL DE PROMOCIONES</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <h3 class="text-center"><a name="indice"></a><strong>Indice</strong></h3>
+                        <ul>
+                            <li>
+                                <a href="#manualCitas" title="Modulo promociones">Promociones</a>
+                                <ul>
+                                    <li><a href="#promocion" >Formas de registrar una promoción</a></li>
+                                    <li><a href="#registrarPromocion" >¿Cómo registrar una promoción?</a></li>
+                                    <li><a href="#editarPromocion" >¿Cómo editar una promoción?</a></li>
+                                    <li><a href="#eliminarPromocion" >¿Cómo eliminar una promoción?</a></li>
+                                    <li><a href="#listadoPromocion" >Listado de promoción</a></li>
+                                </ul> 
+                            </li>
+                        </ul>
+                        <a href="../../resources/documents/manual_promociones.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="promocion"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Formas de registrar una promoción</span></h6>
+                        <p>Para registrar una promoción seleccione en el  menú <strong>Promociones → Registrar Promoción </strong>y se le desplegara el formulario para registrar. </p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/04_manual_promociones/01.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="registrarPromocion"></a><h6 class="text-uppercase"><strong>¿Cómo registrar una promoción?</strong></h6>
+                        <p>Para registrar una promoción siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Coloque un nombre que identifique a la promoción.</li>
+                            <li>Seleccione el tipo de promoción.</li>
+                            <li>Seleccione el intervalo de fechas que estará activa la promoción.</li>
+                            <li>En la sección de archivo, de clic en Examinar y busque la imagen con la cual representara la promoción.</li>
+                            <li>En mensaje de correo, coloque el mensaje que se le enviara al paciente por medio de su correo electrónico. </li>
+                            <li>De clic en guardar.<br/><br/>
+                                <img src="#{request.contextPath}/images/manual/04_manual_promociones/02.png" class="img-responsive img-rounded"> </img>
+                                <br/>
+                            </li>
+                        </ol>
+                        <p>Elementos principales del formulario</p><br/>
+                        <img src="#{request.contextPath}/images/manual/04_manual_promociones/03.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <ol>
+                            <li>Entrada para el nombre de la promoción.</li>
+                            <li>Seleccionable del tipo de promoción.</li>
+                            <li>Seleccionable para rango de fecha, tiempo en la cual estará activa la promoción.</li>
+                            <li>Seleccionable para la imagen de la promoción, debe de buscar una directamente desde su computadora o tablet.</li>
+                            <li>Entrada para el mensaje que llevara el correo electrónico.</li>
+                            <li>Área de botones, Guardar, Cancelar y Ayuda.</li>
+                        </ol>                        
+                        <p>Tenga en cuenta que:</p>
+                        <ul>
+                            <li>La descripción del formulario es opcional.</li>
+                            <li>No puede subir dos imágenes con el mismo nombre.</li>
+                        </ul>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="editarPromocion"></a><h6 class="text-uppercase"><strong>¿Cómo editar una promoción?</strong></h6>
+                        <p>Para editar una promoción, siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Ingrese desde el menú a Promociones → Listado de Promociones.</li>
+                            <li>Busque la promoción que va editar.</li>
+                            <li>En el apartado de opciones, seleccione la que tiene el icono de lápiz.</li>
+                            <li>Le aparecerá el formulario para editar la promoción.</li>
+                            <li>Proceda a editar la promoción.</li>
+                            <li>De clic en guardar. </li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="eliminarPromocion"></a><h6 class="text-uppercase"><strong>¿Cómo eliminar una promoción?</strong></h6>
+                        <p>Para eliminar una promoción, siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Ingrese desde el menú a Promociones → Listado de Promociones.</li>
+                            <li>Busque la promoción que va eliminar.</li>
+                            <li>En el apartado de opciones, seleccione la que tiene el icono de basurero.</li>
+                            <li>Se le desplegara un mensaje para confirmar la acción.</li>
+                            <li>De clic en eliminar.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoPromocion"></a><h6 class="text-uppercase"><strong>Listado de promoción</strong></h6>
+                        <p>Muestra la lista de promociones registradas en el sistema y las opciones de consultar, editar y eliminar, las cuales podremos usar dando clic en los respectivos botones. </p><br/>
+                        <img src="#{request.contextPath}/images/manual/04_manual_promociones/04.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Tabla con el listado de promociones, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Opciones para un registro especifico, entre ellas consultar, editar y  eliminar.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                </div>
+                <br/>
+
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

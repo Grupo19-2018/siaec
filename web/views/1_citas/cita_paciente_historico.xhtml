@@ -83,11 +83,33 @@
                                 </tbody> 
                             </table>
                         </div>
+                        <div class="col-md-12" align="right">
+                            <a href="#{request.contextPath}/views/8_ayuda/manual_cita.xhtml#historicoCita" title="Ayuda" style="font-size: 19px;padding:5px;" class="btn btn-default btn-sm btn-tabla-expediente2">
+                                <i class="glyphicon glyphicon-question-sign"></i>
+                            </a>
+                        </div>
+                    </div>
+                </p:panel>
+                <p:spacer height="10"/>
+                <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+                    <div class="row">
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-search" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Consultar cita</span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-sort" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Ordenar campos </span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-sort-by-attributes" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Ordenar campos de forma ascendente </span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Ordenar campos de forma descendente </span>
+                        </div>
                     </div>
                 </p:panel>
                 <p:spacer width="50"/>
             </h:form>
-            
+
         </ui:define>
         <!-- Script para funcionalidades de la tabla -->
         <ui:define name="scripts">

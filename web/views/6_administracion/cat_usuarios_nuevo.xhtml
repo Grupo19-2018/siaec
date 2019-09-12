@@ -107,7 +107,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <h6><b>Correo*</b></h6>
                             <p:inputText id="correousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioCorreo}" required="#{request.getParameter('datos')}" maxlength="25"
-                                         style="width: 100%" validatorMessage="Correo no válido." requiredMessage="Correo es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}">
+                                         style="width: 100%" validatorMessage="Correo no válido." requiredMessage="Correo es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}" placeholder="ejemplo@mail.com">
                                 <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
                             </p:inputText>
                             <p:message for="correousuarionuevo"/>
@@ -132,7 +132,6 @@
                             <p:message for="contraseniausuarionuevo"/>
                         </div>
                     </div>
-                    <br/>
                     <div class="row">
                         <div class=" col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
                             * Campos obligatorios 
@@ -140,19 +139,22 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12" align="center">
+                        <div class="col-lg-12" align="right">
                             <h:commandLink type="submit" class="btn btn-default" action="#{catalogosBean.guardarUsuario()}"
                                            style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                 <i class="glyphicon glyphicon-floppy-disk"></i> Guardar
                             </h:commandLink>
                             &nbsp;
-                            <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt"
+                            <button type="reset" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt; height: 27pt;"
                                     onclick="window.location.href = 'cat_usuarios_listado.xhtml'">
                                 <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
                             </button>
+                            &nbsp;
+                            <h:link outcome="AyudaGestionarUsuario"  title="Ayuda para gestionar usuarios" style="font-size: 17.5px;height: 27pt;padding:5px;" class="btn btn-default btn-sm btn-tabla-expediente2" >
+                                <i class="glyphicon glyphicon-question-sign"></i> 
+                            </h:link>
                         </div>
                     </div>
-                    <br/>
                 </h:form>
 
             </p:panel>

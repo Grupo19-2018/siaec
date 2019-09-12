@@ -32,6 +32,10 @@
                                     onclick="window.location.href = 'cat_usuarios_nuevo.xhtml'">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo usuario
                             </button>
+                            &nbsp;
+                            <h:link outcome="AyudaGestionarUsuario"  title="titulodos" style="font-size: 18.5px;" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-question-sign" >
+                            </h:link>
+                            
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" align="right">
                             <p:selectOneMenu id="usuarios" value="#{catalogosBean.usuarios}" style="width: 125pt">
@@ -77,7 +81,7 @@
                                                 <h:outputText value="#{usuario.usuarioFechaCreacion}" style="width: 100%">
                                                     <f:convertDateTime pattern="dd-MM-yyyy"/>
                                                 </h:outputText>
-                                                
+
                                             </td>
                                             <td>#{usuario.usuarioUsuario}</td>
                                             <td align="center">#{usuario.rolId.rolNombre}</td>
@@ -106,6 +110,10 @@
                                     </ui:repeat>
                                 </tbody> 
                             </table>
+                        </div>
+                        <div class="col-lg-12" align="right">
+                            <h:link outcome="AyudaGestionarUsuario"  title="Ayuda para gestionar usuarios" style="font-size: 18.5px;" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-question-sign" >
+                            </h:link>
                         </div>
 
                         <!-- Modal eliminarUsuario -->

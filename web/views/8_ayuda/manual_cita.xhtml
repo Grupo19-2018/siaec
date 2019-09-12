@@ -16,7 +16,7 @@
             </ui:define>
 
             <!-- Barra de título -->
-            <div class="banda1"><b>CREAR CITA EN LINEA</b></div>
+            <div class="banda1"><b>MANUAL DE CITA</b></div>
             <br/>
 
             <!-- Panel color blanco -->
@@ -27,7 +27,84 @@
                     <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
                     </div>
                     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                        <p:media value="../../resources/documents/manual_cita.pdf" width="100%" height="600px"/>
+                        <h3 class="text-center"><a name="indice"></a><strong>Indice</strong></h3>
+                        <ul>
+                            <li>
+                                <a href="#manualCitas" title="Ir a Gestionar Usuarios">Manual de Citas</a>
+                                <ul>
+                                    <li><a href="#registrarCita" title="Crear un nuevo usuario">Formas de registrar una cita</a></li>
+                                    <li><a href="#comoRegistrar" title="Editar usuario">¿Cómo registrar una cita?</a></li>
+                                    <li><a href="#comoCancelar" title="Editar usuario">¿Cómo cancelar una cita?</a></li>
+                                    <li><a href="#historicoCita" title="Editar usuario">¿Qué es el Histórico de citas?</a></li>
+                                </ul> 
+                            </li>
+                        </ul>
+                        <a href="../../resources/documents/manual_citas.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="registrarCita"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Formas de registrar una cita</span></h6>
+                        <p>Para registrar una cita existen dos maneras:</p>
+                        <ol>
+                            <li>Estando en la página principal de su usuario, de clic en el botón <strong>"Registrar tu cita aqui"</strong>.<br/><br/>
+                                <img src="#{request.contextPath}/images/manual/01_manual_cita/paciente/01.png" class="img-responsive img-rounded"> </img>
+                                <br/>
+                            </li>
+                            <li>Accediendo a través del menú en la opción <strong>Agenda -> Registrar tu cita.</strong><br/><br/>
+                                <img src="#{request.contextPath}/images/manual/01_manual_cita/paciente/02.png" class="img-responsive img-rounded"> </img>
+                                <br/>
+                            </li>
+                        </ol>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="comoRegistrar"></a><h6 class="text-uppercase"><strong>¿Cómo registrar una cita?</strong></h6>
+                        <p>Para registrar una cita siga los siguientes pasos: </p>
+                        <ol>
+                            <li>Seleccione la sucursal a la que desea asistir.</li>
+                            <li>Indique la fecha en la que desea reservar su cita.</li>
+                            <li>Se le desplegara los diferentes horarios disponibles para reservar su cita, seleccione el que mas le convenga.</li>
+                            <li>Modifique los campos pertinentes.</li>
+                            <li>De clic en guardar. <br/><br/>
+                            <img src="#{request.contextPath}/images/manual/01_manual_cita/paciente/03.png" class="img-responsive img-rounded"> </img>
+                            </li>
+                        </ol>
+                        <p>Tenga en cuenta que:</p>
+                        <ul>
+                            <li>Puede colocar un motivo por la cual desea reservar la cita, este apartado es opcional, y si lo deja en blanco no tendrá ningún problema, se recomienda poner un motivo corto  y sencillo.</li>
+                            <li>Puede seleccionar un médico de preferencia, si ya ha pasado consulta en alguna de nuestra sucursal y desea pasar con el mismo doctor, puede seleccionarlo.</li>
+                            <li>Si no le aparecen horarios disponibles puede ocurrir dos cosas, que el día y en la sucursal seleccionada se encuentren todos los horarios ocupados o que no tenga ninguna sucursal selecciona.</li>
+                            <li>Todos los campos en color gris, no puede editarlos, estos se usan como una confirmación para asegurarse que sus datos son los correctos.</li>
+                        </ul>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="comoCancelar"></a>
+                        <h6 class="text-uppercase"><strong>¿Cómo cancelar una cita?</strong></h6>
+                        <p>Para cancelar una cita siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Dirígete a la pantalla de inicio, en ella se encontrara el detalle de su cita actual.</li>
+                            <li>En la parte inferior se encontrará el botón para Cancelar Cita.<br/><br/>
+                            <img src="#{request.contextPath}/images/manual/01_manual_cita/paciente/05.png" class="img-responsive img-rounded"> </img>
+                            </li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="historicoCita"></a>
+                        <h6 class="text-uppercase"><strong>¿Qué es el Histórico de citas?</strong></h6>
+                        <p>El historico de citas, es un registro de todas las citas que ha realizado como parte de la familia de Clínica Smiling.</p>
+                        <p>En el podrá ordenar las citas de diferentes maneras como: la fecha, el médico, el estado, entre otros. También podrá consultar de forma especifica una cita haciendo clic en la lupa. </p>
+                        
+                        <img src="#{request.contextPath}/images/manual/01_manual_cita/paciente/06.png" class="img-responsive img-rounded"> </img>
+                        
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Tabla con el historio de citas, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
                     </div>
                     <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
                     </div>

@@ -35,7 +35,7 @@
                             </p:selectOneMenu>
                             <p:message for="clinicanombre"/>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">
                                 <h6  align="center"><b>Desde*</b></h6>
                                 <p:calendar id="fechainicio" value="#{reportesBean.fechaInicio}" placeholder="dd-mm-aaaa" showOn="button"  styleClass="tamaniocalendario5" readonlyInput="true" yearRange="c-10:c+0" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha inicial requerida." >
                                     <p:ajax event="dateSelect" update="fechafin"/>
@@ -43,7 +43,7 @@
                                 </p:calendar>
                                 <p:message for="fechainicio"/>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" align="right">
                                 <h6  align="center"><b>Hasta*</b></h6>
                                 <p:calendar id="fechafin" value="#{reportesBean.fechaFin}" placeholder="dd-mm-aaaa" showOn="button"  styleClass="tamaniocalendario5" readonlyInput="true" yearRange="c-10:c+0" mindate="#{reportesBean.fechaInicio}" maxdate="#{reportesBean.fechaActual}" locale="es" navigator="true" pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha final requerida.">
                                     <f:attribute name="finicial" value="#{reportesBean.fechaInicio}"/>
@@ -51,7 +51,7 @@
                                 </p:calendar>
                                 <p:message for="fechafin"/>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 22px; margin-bottom: 20px;font-size: smaller; font-style: italic;">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 22px;font-size: smaller; font-style: italic;">
                                     * Campos obligatorios 
                             </div>
                         </div>
@@ -62,12 +62,14 @@
                     
 
                     <div class="row">
-                        <div class="col-lg-12" align="center">
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2"/>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-8" align="right">
                             <h:commandLink action="#{reportesBean.repPacientesPorClinica()}" class="btn btn-default buttonLevel1"
                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                 <i class="glyphicon glyphicon-list"></i> Ver reporte
                             </h:commandLink>
                         </div>
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-2"/>
                     </div>
                     <br/><br/>
                 </h:form>

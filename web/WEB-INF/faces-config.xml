@@ -176,7 +176,15 @@
             <from-outcome>RolConsultar</from-outcome>
             <to-view-id>/views/6_administracion/cat_roles_consultar.xhtml</to-view-id>
         </navigation-case>
-
+        <!-- Ayuda Onliene -->
+        <navigation-case>
+            <from-outcome>AyudaGestionarUsuario</from-outcome>
+            <to-view-id>/views/8_ayuda/ayuda_gestionarUsuario.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>AyudaCitaRegistrar</from-outcome>
+            <to-view-id>/views/8_ayuda/manual_cita.xhtml#comoRegistrar</to-view-id>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
 

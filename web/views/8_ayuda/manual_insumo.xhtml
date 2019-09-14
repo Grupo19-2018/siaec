@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <!--<f:viewAction action="#{catalogosBean.verificaAcceso(43)}"/>-->
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
+            <div class="banda1"><b>MANUAL DE INSUMO</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <h3 class="text-center"><a name="indice"></a><strong>Indice</strong></h3>
+                        <ul>
+                            <li>
+                                <a href="#manualCitas" title="Modulo promociones">Promociones</a>
+                                <ul>
+                                    <li><a href="#insumo" >Listado de insumos</a></li>
+                                    <li><a href="#registrarInsumo" >¿Como registrar un nuevo insumo?</a></li>
+                                    <li><a href="#consultarInsumo" >¿Cómo consultar un insumo?</a></li>
+                                    <li><a href="#editarInsumo" >¿Cómo consultar un insumo?</a></li>
+                                    <li><a href="#eliminarInsumo" >¿Cómo eliminar un insumo?</a></li>
+                                    <li><a href="#existenciaInsumo" >Existencia de insumo</a></li>
+                                    <li><a href="#entradaInsumo" >Entrada y Salida de Insumo</a></li>
+                                    <li><a href="#salidaInsumo" >¿Como realizar la acción de entrada o salida de insumo?</a></li>
+                                    <li><a href="#historialInsumo" >Historial de transacciones</a></li>
+                                    <li><a href="#pedidoInsumo" >Pedido de insumo</a></li>
+                                </ul> 
+                            </li>
+                        </ul>
+                        <a href="../../resources/documents/manual_insumo.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="insumo"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Listado de insumos</span></h6>
+                        <p>Muestra la lista de insumos registrados en el sistema con las opciones de consultar, edición y eliminación, además de la opción de agregar nuevos insumos al sistema.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/01.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de pantalla:</p>
+                        <ol>
+                            <li>Tabla con el listado de insumos, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Opciones para un registro especifico, entre ellas consultar, editar y eliminar.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                            <li>Opción para registrar un nuevo insumo.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="registrarInsumo"></a><h6 class="text-uppercase"><strong>¿Como registrar un nuevo insumo?</strong></h6>
+                        <p>Para registrar un insumo siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Coloque un nombre que identifique al insumo, no debe de repetirse.</li>
+                            <li>Seleccione el tipo de insumo.</li>
+                            <li>Seleccione la unidad de medida.</li>
+                            <li>Indique el lote mínimo para el nuevo insumo.</li>
+                            <li>De clic en guardar.<br/>
+                                <img src="#{request.contextPath}/images/manual/03_manual_insumo/02.png" class="img-responsive img-rounded"> </img>
+                                <br/>
+                            </li>
+                        </ol>
+                        <p>Elementos principales del formulario</p><br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/03.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <ol>
+                            <li>Entrada para el nombre del insumo, este debe de ser único o diferente a los demás. </li>
+                            <li>Seleccionable del tipo de insumo.</li>
+                            <li>Seleccionable para unidad de medida.</li>
+                            <li>Lote mínimo esto sirve para activar las alertas.</li>
+                            <li>Área de botones, Guardar, Cancelar y Ayuda.</li>
+                        </ol>                        
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="consultarInsumo"></a><h6 class="text-uppercase"><strong>¿Cómo consultar un insumo?</strong></h6>
+                        <p>Para editar un insumo, siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Ingrese al Listado de insumos.</li>
+                            <li>Busque el insumo que desea editar.</li>
+                            <li>En el apartado de opciones, seleccione la opción de editar (icono de lápiz)</li>
+                            <li>Le aparecerá el formulario para editar el insumo.</li>
+                            <li>Proceda a editar el insumo.</li>
+                            <li>De clic en guardar. </li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="eliminarInsumo"></a><h6 class="text-uppercase"><strong>¿Cómo eliminar un insumo?</strong></h6>
+                        <p>Para eliminar un insumo, siga los siguientes pasos:</p>
+                        <ol>
+                            <li>Ingrese al Listado de insumos.</li>
+                            <li>Busque el insumo que desea eliminar.</li>
+                            <li>En el apartado de opciones, seleccione la opción de eliminar (icono de basurero).</li>
+                            <li>Se le desplegara un mensaje para confirmar la acción.</li>
+                            <li>De clic en eliminar.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="existenciaInsumo"></a><h6 class="text-uppercase"><strong>Existencia de insumo</strong></h6>
+                        <p>Muestra la cantidad de insumos que poseen las clínicas registradas en el sistema.</p><br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/04.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Tabla con los insumo registrados, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="entradaInsumo"></a><h6 class="text-uppercase"><strong>Entrada y Salida de Insumo</strong></h6>
+                        <p>Muestra el listado de insumos existente en la clínica y la opción de realizar un ingreso o salida de un insumo.</p><br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/05.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Tabla con los insumo registrados, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Opción para realizar la operación de entrada o salida del insumo.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="salidaInsumo"></a><h6 class="text-uppercase"><strong>¿Como realizar la acción de entrada o salida de insumo?</strong></h6>
+                        <p>Cada vez que se consuma un insumo, o se realice una compra, se debe de realizar su respectiva carga dentro del sistema, para ello debe de seguir los siguientes pasos.</p>
+                        <ol>
+                            <li>Seleccione la sucursal en la que se realizara la acción.</li>
+                            <li>Seleccione el tipo de operación este puede ser de entrada o salida.</li>
+                            <li>Indique la cantidad que esta acción registrara.</li>
+                            <li>De clic en guardar.</li>
+                        </ol>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/06.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Por ultimo debemos aclarar que dependiendo del mínimo requerido, el sistema puede presentar una notificación de solicitud de insumo en forma de campana a los usuarios autorizados, estas se encontrara  en la parte superior derecha, los colores pueden ser:</p>
+                        <ul>
+                            <li>Color rojo, se mostrara cuando exista un insumo agotado por completo es decir cero.</li>
+                            <li>Color amarillo,  que el insumo esta agotándose.</li>
+                            <li>Sin color color, donde no se encuentre ningún insumo con existencia abajo del limite.</li>
+                        </ul>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="historialInsumo"></a><h6 class="text-uppercase"><strong>Historial de transacciones</strong></h6>
+                        <p>El historial de transacciones es un registro que permite comprobar si se han realizado las entradas o salidas de insumo de forma transparente.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/07.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>PElementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Filtro de sucursales.</li>
+                            <li>Tabla con los insumo registrados, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="pedidoInsumo"></a><h6 class="text-uppercase"><strong>Pedido de insumo</strong></h6>
+                        <p>Muestra todos los insumos solicitados por las sucursales, esta solicitud se realiza de forma automática cuando el insumo se encuentra en un estado de escasez.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/03_manual_insumo/08.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>PElementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Filtro de sucursales.</li>
+                            <li>Tabla con los insumo registrados, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                </div>
+                <br/>
+
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

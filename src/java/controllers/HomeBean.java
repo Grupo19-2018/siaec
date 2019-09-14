@@ -1,9 +1,11 @@
 package controllers;
 
 import com.sun.mail.smtp.SMTPAddressFailedException;
+import dao.BitacoraFacade;
 import dao.ConfiguracionesFacade;
 import dao.PacientesFacade;
 import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Configuraciones;
 import entities.Pacientes;
 import entities.Roles;
@@ -42,6 +44,10 @@ public class HomeBean implements Serializable {
 //****************************************************************************//
     
     @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
+    
+    @EJB
     private PacientesFacade pacientesFacade;
     private Pacientes pacienteConsultar = new Pacientes();
     
@@ -63,6 +69,7 @@ public class HomeBean implements Serializable {
     private UploadedFile fileInferior;
     private UploadedFile fileLogin;
 
+    private Date fechaActual = new Date();
     private Integer expediente;
     private Integer codigo;
     private boolean panel1 = true;
@@ -105,10 +112,21 @@ public class HomeBean implements Serializable {
         return usuariosFacade;
     }
 
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
     
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+
     public Pacientes getPacienteConsultar() {
         return pacienteConsultar;
     }
@@ -235,6 +253,13 @@ public class HomeBean implements Serializable {
         this.appSession = appSession;
     }
     
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//   
@@ -345,7 +370,6 @@ public class HomeBean implements Serializable {
         } catch (Exception e) {
             mensajeError("Mensaje no enviado");
         }
-
     }
     
     //Método para direccionar a una página (registro_con_expediente.xhtml)
@@ -359,11 +383,6 @@ public class HomeBean implements Serializable {
             e.printStackTrace();
         }
     }
-    
-    
-    
-    
-    
     
     public void guardarUsuario() {
         try{
@@ -399,13 +418,11 @@ public class HomeBean implements Serializable {
     }
 
     public void editarHome() {
-
         getConfiguracionesFacade().edit(configuracionEditar);
         mensajeConfirmacion("La pagina de inicio se ha actualizado.");
-
     }
 
-    //Método para verificar si ya existe el archivo a subir (promocion_editar.xhtml).
+    //Método para verificar si ya existe el archivo a subir (home_parametros.xhtml).
     public void existeArchivoEditar() {
         try {
             if ((fileSuperior != null) || (fileInferior != null) || (fileLogin != null)) {
@@ -416,7 +433,7 @@ public class HomeBean implements Serializable {
                     String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
                     File archivo1 = new File(directorio + "/" + getFileSuperior().getFileName() + "/");
                     if (archivo1.exists()) {
-                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para una promoción.");
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya se está utilizando.");
                         RequestContext.getCurrentInstance().showMessageInDialog(message);
                     } else {
                         eliminarArchivoSuperior();
@@ -430,7 +447,7 @@ public class HomeBean implements Serializable {
                     String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
                     File archivo1 = new File(directorio + "/" + getFileInferior().getFileName() + "/");
                     if (archivo1.exists()) {
-                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para una promoción.");
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya se está utilizando.");
                         RequestContext.getCurrentInstance().showMessageInDialog(message);
                     } else {
                         eliminarArchivoInferior();
@@ -444,7 +461,7 @@ public class HomeBean implements Serializable {
                     String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
                     File archivo1 = new File(directorio + "/" + getFileLogin().getFileName() + "/");
                     if (archivo1.exists()) {
-                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para una promoción.");
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya se está utilizando.");
                         RequestContext.getCurrentInstance().showMessageInDialog(message);
                     } else {
                         eliminarArchivoLogin();
@@ -454,12 +471,14 @@ public class HomeBean implements Serializable {
                 
                 } else {
                     editarHome();
+                    guardarBitacora("Actualizó la información del home.");
                 }
             }catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: existeArchivoEditar.");
         }
         }
-        //Método para eliminar un archivo (promocion_editar.xhtml).
+    
+    //Método para eliminar un archivo (home_parametros.xhtml).
     public void eliminarArchivoSuperior() throws FileNotFoundException {
         try {
             FacesContext cty = FacesContext.getCurrentInstance();
@@ -475,10 +494,11 @@ public class HomeBean implements Serializable {
                 System.out.println("El archivo no existe.");
             }
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: eliminarArchivo.");
+            mensajeError("Se detuvo el proceso en el método: eliminarArchivoSuperior.");
         }
     }
-    //Método para eliminar un archivo (promocion_editar.xhtml).
+    
+    //Método para eliminar un archivo (home_parametros.xhtml).
     public void eliminarArchivoInferior() throws FileNotFoundException {
         try {
             FacesContext cty = FacesContext.getCurrentInstance();
@@ -494,11 +514,11 @@ public class HomeBean implements Serializable {
                 System.out.println("El archivo no existe.");
             }
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: eliminarArchivo.");
+            mensajeError("Se detuvo el proceso en el método: eliminarArchivoInferior.");
         }
     }
     
-    //Método para eliminar un archivo (promocion_editar.xhtml).
+    //Método para eliminar un archivo (home_parametros.xhtml).
     public void eliminarArchivoLogin() throws FileNotFoundException {
         try {
             FacesContext cty = FacesContext.getCurrentInstance();
@@ -514,11 +534,11 @@ public class HomeBean implements Serializable {
                 System.out.println("El archivo no existe.");
             }
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: eliminarArchivo.");
+            mensajeError("Se detuvo el proceso en el método: eliminarArchivoLogin.");
         }
     }
 
-    //Método que guarda el archivo seleccionado (promocion_editar.xhtml).
+    //Método que guarda el archivo seleccionado (home_parametros.xhtml).
     public void subeArchivoEditarSuperior(UploadedFile file) throws InterruptedException {
         FacesContext ctx = FacesContext.getCurrentInstance();
         String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
@@ -545,8 +565,9 @@ public class HomeBean implements Serializable {
             getConfiguracionesFacade().edit(configuracionEditar);
             Thread.sleep(6000);
             editarHome();
+            guardarBitacora("Actualizó el banner superior del home.");
         } catch (IOException e) {
-            mensajeError("Se detuvo el proceso en el método: subeArchivoEditar.");
+            mensajeError("Se detuvo el proceso en el método: subeArchivoEditarSuperior.");
         }
     }
 
@@ -576,8 +597,9 @@ public class HomeBean implements Serializable {
             getConfiguracionesFacade().edit(configuracionEditar);
             Thread.sleep(6000);
             editarHome();
+            guardarBitacora("Actualizó el banner inferior del home.");
         } catch (IOException e) {
-            mensajeError("Se detuvo el proceso en el método: subeArchivoEditar.");
+            mensajeError("Se detuvo el proceso en el método: subeArchivoEditarInferior.");
         }
     }
     public void subeArchivoEditarLogin(UploadedFile file) throws InterruptedException {
@@ -606,8 +628,9 @@ public class HomeBean implements Serializable {
             getConfiguracionesFacade().edit(configuracionEditar);
             Thread.sleep(6000);
             editarHome();
+            guardarBitacora("Actualizó el banner del login.");
         } catch (IOException e) {
-            mensajeError("Se detuvo el proceso en el método: subeArchivoEditar.");
+            mensajeError("Se detuvo el proceso en el método: subeArchivoEditarLogin.");
         }
     }
     
@@ -648,6 +671,18 @@ public class HomeBean implements Serializable {
             }
         } catch(IOException e){
             System.out.println("La variable appSession es nula.");
+        }
+    }
+    
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(fechaActual);
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
         }
     }
     

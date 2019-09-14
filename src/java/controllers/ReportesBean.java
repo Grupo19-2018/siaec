@@ -348,11 +348,13 @@ public class ReportesBean extends AbstractBaseReportBean implements Serializable
     //Método para generar reporte Listado de Insumos Médicos (rep_listado_insumos.xhtml).
     public void repListadoInsumos() {
         try{
-            if (getInsumosFacade().findListadoInsumosReporte(Boolean.TRUE).isEmpty()) {
+            if (getInsumosFacade().findListadoInsumosReporte(Boolean.TRUE, getFechaInicio(), getFechaFin()).isEmpty()) {
                 mensajeReporteVacio("El reporte no contiene páginas.");
             }else{
                 this.setReportDir("/views/5_reportes/");
                 this.setNombreArchivo("rep_listado_insumos");
+                this.addParametro("fechaInicio", getFechaInicio());
+                this.addParametro("fechaFin", getFechaFin());
                 execute();
                 RequestContext.getCurrentInstance().execute("window.open('../../servlets/report/PDF','_blank')");
             }

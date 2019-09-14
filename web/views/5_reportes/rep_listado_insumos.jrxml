@@ -3,12 +3,18 @@
 	<property name="ireport.zoom" value="1.0000000000000004"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[select i.insumo_nombre NOMBRE, sum(e.existencia_cantidad) as EXISTENCIA, i.insumo_descripcion DESCRIPCION, u.unidadmedida_nombre MEDIDA, i.insumo_fecha_creacion CREACION
 from insumos i, existencias e, unidades_medidas u
 where i.insumo_id = e.insumo_id
 and i.insumo_estado = TRUE
-AND i.unidadmedida_id=u.unidadmedida_id
+AND i.unidadmedida_id=u.unidadmedida_id AND i.insumo_fecha_creacion BETWEEN $P{fechaInicio} AND $P{fechaFin}
 GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_fecha_creacion;]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
@@ -87,6 +93,34 @@ GROUP BY i.insumo_nombre, i.insumo_descripcion, u.unidadmedida_nombre, i.insumo_
 				</textElement>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="273" y="40" width="65" height="15" forecolor="#464646" uuid="2b255d5c-6991-4b2f-b276-a118f68ed7ea"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="355" y="40" width="65" height="15" forecolor="#464646" uuid="c12b7858-4d61-4d74-990e-d70a3dd0462f"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="165" y="40" width="105" height="15" forecolor="#464646" uuid="03055bcf-bcf6-48b6-8398-9f6ea79b393b"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<text><![CDATA[REGISTRADOS DEL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="40" width="15" height="15" forecolor="#464646" uuid="95dfd8b4-9bb2-479e-8a7a-6a2941e601cd"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="11"/>
+				</textElement>
+				<text><![CDATA[AL]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

@@ -6,6 +6,7 @@
 package dao;
 
 import entities.Insumos;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,8 +37,8 @@ public class InsumosFacade extends AbstractFacade<Insumos> {
     }
     
     //Lista de Insumos, para validacion de reporte de listado de insumos médicos (rep_listado_insumos.xhtml).
-    public List<Insumos> findListadoInsumosReporte(boolean insumoEstado){
-        return getEntityManager().createNamedQuery("Insumos.findListadoInsumosReporte").setParameter("insumoEstado", insumoEstado).getResultList();
+    public List<Insumos> findListadoInsumosReporte(boolean insumoEstado, Date fechaInicio, Date fechaFin){
+        return getEntityManager().createNamedQuery("Insumos.findListadoInsumosReporte").setParameter("insumoEstado", insumoEstado).setParameter("fechaInicio", fechaInicio).setParameter("fechaFin", fechaFin).getResultList();
     }
     
 }

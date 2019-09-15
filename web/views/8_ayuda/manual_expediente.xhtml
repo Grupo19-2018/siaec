@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <!--<f:viewAction action="#{catalogosBean.verificaAcceso(43)}"/>-->
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
+            <div class="banda1"><b>MANUAL DE INSUMO</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <h3 class="text-center"><a name="indice"></a><strong>Indice</strong></h3>
+                        <ul>
+                            <li>
+                                <a href="#manualExpediente" title="Modulo Expediente">Expediente</a>
+                                <ul>
+                                    <li><a href="#paciente" >Listado de paciente</a></li>
+                                    <li><a href="#registrarPaciente" >¿Cómo registrar un paciente?</a></li>
+                                    <li><a href="#buscarPaciente" >Buscar paciente</a></li>
+                                    <li><a href="#consultarPaciente" >Consultar expediente.</a></li>
+                                    <li><a href="#gestionarPaciente" >Gestionar expediente</a></li>
+                                </ul> 
+                            </li>
+                        </ul>
+                        <a href="../../resources/documents/manual_expediente.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="paciente"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Listado de paciente</span></h6>
+                        <p>Muestra de manera rápida todos los pacientes registrados en la clínica.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/01.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de pantalla:</p>
+                        <ol>
+                            <li>Tabla con el listado de pacientes, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="registrarPaciente"></a><h6 class="text-uppercase"><strong>¿Cómo registrar un paciente?</strong></h6>
+                        <p>EL registrar pacientes se divide en dos secciones una para los datos generales y otra para direcciones,hasta que no tenga llena la primera no podrá pasar a la siguiente.</p>
+                        <ol>
+                            <li>Ingrese el nombre completo en los campos respectivos, primer nombre, segundo nombre, primer apellido, segundo apellido.</li>
+                            <li>Ingrese su fecha de nacimiento, haciendo clic en el botón del calendario, de esta forma se le desplegara un calendario para indicar la fecha de nacimiento.</li>
+                            <li>Ingrese el genero que pertenece, buscando en el seleccionable de sexo.</li>
+                            <li>De forma opcional puede ingresar, su correo electrónico, responsable, teléfonos.</li>
+                            <li>De clic en siguiente.</li>
+                            <li>Ingrese la colonia o urbanización del paciente.</li>
+                            <li>Ingrese el departamento y municipio en el que vive.</li>
+                            <li>De forma opcional puede ingresar la calle, pasaje, polígono o numero de casa.</li>
+                            <li>De clic en guardar.</li>
+                        </ol>
+                        <p>Tenga en cuenta que:</p>
+                        <ul>
+                            <li>Si ingresa un correo electrónico, este puede utilizarse para enviar correos promocionales, si el paciente autoriza, seleccione la casilla de Autoriza el envío de correos electrónicos. </li>
+                            <li>Entre mas campos opcionales ,como el trabajo, responsable, entre otros, llene permite tener un expediente mas completo.</li>
+                        </ul>
+                        <p>Formulario para Datos Generales</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/02.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Formulario para Dirección</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/03.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="buscarPaciente"></a><h6 class="text-uppercase"><strong>Buscar paciente</strong></h6>
+                        <p>Esta opción le permite buscar el expediente especifico de un paciente, puede realizarse para Consultar Expedientes o para Gestionar Expediente. Puede buscarlos según el nombre y apellido, número de expediente o por el número telefónico.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/04.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="consultarPaciente"></a><h6 class="text-uppercase"><strong>Consultar expediente</strong></h6>
+                        <p>Al ingresar a la opción de consultar expediente deberemos buscar el expediente que se desea consultar. Esta opción no le permite editar, solo puede navegar por las diferentes pestañas que posee, como Ficha de Datos, Antecedentes, Consultar, Odontograma e Imágenes.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/05.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="gestionarPaciente"></a><h6 class="text-uppercase"><strong>Gestionar expediente</strong></h6>
+                        <p>Al ingresar a la opción de gestionar expediente deberemos buscar el expediente que se desea gestionar.</p>
+                        <p><strong>Ficha de datos</strong></p>
+                        <p><strong>Datos personales del paciente</strong>: permitirá la edición de los datos generales del paciente, de igual forma debemos recordar que podemos modificar cualquiera de estos datos sin dejar en blanco aquellos campos que contienen asterisco, ya que son campos obligatorios, para guardar los cambios aplicados bastara con hacer clic en el botón guardar. </p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/06.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Dirección de residencia</strong>: permite visualizar los datos de la residencia de un paciente en el expediente, de igual forma los datos son modificables y podremos guardar los cambios dando clic en el botón guardar.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/07.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Antecedentes</strong>: permite visualizar los datos de los antecedentes médicos que puede presentar un paciente, estos son modificables. Además si el antecedente no existe podrá ser agregado en el cuadro de texto otros. Luego para guardar los cambios bastara con dar clic en el botón guardar.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/08.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Consultas</strong>: permite visualizar los datos de una consulta de un paciente determinado, dentro de la consulta quedaran guardados datos como la fecha de atención, el médico que atendió la consulta, si el paciente llego por alguna promoción, el motivo de la consulta, diagnostico, notas y receta, por ultimo para guardar la consulta bastara con hacer clic en el botón guardar.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/09.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Odontograma</strong>: muestra gráficamente la figura bucal del ser humano y la imagen por unidad de pieza, con su explicación, es decir que al dar clic en cada una de las piezas podremos ver su respectiva información de forma más detallada.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/02_manual_expediente/10.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Imágenes</strong>: permite visualizar las opciones del apartado de imágenes, dentro de las cuales podremos agregar una nueva imagen dando clic en el botón de seleccionar archivo o eliminar alguna de las imágenes que se tenga dando clic en el botón de eliminar imagen.</p>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                </div>
+                <br/>
+
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

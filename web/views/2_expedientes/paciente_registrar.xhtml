@@ -13,7 +13,7 @@
                 <f:metadata>
                     <f:viewAction action="#{expedientesBean.verificaAcceso(7)}"/>
                     <f:viewParam name="us" value="#{expedientesBean.us}"/>
-                     <f:viewParam name="ci" value="#{expedientesBean.citaUsuario}"/>
+                    <f:viewParam name="ci" value="#{expedientesBean.citaUsuario}"/>
                     <f:event type="preRenderView" listener="#{expedientesBean.cargarRegistroPaciente()}"/>
                 </f:metadata>
             </ui:define>
@@ -132,7 +132,7 @@
                                 * Campos obligatorios 
                             </div>
                         </div>
-                        
+
                         <br/>
 
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
@@ -143,9 +143,12 @@
                                     <i class="glyphicon glyphicon-share-alt"></i> Siguiente
                                     <f:param name="datos" value="true"/>
                                 </h:commandLink>
+                                &nbsp;
+                                <a href="#{request.contextPath}/views/8_ayuda/manual_expediente.xhtml#registrarPaciente" title="Ayuda" style="font-size: 19px;padding:5px;" class="btn btn-default btn-sm btn-tabla-expediente2">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </a>
                             </div>
                         </div>
-                        <br/>
 
                     </p:tab>
 
@@ -225,7 +228,6 @@
                                 </h:commandLink>
                             </div>
                         </div>
-                        <br/>
                     </p:tab>
                 </p:tabView>
             </h:form>

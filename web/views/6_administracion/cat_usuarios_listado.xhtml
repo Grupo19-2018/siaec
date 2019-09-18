@@ -32,10 +32,6 @@
                                     onclick="window.location.href = 'cat_usuarios_nuevo.xhtml'">
                                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo usuario
                             </button>
-                            &nbsp;
-                            <h:link outcome="AyudaGestionarUsuario"  title="titulodos" style="font-size: 18.5px;" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-question-sign" >
-                            </h:link>
-                            
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" align="right">
                             <p:selectOneMenu id="usuarios" value="#{catalogosBean.usuarios}" style="width: 125pt">
@@ -48,7 +44,6 @@
                             </p:selectOneMenu>
                         </div>
                     </div>
-                    <br/>
 
 
                     <!-- Tabla -->
@@ -111,9 +106,10 @@
                                 </tbody> 
                             </table>
                         </div>
-                        <div class="col-lg-12" align="right">
-                            <h:link outcome="AyudaGestionarUsuario"  title="Ayuda para gestionar usuarios" style="font-size: 18.5px;" class="btn btn-default btn-sm btn-tabla-expediente2 glyphicon glyphicon-question-sign" >
-                            </h:link>
+                        <div class="col-md-12" align="right">
+                            <a href="#{request.contextPath}/views/8_ayuda/manual_administracion.xhtml#listadoUsuario" title="Ayuda" style="font-size: 19px;padding:5px;" class="btn btn-default btn-sm btn-tabla-expediente2">
+                                <i class="glyphicon glyphicon-question-sign"></i>
+                            </a>
                         </div>
 
                         <!-- Modal eliminarUsuario -->
@@ -155,8 +151,32 @@
                         </div>
 
                     </div>
-                    <br/>
                 </h:form>
+            </p:panel>
+            <p:spacer height="10"/>
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+                <div class="row" >
+                    <div class="col-lg-12">
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Consultar Usuario</span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="btn btn-default btn-tabla-expediente2 glyphicon glyphicon-pencil" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Editar Usuario</span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="btn btn-default btn-tabla-expediente2 glyphicon glyphicon-trash" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Eliminar Usuario</span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-sort" style="color:#066ead; font-size: smaller;"/> <span style="font-size: smaller; font-style: italic;">- Ordenar campos </span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-sort-by-attributes" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Ordenar campos de forma ascendente </span>
+                        </div>
+                        <div class="col-sm-4 col-lg-3">
+                            <span class="glyphicon glyphicon-sort-by-attributes-alt" style="color:#066ead; font-size: 8px; padding: 2px 4px;"/> <span style="font-size: smaller; font-style: italic;">- Ordenar campos de forma descendente </span>
+                        </div>
+                    </div>
+                </div>
             </p:panel>
             <p:spacer height="50"/>
 

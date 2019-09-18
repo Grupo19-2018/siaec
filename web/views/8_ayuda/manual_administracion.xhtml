@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <!--<f:viewAction action="#{catalogosBean.verificaAcceso(41)}"/>-->
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
+            <div class="banda1"><b>GESTIONAR USUARIO</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <h3 style="text-align: center;">Indice <a name="indice"></a></h3>
+
+                        <h4><strong>Administración</strong></h4>
+                        <ul>
+                            <li><a href="#listadoUsuario" >Listado usuario</a></li>
+                            <li><a href="#crearUsuario" >Nuevo usuario</a></li>
+                            <li><a href="#editarUsuario">Editar usuario</a></li>
+                            <li><a href="#eliminarUsuario" >Eliminar usuario</a></li>
+                            <li><a href="#listadoSucursales" >Listado de sucursales</a></li>
+                            <li><a href="#nuevaSucursal" >Nueva sucursal</a></li>
+                            <li><a href="#editarSucursal" >Editar sucursal</a></li>
+                            <li><a href="#eliminarSucursal" >Eliminar sucursal</a></li>
+                            <li><a href="#listadoMedico" >Listado médico</a></li>
+                            <li><a href="#nuevoMedico" >Nuevo médico</a></li>
+                            <li><a href="#editarMedico" >Editar médico</a></li>
+                            <li><a href="#eliminarMedico" >Eliminar médico</a></li>
+                            <li><a href="#listadoTratamiento" >Listado tratamiento</a></li>
+                            <li><a href="#nuevoTratamiento" >Nuevo tratamiento</a></li>
+                            <li><a href="#editarTratamiento" >Editar tratamiento</a></li>
+                            <li><a href="#eliminarTratamiento" >Eliminar tratamiento</a></li>
+                            <li><a href="#listadoPatologia" >Listado Patologías</a></li>
+                            <li><a href="#listadoTipoInsumo" >Listado tipo de insumo</a></li>
+                            <li><a href="#listadoUnidadesMedida" >Listado unidades de medida</a></li>
+                        </ul>
+                        <a href="../../resources/documents/manual_administracion.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoUsuario"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Listado usuario</span></h6>
+                        <p>Al dar clic sobre la opción de gestionar usuarios observaremos el listado de usuarios registrados en el sistema, dentro de la lista podremos observar el administrador del sistema, doctores, asistentes y pacientes. Por otro lado si lo que se desea es crear un nuevo usuario deberemos dar clic en botón de nuevo usuario. También podremos observar que cada usuario puede ser modificado por si se ha cometido algún error durante su creación o bien si se desea eliminar el usuario, para cualquiera de las opciones anteriores bastara con hacer clic en los botones respectivos.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/01.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="crearUsuario"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Nuevo usuario</span></h6>
+                        <p>Al dar clic sobre crear un nuevo usuario se nos desplegar la siguiente vista en la deberemos ingresar el rol del usuario, luego de ingresar el rol que para nuestro caso es un doctor, se nos desplegara una lista adicional en la cual deberemos seleccionar el médico al cual deseamos crearle un usuario, luego de seleccionar el médico se nos cargaran automáticamente todos sus datos con la única excepción del nombre de usuario el cual lo debe ingresar la persona que este creando el usuario, con todos los roles es el mismo procedimiento, recordar que en todos los casos ya debe de haberse creado el médico y el paciente al cual se le creara usuario.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/02.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="editarUsuario"></a><h6 class="text-uppercase"><strong>Editar usuario</strong></h6>
+                        <p>En cuando a la pantalla de edición se observaran los mismos campos de la pantalla de nuevo usuario, luego de modificar los datos deberemos dar clic en el botón guardar.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/03.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="eliminarUsuario"></a>
+                        <h6 class="text-uppercase"><strong>Eliminar usuario</strong></h6>
+                        <p>Busque el registro que desea eliminar y en la parte de opciones, busque la opción de eliminar, se le desplegara una ventada donde se le pedirá que confirme la acción de clic en eliminar.</p>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoSucursales"></a>
+                        <h6 class="text-uppercase"><strong>Listado de sucursales</strong></h6>
+                        <p>Al dar clic sobre la opción de gestionar sucursales observaremos el listado de sucursales registradas en el sistema, dentro de la lista podremos observar datos como el teléfono, el horario de apertura y cierra de las clínicas, así como también el número de consultorios que poseen. Por otro lado si lo que se desea es crear una nueva sucursal deberemos dar clic en botón de nueva sucursal. También podemos observar que cada sucursal puede ser modificado por si se ha cometido algún error durante su creación, pueda que también solo se desee verificar los datos o bien si se desea eliminar, para cualquiera de las opciones anteriores bastara con hacer clic en los botones del lado derecho de la tabla, según corresponda.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/04.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="nuevaSucursal"></a>
+                        <h6 class="text-uppercase"><strong>Nueva sucursal</strong></h6>
+                        <p><strong>Datos generales</strong>: permite agregar la dirección de la nueva sucursal.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/05.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Dirección</strong>: permite agregar la dirección de la nueva sucursal.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/06.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="editarSucursal"></a>
+                        <h6 class="text-uppercase"><strong>Editar sucursal</strong></h6>
+                        <p><strong>Datos generales</strong>: propiedad de poder editar los datos de una determinada sucursal.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/07.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Dirección</strong>: propiedad de poder editar la dirección de una sucursal determinada.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/08.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="eliminarSucursal"></a>
+                        <h6 class="text-uppercase"><strong>Eliminar sucursal</strong></h6>
+                        <p>Busque el registro que desea eliminar y en la parte de opciones, busque la opción de eliminar, se le desplegara una ventada donde se le pedirá que confirme la acción de clic en eliminar.</p>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoMedico"></a>
+                        <h6 class="text-uppercase"><strong>Listado médico</strong></h6>
+                        <p>Al dar clic sobre la opción de gestionar médicos observaremos el listado de médicos registrados en el sistema, dentro de la lista podremos observar datos como el teléfono, correo electrónico y su respectiva especialidad. Por otro lado si lo que se desea es crear una nuevo medico deberemos dar clic en botón de nuevo médico. También podemos observar que cada médico puede ser modificado por si se ha cometido algún error durante su creación, pueda que también solo se desee verificar los datos o bien si se desea eliminar, para cualquiera de las opciones anteriores bastara con hacer clic en los botones respectivos.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/09.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="nuevoMedico"></a>
+                        <h6 class="text-uppercase"><strong>Nuevo médico</strong></h6>
+                        <p><strong>Datos generales</strong>: permite el ingreso de un nuevo médico con sus datos generales respectivos.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/10.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Dirección</strong>: permite el ingreso de la dirección de cada médico.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/11.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="editarMedico"></a>
+                        <h6 class="text-uppercase"><strong>Editar médico</strong></h6>
+                        <p><strong>Datos generales</strong>: permite la modificación de los datos un médico.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/12.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p><strong>Dirección</strong>: permite la modificación de la dirección de un médico.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/13.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="eliminarMedico"></a>
+                        <h6 class="text-uppercase"><strong>Eliminar médico</strong></h6>
+                        <p>Busque el registro que desea eliminar y en la parte de opciones, busque la opción de eliminar, se le desplegara una ventada donde se le pedirá que confirme la acción de clic en eliminar.</p>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoTratamiento"></a>
+                        <h6 class="text-uppercase"><strong>Listado de tratamiento</strong></h6>
+                        <p>Al dar clic sobre la opción de gestionar tratamientos observaremos el listado de tratamientos registrados en el sistema, dentro de la lista podremos observar su nombre y su respectiva descripción. Por otro lado si lo que se desea es crear un nuevo tratamiento deberemos dar clic en botón de nuevo tratamiento. También podemos observar que cada tratamiento puede ser modificado por si se ha cometido algún error durante su creación o bien si se desea eliminar, para cualquiera de las opciones anteriores bastara con hacer clic en los botones respectivos.</p> 
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/14.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="nuevoTratamiento"></a>
+                        <h6 class="text-uppercase"><strong>Nuevo tratamiento</strong></h6>
+                        <p>Permite el ingreso de un nuevo tratamiento, en conjunto a sus datos.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/15.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="editarTratamiento"></a>
+                        <h6 class="text-uppercase"><strong>Editar tratamiento</strong></h6>
+                        <p>Permite la modificación de los datos del tratamiento.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/16.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="eliminarTratamiento"></a>
+                        <h6 class="text-uppercase"><strong>Eliminar tratamiento</strong></h6>
+                        <p>Busque el registro que desea eliminar y en la parte de opciones, busque la opción de eliminar, se le desplegara una ventada donde se le pedirá que confirme la acción de clic en eliminar.</p>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoPatologia"></a>
+                        <h6 class="text-uppercase"><strong>Listado patologías</strong></h6>
+                        <p>Al dar clic sobre la opción de gestionar patologías observaremos el listado de patologías registrados en el sistema, dentro de la lista podremos observar su nombre. Por otro lado si lo que se desea es crear una nuevo patología deberemos dar clic en botón de nuevo patología. También podemos observar que cada patología puede ser modificado por si se ha cometido algún error durante su creación o bien si se desea eliminar, para cualquiera de las opciones anteriores bastara con hacer clic en los botones respectivos.</p> 
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/17.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoTipoInsumo"></a>
+                        <h6 class="text-uppercase"><strong>Listado tipo de insumo</strong></h6>
+                        <p>Al dar clic sobre la opción de gestionar tipo de insumo observaremos el listado de tipos de insumo registrados en el sistema, dentro de la lista podremos observar su nombre y descripción. Por otro lado si lo que se desea es crear una nuevo tipo de insumo deberemos dar clic en botón de nuevo tipo de insumo. También podemos observar que cada tipo de insumo puede ser modificado por si se ha cometido algún error durante su creación o bien si se desea eliminar, para cualquiera de las opciones anteriores bastara con hacer clic en los botones respectivos.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/18.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+                        
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="listadoUnidadesMedida"></a>
+                        <h6 class="text-uppercase"><strong>Listado de unidades de medida</strong></h6>
+                        <p>Al dar clic sobre la opción de gestionar unidad de medida observaremos el listado de unidades de medidad registradas en el sistema, dentro de la lista podremos observar su nombre y abreviación. Por otro lado si lo que se desea es crear una nueva unidad de medida deberemos dar clic en botón de nueva unidad de medida. También podemos observar que cada unidad de medida puede ser modificado por si se ha cometido algún error durante su creación o bien si se desea eliminar, para cualquiera de las opciones anteriores bastara con hacer clic en los botones respectivos.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/06_manual_administracion/19.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar al Índice</a>
+
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                </div>
+                <br/>
+
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

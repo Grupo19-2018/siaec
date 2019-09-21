@@ -99,6 +99,10 @@ public class InsumosBean implements Serializable {
         return getClinicasFacade().clinicasDisponibles(Boolean.TRUE);
     }
     
+    public List<Movimientos> todosMovimientosPorExistencia(){
+        return getMovimientosFacade().movimientosPorExistencia(movimientoEditar.getExistenciaId().getExistenciaId());
+    }
+    
     public List<Existencias> todasExistencias(){
         if(sucursalId == 0){
             return getExistenciasFacade().findAll();
@@ -295,6 +299,12 @@ public class InsumosBean implements Serializable {
     //Método para guardar un nuevo Insumo (insumo_nuevo.xhtml)
     public void guardarInsumo(){
         try{
+            for (Insumos insumo : todosInsumosDisponibles()) {
+                if (insumo.getInsumoNombre().equalsIgnoreCase(insumoNuevo.getInsumoNombre())) {
+                    mensajeError("El insumo ya existe.");
+                    return;
+                }
+            }
             insumoNuevo.setInsumoEstado(Boolean.TRUE);
             insumoNuevo.setInsumoUsuarioCreacion("Nombre de usuario");
             insumoNuevo.setInsumoFechaCreacion(new Date());
@@ -316,6 +326,14 @@ public class InsumosBean implements Serializable {
     
     public void editarInsumo(){
         try{
+            for (Insumos insumo : todosInsumosDisponibles()) {
+                if (insumo.getInsumoNombre().equalsIgnoreCase(insumoEditar.getInsumoNombre())) {
+                    if(!(insumo.getInsumoId().toString().equals(insumoEditar.getInsumoId().toString()))){
+                        mensajeError("El insumo ya existe.");
+                        return;
+                    }
+                }
+            }
             insumoEditar.setInsumoUsuarioModificacion("Nombre de usuario");
             insumoEditar.setInsumoFechaModificacion(new Date());
             getInsumosFacade().edit(insumoEditar);
@@ -356,6 +374,18 @@ public class InsumosBean implements Serializable {
         return cantidad;
     }
     
+    //Método para obtener el límite inferior en la cantidad de entrada y/o salida de insumos (insumo_historial_editar.xhtml).
+    public double limiteCantidadInferior(){
+        double cantidad = 0.0;
+            if(!(movimientoEditar.getMovimientoTipo())){
+                    
+            }
+            else{
+                cantidad = getExistenciasFacade().existenciaPorInsumoClinica(sucursalId, insumoSeleccionado.getInsumoId()).getExistenciaCantidad();
+            }
+        return cantidad;
+    }
+    
     //Método para obtener el límite en la cantidad de entrada y/o salida de insumos (insumo_historial_editar.xhtml).
     public double limiteCantidadEditar(){
         double cantidad = 999999;
@@ -392,38 +422,35 @@ public class InsumosBean implements Serializable {
             movimientoNuevo = new Movimientos();
             sucursalId = 0;
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: movimientoInsumo.");
+            mensajeError("Se detuvo el proceso en el método: guardarMovimiento.");
         }
     }
     
     //Método para guardar una Entrada/Salida de Insumo (insumo_historial_editar.xhtml)
     public void guardarMovimientoEditar() {
+        Double entrada = 0.0;
+        Double salida = 0.0;
+        Double total = 0.0;
         try{
-            existenciaEditar = getExistenciasFacade().existenciaPorInsumoClinica(sucursalId, insumoSeleccionado.getInsumoId());
-            double cantidad = existenciaEditar.getExistenciaCantidad();
-            if(movimientoNuevo.getMovimientoTipo()){
-                existenciaEditar.setExistenciaCantidad(cantidad + getMovimientoNuevo().getMovimientoCantidad());
-            }else{
-                existenciaEditar.setExistenciaCantidad(cantidad - getMovimientoNuevo().getMovimientoCantidad());
+            getMovimientosFacade().edit(movimientoEditar);
+            for (Movimientos movi : todosMovimientosPorExistencia()){
+                if(movi.getMovimientoTipo()){
+                    entrada = entrada + movi.getMovimientoCantidad();
+                }else{
+                    salida = salida + movi.getMovimientoCantidad();
+                }
             }
+            total = entrada - salida;
+            System.out.println("Entrada: " + entrada);
+            System.out.println("Salida: " + salida);
+            System.out.println("Total: " + total);
+            existenciaEditar = getExistenciasFacade().find(movimientoEditar.getExistenciaId().getExistenciaId());
+            existenciaEditar.setExistenciaCantidad(total);
             getExistenciasFacade().edit(existenciaEditar);
-            movimientoNuevo.setMovimientoFechaCreacion(new Date());
-            movimientoNuevo.setMovimientoUsuarioCreacion("Nombre Usuario");
-            movimientoNuevo.setExistenciaId(new Existencias(existenciaEditar.getExistenciaId()));
-            getMovimientosFacade().create(movimientoNuevo);
-            if(movimientoNuevo.getMovimientoTipo()){
-                guardarBitacora("Ingresó existencias de insumo ("+existenciaEditar.getInsumoId().getInsumoNombre()+").");
-                mensajeConfirmacion("La entrada de insumo se ha guardado.");
-            }
-            else{
-                guardarBitacora("Retiró existencias de insumo ("+existenciaEditar.getInsumoId().getInsumoNombre()+").");
-                mensajeConfirmacion("La salida de insumo se ha guardado.");
-            }
-            existenciaEditar = new Existencias();
-            movimientoNuevo = new Movimientos();
-            sucursalId = 0;
+            mensajeConfirmacion("Los cambios se han guardado.");
+            guardarBitacora("Retiró existencias de insumo ("+existenciaEditar.getInsumoId().getInsumoNombre()+").");
         } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: movimientoInsumo.");
+            mensajeError("Se detuvo el proceso en el método: guardarMovimientoEditar.");
         }
     }
     

@@ -1143,6 +1143,14 @@ public class ExpedientesBean implements Serializable {
     //Método para guardar Paciente y su Dirección (paciente_registrar.xhtml)
     public void guardarPaciente() {
         try {
+            for (Pacientes paciente : todosPacientes()) {
+                if (paciente.getPacientePrimerNombre().equalsIgnoreCase(pacienteNuevo.getPacientePrimerNombre()) && paciente.getPacienteSegundoNombre().equalsIgnoreCase(pacienteNuevo.getPacienteSegundoNombre()) && paciente.getPacientePrimerApellido().equalsIgnoreCase(pacienteNuevo.getPacientePrimerApellido()) && paciente.getPacienteSegundoApellido().equalsIgnoreCase(pacienteNuevo.getPacienteSegundoApellido())) {
+                    this.setTabIndexFicha(0);
+                    this.setTabIndex(0);
+                    mensajeError("El paciente ya existe.");
+                    return;
+                }
+            }
             pacienteNuevo.setPacienteCodigo((int) (Math.random() * 999) + 999);
             pacienteNuevo.setPacienteFechaCreacion(new Date());
             pacienteNuevo.setPacienteEstado(Boolean.TRUE);
@@ -1389,6 +1397,15 @@ public class ExpedientesBean implements Serializable {
     //Método para editar un Paciente (fichadatos_gestionar.xhtml)
     public void editarPaciente() {
         try {
+            for (Pacientes paciente : todosPacientes()) {
+                if (paciente.getPacientePrimerNombre().equalsIgnoreCase(pacienteEditar.getPacientePrimerNombre()) && paciente.getPacienteSegundoNombre().equalsIgnoreCase(pacienteEditar.getPacienteSegundoNombre()) && paciente.getPacientePrimerApellido().equalsIgnoreCase(pacienteEditar.getPacientePrimerApellido()) && paciente.getPacienteSegundoApellido().equalsIgnoreCase(pacienteEditar.getPacienteSegundoApellido())) {
+                    if(!(paciente.getPacienteId().toString().equals(pacienteEditar.getPacienteId().toString()))){
+                        this.setTabIndex(0);
+                        mensajeError("El paciente ya existe.");
+                        return;
+                    }
+                }
+            }
             pacienteEditar.setPacienteUsuarioModificacion("Nombre de usuario");
             pacienteEditar.setPacienteFechaModificacion(new Date());
             getPacientesFacade().edit(pacienteEditar);
@@ -2059,4 +2076,40 @@ public class ExpedientesBean implements Serializable {
         }
     }
 
+    public Date fechaMaximaPaciente(){
+        Date fechaMaxima;
+        int anio;
+        fechaMaxima = new Date();
+        anio = fechaMaxima.getDate();
+        fechaMaxima.setDate(anio - 180);
+        return fechaMaxima;
+    }
+    
+    public Date fechaMinimaPaciente(){
+        Date fechaMinima;
+        int anio;
+        fechaMinima = new Date();
+        anio = fechaMinima.getYear();
+        fechaMinima.setYear(anio - 90);
+        return fechaMinima;
+    }
+    
+    public Date fechaMaximaPacienteEditar(){
+        Date fechaMaxima;
+        int anio;
+        fechaMaxima = pacienteEditar.getPacienteFechaCreacion();
+        anio = fechaMaxima.getYear();
+        fechaMaxima.setYear(anio + 90);
+        return fechaMaxima;
+    }
+    
+    public Date fechaMinimaPacienteEditar(){
+        Date fechaMinima;
+        int anio;
+        fechaMinima = pacienteEditar.getPacienteFechaCreacion();
+        anio = fechaMinima.getYear();
+        fechaMinima.setYear(anio - 90);
+        return fechaMinima;
+    }
+    
 }

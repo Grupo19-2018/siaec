@@ -65,7 +65,7 @@
                         <div class="row" style="margin-left: 5px; margin-right: 5px">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <h6><b>Fecha de nacimiento*</b></h6>
-                                <p:calendar id="fechanacimientomediconuevo" value="#{catalogosBean.medicoNuevo.medicoFechaNacimiento}" placeholder="dd-mm-aaaa" navigator="true" showOn="button" readonlyInput="true" yearRange="c-80:c-5" locale="es"
+                                <p:calendar id="fechanacimientomediconuevo" value="#{catalogosBean.medicoNuevo.medicoFechaNacimiento}" placeholder="dd-mm-aaaa" navigator="true" showOn="button" readonlyInput="true" yearRange="c-80:c+80" locale="es" mindate="#{catalogosBean.fechaMinimaMedico()}" maxdate="#{catalogosBean.fechaMaximaMedico()}"
                                             pattern="dd-MM-yyyy" required="true"  requiredMessage="Fecha nacimiento requerida." class="tamaniocalendario4" >
                                     <f:passThroughAttribute name="onkeypress" value="return false;"/>
                                 </p:calendar>

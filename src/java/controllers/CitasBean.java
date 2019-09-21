@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import util.Horario;
 import util.Mensajes;
 import dao.CitasFacade;
@@ -8,6 +9,7 @@ import dao.ConfiguracionesFacade;
 import dao.MedicosFacade;
 import dao.PacientesFacade;
 import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Citas;
 import entities.Clinicas;
 import entities.Configuraciones;
@@ -22,11 +24,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
 import util.CorreoBasico;
 import util.CorreoPlantilla;
 
@@ -37,6 +41,10 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
+
     @EJB
     private CitasFacade citasFacade;
 
@@ -161,6 +169,10 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
     public CitasFacade getCitasFacade() {
         return citasFacade;
     }
@@ -331,9 +343,35 @@ public class CitasBean implements Serializable {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+    
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
+
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
+
+    //Método para mostrar mensaje de error en el sistema.
+    public void mensajeError(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
+    }
 
 //Carga la cita seleccionada a la variable consulta. 
 //Metodo usado en cita_clinica_consultar.xhtml
@@ -480,6 +518,7 @@ public class CitasBean implements Serializable {
                     citaNuevo.setUsuarioUsuario(existe.get(0));
                 }
                 getCitasFacade().create(citaNuevo);
+                guardarBitacora("Registró una cita.");
                 citaNuevo = new Citas();
                 citaDia = new Date();
                 clinicaSeleccionada = 0;
@@ -501,6 +540,7 @@ public class CitasBean implements Serializable {
             citaEditar.setCitaFechaModificacion(new Date());
             citaEditar.setCitaEstado(4);
             getCitasFacade().edit(citaEditar);
+            guardarBitacora("Canceló una cita.");
             msj.mensajeGuardado("La cita ha sido eliminado.");
         } catch (Exception e) {
             msj.mensajeError("Error al eliminar la cita.");
@@ -559,6 +599,7 @@ public class CitasBean implements Serializable {
         citaEditar.setCitaHora(hora.getTime());
         citaEditar.setCitaFechaModificacion(new Date());
         getCitasFacade().edit(citaEditar);
+        guardarBitacora("Editó una cita.");
         CorreoPlantilla correoP = new CorreoPlantilla();
         String mensaje = correoP.msjCita(citaEditar.getCitaFecha(), citaEditar.getCitaHora(), citaEditar.getClinicaId().getClinicaNombre());
         //Solo cuando cambie a confirmada 

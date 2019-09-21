@@ -1,9 +1,12 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.UsuariosFacade;
+import entities.Bitacora;
 import entities.Usuarios;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,6 +21,10 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class PerfilBean implements Serializable {
+
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
 
     @EJB
     private UsuariosFacade usuariosFacade;
@@ -43,6 +50,10 @@ public class PerfilBean implements Serializable {
     public PerfilBean() {
     }
     
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
     public UsuariosFacade getUsuariosFacade() {
         return usuariosFacade;}
     
@@ -131,6 +142,25 @@ public class PerfilBean implements Serializable {
         this.banderaPanel4 = banderaPanel4;
     }
         
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
+
     //Método para actualizar en la entidad Usuarios. (perfil_consultar) 
     public void actualizarUsuario() {
         try {
@@ -150,6 +180,7 @@ public class PerfilBean implements Serializable {
                 usuarioLogueado = appSession.getUsuario();
                 usuarioLogueado.setUsuarioContrasenia(DigestUtils.md5Hex(contraseniaNueva1));
                 getUsuariosFacade().edit(usuarioLogueado);
+                guardarBitacora("Cambió su contraseña.");
                 contraseniaNueva1 = "";
                 contraseniaNueva2 = "";
                 banderaPanel1 = false;

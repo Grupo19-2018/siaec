@@ -1,10 +1,12 @@
 package controllers;
 
+import dao.BitacoraFacade;
 import dao.DashboardFacade;
 import dao.MenusFacade;
 import dao.PrivilegiosFacade;
 import dao.RolesFacade;
 import dao.SubmenusFacade;
+import entities.Bitacora;
 import entities.Dashboard;
 import entities.Menus;
 import entities.Privilegios;
@@ -21,12 +23,18 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 
-@ManagedBean(name = "AdministracionBean")
+/* @author Equipo 19-2018 FIA-UES */
+@ManagedBean
 @ViewScoped
 public class AdministracionBean implements Serializable {
 //****************************************************************************//
 //                          Declaración de variables                          //
 //****************************************************************************//
+    
+    @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
+
     @EJB
     private RolesFacade rolesFacade;
     private Roles rolNuevo = new Roles();
@@ -132,6 +140,11 @@ public class AdministracionBean implements Serializable {
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//    
+    
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+
     public RolesFacade getRolesFacade() {
         return rolesFacade;
     }
@@ -483,9 +496,29 @@ public class AdministracionBean implements Serializable {
         this.sGestionarUnidadMedida = sGestionarUnidadMedida;
     }
 
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//    
+    
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
+
     //Usado en: [cat_roles_nuevo.xhtml]
     public void guardarRol() {
         try {
@@ -618,7 +651,7 @@ public class AdministracionBean implements Serializable {
                 rolNuevo.setRolUsuarioCreacion(getAppSession().getUsuario().getUsuarioUsuario());
             }
             getRolesFacade().create(rolNuevo);
-
+            guardarBitacora("Creó un rol (" + rolNuevo.getRolNombre() + ").");
             mensajeGuardado("El rol fue guardado.");
             limpiandoNuevoRol();
             limpiandoPrivilegios();
@@ -1031,6 +1064,7 @@ public class AdministracionBean implements Serializable {
             }
             System.out.println("Rol " + rolEditar);
             getRolesFacade().edit(rolEditar);
+            guardarBitacora("Editó un rol (" + rolEditar.getRolNombre() + ").");
             mensajeGuardado("Rol actualizado adecuadamente.");
         } catch (Exception e) {
             mensajeError("Error al actualizar rol.");

@@ -1,12 +1,16 @@
 package controllers;
 
 import com.sun.mail.smtp.SMTPAddressFailedException;
+import dao.BitacoraFacade;
 import dao.ConfiguracionesFacade;
+import entities.Bitacora;
 import entities.Configuraciones;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
@@ -21,13 +25,22 @@ public class ConfiguracionBean implements Serializable {
 //                          Declaración de variables                          //
 //****************************************************************************//
     @EJB
+    private BitacoraFacade bitacoraFacade;
+    private Bitacora bitacoraNueva = new Bitacora();
+    
+    @EJB
     private ConfiguracionesFacade configuracionFacade;
     private Configuraciones configuracionEditar = new Configuraciones();
 
     private String destinatario;
     private String asunto;
     private String cuerpo;
+    private Date fechaActual = new Date();
 
+    //Session
+    @ManagedProperty(value = "#{appSession}")
+    private AppSession appSession;
+    
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
@@ -38,6 +51,10 @@ public class ConfiguracionBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
+    public BitacoraFacade getBitacoraFacade() {
+        return bitacoraFacade;
+    }
+    
     public Configuraciones getConfiguracionEditar() {
         return configuracionEditar;
     }
@@ -70,6 +87,27 @@ public class ConfiguracionBean implements Serializable {
         this.cuerpo = cuerpo;
     }
 
+    public Bitacora getBitacoraNueva() {
+        return bitacoraNueva;
+    }
+    public void setBitacoraNueva(Bitacora bitacoraNueva) {
+        this.bitacoraNueva = bitacoraNueva;
+    }
+
+    public AppSession getAppSession() {
+        return appSession;
+    }
+    public void setAppSession(AppSession appSession) {
+        this.appSession = appSession;
+    }
+    
+    public Date getFechaActual() {
+        return fechaActual;
+    }
+    public void setFechaActual(Date fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+    
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
@@ -102,12 +140,30 @@ public class ConfiguracionBean implements Serializable {
     public void guardarConfiguracion() {
         try {
             getConfiguracionFacade().edit(configuracionEditar);
-            mensajeGuardado("La configuracion ha sido guardada.");
+            guardarBitacora("Actualizó la configuración para envío de correos.");
+            mensajeGuardado("La configuración ha sido guardada.");
         } catch (Exception e) {
             mensajeGuardado("Error al guardar la configuracion");
         }
     }
 
+    //Método para guardar en la Bitacora.
+    public void guardarBitacora(String transaccion) {
+        try {
+            System.out.println("entra al metodo bitacora");
+            bitacoraNueva.setBitacoraFechaHora(new Date());
+            System.out.println("Fecha Actual: " + fechaActual);
+            bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
+            System.out.println("Usuario: " + appSession.getUsuario().getUsuarioUsuario());
+            bitacoraNueva.setBitacoraTransaccion(transaccion);
+            System.out.println("Transaccion: " + transaccion);
+            getBitacoraFacade().create(bitacoraNueva);
+            System.out.println("Bitacora Guaradda");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
+        }
+    }
+    
     //Realizado para ver el funcionamiento del correo, "configuracion_correo.xhtml" 
     public void testConexion() {
         try {
@@ -210,6 +266,11 @@ public class ConfiguracionBean implements Serializable {
             getConfiguracionFacade().edit(configuracionEditar);
         } catch (Exception e) {
         }
+    }
+
+    public void mensajeError(String mensaje) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", mensaje);
+        RequestContext.getCurrentInstance().showMessageInDialog(message);
     }
 
 }

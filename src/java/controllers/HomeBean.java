@@ -23,7 +23,10 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.SendFailedException;
@@ -35,8 +38,9 @@ import org.primefaces.model.UploadedFile;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 import util.CorreoBasico;
 
-@Named(value = "homeBean")
-@SessionScoped
+/* @author Equipo 19-2018 FIA-UES */
+@ManagedBean
+@ViewScoped
 public class HomeBean implements Serializable {
 
 //****************************************************************************//
@@ -419,7 +423,7 @@ public class HomeBean implements Serializable {
 
     public void editarHome() {
         getConfiguracionesFacade().edit(configuracionEditar);
-        mensajeConfirmacion("La pagina de inicio se ha actualizado.");
+        mensajeConfirmacion("La página de inicio se ha actualizado.");
     }
 
     //Método para verificar si ya existe el archivo a subir (home_parametros.xhtml).
@@ -428,9 +432,11 @@ public class HomeBean implements Serializable {
             if ((fileSuperior != null) || (fileInferior != null) || (fileLogin != null)) {
 
                 if (fileSuperior != null) {
-
-                    FacesContext cty = FacesContext.getCurrentInstance();
-                    String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
+                    ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+                    String pathRelativo = "/images/configuraciones/";
+                    String directorio = dir.getRealPath(pathRelativo);
+                    //FacesContext cty = FacesContext.getCurrentInstance();
+                    //String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
                     File archivo1 = new File(directorio + "/" + getFileSuperior().getFileName() + "/");
                     if (archivo1.exists()) {
                         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya se está utilizando.");
@@ -442,9 +448,11 @@ public class HomeBean implements Serializable {
                 }
                 
                 if (fileInferior != null) {
-
-                    FacesContext cty = FacesContext.getCurrentInstance();
-                    String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
+                    ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+                    String pathRelativo = "/images/configuraciones/";
+                    String directorio = dir.getRealPath(pathRelativo);
+                    //FacesContext cty = FacesContext.getCurrentInstance();
+                    //String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
                     File archivo1 = new File(directorio + "/" + getFileInferior().getFileName() + "/");
                     if (archivo1.exists()) {
                         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya se está utilizando.");
@@ -456,9 +464,11 @@ public class HomeBean implements Serializable {
                 }
                 
                 if (fileLogin != null) {
-
-                    FacesContext cty = FacesContext.getCurrentInstance();
-                    String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
+                    ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+                    String pathRelativo = "/images/configuraciones/";
+                    String directorio = dir.getRealPath(pathRelativo);
+                    //FacesContext cty = FacesContext.getCurrentInstance();
+                    //String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
                     File archivo1 = new File(directorio + "/" + getFileLogin().getFileName() + "/");
                     if (archivo1.exists()) {
                         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya se está utilizando.");
@@ -481,8 +491,11 @@ public class HomeBean implements Serializable {
     //Método para eliminar un archivo (home_parametros.xhtml).
     public void eliminarArchivoSuperior() throws FileNotFoundException {
         try {
-            FacesContext cty = FacesContext.getCurrentInstance();
-            String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
+            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+            String pathRelativo = "/images/configuraciones/";
+            String directorio = dir.getRealPath(pathRelativo);
+            //FacesContext cty = FacesContext.getCurrentInstance();
+            //String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
             File archivoEliminar = new File(directorio + "/" + configuracionEditar.getConfiguracionImagenSuperior());
             System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
@@ -501,8 +514,11 @@ public class HomeBean implements Serializable {
     //Método para eliminar un archivo (home_parametros.xhtml).
     public void eliminarArchivoInferior() throws FileNotFoundException {
         try {
-            FacesContext cty = FacesContext.getCurrentInstance();
-            String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
+            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+            String pathRelativo = "/images/configuraciones/";
+            String directorio = dir.getRealPath(pathRelativo);
+            //FacesContext cty = FacesContext.getCurrentInstance();
+            //String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
             File archivoEliminar = new File(directorio + "/" + configuracionEditar.getConfiguracionImagenInferior());
             System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
@@ -521,8 +537,11 @@ public class HomeBean implements Serializable {
     //Método para eliminar un archivo (home_parametros.xhtml).
     public void eliminarArchivoLogin() throws FileNotFoundException {
         try {
-            FacesContext cty = FacesContext.getCurrentInstance();
-            String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
+            ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+            String pathRelativo = "/images/configuraciones/";
+            String directorio = dir.getRealPath(pathRelativo);
+            //FacesContext cty = FacesContext.getCurrentInstance();
+            //String directorio = cty.getExternalContext().getInitParameter("directory_path_configurations");
             File archivoEliminar = new File(directorio + "/" + configuracionEditar.getConfiguracionImagenLogin());
             System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
@@ -540,8 +559,11 @@ public class HomeBean implements Serializable {
 
     //Método que guarda el archivo seleccionado (home_parametros.xhtml).
     public void subeArchivoEditarSuperior(UploadedFile file) throws InterruptedException {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
+        ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/configuraciones/";
+        String directorioArchivo = dir.getRealPath(pathRelativo);
+        //FacesContext ctx = FacesContext.getCurrentInstance();
+        //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
         String nombreArchivo = getFileSuperior().getFileName();
         int punto = nombreArchivo.lastIndexOf(".");
         String extension = nombreArchivo.substring(punto + 1, nombreArchivo.length());
@@ -572,8 +594,11 @@ public class HomeBean implements Serializable {
     }
 
     public void subeArchivoEditarInferior(UploadedFile file) throws InterruptedException {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
+        ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/configuraciones/";
+        String directorioArchivo = dir.getRealPath(pathRelativo);
+        //FacesContext ctx = FacesContext.getCurrentInstance();
+        //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
         String nombreArchivo = getFileInferior().getFileName();
         int punto = nombreArchivo.lastIndexOf(".");
         String extension = nombreArchivo.substring(punto + 1, nombreArchivo.length());
@@ -603,8 +628,11 @@ public class HomeBean implements Serializable {
         }
     }
     public void subeArchivoEditarLogin(UploadedFile file) throws InterruptedException {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
+        ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
+        String pathRelativo = "/images/configuraciones/";
+        String directorioArchivo = dir.getRealPath(pathRelativo);
+        //FacesContext ctx = FacesContext.getCurrentInstance();
+        //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_configurations");
         String nombreArchivo = getFileLogin().getFileName();
         int punto = nombreArchivo.lastIndexOf(".");
         String extension = nombreArchivo.substring(punto + 1, nombreArchivo.length());
@@ -677,7 +705,7 @@ public class HomeBean implements Serializable {
     //Método para guardar en la Bitacora.
     public void guardarBitacora(String transaccion) {
         try {
-            bitacoraNueva.setBitacoraFechaHora(fechaActual);
+            bitacoraNueva.setBitacoraFechaHora(new Date());
             bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
             bitacoraNueva.setBitacoraTransaccion(transaccion);
             getBitacoraFacade().create(bitacoraNueva);

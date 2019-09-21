@@ -28,6 +28,7 @@
                         <!-- Tab Panel -->
                         <p:tabView styleClass="registro">
                             <p:tab title="Buscar por nombre y apellidos">
+                                <p:focus for="nombregestionar"/>
                                 <div class="row"><br/>
                                     <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1">
                                     </div>
@@ -88,6 +89,7 @@
                             </p:tab>
 
                             <p:tab title="Buscar por número de expediente">
+                                <p:focus for="expedientegestionar"/>
                                 <div class="row"><br/>
                                     <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1">
                                     </div>
@@ -147,6 +149,7 @@
                             </p:tab>
                             
                             <p:tab title="Buscar por número de teléfono">
+                                <p:focus for="telefonogestionar"/>
                                 <div class="row"><br/>
                                     <div class="col-lg-2 col-md-2 col-sm-1 col-xs-1">
                                     </div>
@@ -154,7 +157,7 @@
                                         Número de teléfono
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5">
-                                        <p:inputMask id="sas" value="#{expedientesBean.telefono}" mask="9999-9999" style="width: 150pt">
+                                        <p:inputMask id="telefonogestionar" value="#{expedientesBean.telefono}" mask="9999-9999" style="width: 150pt">
                                             <p:ajax event="keyup" update="paneltelefono" listener="#{expedientesBean.todosPacientesPorTelefono()}" />
                                         </p:inputMask>
                                     </div>

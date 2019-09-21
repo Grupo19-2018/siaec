@@ -98,6 +98,7 @@
         function estiloTabla() {
             $('#tabla').dataTable(
                     {
+                        "order": [[0, 'desc'],[1, 'desc']],
                         "bDestroy": true,
                         "oLanguage": {
                             "sProcessing": "Procesando...",

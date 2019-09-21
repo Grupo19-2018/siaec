@@ -158,6 +158,7 @@ public class CatalogosBean implements Serializable {
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
+    
     public List<UnidadesMedidas> todosUnidadesMedidasDisponibles() {
         return getUnidadesMedidasFacade().unidadesMedidasDisponibles(Boolean.TRUE);
     }
@@ -228,6 +229,7 @@ public class CatalogosBean implements Serializable {
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
+    
     public BitacoraFacade getBitacoraFacade() {
         return bitacoraFacade;
     }
@@ -295,10 +297,10 @@ public class CatalogosBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
+    
     public UnidadesMedidas getUnidadMedidaNuevo() {
         return unidadMedidaNuevo;
     }
-
     public void setUnidadMedidaNuevo(UnidadesMedidas unidadMedidaNuevo) {
         this.unidadMedidaNuevo = unidadMedidaNuevo;
     }
@@ -306,7 +308,6 @@ public class CatalogosBean implements Serializable {
     public UnidadesMedidas getUnidadMedidaEditar() {
         return unidadMedidaEditar;
     }
-
     public void setUnidadMedidaEditar(UnidadesMedidas unidadMedidaEditar) {
         this.unidadMedidaEditar = unidadMedidaEditar;
     }
@@ -314,7 +315,6 @@ public class CatalogosBean implements Serializable {
     public TiposInsumos getTipoInsumoNuevo() {
         return tipoInsumoNuevo;
     }
-
     public void setTipoInsumoNuevo(TiposInsumos tipoInsumoNuevo) {
         this.tipoInsumoNuevo = tipoInsumoNuevo;
     }
@@ -322,7 +322,6 @@ public class CatalogosBean implements Serializable {
     public TiposInsumos getTipoInsumoEditar() {
         return tipoInsumoEditar;
     }
-
     public void setTipoInsumoEditar(TiposInsumos tipoInsumoEditar) {
         this.tipoInsumoEditar = tipoInsumoEditar;
     }
@@ -330,7 +329,6 @@ public class CatalogosBean implements Serializable {
     public Tratamientos getTratamientoNuevo() {
         return tratamientoNuevo;
     }
-
     public void setTratamientoNuevo(Tratamientos tratamientoNuevo) {
         this.tratamientoNuevo = tratamientoNuevo;
     }
@@ -338,7 +336,6 @@ public class CatalogosBean implements Serializable {
     public Tratamientos getTratamientoEditar() {
         return tratamientoEditar;
     }
-
     public void setTratamientoEditar(Tratamientos tratamientoEditar) {
         this.tratamientoEditar = tratamientoEditar;
     }
@@ -346,7 +343,6 @@ public class CatalogosBean implements Serializable {
     public Patologias getPatologiaNuevo() {
         return patologiaNuevo;
     }
-
     public void setPatologiaNuevo(Patologias patologiaNuevo) {
         this.patologiaNuevo = patologiaNuevo;
     }
@@ -354,7 +350,6 @@ public class CatalogosBean implements Serializable {
     public Patologias getPatologiaEditar() {
         return patologiaEditar;
     }
-
     public void setPatologiaEditar(Patologias patologiaEditar) {
         this.patologiaEditar = patologiaEditar;
     }
@@ -362,7 +357,6 @@ public class CatalogosBean implements Serializable {
     public Clinicas getSucursalNuevo() {
         return sucursalNuevo;
     }
-
     public void setSucursalNuevo(Clinicas sucursalNuevo) {
         this.sucursalNuevo = sucursalNuevo;
     }
@@ -370,7 +364,6 @@ public class CatalogosBean implements Serializable {
     public Clinicas getSucursalConsultar() {
         return sucursalConsultar;
     }
-
     public void setSucursalConsultar(Clinicas sucursalConsultar) {
         this.sucursalConsultar = sucursalConsultar;
     }
@@ -378,7 +371,6 @@ public class CatalogosBean implements Serializable {
     public Direcciones getDireccionNuevo() {
         return direccionNuevo;
     }
-
     public void setDireccionNuevo(Direcciones direccionNuevo) {
         this.direccionNuevo = direccionNuevo;
     }
@@ -386,7 +378,6 @@ public class CatalogosBean implements Serializable {
     public int getDepartamentoId() {
         return departamentoId;
     }
-
     public void setDepartamentoId(int departamentoId) {
         this.departamentoId = departamentoId;
     }
@@ -394,7 +385,6 @@ public class CatalogosBean implements Serializable {
     public int getMunicipioId() {
         return municipioId;
     }
-
     public void setMunicipioId(int municipioId) {
         this.municipioId = municipioId;
     }
@@ -402,7 +392,6 @@ public class CatalogosBean implements Serializable {
     public Direcciones getDireccionConsultar() {
         return direccionConsultar;
     }
-
     public void setDireccionConsultar(Direcciones direccionConsultar) {
         this.direccionConsultar = direccionConsultar;
     }
@@ -410,7 +399,6 @@ public class CatalogosBean implements Serializable {
     public Clinicas getSucursalEditar() {
         return sucursalEditar;
     }
-
     public void setSucursalEditar(Clinicas sucursalEditar) {
         this.sucursalEditar = sucursalEditar;
     }
@@ -418,7 +406,6 @@ public class CatalogosBean implements Serializable {
     public Direcciones getDireccionEditar() {
         return direccionEditar;
     }
-
     public void setDireccionEditar(Direcciones direccionEditar) {
         this.direccionEditar = direccionEditar;
     }
@@ -426,7 +413,6 @@ public class CatalogosBean implements Serializable {
     public Medicos getMedicoNuevo() {
         return medicoNuevo;
     }
-
     public void setMedicoNuevo(Medicos medicoNuevo) {
         this.medicoNuevo = medicoNuevo;
     }
@@ -434,7 +420,6 @@ public class CatalogosBean implements Serializable {
     public Integer getTabIndex() {
         return tabIndex;
     }
-
     public void setTabIndex(Integer tabIndex) {
         this.tabIndex = tabIndex;
     }
@@ -442,7 +427,6 @@ public class CatalogosBean implements Serializable {
     public Medicos getMedicoConsultar() {
         return medicoConsultar;
     }
-
     public void setMedicoConsultar(Medicos medicoConsultar) {
         this.medicoConsultar = medicoConsultar;
     }
@@ -450,7 +434,6 @@ public class CatalogosBean implements Serializable {
     public Medicos getMedicoEditar() {
         return medicoEditar;
     }
-
     public void setMedicoEditar(Medicos medicoEditar) {
         this.medicoEditar = medicoEditar;
     }
@@ -458,7 +441,6 @@ public class CatalogosBean implements Serializable {
     public Pacientes getPacienteSeleccionado() {
         return pacienteSeleccionado;
     }
-
     public void setPacienteSeleccionado(Pacientes pacienteSeleccionado) {
         this.pacienteSeleccionado = pacienteSeleccionado;
     }
@@ -466,7 +448,6 @@ public class CatalogosBean implements Serializable {
     public Medicos getMedicoSeleccionado() {
         return medicoSeleccionado;
     }
-
     public void setMedicoSeleccionado(Medicos medicoSeleccionado) {
         this.medicoSeleccionado = medicoSeleccionado;
     }
@@ -474,7 +455,6 @@ public class CatalogosBean implements Serializable {
     public Usuarios getUsuarioNuevo() {
         return usuarioNuevo;
     }
-
     public void setUsuarioNuevo(Usuarios usuarioNuevo) {
         this.usuarioNuevo = usuarioNuevo;
     }
@@ -482,7 +462,6 @@ public class CatalogosBean implements Serializable {
     public Usuarios getUsuarioConsultar() {
         return usuarioConsultar;
     }
-
     public void setUsuarioConsultar(Usuarios usuarioConsultar) {
         this.usuarioConsultar = usuarioConsultar;
     }
@@ -490,7 +469,6 @@ public class CatalogosBean implements Serializable {
     public Usuarios getUsuarioEditar() {
         return usuarioEditar;
     }
-
     public void setUsuarioEditar(Usuarios usuarioEditar) {
         this.usuarioEditar = usuarioEditar;
     }
@@ -498,7 +476,6 @@ public class CatalogosBean implements Serializable {
     public Date getFechaActual() {
         return fechaActual;
     }
-
     public void setFechaActual(Date fechaActual) {
         this.fechaActual = fechaActual;
     }
@@ -506,7 +483,6 @@ public class CatalogosBean implements Serializable {
     public Existencias getExistenciaNuevo() {
         return existenciaNuevo;
     }
-
     public void setExistenciaNuevo(Existencias existenciaNuevo) {
         this.existenciaNuevo = existenciaNuevo;
     }
@@ -514,7 +490,6 @@ public class CatalogosBean implements Serializable {
     public AppSession getAppSession() {
         return appSession;
     }
-
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
@@ -522,7 +497,6 @@ public class CatalogosBean implements Serializable {
     public int getPatologiaId() {
         return patologiaId;
     }
-
     public void setPatologiaId(int patologiaId) {
         this.patologiaId = patologiaId;
     }
@@ -530,7 +504,6 @@ public class CatalogosBean implements Serializable {
     public int getUsuarioId() {
         return usuarioId;
     }
-
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
@@ -538,7 +511,6 @@ public class CatalogosBean implements Serializable {
     public int getRolId() {
         return rolId;
     }
-
     public void setRolId(int rolId) {
         this.rolId = rolId;
     }
@@ -546,7 +518,6 @@ public class CatalogosBean implements Serializable {
     public int getSucursalId() {
         return sucursalId;
     }
-
     public void setSucursalId(int sucursalId) {
         this.sucursalId = sucursalId;
     }
@@ -554,7 +525,6 @@ public class CatalogosBean implements Serializable {
     public int getMedicoId() {
         return medicoId;
     }
-
     public void setMedicoId(int medicoId) {
         this.medicoId = medicoId;
     }
@@ -562,7 +532,6 @@ public class CatalogosBean implements Serializable {
     public int getTratamientoId() {
         return tratamientoId;
     }
-
     public void setTratamientoId(int tratamientoId) {
         this.tratamientoId = tratamientoId;
     }
@@ -570,7 +539,6 @@ public class CatalogosBean implements Serializable {
     public int getTipoInsumoId() {
         return tipoInsumoId;
     }
-
     public void setTipoInsumoId(int tipoInsumoId) {
         this.tipoInsumoId = tipoInsumoId;
     }
@@ -578,7 +546,6 @@ public class CatalogosBean implements Serializable {
     public int getUnidadMedidaId() {
         return unidadMedidaId;
     }
-
     public void setUnidadMedidaId(int unidadMedidaId) {
         this.unidadMedidaId = unidadMedidaId;
     }
@@ -586,7 +553,6 @@ public class CatalogosBean implements Serializable {
     public int getPacienteId() {
         return pacienteId;
     }
-
     public void setPacienteId(int pacienteId) {
         this.pacienteId = pacienteId;
     }
@@ -594,7 +560,6 @@ public class CatalogosBean implements Serializable {
     public String getUsuarioUsuario() {
         return usuarioUsuario;
     }
-
     public void setUsuarioUsuario(String usuarioUsuario) {
         this.usuarioUsuario = usuarioUsuario;
     }
@@ -602,7 +567,6 @@ public class CatalogosBean implements Serializable {
     public int getUsuarios() {
         return usuarios;
     }
-
     public void setUsuarios(int usuarios) {
         this.usuarios = usuarios;
     }
@@ -610,7 +574,6 @@ public class CatalogosBean implements Serializable {
     public Bitacora getBitacoraNueva() {
         return bitacoraNueva;
     }
-
     public void setBitacoraNueva(Bitacora bitacoraNueva) {
         this.bitacoraNueva = bitacoraNueva;
     }
@@ -618,13 +581,14 @@ public class CatalogosBean implements Serializable {
     public int getCitaUsuario() {
         return citaUsuario;
     }
-
     public void setCitaUsuario(int citaUsuario) {
         this.citaUsuario = citaUsuario;
     }
+
 //****************************************************************************//
 //                                  Métodos                                   //
 //****************************************************************************//
+    
     //Método para guardar en la Bitacora.
     public void guardarBitacora(String transaccion) {
         try {
@@ -640,6 +604,12 @@ public class CatalogosBean implements Serializable {
     //Método para guardar un nuevo Tipo de Insumo (cat_tipoinsumos_nuevo.xhtml)
     public void guardarTipoInsumo() {
         try {
+            for (TiposInsumos tipo : todosTiposInsumosDisponibles()) {
+                if (tipo.getTipoinsumoNombre().equalsIgnoreCase(tipoInsumoNuevo.getTipoinsumoNombre())) {
+                    mensajeError("El tipo de insumo ya existe.");
+                    return;
+                }
+            }
             tipoInsumoNuevo.setTipoinsumoEstado(Boolean.TRUE);
             getTiposInsumosFacade().create(tipoInsumoNuevo);
             guardarBitacora("Registró un tipo de insumo (" + tipoInsumoNuevo.getTipoinsumoNombre() + ").");
@@ -653,6 +623,14 @@ public class CatalogosBean implements Serializable {
     //Método para editar un Tipo de Insumo (cat_tipoinsumos_editar.xhtml)
     public void editarTipoInsumo() {
         try {
+            for (TiposInsumos tipo : todosTiposInsumosDisponibles()) {
+                if (tipo.getTipoinsumoNombre().equalsIgnoreCase(tipoInsumoEditar.getTipoinsumoNombre())) {
+                    if(!(tipo.getTipoinsumoId().toString().equals(tipoInsumoEditar.getTipoinsumoId().toString()))){
+                        mensajeError("El tipo de insumo ya existe.");
+                        return;
+                    }
+                }
+            }
             getTiposInsumosFacade().edit(tipoInsumoEditar);
             guardarBitacora("Editó un tipo de insumo (" + tipoInsumoEditar.getTipoinsumoNombre() + ").");
             mensajeConfirmacion("El tipo de insumo se ha actualizado.");
@@ -677,6 +655,12 @@ public class CatalogosBean implements Serializable {
     public void guardarUnidadMedida() {
         try {
             unidadMedidaNuevo.setUnidadmedidaEstado(Boolean.TRUE);
+            for (UnidadesMedidas unidad : todosUnidadesMedidasDisponibles()) {
+                if (unidad.getUnidadmedidaNombre().equalsIgnoreCase(unidadMedidaNuevo.getUnidadmedidaNombre())) {
+                    mensajeError("La unidad de medida ya existe.");
+                    return;
+                }
+            }
             getUnidadesMedidasFacade().create(unidadMedidaNuevo);
             guardarBitacora("Registró una unidad de medida (" + unidadMedidaNuevo.getUnidadmedidaNombre() + ").");
             unidadMedidaNuevo = new UnidadesMedidas();
@@ -689,6 +673,14 @@ public class CatalogosBean implements Serializable {
     //Método para editar una Unidad de Medida (cat_unidadmedidas_editar.xhtml)
     public void editarUnidadMedida() {
         try {
+            for (UnidadesMedidas unidad : todosUnidadesMedidasDisponibles()) {
+                if (unidad.getUnidadmedidaNombre().equalsIgnoreCase(unidadMedidaEditar.getUnidadmedidaNombre())) {
+                    if(!(unidad.getUnidadmedidaId().toString().equals(unidadMedidaEditar.getUnidadmedidaId().toString()))){
+                        mensajeError("La unidad de medida ya existe.");
+                        return;
+                    }
+                }
+            }
             getUnidadesMedidasFacade().edit(unidadMedidaEditar);
             guardarBitacora("Editó una unidad de medida (" + unidadMedidaEditar.getUnidadmedidaNombre() + ").");
             mensajeConfirmacion("La unidad de medida se ha actualizado.");
@@ -712,6 +704,12 @@ public class CatalogosBean implements Serializable {
     //Método para guardar un nuevo Tratamiento (cat_tratamientos_nuevo.xhtml)
     public void guardarTratamiento() {
         try {
+            for (Tratamientos tratamiento : todosTratamientosDisponibles()) {
+                if (tratamiento.getTratamientoNombre().equalsIgnoreCase(tratamientoNuevo.getTratamientoNombre())) {
+                    mensajeError("El tratamiento ya existe.");
+                    return;
+                }
+            }
             tratamientoNuevo.setTratamientoUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             tratamientoNuevo.setTratamientoFechaCreacion(new Date());
             tratamientoNuevo.setTratamientoEstado(Boolean.TRUE);
@@ -727,6 +725,14 @@ public class CatalogosBean implements Serializable {
     //Método para editar un Tratamiento (cat_tratamientos_editar.xhtml)
     public void editarTratamiento() {
         try {
+            for (Tratamientos tratamiento : todosTratamientosDisponibles()) {
+                if (tratamiento.getTratamientoNombre().equalsIgnoreCase(tratamientoEditar.getTratamientoNombre())) {
+                    if(!(tratamiento.getTratamientoId().toString().equals(tratamientoEditar.getTratamientoId().toString()))){
+                        mensajeError("El tratamiento ya existe.");
+                        return;
+                    }
+                }
+            }
             tratamientoEditar.setTratamientoUsuarioModificacio(appSession.getUsuario().getUsuarioUsuario());
             tratamientoEditar.setTratamientoFechaModificacion(new Date());
             getTratamientosFacade().edit(tratamientoEditar);
@@ -754,6 +760,12 @@ public class CatalogosBean implements Serializable {
     //Método para guardar una nueva Sucursal (cat_sucursales_nuevo.xhtml)
     public void guardarSucursal() {
         try {
+            for (Clinicas clinica : todosSucursalesDisponibles()) {
+                if (clinica.getClinicaNombre().equalsIgnoreCase(sucursalNuevo.getClinicaNombre())) {
+                    mensajeError("La sucursal ya existe.");
+                    return;
+                }
+            }
             sucursalNuevo.setClinicaUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             sucursalNuevo.setClinicaFechaCreacion(new Date());
             sucursalNuevo.setClinicaEstado(Boolean.TRUE);
@@ -781,6 +793,14 @@ public class CatalogosBean implements Serializable {
     //Método para editar una Sucursal (cat_sucursales_editar.xhtml)
     public void editarSucursal() {
         try {
+            for (Clinicas clinica : todosSucursalesDisponibles()) {
+                if (clinica.getClinicaNombre().equalsIgnoreCase(sucursalEditar.getClinicaNombre())) {
+                    if(!(clinica.getClinicaId().toString().equals(sucursalEditar.getClinicaId().toString()))){
+                        mensajeError("La sucursal ya existe.");
+                        return;
+                    }
+                }
+            }
             sucursalEditar.setClinicaUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             sucursalEditar.setClinicaFechaModificacion(new Date());
             getClinicasFacade().edit(sucursalEditar);
@@ -788,16 +808,6 @@ public class CatalogosBean implements Serializable {
             mensajeConfirmacion("La sucursal se ha actualizado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: editarSucursal.");
-        }
-    }
-
-    //Método para editar una Dirección (cat_sucursales_editar.xhtml)
-    public void editarDireccion() {
-        try {
-            getDireccionesFacade().edit(direccionEditar);
-            mensajeConfirmacion("La direccion se ha actualizado.");
-        } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: editarDireccion.");
         }
     }
 
@@ -815,9 +825,25 @@ public class CatalogosBean implements Serializable {
         }
     }
 
+    //Método para editar una Dirección (cat_sucursales_editar.xhtml)
+    public void editarDireccion() {
+        try {
+            getDireccionesFacade().edit(direccionEditar);
+            mensajeConfirmacion("La direccion se ha actualizado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: editarDireccion.");
+        }
+    }
+
     //Método para guardar una nueva Patologia (cat_patologias_nuevo.xhtml)
     public void guardarPatologia() {
         try {
+            for (Patologias patologia : todosPatologiasDisponibles()) {
+                if (patologia.getPatologiaNombre().equalsIgnoreCase(patologiaNuevo.getPatologiaNombre())) {
+                    mensajeError("La patologia ya existe.");
+                    return;
+                }
+            }
             patologiaNuevo.setPatologiaUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             patologiaNuevo.setPatologiaFechaCreacion(new Date());
             patologiaNuevo.setPatologiaEstado(Boolean.TRUE);
@@ -833,6 +859,14 @@ public class CatalogosBean implements Serializable {
     //Método para editar una Patologia (cat_patologias_editar.xhtml)
     public void editarPatologia() {
         try {
+            for (Patologias patologia : todosPatologiasDisponibles()) {
+                if (patologia.getPatologiaNombre().equalsIgnoreCase(patologiaEditar.getPatologiaNombre())) {
+                    if(!(patologia.getPatologiaId().toString().equals(patologiaEditar.getPatologiaId().toString()))){
+                        mensajeError("La patologia ya existe.");
+                        return;
+                    }
+                }
+            }
             patologiaEditar.setPatologiaUsuarioModificacio(appSession.getUsuario().getUsuarioUsuario());
             patologiaEditar.setPatologiaFechaModificacion(new Date());
             getPatologiasFacade().edit(patologiaEditar);
@@ -860,6 +894,12 @@ public class CatalogosBean implements Serializable {
     //Método para guardar un nuevo medico y su dirección (cat_medicos_nuevo.xhtml)
     public void guardarMedico() {
         try {
+            for (Medicos medico : todosMedicosDisponibles()) {
+                if (medico.getMedicoPrimerNombre().equalsIgnoreCase(medicoNuevo.getMedicoPrimerNombre()) && medico.getMedicoSegundoNombre().equalsIgnoreCase(medicoNuevo.getMedicoSegundoNombre()) && medico.getMedicoPrimerApellido().equalsIgnoreCase(medicoNuevo.getMedicoPrimerApellido()) && medico.getMedicoSegundoApellido().equalsIgnoreCase(medicoNuevo.getMedicoSegundoApellido())) {
+                    mensajeError("El médico ya existe.");
+                    return;
+                }
+            }
             medicoNuevo.setMedicoUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             medicoNuevo.setMedicoFechaCreacion(new Date());
             medicoNuevo.setMedicoEstado(Boolean.TRUE);
@@ -880,6 +920,14 @@ public class CatalogosBean implements Serializable {
     //Método para editar un Médico (cat_medicos_editar.xhtml)
     public void editarMedico() {
         try {
+            for (Medicos medico : todosMedicosDisponibles()) {
+                if (medico.getMedicoPrimerNombre().equalsIgnoreCase(medicoEditar.getMedicoPrimerNombre()) && medico.getMedicoSegundoNombre().equalsIgnoreCase(medicoEditar.getMedicoSegundoNombre()) && medico.getMedicoPrimerApellido().equalsIgnoreCase(medicoEditar.getMedicoPrimerApellido()) && medico.getMedicoSegundoApellido().equalsIgnoreCase(medicoEditar.getMedicoSegundoApellido())) {
+                    if(!(medico.getMedicoId().toString().equals(medicoEditar.getMedicoId().toString()))){
+                        mensajeError("El médico ya existe.");
+                        return;
+                    }
+                }
+            }
             medicoEditar.setMedicoUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             medicoEditar.setMedicoFechaModificacion(new Date());
             getMedicosFacade().edit(medicoEditar);
@@ -901,6 +949,64 @@ public class CatalogosBean implements Serializable {
             mensajeConfirmacion("El médico se ha eliminado.");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: eliminarMedico.");
+        }
+    }
+
+    //Método para guardar un nuevo Usuario (cat_usuarios_nuevo.xhtml)
+    public void guardarUsuario() {
+        try {
+            for (Usuarios usuario : todosUsuarios()) {
+                if (usuarioNuevo.getUsuarioUsuario().equals(usuario.getUsuarioUsuario())) {
+                    mensajeError("Ya existe una cuenta con el mismo nombre de usuario");
+                    return;
+                }
+            }
+            usuarioNuevo.setUsuarioFechaCreacion(new Date());
+            usuarioNuevo.setRolId(new Roles(rolId));
+            usuarioNuevo.setUsuarioIntentoFallido(0);
+            usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
+            usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
+            usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
+            usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
+            usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
+            if (rolId == 3) {
+                usuarioNuevo.setMedicoId(new Medicos(medicoId));
+                medicoSeleccionado = getMedicosFacade().find(medicoId);
+            }
+            if (rolId == 5) {
+                usuarioNuevo.setPacienteId(new Pacientes(pacienteId));
+                pacienteSeleccionado = getPacientesFacade().find(pacienteId);
+            }
+            getUsuariosFacade().create(usuarioNuevo);
+            if (rolId == 2 || rolId == 3) {
+                medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
+                getMedicosFacade().edit(medicoSeleccionado);
+            }
+            //if(rolId == 5){
+            //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
+            //  getPacientesFacade().edit(pacienteSeleccionado);
+            //}
+            guardarBitacora("Registró un usuario (" + usuarioNuevo.getUsuarioUsuario() + ").");
+            usuarioNuevo = new Usuarios();
+            medicoSeleccionado = new Medicos();
+            pacienteSeleccionado = new Pacientes();
+            pacienteId = 0;
+            rolId = 0;
+            //guardarBitacora("Guardó un usuario.");
+            mensajeConfirmacion("Usuario creado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: guardarUsuario.");
+        }
+    }
+
+    //Método para editar un Usuario (cat_usuarios_editar.xhtml)
+    public void editarUsuario() {
+        try {
+            getUsuariosFacade().edit(usuarioEditar);
+            guardarBitacora("Actualizó un usuario.");
+            mensajeConfirmacion("Usuario guardado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: editarUsuario.");
         }
     }
 
@@ -1100,64 +1206,6 @@ public class CatalogosBean implements Serializable {
         }
     }
 
-    //Método para guardar un nuevo Usuario (cat_usuarios_nuevo.xhtml)
-    public void guardarUsuario() {
-        try {
-            for (Usuarios usuario : todosUsuarios()) {
-                if (usuarioNuevo.getUsuarioUsuario().equals(usuario.getUsuarioUsuario())) {
-                    mensajeError("Ya existe una cuenta con el mismo nombre de usuario");
-                    return;
-                }
-            }
-            usuarioNuevo.setUsuarioFechaCreacion(new Date());
-            usuarioNuevo.setRolId(new Roles(rolId));
-            usuarioNuevo.setUsuarioIntentoFallido(0);
-            usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
-            usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
-            usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
-            usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
-            usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
-            if (rolId == 3) {
-                usuarioNuevo.setMedicoId(new Medicos(medicoId));
-                medicoSeleccionado = getMedicosFacade().find(medicoId);
-            }
-            if (rolId == 5) {
-                usuarioNuevo.setPacienteId(new Pacientes(pacienteId));
-                pacienteSeleccionado = getPacientesFacade().find(pacienteId);
-            }
-            getUsuariosFacade().create(usuarioNuevo);
-            if (rolId == 2 || rolId == 3) {
-                medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
-                getMedicosFacade().edit(medicoSeleccionado);
-            }
-            //if(rolId == 5){
-            //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
-            //  getPacientesFacade().edit(pacienteSeleccionado);
-            //}
-            guardarBitacora("Registró un usuario (" + usuarioNuevo.getUsuarioUsuario() + ").");
-            usuarioNuevo = new Usuarios();
-            medicoSeleccionado = new Medicos();
-            pacienteSeleccionado = new Pacientes();
-            pacienteId = 0;
-            rolId = 0;
-            //guardarBitacora("Guardó un usuario.");
-            mensajeConfirmacion("Usuario creado.");
-        } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: guardarUsuario.");
-        }
-    }
-
-    //Método para editar un nuevo Usuario (cat_usuarios_nuevoeditar.xhtml)
-    public void editarUsuario() {
-        try {
-            getUsuariosFacade().edit(usuarioEditar);
-            guardarBitacora("Actualizó un usuario.");
-            mensajeConfirmacion("Usuario guardado.");
-        } catch (Exception e) {
-            mensajeError("Se detuvo el proceso en el método: editarUsuario.");
-        }
-    }
-
     //Método para guardar un nuevo Usuario (cita_clinica_paciente_usuario.xhtml)
     public void guardarUsuarioSugerencia() {
         try {
@@ -1240,6 +1288,42 @@ public class CatalogosBean implements Serializable {
             pswd += (key.charAt((int) (Math.random() * key.length())));
         }
         return pswd;
+    }
+
+    public Date fechaMaximaMedico(){
+        Date fechaMaxima;
+        int anio;
+        fechaMaxima = new Date();
+        anio = fechaMaxima.getYear();
+        fechaMaxima.setYear(anio - 23);
+        return fechaMaxima;
+    }
+    
+    public Date fechaMinimaMedico(){
+        Date fechaMinima;
+        int anio;
+        fechaMinima = new Date();
+        anio = fechaMinima.getYear();
+        fechaMinima.setYear(anio - 80);
+        return fechaMinima;
+    }
+    
+    public Date fechaMaximaMedicoEditar(){
+        Date fechaMaxima;
+        int anio;
+        fechaMaxima = medicoEditar.getMedicoFechaCreacion();
+        anio = fechaMaxima.getYear();
+        fechaMaxima.setYear(anio + 57);
+        return fechaMaxima;
+    }
+    
+    public Date fechaMinimaMedicoEditar(){
+        Date fechaMinima;
+        int anio;
+        fechaMinima = medicoEditar.getMedicoFechaCreacion();
+        anio = fechaMinima.getYear();
+        fechaMinima.setYear(anio - 80);
+        return fechaMinima;
     }
 
 }

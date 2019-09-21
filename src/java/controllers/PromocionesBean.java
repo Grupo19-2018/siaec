@@ -59,6 +59,7 @@ public class PromocionesBean implements Serializable {
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
+    
     public List<Promociones> todasPromocionesDisponibles() {
         return getPromocionesFacade().promocionesDisponibles(Boolean.TRUE);
     }
@@ -74,6 +75,7 @@ public class PromocionesBean implements Serializable {
 //****************************************************************************//
 //                 Métodos Get para obtener datos de entidades                //
 //****************************************************************************//
+    
     public BitacoraFacade getBitacoraFacade() {
         return bitacoraFacade;
     }
@@ -85,10 +87,10 @@ public class PromocionesBean implements Serializable {
 //****************************************************************************//
 //                             Métodos Get y SET                              //
 //****************************************************************************//
+    
     public Promociones getPromocionNuevo() {
         return promocionNuevo;
     }
-
     public void setPromocionNuevo(Promociones promocionNuevo) {
         this.promocionNuevo = promocionNuevo;
     }
@@ -96,7 +98,6 @@ public class PromocionesBean implements Serializable {
     public Promociones getPromocionConsultar() {
         return promocionConsultar;
     }
-
     public void setPromocionConsultar(Promociones promocionConsultar) {
         this.promocionConsultar = promocionConsultar;
     }
@@ -104,7 +105,6 @@ public class PromocionesBean implements Serializable {
     public Promociones getPromocionEditar() {
         return promocionEditar;
     }
-
     public void setPromocionEditar(Promociones promocionEditar) {
         this.promocionEditar = promocionEditar;
     }
@@ -112,7 +112,6 @@ public class PromocionesBean implements Serializable {
     public UploadedFile getFile() {
         return file;
     }
-
     public void setFile(UploadedFile file) {
         this.file = file;
     }
@@ -120,7 +119,6 @@ public class PromocionesBean implements Serializable {
     public Date getFechaSistema() {
         return fechaSistema;
     }
-
     public void setFechaSistema(Date fechaSistema) {
         this.fechaSistema = fechaSistema;
     }
@@ -128,7 +126,6 @@ public class PromocionesBean implements Serializable {
     public int getPromocionId() {
         return promocionId;
     }
-
     public void setPromocionId(int promocionId) {
         this.promocionId = promocionId;
     }
@@ -136,7 +133,6 @@ public class PromocionesBean implements Serializable {
     public AppSession getAppSession() {
         return appSession;
     }
-
     public void setAppSession(AppSession appSession) {
         this.appSession = appSession;
     }
@@ -152,7 +148,6 @@ public class PromocionesBean implements Serializable {
 //                                  Métodos                                   //
 //****************************************************************************//
     
-
     //Método para guardar en la Bitacora.
     public void guardarBitacora(String transaccion) {
         try {
@@ -214,6 +209,12 @@ public class PromocionesBean implements Serializable {
     //Método para guardar una Promoción (promocion_nuevo.xhtml).
     public void guardarPromocion() {
         try {
+            for (Promociones promocion : todasPromocionesDisponibles()) {
+                if (promocion.getPromocionNombre().equalsIgnoreCase(promocionNuevo.getPromocionNombre())) {
+                    mensajeError("La promoción ya existe.");
+                    return;
+                }
+            }
             promocionNuevo.setPromocionEstado(Boolean.TRUE);
             promocionNuevo.setPromocionUsuarioCreacion("Nombre Usuario");
             promocionNuevo.setPromocionFechaCreacion(new Date());
@@ -297,8 +298,7 @@ public class PromocionesBean implements Serializable {
             promocionNuevo.setPromocionImagenNombre(getFile().getFileName());
             promocionNuevo.setPromocionImagenUrl(directorioArchivo + "/" + getFile().getFileName());
             getPromocionesFacade().edit(promocionNuevo);
-            guardarBitacora("Editó una promoción ("+promocionEditar.getPromocionNombre()+").");
-            promocionNuevo = new Promociones();
+            //guardarBitacora("Editó una promoción ("+promocionEditar.getPromocionNombre()+").");
             mensajeGuardado("La promoción se ha guardado.");
         } catch (IOException e) {
             mensajeError("Se detuvo el proceso en el método: subeArchivoNuevo.");
@@ -329,6 +329,14 @@ public class PromocionesBean implements Serializable {
     //Método para verificar si ya existe el archivo a subir (promocion_editar.xhtml).
     public void existeArchivoEditar() {
         try {
+            for (Promociones promocion : todasPromocionesDisponibles()) {
+                if (promocion.getPromocionNombre().equalsIgnoreCase(promocionEditar.getPromocionNombre())) {
+                    if(!(promocion.getPromocionId().toString().equals(promocionEditar.getPromocionId().toString()))){
+                        mensajeError("La promoción ya existe.");
+                        return;
+                    }
+                }
+            }
             if (file != null) {
                 ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
                 String pathRelativo = "/images/promociones/";

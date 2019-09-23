@@ -176,3 +176,6 @@ update public.submenus set sumbenu_nombre = 'Entrada y Salida de Insumos' where 
 update public.submenus set sumbenu_nombre = 'Historial de transacciones' where submenu_id=14;
 update public.submenus set sumbenu_nombre = 'Pedido de Insumos' where submenu_id=15;
 
+--Update 120
+--Agregar columna estado a tabla roles
+alter table roles add column rol_estado BOOLEAN default TRUE;

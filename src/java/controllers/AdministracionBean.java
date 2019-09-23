@@ -23,8 +23,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.context.RequestContext;
 
-/* @author Equipo 19-2018 FIA-UES */
-@ManagedBean
+@ManagedBean(name = "AdministracionBean")
 @ViewScoped
 public class AdministracionBean implements Serializable {
 //****************************************************************************//
@@ -116,6 +115,11 @@ public class AdministracionBean implements Serializable {
 //****************************************************************************//
 //                  Métodos para obtener listas por entidades                 //
 //****************************************************************************//
+    
+    public List<Roles> todosRolesDisponibles() {
+        return getRolesFacade().rolesDisponibles(Boolean.TRUE);
+    }
+
     //Usado en: [cat_roles_listado.xhtml]
     public List<Roles> todosRolesActivos() {
         return getRolesFacade().findAll();
@@ -1069,6 +1073,19 @@ public class AdministracionBean implements Serializable {
         } catch (Exception e) {
             mensajeError("Error al actualizar rol.");
             System.err.println("Error" + e);
+        }
+    }
+
+    //Método para eliminar un Rol (cat_roles_listado.xhtml)
+    public void eliminarRol() {
+        try {
+            rolEditar.setRolFechaModificacion(new Date());
+            rolEditar.setRolEstado(Boolean.FALSE);
+            getRolesFacade().edit(rolEditar);
+            guardarBitacora("Eliminó un rol (" + rolEditar.getRolNombre() + ").");
+            mensajeGuardado("El rol se ha eliminado.");
+        } catch (Exception e) {
+            mensajeError("Se detuvo el proceso en el método: eliminarRol.");
         }
     }
 

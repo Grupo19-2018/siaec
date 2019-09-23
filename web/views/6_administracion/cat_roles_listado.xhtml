@@ -46,7 +46,7 @@
                                 </thead>
                                 <!-- Cuerpo de la tabla -->
                                 <tbody>
-                                    <ui:repeat value="#{AdministracionBean.todosRolesActivos()}" var="rol" >
+                                    <ui:repeat value="#{AdministracionBean.todosRolesDisponibles()}" var="rol" >
                                         <tr>
                                             <td align="center"></td>
                                             <td>#{rol.rolNombre}</td>
@@ -82,7 +82,7 @@
                                     <!-- Cabecera del modal -->
                                     <div class="modal-header" style="background-color: #066EAD">
                                         <button type="button" class="close btn btn-default" data-dismiss="modal" style="width: 20pt; height: 25pt; background-color: #FF7F27; color: white" aria-hidden="true"><b>X</b></button>
-                                        <h5 class="modal-title"><b><font color="#fff">Eliminar sucursal</font></b></h5>
+                                        <h5 class="modal-title"><b><font color="#fff">Eliminar rol</font></b></h5>
                                     </div>
 
                                     <!-- Cuerpo del modal -->
@@ -92,11 +92,12 @@
                                                 <!-- Nombre -->
                                                 <div class="col-xs-12"><br/>
                                                     <label><center>¿Está seguro de realizar esta acción?</center></label><br/>
-                                                    <label>La sucursal se borrará definitivamente.</label><br/>
+                                                    <label>El rol se borrará definitivamente.</label><br/>
                                                 </div>
                                                 <div class="col-xs-12"><br/>
 
-                                                    <h:commandLink type="submit" class="btn btn-default" style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px" action="#">
+                                                    <h:commandLink type="submit" class="btn btn-default" action="#{AdministracionBean.eliminarRol()}"
+                                                                   style="width: 100pt; height: 27pt; color: white; padding:5px; background-color:#FB6F52; font-weight:bold; border:solid 1px #FB6F52; -webkit-appearance:none; border-radius: 5px">
                                                         <i class="glyphicon glyphicon-trash"></i> Eliminar
                                                     </h:commandLink>
                                                     <button type="button" class="btn btn-default buttonPopupLevel2 w3-round" style="width: 100pt" data-dismiss="modal" aria-hidden="true">

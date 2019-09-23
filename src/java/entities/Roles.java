@@ -37,7 +37,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Roles.findByRolFechaCreacion", query = "SELECT r FROM Roles r WHERE r.rolFechaCreacion = :rolFechaCreacion"),
     @NamedQuery(name = "Roles.findByRolUsuarioCreacion", query = "SELECT r FROM Roles r WHERE r.rolUsuarioCreacion = :rolUsuarioCreacion"),
     @NamedQuery(name = "Roles.findByRolFechaModificacion", query = "SELECT r FROM Roles r WHERE r.rolFechaModificacion = :rolFechaModificacion"),
-    @NamedQuery(name = "Roles.findByRolUsuarioModificacion", query = "SELECT r FROM Roles r WHERE r.rolUsuarioModificacion = :rolUsuarioModificacion")})
+    @NamedQuery(name = "Roles.findByRolUsuarioModificacion", query = "SELECT r FROM Roles r WHERE r.rolUsuarioModificacion = :rolUsuarioModificacion"),
+
+    @NamedQuery(name = "Roles.findByRolEstado", query = "SELECT r FROM Roles r WHERE r.rolEstado = :rolEstado")})
 public class Roles implements Serializable {
 
     @Column(name = "rol_alerta")
@@ -80,6 +82,16 @@ public class Roles implements Serializable {
     @Size(max = 50)
     @Column(name = "rol_usuario_modificacion")
     private String rolUsuarioModificacion;
+    @Column(name = "rol_estado")
+    private Boolean rolEstado;
+
+    public Boolean getRolEstado() {
+        return rolEstado;
+    }
+
+    public void setRolEstado(Boolean rolEstado) {
+        this.rolEstado = rolEstado;
+    }
     @JoinTable(name = "menus_por_roles", joinColumns = {
         @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")}, inverseJoinColumns = {
         @JoinColumn(name = "menu_id", referencedColumnName = "menu_id")})

@@ -102,9 +102,9 @@
                                             <p:ajax event="dateSelect" update="console2"/>
                                             <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                         </p:calendar>
-                                        
+
                                     </center>
-                                    
+
                                 </div>
 
                                 <div class="col-md-12 col-sm-6 cita-espacio">
@@ -135,23 +135,25 @@
 
                         </div>
 
-                        <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
+                        <div class="row" style="margin-top: 22px; ">
                             <div class="col-md-12" style="font-size: smaller; font-style: italic;">
                                 * Campos obligatorios 
                             </div>
                         </div>
-                        <div class="row" style="margin-top: 22px; margin-bottom: 20px;">
-                            <div class="col-md-12">
-                                <center>
-                                    <p:commandButton type="sumbit" value="Guardar" update="cita" styleClass="btn-expediente-alternativa" icon="icono-smiling glyphicon glyphicon-floppy-disk">
-                                        <f:actionListener binding="#{citasBean.guardarCita()}" />
-                                    </p:commandButton>
-
-                                    <button type="reset" class="btn " onclick="window.location.href = '#{request.contextPath}/dashboard.xhtml'"
-                                            style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:grey; font-weight:bold; border:solid 1px grey; -webkit-appearance:none; border-radius: 5px">
-                                        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
-                                    </button>
-                                </center>
+                        <div class="row" style="margin-top: 22px; ">
+                            <div class="col-md-12" align="right">
+                                <p:commandButton type="sumbit" value="Guardar" update="cita" styleClass="btn-expediente-alternativa" icon="icono-smiling glyphicon glyphicon-floppy-disk">
+                                    <f:actionListener binding="#{citasBean.guardarCita()}" />
+                                </p:commandButton>
+                                &nbsp;
+                                <button type="reset" class="btn " onclick="window.location.href = '#{request.contextPath}/dashboard.xhtml'"
+                                        style="font-size: 11pt; width: 100pt; color: white; padding:9px; background-color:grey; font-weight:bold; border:solid 1px grey; -webkit-appearance:none; border-radius: 5px">
+                                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancelar
+                                </button>
+                                &nbsp;
+                                <a href="#{request.contextPath}/views/8_ayuda/manual_cita_clinica.xhtml#comoRegistrar" title="Ayuda" style="font-size: 19px;padding:5px;" class="btn btn-default btn-sm btn-tabla-expediente2">
+                                    <i class="glyphicon glyphicon-question-sign"></i>
+                                </a>
                             </div>
 
                         </div>

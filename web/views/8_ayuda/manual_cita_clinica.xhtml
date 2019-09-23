@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./../../templates/layout/plantilla.xhtml">
+        <ui:define name="content">
+
+            <ui:define name="meta-data">
+                <f:metadata>
+                    <!--<f:viewAction action="#{catalogosBean.verificaAcceso(41)}"/> -->
+                </f:metadata>
+            </ui:define>
+
+            <!-- Barra de título -->
+            <div class="banda1"><b>MANUAL DE CITA</b></div>
+            <br/>
+
+            <!-- Panel color blanco -->
+            <p:panel style="margin-right: 20pt; margin-left: 20pt; border-radius: 20px; border: solid 1px #D5D5D5">
+
+                <br/>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <h3 class="text-center"><a name="indice"></a><strong>Indice</strong></h3>
+                        <ul>
+                            <li>
+                                <a href="#manualCitas" >Manual de Citas</a>
+                                <ul>
+                                    <li><a href="#registrarCita" >Formas de registrar una cita</a></li>
+                                    <li><a href="#comoRegistrar" >¿Cómo registrar una cita?</a></li>
+                                    <li><a href="#confirmadasCita" >Listado de citas confirmadas</a></li>
+                                    <li><a href="#pendienteCita" >Listado de citas pendiente</a></li>
+                                    <li><a href="#historicoCita" >Histórico de citas</a></li>
+                                </ul> 
+                            </li>
+                        </ul>
+                        <a href="../../resources/documents/manual_citas_clinica.pdf" target="_blank" title="Descargar">Ver documento</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="registrarCita"></a><h6 class="text-uppercase"><span style="font-weight: bold;">Formas de registrar una cita</span></h6>
+                        <p>Para registrar una cita acceda a través del menú Agenda → Nueva Cita.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/01_manual_cita/clinica/01.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="comoRegistrar"></a><h6 class="text-uppercase"><strong>¿Cómo registrar una cita?</strong></h6>
+                        <p>Para registrar una cita siga los siguientes pasos: </p>
+                        <ol>
+                            <li>Seleccione el paciente al cual se le registrara la cita.</li>
+                            <li>Seleccione la sucursal a la que desea asistir.</li>
+                            <li>Seleccione al médico disponible.</li>
+                            <li>Indique la fecha en la que desea reservar su cita.</li>
+                            <li>Se le desplegara los diferentes horarios disponibles para reservar su cita, seleccione el que mas le convenga.</li>
+                            <li>Modifique los campos pertinentes.</li>
+                            <li>De clic en guardar. <br/>
+                            <br/>
+                            <img src="#{request.contextPath}/images/manual/01_manual_cita/clinica/02.png" class="img-responsive img-rounded"> </img>
+                            </li>
+                        </ol>
+                        <p>Tenga en cuenta que:</p>
+                        <ul>
+                            <li>Puede colocar un motivo por la cual desea reservar la cita, este apartado es opcional, y si lo deja en blanco no tendrá ningún problema, se recomienda poner un motivo corto  y sencillo.</li>
+                            <li>Si no le aparecen horarios disponibles puede ocurrir dos cosas, que el día y en la sucursal seleccionada se encuentren todos los horarios ocupados o que no tenga ninguna sucursal selecciona.</li>
+                            <li>Todos los campos en color gris, no puede editarlos, estos se usan como una confirmación para asegurarse que sus datos son los correctos.</li>
+                        </ul>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="confirmadasCita"></a>
+                        <h6 class="text-uppercase"><strong>Listado de citas confirmadas</strong></h6>
+                        <p>Muestra el listado de citas confirmadas en la clínica.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/01_manual_cita/clinica/03.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Seleccionable de sucursales.</li>
+                            <li>Tabla con el historio de citas, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                            <li>Opciones para cada registro, en ellas se encuentra la de consultar, editar y eliminar.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                         <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="pendienteCita"></a>
+                        <h6 class="text-uppercase"><strong>Listado de citas pendiente</strong></h6>
+                        <p>Muestra el listado de citas pendientes que los pacientes han solicitado.</p>
+                        <br/>
+                        <img src="#{request.contextPath}/images/manual/01_manual_cita/clinica/04.png" class="img-responsive img-rounded"> </img>
+                        <br/>
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Seleccionable de sucursales.</li>
+                            <li>Tabla con el historio de citas, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                            <li>Opciones para cada registro, en ellas se encuentra la de consultar, editar y eliminar.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                        <!--Separador -->
+                        <hr style="border: solid 1px #D5D5D5"/>
+                        <a name="historicoCita"></a>
+                        <h6 class="text-uppercase"><strong>Histórico de citas</strong></h6>
+                        <p>El histórico de citas, es un registro de todas las citas que la Clinica Smiling a realizado.</p>
+                        <p>En el podrá ordenar las citas de diferentes maneras como: la fecha, el médico, el estado, entre otros. También podrá consultar de forma especifica una cita haciendo clic en la lupa. </p>
+                        
+                        <img src="#{request.contextPath}/images/manual/01_manual_cita/clinica/05.png" class="img-responsive img-rounded"> </img>
+                        
+                        <p>Elementos principales de la pantalla:</p>
+                        <ol>
+                            <li>Seleccionable de sucursales.</li>
+                            <li>Tabla con el historio de citas, en los títulos de cada columna se puede ordenar de forma ascendente o descendente, cabe destacar que solo puede ordenar una a la vez, en la parte superior de la tabla se encuentra un buscador general.</li>
+                            <li>Descripción corta de las diferentes iconos, algunos de ellos al hacer clic puede realizar una acción.</li>
+                            <li>Direcciona a la ayuda de la pantalla.</li>
+                        </ol>
+                        <a href="#indice" class="btn btn-default btn-expediente-cancelar" title="Regresar al Indice">Regresar</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0">
+                    </div>
+                </div>
+                <br/>
+
+            </p:panel>
+            <p:spacer height="50"/>
+        </ui:define>
+    </ui:composition>
+</html>

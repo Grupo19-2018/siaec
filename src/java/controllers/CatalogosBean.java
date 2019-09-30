@@ -204,7 +204,7 @@ public class CatalogosBean implements Serializable {
     }
 
     public List<Roles> todosRolesDisponibles() {
-        return getRolesFacade().findAll();
+        return getRolesFacade().rolesDisponibles(Boolean.TRUE);
     }
 
     public List<Submenus> todosSubmenusDisponibles() {

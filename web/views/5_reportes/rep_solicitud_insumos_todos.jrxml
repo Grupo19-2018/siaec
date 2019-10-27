@@ -31,7 +31,7 @@ ORDER BY insumo_nombre ASC, clinica_id ASC;]]>
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="11"/>
 				</textElement>
-				<text><![CDATA[SOLICITUD DE INSUMOS MÉDICOS]]></text>
+				<text><![CDATA[PEDIDO DE INSUMOS MÉDICOS]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="65" width="570" height="1" forecolor="#808080" uuid="117600ff-4f06-4081-9ac7-8f2ad5db9610"/>

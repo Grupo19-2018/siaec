@@ -39,6 +39,7 @@ public class UsuarioBean implements Serializable {
 //****************************************************************************//
 //                                   Métodos                                  //
 //****************************************************************************//
+    
     //Método Get para obtener datos de entidad Usuarios
     public UsuariosFacade getUsuariosFacade() {
         return usuariosFacade;
@@ -46,19 +47,15 @@ public class UsuarioBean implements Serializable {
 
     //Método que define la acción por usuario logueado, direciona a página de inicio según usuario.
     public void iniciarSesion() {
-        System.out.println("Usuario: " + usuario);
         usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
 
         if (usuarioLogueado != null) {
             appSession.setUsuario(usuarioLogueado);
-
         }
 
         String accion = null;
         try {
             String rol = appSession.getUsuario().getRolId().getRolNombre();
-            System.out.println("Paso 2.");
-            System.out.println("Rol: " + rol);
             if (rol != null) {
                 refrescaPagina("/dashboard.xhtml");
             }
@@ -69,16 +66,12 @@ public class UsuarioBean implements Serializable {
 
     //Método que retorna el rol (perfil) del usuario logueado.
     private String postLogin() {
-        System.out.println("Entra a postLogin.");
         String rol = null;
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name = user.getUsername(); //obtenemos el usuario logueado    
         //Guardar el nombre de la session del usuario
         try {
-            System.out.println("Antes de la consulta.");
             Usuarios usuario = getUsuariosFacade().traeUsuarioLogueado(name);
-            System.out.println("Despues de la consulta.");
-            System.out.println("Usuario autenticado: " + usuario.getUsuarioUsuario());
             appSession.setUsuario(usuario);
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -115,7 +108,6 @@ public class UsuarioBean implements Serializable {
     }
 
     public void verificaAcceso() {
-        System.out.println("Entra al método del usuario.");
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -134,11 +126,9 @@ public class UsuarioBean implements Serializable {
 
     }
 
-//Metodo para validar el acceso al dashbaoard
-//Usado en : dashboard.xhtml
-//Estado: prueba.
+    //Metodo para validar el acceso al dashbaoard
+    //Usado en : dashboard.xhtml
     public void dashboardAcceso() {
-        System.out.println("Entra al método del dashboardAcceso.");
         try {
             FacesContext context = FacesContext.getCurrentInstance();
             HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -154,6 +144,7 @@ public class UsuarioBean implements Serializable {
 //****************************************************************************//
 //                      Métodos GET y SET para variables                      //
 //****************************************************************************//
+    
     public String getUsuario() {
         return usuario;
     }

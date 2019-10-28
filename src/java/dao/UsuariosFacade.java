@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import entities.Usuarios;
@@ -12,10 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Stateless
 public class UsuariosFacade extends AbstractFacade<Usuarios> {
 
@@ -42,7 +33,6 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> {
     
     //Lista de usuarios, para validar si existe el usuario 
     //Usasdo en: metodo guardarPaciente() en expedienteBean
-    //Esperaria almenos 1 si hay mas, es otro degenere
     public List<Usuarios> usuariosSimiliares(String us){
      return getEntityManager().createNamedQuery("Usuarios.findByUsuarioUsuario").setParameter("usuarioUsuario", us).getResultList();
     }

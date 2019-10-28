@@ -56,7 +56,6 @@
                                     <p:inputText id="correo" value="#{citasBean.correo}" style="width: 100%; background:#D8D8D8;" readonly="true"/>
                                 </div>
 
-
                                 <div class="col-md-6 col-sm-6">
                                     <h6><b>Sucursal*</b></h6>
                                     <p:selectOneMenu id="clinica2" value="#{citasBean.clinicaSeleccionada}" required="true"
@@ -84,7 +83,6 @@
                                     <p:message for="odontologos" />
                                 </div>
 
-
                                 <div class="col-md-12 col-sm-12">
                                     <h6><b>Motivo de cita</b></h6>
                                     <p:inputTextarea id="motivoCita" value="#{citasBean.citaNuevo.citaMotivo}" style="width: 100%"/>
@@ -102,7 +100,6 @@
                                             <p:ajax event="dateSelect" update="console2"/>
                                             <p:ajax update="horaDeCita" listener="#{citasBean.resetHorarioE()}"/>
                                         </p:calendar>
-
                                     </center>
 
                                 </div>
@@ -160,14 +157,7 @@
                     </div>
 
                 </p:panel>
-
-
-
-
-
-
             </h:form>
-
             <p:spacer height="50"/>
 
             <script type="text/javascript">

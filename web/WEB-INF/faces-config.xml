@@ -53,7 +53,14 @@
             <from-outcome>UsuariosConsultar</from-outcome>
             <to-view-id>/views/6_administracion/cat_usuarios_consultar.xhtml</to-view-id>
         </navigation-case>
-        
+        <navigation-case>
+            <from-outcome>RolEditar</from-outcome>
+            <to-view-id>/views/6_administracion/cat_roles_editar.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>RolConsultar</from-outcome>
+            <to-view-id>/views/6_administracion/cat_roles_consultar.xhtml</to-view-id>
+        </navigation-case>
                       
         <!-- Módulo Insumos -->
         <navigation-case>
@@ -116,6 +123,8 @@
             <from-outcome>RegistrarAsociar</from-outcome>
             <to-view-id>/views/2_expedientes/paciente_registrar.xhtml</to-view-id>
         </navigation-case>
+        
+        <!-- Módulo Citas -->
         <navigation-case>
             <from-outcome>RegistrarCita</from-outcome>
             <to-view-id>/views/1_citas/cita_paciente_nueva.xhtml</to-view-id>
@@ -131,10 +140,6 @@
         <navigation-case>
             <from-outcome>CitaEditar</from-outcome>
             <to-view-id>/views/1_citas/cita_clinica_editar.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>Dashboard</from-outcome>
-            <to-view-id>/dashboard.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>CitasListaAprobadas</from-outcome>
@@ -165,18 +170,14 @@
             <to-view-id>/views/1_citas/cita_clinica_paciente_usuario.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Dashboard</from-outcome>
+            <to-view-id>/dashboard.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>AgendaDoctor</from-outcome>
             <to-view-id>/views/1_citas/cita_clinica_agenda.xhtml</to-view-id>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>RolEditar</from-outcome>
-            <to-view-id>/views/6_administracion/cat_roles_editar.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>RolConsultar</from-outcome>
-            <to-view-id>/views/6_administracion/cat_roles_consultar.xhtml</to-view-id>
-        </navigation-case>
-        <!-- Ayuda Onliene -->
+        <!-- Ayuda -->
         <navigation-case>
             <from-outcome>AyudaGestionarUsuario</from-outcome>
             <to-view-id>/views/8_ayuda/ayuda_gestionarUsuario.xhtml</to-view-id>
@@ -187,4 +188,3 @@
         </navigation-case>
     </navigation-rule>
 </faces-config>
-

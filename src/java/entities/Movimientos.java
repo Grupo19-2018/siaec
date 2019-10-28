@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -22,10 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "movimientos")
 @NamedQueries({
@@ -46,7 +37,6 @@ public class Movimientos implements Serializable {
     @Basic(optional = false)
     @Column(name = "movimiento_id")
     private Integer movimientoId;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "movimiento_cantidad")
     private Double movimientoCantidad;
     @Column(name = "movimiento_tipo")
@@ -125,7 +115,6 @@ public class Movimientos implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Movimientos)) {
             return false;
         }

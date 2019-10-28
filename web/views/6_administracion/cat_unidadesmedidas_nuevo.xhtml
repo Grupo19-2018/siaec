@@ -29,7 +29,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-1">
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-10">
-                            <h6><b>Nombre *</b></h6>
+                            <h6><b>Nombre*</b></h6>
                             <p:inputText id="nombreunidadnuevo" value="#{catalogosBean.unidadMedidaNuevo.unidadmedidaNombre}" required="true" maxlength="50" style="width: 100%"
                                          validatorMessage="Nombre no válido." requiredMessage="Nombre es requerido.">
                                 <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü.]{3,50})*$"/>
@@ -46,7 +46,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-3 col-xs-1">
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-10">
-                            <h6><b>Abreviación *</b></h6>
+                            <h6><b>Abreviación*</b></h6>
                             <p:inputText id="abreviacionunidadnuevo" value="#{catalogosBean.unidadMedidaNuevo.unidadmedidaAbreviatura}" required="true" maxlength="10" style="width: 50%"
                                          validatorMessage="Abreviación no válida." requiredMessage="Abreviación es requerida.">
                                 <f:validateRegex pattern="^([a-zA-Z0-9 ÑÁÉÍÓÚÜñáéíóúü.]{1,10})*$"/>

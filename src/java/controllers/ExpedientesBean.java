@@ -224,7 +224,6 @@ public class ExpedientesBean implements Serializable {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         String relativePath = "/images/pacientes/";
         String ubicacion2 = ec.getRealPath(relativePath);
-        System.out.println("Dirección2: " + ubicacion2);
         return getPacientesFacade().findAll();
     }
 
@@ -1161,12 +1160,7 @@ public class ExpedientesBean implements Serializable {
             crearOdontograma(pacienteNuevo);
             direccionNuevo.setPacienteId(new Pacientes(pacienteNuevo.getPacienteId()));
             getDireccionesFacade().create(direccionNuevo);
-            /*Codigo agregado para guardar cuando se quiera anexar un usuario valido*/
-            //Valir la String que sea diferente de ""
-            //y valir que exista un usuario con ese tipo
             if (!"".equals(us) && !getUsuarioFacade().usuariosSimiliares(us).isEmpty() && citaUsuario >0) {
-                System.out.println("Entra para asociar usuario " + us);
-                //pacienteNuevo.setPacienteUsuarioUsuario(us);
                 citaSeleccionada = citasFacade.find(citaUsuario);
                 citaSeleccionada.setPacienteId(pacienteNuevo);
                 usuario = usuarioFacade.find(us);
@@ -1406,7 +1400,7 @@ public class ExpedientesBean implements Serializable {
                     }
                 }
             }
-            pacienteEditar.setPacienteUsuarioModificacion("Nombre de usuario");
+            pacienteEditar.setPacienteUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             pacienteEditar.setPacienteFechaModificacion(new Date());
             getPacientesFacade().edit(pacienteEditar);
             guardarBitacora("Editó datos de paciente (" + pacienteEditar.getPacientePrimerNombre() + " " + pacienteEditar.getPacientePrimerApellido() + ").");
@@ -1654,7 +1648,7 @@ public class ExpedientesBean implements Serializable {
             } else {
                 detalleConsultaNuevo.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
                 detalleConsultaNuevo.setDetalleconsultaFechaCreacion(fechaSistema);
-                detalleConsultaNuevo.setDetalleconsultaUsuarioCreacio("Nombre Usuario");
+                detalleConsultaNuevo.setDetalleconsultaUsuarioCreacio(appSession.getUsuario().getUsuarioUsuario());
                 getDetallesConsultasFacade().create(detalleConsultaNuevo);
                 guardarBitacora("Registró un tratamiento a paciente (" + pacienteEditar.getPacientePrimerNombre() + " " + pacienteEditar.getPacientePrimerApellido() + ").");
                 detalleConsultaNuevo = new DetallesConsultas();
@@ -1813,7 +1807,7 @@ public class ExpedientesBean implements Serializable {
             imagenNueva.setImagenNombre(getFile().getFileName());
             imagenNueva.setPacienteId(new Pacientes(pacienteEditar.getPacienteId()));
             imagenNueva.setImagenFechaCreacion(new Date());
-            imagenNueva.setImagenUsuarioCreacion("Nombre Usuario");
+            imagenNueva.setImagenUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             getImagenesFacade().create(imagenNueva);
             guardarBitacora("Registró una imagen a paciente (" + imagenNueva.getPacienteId().getPacientePrimerNombre() + " " + imagenNueva.getPacienteId().getPacientePrimerApellido() + ").");
             Thread.sleep(3000);
@@ -1884,15 +1878,9 @@ public class ExpedientesBean implements Serializable {
     }
 
     //Metodo para direccionar el darhboard del Medico a un expediente especifico
-    //Solo cargare el expediente en la variables correspondientes
-    //Editar
-    //Usado en: medico.xhtml
-    //Estado: En uso.
-    //Fecha: 06/febrero/2019
     public void dashboarExpedienteEditar(String usuarioUsuario) {
         try {
             pacienteEditar = getPacientesFacade().pacienteUsuario(usuarioUsuario).get(0);
-
         } catch (Exception e) {
             System.out.println("controllers.ExpedientesBean.dashboarExpedienteConsultar()");
             System.err.println(e);

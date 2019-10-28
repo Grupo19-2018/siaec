@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.context.RequestContext;
 
-/* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
 @ViewScoped
 public class PerfilBean implements Serializable {

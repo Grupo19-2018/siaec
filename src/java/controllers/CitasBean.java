@@ -108,7 +108,6 @@ public class CitasBean implements Serializable {
 //Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.
 //Usada en: cita_clinica_listado_aprobadas.xhtml
     public List<Citas> todasCitasConfirmadas() {
-        System.err.println("Todas citas " + clinicaSeleccionada);
         if (clinicaSeleccionada != 0) {
             return getCitasFacade().citasConfirmadas(clinicaSeleccionada);
         }
@@ -720,7 +719,6 @@ public class CitasBean implements Serializable {
 
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
     public void verificaAcceso(int pagina) {
-        //System.out.println("Entra al método del usuario.");
         boolean acceso = false;
         try {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -732,7 +730,6 @@ public class CitasBean implements Serializable {
             } else {
                 if (!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())) {
                     for (Submenus submenu : todosSubmenusDisponibles()) {
-                        //System.out.println("Submenu: " + submenu.getSumbenuNombre());
                         if (submenu.getSubmenuId() == pagina) {
                             acceso = true;
                         }
@@ -763,7 +760,6 @@ public class CitasBean implements Serializable {
             }
         }
         return s;
-
     }
 
     public void resetHorarioE() {
@@ -780,23 +776,17 @@ public class CitasBean implements Serializable {
     }
 
     public Boolean cumplenieroDia(Pacientes cumpleaniero) {
-        System.out.println("Entra al metodo ");
         
         if (cumpleaniero != null) {
-            System.out.println("Entra al metodo " + cumpleaniero.getPacientePrimerNombre());
             Calendar fecha = Calendar.getInstance();
             fecha.setTime(cumpleaniero.getPacienteFechaNacimiento());
             Calendar hoy = Calendar.getInstance();
-            System.out.println("Dia" + hoy.get(Calendar.DAY_OF_MONTH));
-            System.out.println("Dia" + fecha.get(Calendar.DAY_OF_MONTH));
             if ((fecha.get(Calendar.MONTH) == hoy.get(Calendar.MONTH))
                     && (fecha.get(Calendar.DAY_OF_MONTH) == hoy.get(Calendar.DAY_OF_MONTH))) {
-                System.out.println("return true");
                 return true; 
-                
             }
         }
-        System.out.println("return false");
         return false;
     }
+    
 }

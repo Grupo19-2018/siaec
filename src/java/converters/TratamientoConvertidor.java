@@ -12,7 +12,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.inject.Named;
 
-/* @author Equipo 19-2018 FIA-UES */
 @Named(value = "tratamientoConvertidor")
 @ManagedBean
 @ViewScoped

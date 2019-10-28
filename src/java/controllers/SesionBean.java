@@ -1,6 +1,5 @@
 package controllers;
 
-import com.sun.mail.smtp.SMTPAddressFailedException;
 import dao.BitacoraFacade;
 import dao.ConfiguracionesFacade;
 import dao.UsuariosFacade;
@@ -16,8 +15,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.PrimeFaces;
@@ -26,7 +23,6 @@ import util.CorreoBasico;
 import util.CorreoPlantilla;
 import util.Mensajes;
 
-/* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
 @ViewScoped
 public class SesionBean implements Serializable {
@@ -250,7 +246,6 @@ public class SesionBean implements Serializable {
 
     public void reenviarCodigo() {
         Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
-        System.out.println("Usuario " + usuarioLogueado);
         enviarCorreo(usuarioLogueado);
     }
 
@@ -276,6 +271,5 @@ public class SesionBean implements Serializable {
             msj.mensajeError("Mensaje no enviado, pruebe en otro momento.");
         }
     }
-    
     
 }

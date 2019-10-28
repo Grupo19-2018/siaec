@@ -46,6 +46,5 @@ public class SubMenusConvertidor implements Converter {
     public SubmenusFacade getSubMenuFacade() {
         return subMenuFacade;
     }
-
     
 }

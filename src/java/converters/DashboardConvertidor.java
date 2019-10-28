@@ -43,12 +43,8 @@ public class DashboardConvertidor implements Converter {
         return String.valueOf(((Dashboard) value).getDashboardId());
     }
 
-
     public DashboardFacade getDashboardFacade() {
         return dashboardFacade;
     }
-    
-    
-
     
 }

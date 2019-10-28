@@ -27,15 +27,10 @@ public class PrivilegiosConvertidor implements Converter, Serializable {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value.trim().equals("") || value.trim().equals("Seleccione uno...") || value.trim().equals("null")) {
-            //System.out.println("converters.ClinicaConvertidor.getAsObject() seleccione");
             return null;
         } else {
             try {
-                //System.out.println("Value " + value);
-                //System.out.println("Faces Contex" + context);
                 String[] tokens = value.split("pri");
-                //System.out.println("Token " + tokens[0]);
-                //System.out.println("Token " + tokens[1]);
                 Privilegios privilegio = getPrivilegiosFacade().privilegioPK(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[0]));
                 return privilegio;
             } catch (Exception e) {
@@ -48,11 +43,8 @@ public class PrivilegiosConvertidor implements Converter, Serializable {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (!(value instanceof Privilegios)) {
-            //System.out.println("converters.PrivilegiosConvertidor.getAsString()");
             return null;
         }
-        //System.out.println("IdPrivilegio " +((Privilegios) value).getPrivilegiosPK().getPrivilegioId());
-        //System.out.println("Submenu " +((Privilegios) value).getPrivilegiosPK().getSubmenuId());
         return String.valueOf(((Privilegios) value).getPrivilegiosPK().getSubmenuId() + "pri" + ((Privilegios) value).getPrivilegiosPK().getPrivilegioId());
     }
 

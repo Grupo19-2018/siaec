@@ -15,7 +15,7 @@
                 </f:metadata>
             </ui:define>
 
-            <div class="banda1"><b>HISTORICO DE CITAS</b></div>
+            <div class="banda1"><b>HISTÓRICO DE CITAS</b></div>
             <br/>
             <!-- Panel color blanco -->
             <h:form id="form" >
@@ -67,11 +67,9 @@
                                             </td>
                                             <td align="center">
                                                 #{citasBean.abreviatura(cita.medicoId.medicoSexo)} #{cita.medicoId.medicoPrimerNombre} #{cita.medicoId.medicoPrimerApellido}
-
                                             </td>
                                             <td align="center">
                                                 #{citasBean.estadoCitaPaciente(cita.citaEstado)}
-
                                             </td>
                                             <td align="center">
                                                 <h:link outcome="HistoricoConsultar" class="btn btn-default glyphicon glyphicon-search btn-sm btn-tabla-expediente2" title="Consultar">

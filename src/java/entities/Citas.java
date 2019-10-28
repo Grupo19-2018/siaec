@@ -17,10 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "citas")
 @NamedQueries({
@@ -49,36 +45,21 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.findByCitaAtendidaPorSucursal", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :idClinica AND c.citaEstado = :idEstado"),
     @NamedQuery(name = "Citas.programasFechaActual", query = "SELECT c FROM Citas c WHERE c.citaFecha >= :fecha_cita AND ( c.citaEstado = 1 OR c.citaEstado = 2) ORDER BY c.citaFecha ASC"),
 
-    //JPQL para conocer las citas reservadas por clinica o clinica-medico
-    //Actualizado: 12/febrero/2019
     @NamedQuery(name = "Citas.reservadasClinica", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinica_id AND c.citaFecha = :fecha_cita AND c.citaHora = :citaHora  AND ( c.citaEstado = 1 OR c.citaEstado = 2)"),
-    //Estado: Cambiando
     @NamedQuery(name = "Citas.reservadasClinicaMedico", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinica_id AND c.citaFecha = :fecha_cita AND c.citaHora = :citaHora  AND ( c.citaEstado = 1 OR c.citaEstado = 2) AND c.medicoId.medicoId = :medicoId"),
-    //Estado: Probando
-    //Fecha: 13/febrero/2019
     @NamedQuery(name = "Citas.reservadasClinicasMedico", query = "SELECT c FROM Citas c WHERE c.citaFecha = :fecha_cita AND c.citaHora = :citaHora  AND ( c.citaEstado = 1 OR c.citaEstado = 2) AND c.medicoId.medicoId = :medicoId"),
 
     @NamedQuery(name = "Citas.findByCitasReservadas", query = "SELECT c FROM Citas c WHERE c.citaEstado = 1"),
     @NamedQuery(name = "Citas.findCitaPorSucursalReport", query = "SELECT c FROM Citas c WHERE c.citaFechaCreacion between :fechainicio and :fechafin and c.clinicaId.clinicaId = :clinicaId AND c.citaEstado = :estadoId"),
 
     @NamedQuery(name = "Citas.citaDelDia", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha = :dia"),
-    //Estado: Usado
-    //Actualizado: 18/febrero/2019
-    //Agregando los estados 1 y 2
     @NamedQuery(name = "Citas.citaDelDiaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha = :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)"),
     @NamedQuery(name = "Citas.agendaMedico", query = "SELECT c FROM Citas c WHERE c.medicoId.medicoId = :medicoId AND c.citaFecha >= :dia AND ( c.citaEstado = 1 OR c.citaEstado = 2)"),
 
-    //JPQL para buscar las citas del dia confirmadas.
     @NamedQuery(name = "Citas.citaDelDiaConfirmadas", query = "SELECT c FROM Citas c WHERE c.citaFecha = :dia AND c.citaEstado = 2"),
-    //JPQL para buscar las citas del dia confirmadas por sucursal.
     @NamedQuery(name = "Citas.citaDelDiaConfirmadasSucursal", query = "SELECT c FROM Citas c WHERE c.citaFecha = :dia AND c.citaEstado = 2 AND c.clinicaId.clinicaId = :clinicaId"),
-    //JPQL para determinar las citas activas de los Paciente, Estados 1 y 2.
-    // Se debe de considerar un metodo para pasar una cita como expirada si el paciente, ni la clinica le cambia el estado a una cita activa. 
-    //El paciente solo puede tener una cita activa. 
-    //El paciente puede buscarce por el usuario o por su expediente 
     @NamedQuery(name = "Citas.citaUsuarioActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.usuarioUsuario.usuarioUsuario = :usuario AND c.citaFecha >= :fecha"),
     @NamedQuery(name = "Citas.citaExpedienteActiva", query = "SELECT c FROM Citas c WHERE (c.citaEstado = 1 OR c.citaEstado = 2) AND c.pacienteId.pacienteId = :pacienteId  AND c.citaFecha >= :fecha"),
-    //Named queries para comprbar las citas reservadas aprobadas
     @NamedQuery(name = "Citas.confirmadasPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha AND C.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),
     @NamedQuery(name = "Citas.confirmadas", query = "SELECT c FROM Citas c WHERE c.citaEstado =  2 AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
     
@@ -91,12 +72,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Citas.reservadasPendientesPorClinica", query = "SELECT c FROM Citas c WHERE c.citaEstado =  1 AND c.clinicaId.clinicaId = :clinica AND c.citaFecha >= :fecha ORDER BY c.citaFecha DESC"),
 
     //Namded query para conocer todas las citas del paciente por medio del usuario o correo
-    //Fecha: 09/mayo/2019
     @NamedQuery(name = "Citas.todasPorUsuario", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario ORDER BY c.citaFecha DESC"),
     @NamedQuery(name = "Citas.todasPorUsuarioExpediente", query = "SELECT c FROM Citas c WHERE c.usuarioUsuario.usuarioUsuario = :usuario OR c.pacienteId.pacienteId = :pacienteId ORDER BY c.citaFecha DESC"),
 
     //Named query para listar todas las citas por sucursal
-    //Fecha:11/febrero/2019
     @NamedQuery(name = "Citas.historicoPorClinica", query = "SELECT c FROM Citas c WHERE c.clinicaId.clinicaId = :clinica ORDER BY c.citaFecha DESC"),})
 public class Citas implements Serializable {
 
@@ -142,19 +121,13 @@ public class Citas implements Serializable {
     @ManyToOne(optional = false)
     private Clinicas clinicaId;
 
-    //Agregado de forma manual 
     @Column(name = "cita_ensala")
     private Boolean citaEnsala;
 
     @JoinColumn(name = "paciente_id", referencedColumnName = "paciente_id")
     @ManyToOne
     private Pacientes pacienteId;
-    //@JoinColumn(name = "usuario_usuario", referencedColumnName = "usuario_usuario")
-    //@ManyToOne
-    //private Usuarios usuarioUsuario;
-    //@Column(name = "paciente_id")
-    //private Integer pacienteId;
-
+    
     public Boolean getCitaEnsala() {
         return citaEnsala;
     }
@@ -291,8 +264,7 @@ public class Citas implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Citas)) {
+            if (!(object instanceof Citas)) {
             return false;
         }
         Citas other = (Citas) object;

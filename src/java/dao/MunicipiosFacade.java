@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import entities.Municipios;
@@ -11,10 +6,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Stateless
 public class MunicipiosFacade extends AbstractFacade<Municipios> {
 
@@ -35,11 +26,9 @@ public class MunicipiosFacade extends AbstractFacade<Municipios> {
     }
     
     public Municipios MunicipioDePaciente(Integer municipioId) {
-        //http://alejandroayala.solmedia.ec/?p=947
         List <Municipios> results = getEntityManager().createNamedQuery("Municipios.findByMunicipioId").setParameter("municipioId", municipioId).getResultList();
         Municipios foundEntity = null;
         if (!results.isEmpty()) {
-        // ignores multiple results
             foundEntity = results.get(0);
         }
         return foundEntity;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -24,10 +19,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "usuarios")
 @NamedQueries({
@@ -36,8 +27,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Usuarios.findByUsuarioClinicas", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId != 5"),
     @NamedQuery(name = "Usuarios.findByUsuarioPacientes", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId = 5"),
     @NamedQuery(name = "Usuarios.findByUsuarioActivos", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE'"),
-    //@NamedQuery(name = "Usuarios.findByUsuarioNombre", query = "SELECT u FROM Usuarios u WHERE u.usuarioNombre = :usuarioNombre"),
-    //@NamedQuery(name = "Usuarios.findByUsuarioApellido", query = "SELECT u FROM Usuarios u WHERE u.usuarioApellido = :usuarioApellido"),
     @NamedQuery(name = "Usuarios.findByUsuarioCorreo", query = "SELECT u FROM Usuarios u WHERE u.usuarioCorreo = :usuarioCorreo"),
     @NamedQuery(name = "Usuarios.findByUsuarioTelefono", query = "SELECT u FROM Usuarios u WHERE u.usuarioTelefono = :usuarioTelefono"),
     @NamedQuery(name = "Usuarios.findByUsuarioContrasenia", query = "SELECT u FROM Usuarios u WHERE u.usuarioContrasenia = :usuarioContrasenia"),
@@ -80,12 +69,6 @@ public class Usuarios implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "usuario_usuario")
     private String usuarioUsuario;
-    /*@Size(max = 50)
-    @Column(name = "usuario_nombre")
-    private String usuarioNombre;
-    @Size(max = 50)
-    @Column(name = "usuario_apellido")
-    private String usuarioApellido;*/
     @Size(max = 50)
     @Column(name = "usuario_correo")
     private String usuarioCorreo;
@@ -133,23 +116,6 @@ public class Usuarios implements Serializable {
     public void setUsuarioUsuario(String usuarioUsuario) {
         this.usuarioUsuario = usuarioUsuario;
     }
-
-    /*
-    public String getUsuarioNombre() {
-        return usuarioNombre;
-    }
-
-    public void setUsuarioNombre(String usuarioNombre) {
-        this.usuarioNombre = usuarioNombre;
-    }
-
-    public String getUsuarioApellido() {
-        return usuarioApellido;
-    }
-
-    public void setUsuarioApellido(String usuarioApellido) {
-        this.usuarioApellido = usuarioApellido;
-    }*/
 
     public String getUsuarioCorreo() {
         return usuarioCorreo;
@@ -256,7 +222,6 @@ public class Usuarios implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Usuarios)) {
             return false;
         }

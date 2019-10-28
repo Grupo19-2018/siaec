@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -23,10 +18,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "promociones")
 @NamedQueries({
@@ -52,7 +43,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Promociones.promocionesEspeciales", query = "SELECT p FROM Promociones p WHERE :fecha_actual BETWEEN p.promocionInicio AND p.promocionFin AND p.promocionActiva=true AND p.promocionTipo= 1"),
     @NamedQuery(name = "Promociones.promocionesReinicioEspAndCump", query = "SELECT p FROM Promociones p WHERE :fecha_actual BETWEEN p.promocionInicio AND p.promocionFin AND p.promocionActiva=true AND p.promocionTipo= 1 AND p.promocionTipo= 2"),
 
-    //namedquery que busca las fechas existentes dentro del rango seleccionado, para validar reporte de promo demandadas
     @NamedQuery(name = "Promociones.findpromocionDemandaReport", query = "SELECT c FROM Consultas c WHERE c.consultaFechaCreacion between :fechainicio and :fechafin"), 
     @NamedQuery(name = "Promociones.findByPromocionUsuarioModificacion", query = "SELECT p FROM Promociones p WHERE p.promocionUsuarioModificacion = :promocionUsuarioModificacion")})
 public class Promociones implements Serializable {
@@ -263,7 +253,6 @@ public class Promociones implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Promociones)) {
             return false;
         }

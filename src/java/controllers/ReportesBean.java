@@ -1,6 +1,5 @@
 package controllers;
 
-import dao.BitacoraFacade;
 import dao.CitasFacade;
 import dao.ClinicasFacade;
 import dao.ConsultasFacade;
@@ -12,7 +11,6 @@ import dao.PacientesFacade;
 import dao.PromocionesFacade;
 import dao.TratamientosFacade;
 import dao.UsuariosFacade;
-import entities.Bitacora;
 import entities.Clinicas;
 import entities.Insumos;
 import entities.Medicos;

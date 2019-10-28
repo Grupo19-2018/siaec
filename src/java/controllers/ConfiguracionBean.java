@@ -150,15 +150,10 @@ public class ConfiguracionBean implements Serializable {
     //Método para guardar en la Bitacora.
     public void guardarBitacora(String transaccion) {
         try {
-            System.out.println("entra al metodo bitacora");
             bitacoraNueva.setBitacoraFechaHora(new Date());
-            System.out.println("Fecha Actual: " + fechaActual);
             bitacoraNueva.setBitacoraUsuario(appSession.getUsuario().getUsuarioUsuario());
-            System.out.println("Usuario: " + appSession.getUsuario().getUsuarioUsuario());
             bitacoraNueva.setBitacoraTransaccion(transaccion);
-            System.out.println("Transaccion: " + transaccion);
             getBitacoraFacade().create(bitacoraNueva);
-            System.out.println("Bitacora Guaradda");
         } catch (Exception e) {
             mensajeError("Se detuvo el proceso en el método: guardarBitacora.");
         }

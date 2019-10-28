@@ -1,6 +1,5 @@
 package util;
 
-
 import com.sun.mail.smtp.SMTPAddressFailedException;
 import entities.Configuraciones;
 import java.io.File;
@@ -22,8 +21,7 @@ import javax.mail.internet.MimeMultipart;
 public class CorreoBasico {
 
     private static Properties props;
-    private Configuraciones configuracion;
-
+    
     public CorreoBasico(Configuraciones c) {
         //System.setSecurityManager(null);
         props = new Properties();
@@ -39,7 +37,6 @@ public class CorreoBasico {
 
         switch (c.getConfiguracionCorreoEncryptacion()) {
             case "sin":
-                System.out.println("correo.correo.configuracion()");
                 break;
             case "tls":
                 props.setProperty("mail.smtp.starttls.enable", "true");
@@ -51,9 +48,6 @@ public class CorreoBasico {
         }
     }
     
-    
-    public static  void metodocualquiera(){}
-
     public void sendMail(String destinatario, String asunto, String cuerpo) throws MessagingException {
 
         //Session session = Session.getDefaultInstance(props);
@@ -80,8 +74,6 @@ public class CorreoBasico {
         }
 
     }
-    
-    
     
     public void sendMailHTML(String destinatarios, String asuntos, String cuerpoHTML) throws SMTPAddressFailedException, SendFailedException, MessagingException, Exception {
         //Session session = Session.getDefaultInstance(props);
@@ -119,12 +111,7 @@ public class CorreoBasico {
     }
     
     public void sendMailHTML(String destinatarios, String asuntos, String cuerpoHTML, List<File> files) throws IOException {
-        
-        //Session session = Session.getDefaultInstance(props);
-        System.out.println("correo.Correo2.sendMailHTML() con archivos");
-        System.out.println("tamanyo " + files.size());
-        
-        
+                
         Session session = Session.getInstance(props, null);
         MimeMessage message = new MimeMessage(session);
 
@@ -136,10 +123,8 @@ public class CorreoBasico {
             BodyPart bodyMail = new MimeBodyPart();
             bodyMail.setContent(cuerpoHTML, "text/html");
             parts.addBodyPart(bodyMail);
-            System.out.println("antes de entrara a archivos ");
+            
             for (File file : files) {
-                System.out.println("Hola entras");
-                System.out.println("correo.Correo2.sendMailHTML()");
                 MimeBodyPart attached = new MimeBodyPart();
                 attached.attachFile(file);
                 parts.addBodyPart(attached);
@@ -153,7 +138,6 @@ public class CorreoBasico {
             transport.close();
         } catch (MessagingException me) {
             me.printStackTrace(); //Si se produce error
-
         }
     }
 

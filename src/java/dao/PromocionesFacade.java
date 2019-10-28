@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import entities.Promociones;
@@ -12,10 +7,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Stateless
 public class PromocionesFacade extends AbstractFacade<Promociones> {
 
@@ -41,7 +32,7 @@ public class PromocionesFacade extends AbstractFacade<Promociones> {
          return getEntityManager().createNamedQuery("Promociones.findByPromocionEstadoActiva").setParameter("promocionEstado", promocionEstado).setParameter("fechaActual", fechaActual).getResultList();
     }
     
-    //Para correos Erick
+    //Para correos
     public List<Promociones> promocionesFechaMes() {
         return getEntityManager().createNamedQuery("Promociones.cumpleanyosMes").setParameter("fecha_actual", new Date()).getResultList();
     }
@@ -54,7 +45,7 @@ public class PromocionesFacade extends AbstractFacade<Promociones> {
         return getEntityManager().createNamedQuery("Promociones.promocionesReinicioEspAndCump").setParameter("fecha_actual", new Date()).getResultList();
     }
 
-    //LISTA DE PROMOCIONES ENTRE DOS FECHAS EXISTENTES, PARA VALIDACION DE PROMOS DEMANDADAS
+    //Lista de promociones por rango de fechas, para validar reporte vacio
      public List<Promociones> findPromocionReport(Date fechainicio, Date fechafin){
         return getEntityManager().createNamedQuery("Promociones.findpromocionDemandaReport").setParameter("fechainicio", fechainicio).setParameter("fechafin", fechafin).getResultList();
     }

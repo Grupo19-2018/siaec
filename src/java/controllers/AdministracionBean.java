@@ -344,7 +344,6 @@ public class AdministracionBean implements Serializable {
     }
 
     public void setCitasPendientes(List<Privilegios> citasPendientes) {
-        System.out.println("Entra a set citas pendiente");
         this.citasPendientes = citasPendientes;
     }
 
@@ -670,9 +669,7 @@ public class AdministracionBean implements Serializable {
     //Establece los valores del rol a la pantalla
     //Usado en: cat_roles_listado.xhtml
     public void establecerPrivilegiosRolEditar() {
-        System.out.println("veamos que tiene" + rolEditar);
         rolEditar = getRolesFacade().find(rol_id);
-        System.out.println("veamos que tiene tomar el id" + rolEditar);
         if (rolEditar != null) {
             limpiandoPantallas();
             limpiandoPrivilegios();
@@ -842,7 +839,6 @@ public class AdministracionBean implements Serializable {
     }
 
     //Metodo usado en configuracion_roles_nuevo.xhtml
-    //Estado: Prueba
     //Nota: Puede ser sustituido si se pasa a un controlador view.
     public void limpiandoNuevoRol() {
         //Limpiando SubMenus
@@ -858,8 +854,6 @@ public class AdministracionBean implements Serializable {
         rolNuevo = new Roles();
     }
 
-    //Fecha: 20/febrero/2019
-    //Estado : Prueba
     //Esado en: AdministracionBean.java
     //Limpiar la lista de pantallas
     public void limpiandoPantallas() {
@@ -873,10 +867,7 @@ public class AdministracionBean implements Serializable {
         submenu8.clear();
     }
 
-    //Fecha: 20/febrero/2019
-    //Estado: Prueba
     //Limpiar los privilegios 
-    //Usado en: ?
     public void limpiandoPrivilegios() {
         //Menu Agenda
         citasAprobadas.clear();
@@ -895,7 +886,6 @@ public class AdministracionBean implements Serializable {
     }
 
     //Objetivo Limpiando los Booleanos de los privilegios
-    //Estado: Prueba;
     public void limpiarPrivilegiosBooleanos() {
         //Menu: Agenda
         sCitasAprobadas = false;
@@ -917,9 +907,6 @@ public class AdministracionBean implements Serializable {
     //Metodo usado en cat_roles_editar.xhtml
     public void editarRol() {
         try {
-            System.out.println("Este rol por " + rol_id);
-            System.out.println("Rol al iniciar" + rolEditar);
-            System.out.println("Rol al iniciar ID" + rolEditar.getRolId());
             List<Submenus> temp = new ArrayList<>();
             List<Menus> tempMenu = new ArrayList<>();
             List<Privilegios> tempPrivilegios = new ArrayList<>();
@@ -929,16 +916,12 @@ public class AdministracionBean implements Serializable {
                 for (Submenus list : submenu1) {
                     switch (list.getSubmenuId()) {
                         case 2: //Pantalla: Citas Aprobadas
-                            System.out.println("Citas pendientes entradno antes del for");
                             for (Privilegios p : citasAprobadas) {
-                                System.out.println("Citas aprobadas entrando");
                                 tempPrivilegios.add(p);
                             }
                             break;
                         case 3: //Pantalla: Cita Pendiente
-                            System.out.println("Citas pendientes entradno antes del for");
                             for (Privilegios pri : citasPendientes) {
-                                System.out.println("Citas pendientes entradno");
                                 tempPrivilegios.add(pri);
                             }
                             break;
@@ -1046,17 +1029,7 @@ public class AdministracionBean implements Serializable {
                 }
                 tempMenu.add(getMenusFacades().find(submenu8.get(0).getMenuId().getMenuId()));
             }
-            /*rolNuevo.setMenusList(tempMenu);
-            rolNuevo.setSubmenusList(temp);
-            rolNuevo.setPrivilegiosList(tempPrivilegios);
-            rolNuevo.setRolFechaCreacion(new Date());
-
-            if (getAppSession().getUsuario() != null) {
-                rolNuevo.setRolUsuarioCreacion(getAppSession().getUsuario().getUsuarioUsuario());
-            }
-            getRolesFacade().create(rolNuevo);*/
             rolEditar.getPrivilegiosList().clear();
-            //rolEditar.setPrivilegiosList(null);
             rolEditar.getSubmenusList().clear();
             rolEditar.getMenusList().clear();
             rolEditar.setMenusList(tempMenu);
@@ -1106,4 +1079,5 @@ public class AdministracionBean implements Serializable {
     public Boolean rolesFijos(Roles rol) {
         return !(rol.getRolId() >= 1 && rol.getRolId() <= 5);
     }
+    
 }

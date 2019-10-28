@@ -38,7 +38,6 @@ import org.primefaces.model.UploadedFile;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 import util.CorreoBasico;
 
-/* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
 @ViewScoped
 public class HomeBean implements Serializable {
@@ -322,7 +321,6 @@ public class HomeBean implements Serializable {
     
     public void reenviarCodigo(String usuario){
         Usuarios usuarioLogueado = getUsuariosFacade().traeUsuarioLogueado(usuario);
-        System.out.println("Usuario " + usuarioLogueado);
         enviarCorreo(usuarioLogueado);
     } 
     

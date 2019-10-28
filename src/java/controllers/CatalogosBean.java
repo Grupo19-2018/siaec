@@ -49,7 +49,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.primefaces.context.RequestContext;
 
-/* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
 @ViewScoped
 public class CatalogosBean implements Serializable {
@@ -982,10 +981,6 @@ public class CatalogosBean implements Serializable {
                 medicoSeleccionado.setMedicoUsuario(usuarioNuevo.getUsuarioUsuario());
                 getMedicosFacade().edit(medicoSeleccionado);
             }
-            //if(rolId == 5){
-            //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
-            //  getPacientesFacade().edit(pacienteSeleccionado);
-            //}
             guardarBitacora("Registró un usuario (" + usuarioNuevo.getUsuarioUsuario() + ").");
             usuarioNuevo = new Usuarios();
             medicoSeleccionado = new Medicos();
@@ -1057,8 +1052,6 @@ public class CatalogosBean implements Serializable {
     public void cargarSucursalEditar() {
         sucursalEditar = getClinicasFacade().find(sucursalId);
         this.direccionEditar = getDireccionesFacade().direccionPorSucursal(sucursalEditar.getClinicaId());
-        //this.departamentoId = direccionEditar.getMunicipioId().getDepartamentoId().getDepartamentoId();
-        //this.municipioId = direccionEditar.getMunicipioId().getMunicipioId();
     }
 
     //Método para cargar médico seleccionado para consultar. (cat_medicos_consultar.xhtml)
@@ -1110,7 +1103,6 @@ public class CatalogosBean implements Serializable {
 
     //Método para verificar si el usuario tiene acceso a la página consultada. (Todas las páginas)
     public void verificaAcceso(int pagina) {
-        //System.out.println("Entra al método del usuario.");
         boolean acceso = false;
         try {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -1121,7 +1113,6 @@ public class CatalogosBean implements Serializable {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(contextPath + "/login.xhtml");
             } else if (!(appSession.getUsuario().getRolId().getSubmenusList().isEmpty())) {
                 for (Submenus submenu : todosSubmenusDisponibles()) {
-                    //System.out.println("Submenu: " + submenu.getSumbenuNombre());
                     if (submenu.getSubmenuId() == pagina) {
                         acceso = true;
                     }
@@ -1221,12 +1212,8 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
             usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
-            System.out.println("controllers.CatalogosBean.guardarUsuarioSugerencia() rolId" + rolId);
             if (rolId == 5) {
-                //Pacientes p = getPacientesFacade().find(pacienteId);
-                //pacienteSeleccionado.setPacienteUsuarioUsuario(usuarioNuevo.getUsuarioUsuario());
                 usuarioNuevo.setPacienteId(pacienteSeleccionado);
-                //getPacientesFacade().edit(pacienteSeleccionado);
             }
             getUsuariosFacade().create(usuarioNuevo);
 

@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.ejb.Stateless;
 import util.CorreoBasico;
 import util.CorreoPlantilla;
@@ -152,10 +150,10 @@ public class tareasProgramadasBean {
                                         String body = correoP.plantillaN2(cuerpo);
                                         if (promocionesEnviar.size() == 1) {
                                             enviar.sendMailHTML(p.getPacienteCorreo(), promocionesEnviar.get(0).getPromocionNombre(), body);
-                                            System.out.println("se envio para uno");
+                                            //System.out.println("se envio para uno");
                                         } else {
                                             enviar.sendMailHTML(p.getPacienteCorreo(), "Aprovecha estas promociones especiales para ti!", body);
-                                            System.out.println("se envio para muchos");
+                                            //System.out.println("se envio para muchos");
                                         }
                                     }//Fin de if enviadosDia <= limiteDia
                                 }//Fin de for paciente
@@ -178,7 +176,7 @@ public class tareasProgramadasBean {
     @Schedule(dayOfMonth = "*", hour = "22", minute = "50", persistent = false)
     public void reiniciarMensajesDia() {
         try {
-            System.out.println("reiniciando hora" + new Date());
+            //System.out.println("reiniciando hora" + new Date());
             Configuraciones correoConfiguracion = getConfiguracionFacade().find(1);
             if (correoConfiguracion.getConfiguracionCorreoActivo() && !correoConfiguracion.getConfiguracionCorreoIlimitada()) {
                 correoConfiguracion.setConfiguracionCorreoEnviadoDia(0);
@@ -193,7 +191,7 @@ public class tareasProgramadasBean {
     @Schedule(dayOfMonth = "Last", hour = "23", minute = "0", persistent = false)
     public void reiniciarMensajesMes() {
         try {
-            System.out.println("reiniciando mes " + new Date());
+            //System.out.println("reiniciando mes " + new Date());
             Configuraciones correoConfiguracion = getConfiguracionFacade().find(1);
             if (correoConfiguracion.getConfiguracionCorreoActivo() && !correoConfiguracion.getConfiguracionCorreoIlimitada()) {
                 correoConfiguracion.setConfiguracionCorreoEnviadoMes(0);

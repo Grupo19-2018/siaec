@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -22,10 +17,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "detalles_consultas")
 @NamedQueries({
@@ -42,13 +33,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DetallesConsultas.findTratamientosMasDemandadosReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId is not null AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
     @NamedQuery(name = "DetallesConsultas.findByTratamientosPorPacienteReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.pacienteId.pacienteId = :pacienteId AND d.tratamientoId.tratamientoId IS NOT NULL"),
     @NamedQuery(name = "DetallesConsultas.findByPacientesPorTratamientoReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId = :tratamientoId AND d.pacienteId.pacienteId IS NOT NULL AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
-    @NamedQuery(name = "DetallesConsultas.findByPacientesPorTodosTratamientoReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId IS NOT NULL AND d.pacienteId.pacienteId IS NOT NULL AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin"),
-    
-    /*@NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaOclusal", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaOclusal != 0 ORDER BY d.detalleconsultaId ASC"),
-    @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaVestibular", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaVestibular != 0 ORDER BY d.detalleconsultaId ASC"),
-    @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaPalatina", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaPalatina != 0 ORDER BY d.detalleconsultaId ASC"),
-    @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaMesial", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaMesial != 0 ORDER BY d.detalleconsultaId ASC"),
-    @NamedQuery(name = "DetallesConsultas.findByDetalleconsultaPorPiezaDistal", query = "SELECT d FROM DetallesConsultas d WHERE d.consultaId.pacienteId.pacienteId = :pacienteId and d.piezaId.piezaCodigo = :pieza and d.detalleconsultaDistal != 0 ORDER BY d.detalleconsultaId ASC")*/})
+    @NamedQuery(name = "DetallesConsultas.findByPacientesPorTodosTratamientoReporte", query = "SELECT d FROM DetallesConsultas d WHERE d.tratamientoId.tratamientoId IS NOT NULL AND d.pacienteId.pacienteId IS NOT NULL AND d.detalleconsultaFechaCreacion BETWEEN :fechaInicio AND :fechaFin")})
 public class DetallesConsultas implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -63,7 +48,6 @@ public class DetallesConsultas implements Serializable {
     @Size(max = 1000)
     @Column(name = "detalleconsulta_tratamiento")
     private String detalleconsultaTratamiento;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "detalleconsulta_cargo")
     private Double detalleconsultaCargo;
     @Column(name = "detalleconsulta_abono")
@@ -169,7 +153,6 @@ public class DetallesConsultas implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof DetallesConsultas)) {
             return false;
         }

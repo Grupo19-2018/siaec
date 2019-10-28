@@ -26,7 +26,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import static org.springframework.util.FileCopyUtils.BUFFER_SIZE;
 
-/* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
 @ViewScoped
 public class PromocionesBean implements Serializable {
@@ -184,15 +183,9 @@ public class PromocionesBean implements Serializable {
     //Método para verificar si ya existe el archivo a subir (promocion_nuevo.xhtml).
     public void existeArchivoNuevo() {
         try {
-            System.out.println("Entra a este metodo");
             ExternalContext dir = FacesContext.getCurrentInstance().getExternalContext();
             String pathRelativo = "/images/promociones/";
             String directorio = dir.getRealPath(pathRelativo);
-            //FacesContext cty = FacesContext.getCurrentInstance();
-            //String directorio = cty.getExternalContext().getInitParameter("directory_path_promotions");
-            System.out.println("directorio" + directorio);
-            System.out.println("Archivo " + getFile().getFileName());
-            System.out.println("Direccion de archivo " + getFile().getContentType());
             File archivo1 = new File(directorio + "/" + getFile().getFileName() + "/");
             if (archivo1.exists()) {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje", "El archivo seleccionado ya existe para una promoción.");
@@ -216,7 +209,7 @@ public class PromocionesBean implements Serializable {
                 }
             }
             promocionNuevo.setPromocionEstado(Boolean.TRUE);
-            promocionNuevo.setPromocionUsuarioCreacion("Nombre Usuario");
+            promocionNuevo.setPromocionUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             promocionNuevo.setPromocionFechaCreacion(new Date());
             promocionNuevo.setPromocionActiva(Boolean.TRUE);
             promocionNuevo.setPromocionCorreoLimitadoEspera(0);
@@ -274,8 +267,6 @@ public class PromocionesBean implements Serializable {
         ExternalContext dire = FacesContext.getCurrentInstance().getExternalContext();
         String pathRelativo = "/images/promociones/";
         String directorioArchivo = dire.getRealPath(pathRelativo);
-        //FacesContext ctx = FacesContext.getCurrentInstance();
-        //String directorioArchivo = ctx.getExternalContext().getInitParameter("directory_path_promotions");
         String nombreArchivo = getFile().getFileName();
         int punto = nombreArchivo.lastIndexOf(".");
         String extension = nombreArchivo.substring(punto + 1, nombreArchivo.length());
@@ -363,7 +354,6 @@ public class PromocionesBean implements Serializable {
     public void eliminarArchivo() throws FileNotFoundException {
         try {
             File archivoEliminar = new File(promocionEditar.getPromocionImagenUrl());
-            System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
                 System.out.println("El archivo existe.");
                 if (archivoEliminar.delete()) {
@@ -416,7 +406,7 @@ public class PromocionesBean implements Serializable {
     //Método para editar una Promoción (promocion_editar.xhtml)
     public void editarPromocion() {
         try {
-            promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
+            promocionEditar.setPromocionUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             promocionEditar.setPromocionFechaModificacion(new Date());
             getPromocionesFacade().edit(promocionEditar);
             guardarBitacora("Editó una promoción ("+promocionEditar.getPromocionNombre()+").");
@@ -432,24 +422,21 @@ public class PromocionesBean implements Serializable {
             File archivoEliminar = new File(promocionEditar.getPromocionImagenUrl());
             System.out.println("Documento a eliminar: " + archivoEliminar);
             if (archivoEliminar.exists()) {
-                System.out.println("El archivo existe.");
                 if (archivoEliminar.delete()) {
-                    System.out.println("El archivo se eliminó.");
                     promocionEditar.setPromocionImagenNombre("");
                     promocionEditar.setPromocionImagenUrl("");
                     promocionEditar.setPromocionEstado(Boolean.FALSE);
-                    promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
+                    promocionEditar.setPromocionUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
                     promocionEditar.setPromocionFechaModificacion(new Date());
                     getPromocionesFacade().edit(promocionEditar);
                     guardarBitacora("Eliminó una promoción ("+promocionEditar.getPromocionNombre()+").");
                     mensajeGuardado("La promoción se ha eliminado.");
                 }
             } else {
-                System.out.println("El archivo no existe.");
                 promocionEditar.setPromocionImagenNombre("");
                 promocionEditar.setPromocionImagenUrl("");
                 promocionEditar.setPromocionEstado(Boolean.FALSE);
-                promocionEditar.setPromocionUsuarioModificacion("Nombre Usuario");
+                promocionEditar.setPromocionUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
                 promocionEditar.setPromocionFechaModificacion(new Date());
                 getPromocionesFacade().edit(promocionEditar);
                 guardarBitacora("Eliminó una promoción ("+promocionEditar.getPromocionNombre()+").");

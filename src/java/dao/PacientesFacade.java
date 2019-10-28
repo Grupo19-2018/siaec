@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import entities.Pacientes;
@@ -13,10 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Stateless
 public class PacientesFacade extends AbstractFacade<Pacientes> {
 
@@ -81,10 +72,8 @@ public class PacientesFacade extends AbstractFacade<Pacientes> {
     }
     
         
-     //Metodo para buscar el usuario del paciente.
-    //Named query: Pacientes.usuarioUsuario
-    //Estado: Prueba, usado en Dashboard_Asistente, ExpedientesBean. 
-    //Fecha: 04/febrero/2019
+    //Metodo para buscar el usuario del paciente.
+    //Usado en: Dashboard_Asistente, ExpedientesBean. 
     public List<Pacientes> pacienteUsuario(String usuario){
         return getEntityManager().createNamedQuery("Pacientes.usuarioUsuario").setParameter("usuario", usuario).getResultList();
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package util;
 
 public class Horario {
@@ -16,7 +11,6 @@ public class Horario {
         this.estado = true;
     }
 
-    
     public Horario() {
         this.estado = true;
     }
@@ -44,8 +38,5 @@ public class Horario {
     public void setHora(String hora) {
         this.hora = hora;
     }
-    
-    
-    
-    
+
 }

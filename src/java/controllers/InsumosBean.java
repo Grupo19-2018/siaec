@@ -28,7 +28,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
 
-/* @author Equipo 19-2018 FIA-UES */
 @ManagedBean
 @ViewScoped
 public class InsumosBean implements Serializable {
@@ -306,7 +305,7 @@ public class InsumosBean implements Serializable {
                 }
             }
             insumoNuevo.setInsumoEstado(Boolean.TRUE);
-            insumoNuevo.setInsumoUsuarioCreacion("Nombre de usuario");
+            insumoNuevo.setInsumoUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             insumoNuevo.setInsumoFechaCreacion(new Date());
             getInsumosFacade().create(insumoNuevo);
             for (Clinicas clini : todasClinicasDisponibles()){
@@ -334,7 +333,7 @@ public class InsumosBean implements Serializable {
                     }
                 }
             }
-            insumoEditar.setInsumoUsuarioModificacion("Nombre de usuario");
+            insumoEditar.setInsumoUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             insumoEditar.setInsumoFechaModificacion(new Date());
             getInsumosFacade().edit(insumoEditar);
             guardarBitacora("Editó un insumo ("+insumoEditar.getInsumoNombre()+").");
@@ -348,7 +347,7 @@ public class InsumosBean implements Serializable {
     public void eliminarInsumo(){
         try{
             insumoEditar.setInsumoEstado(Boolean.FALSE);
-            insumoEditar.setInsumoUsuarioModificacion("Nombre de usuario");
+            insumoEditar.setInsumoUsuarioModificacion(appSession.getUsuario().getUsuarioUsuario());
             insumoEditar.setInsumoFechaModificacion(new Date());
             getInsumosFacade().edit(insumoEditar);
             guardarBitacora("Eliminó un insumo ("+insumoEditar.getInsumoNombre()+").");
@@ -407,7 +406,7 @@ public class InsumosBean implements Serializable {
             }
             getExistenciasFacade().edit(existenciaEditar);
             movimientoNuevo.setMovimientoFechaCreacion(new Date());
-            movimientoNuevo.setMovimientoUsuarioCreacion("Nombre Usuario");
+            movimientoNuevo.setMovimientoUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             movimientoNuevo.setExistenciaId(new Existencias(existenciaEditar.getExistenciaId()));
             getMovimientosFacade().create(movimientoNuevo);
             if(movimientoNuevo.getMovimientoTipo()){
@@ -496,7 +495,7 @@ public class InsumosBean implements Serializable {
             existenciaEditar.setExistenciaCantidad(cantidad + getMovimientoNuevo().getMovimientoCantidad());
             getExistenciasFacade().edit(existenciaEditar);
             movimientoNuevo.setMovimientoFechaCreacion(new Date());
-            movimientoNuevo.setMovimientoUsuarioCreacion("Nombre Usuario");
+            movimientoNuevo.setMovimientoUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             movimientoNuevo.setExistenciaId(new Existencias(existenciaEditar.getExistenciaId()));
             getMovimientosFacade().create(movimientoNuevo);
             movimientoNuevo = new Movimientos();

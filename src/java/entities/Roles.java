@@ -23,10 +23,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Fam. Gomez Aldana
- */
 @Entity
 @Table(name = "roles")
 @NamedQueries({
@@ -201,7 +197,6 @@ public class Roles implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Roles)) {
             return false;
         }
@@ -243,17 +238,9 @@ public class Roles implements Serializable {
         this.privilegiosList = privilegiosList;
     }
     
-    //Borrando comentarios, tener en cuenta que por cada privilegio se generan muchos comentarios. 
-    //Fecha: 11/febrero/2019
     public boolean privilegio(Integer accion){
-       // System.out.println("entities.Roles.privilegio() Entra");
-        //System.out.println("entrad" + rolId);
-        //System.out.println("cuanto hay " + privilegiosList.size());
         for (Privilegios privilegio : privilegiosList) {
-          //  System.out.println("que hya" + privilegio.getSubmenus().getSumbenuNombre());
             if(accion == privilegio.privilegiosPK.getPrivilegioId()){
-            //    System.out.println("SubMenu " + privilegio.getSubmenus().getSumbenuNombre() );
-             //   System.out.println("Accion" + privilegio.getPrivilegioAccion());
                 return true;
             }
         }

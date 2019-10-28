@@ -3,16 +3,11 @@ package util;
 import javax.faces.application.FacesMessage;
 import org.primefaces.context.RequestContext;
 
-/**
- *
- * @author SIAEC
- */
 public  class Mensajes {
 
     public Mensajes() {
     }
     
-    /*Cambiar metodos a una clase utilidad*/
     //Método para mostrar mensaje de guardado/actualizado.
     public void mensajeGuardado(String mensaje) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mensaje", mensaje);

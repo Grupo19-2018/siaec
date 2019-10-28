@@ -16,7 +16,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -58,9 +57,6 @@ public abstract class AbstractBaseReportBean {
             ReportUtil.exportReportAsHtml(jasperPrint, response.getWriter());
         } else {
             request.getSession().setAttribute(BaseHttpServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
-            if (imprimir) {
-                ReportUtil.guardarEImprimirPDF(jasperPrint, "informe.pdf");
-            }
         }
     }
 

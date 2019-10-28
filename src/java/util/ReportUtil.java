@@ -33,7 +33,6 @@ public class ReportUtil {
     private static void exportReport(JRAbstractExporter exporter, JasperPrint jasperPrint, PrintWriter out) throws JRException {
         exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
         exporter.setParameter(JRExporterParameter.OUTPUT_WRITER, out);
-
         exporter.exportReport();
     }
 
@@ -50,12 +49,4 @@ public class ReportUtil {
         JasperExportManager.exportReportToPdfStream(jasperPrint, output);
     }
 
-    public static void guardarEImprimirPDF(JasperPrint jasperPrint, String file) throws FileNotFoundException, JRException, IOException {
-        //URL del sistema operativo
-    	//C:\Users\Teo de Renderos\Downloads (esta debería ser)
-        String url = "C:/Users/Claudia de Campos/Downloads/" + file;
-        ReportUtil.exportReportAsPDFFile(jasperPrint, url);
-        //Ejecutamos el comando al sistema operativo
-        Runtime.getRuntime().exec("lp " + url);
-    }
 }

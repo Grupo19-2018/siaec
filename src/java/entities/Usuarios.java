@@ -24,9 +24,9 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
     @NamedQuery(name = "Usuarios.findByUsuarioUsuario", query = "SELECT u FROM Usuarios u WHERE u.usuarioUsuario = :usuarioUsuario"),
-    @NamedQuery(name = "Usuarios.findByUsuarioClinicas", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId != 5"),
+    @NamedQuery(name = "Usuarios.findByUsuarioClinicas", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId != 5 AND u.usuarioUsuario != 'admin'"),
     @NamedQuery(name = "Usuarios.findByUsuarioPacientes", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.rolId.rolId = 5"),
-    @NamedQuery(name = "Usuarios.findByUsuarioActivos", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE'"),
+    @NamedQuery(name = "Usuarios.findByUsuarioActivos", query = "SELECT u FROM Usuarios u WHERE u.usuarioEstado = 'TRUE' AND u.usuarioUsuario != 'admin'"),
     @NamedQuery(name = "Usuarios.findByUsuarioCorreo", query = "SELECT u FROM Usuarios u WHERE u.usuarioCorreo = :usuarioCorreo"),
     @NamedQuery(name = "Usuarios.findByUsuarioTelefono", query = "SELECT u FROM Usuarios u WHERE u.usuarioTelefono = :usuarioTelefono"),
     @NamedQuery(name = "Usuarios.findByUsuarioContrasenia", query = "SELECT u FROM Usuarios u WHERE u.usuarioContrasenia = :usuarioContrasenia"),

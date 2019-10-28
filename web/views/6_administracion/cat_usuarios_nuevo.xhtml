@@ -106,7 +106,7 @@
                     <div class="row" style="margin-left: 5px; margin-right: 5px">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <h6><b>Correo*</b></h6>
-                            <p:inputText id="correousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioCorreo}" required="#{request.getParameter('datos')}" maxlength="25"
+                            <p:inputText id="correousuarionuevo" value="#{catalogosBean.usuarioNuevo.usuarioCorreo}" required="#{request.getParameter('datos')}" maxlength="50"
                                          style="width: 100%" validatorMessage="Correo no válido." requiredMessage="Correo es requerido." readonly="#{(catalogosBean.rolId == 0) or (catalogosBean.rolId == 3) or (catalogosBean.rolId == 5)}" placeholder="ejemplo@mail.com">
                                 <f:validateRegex pattern="^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})*$"/>
                             </p:inputText>

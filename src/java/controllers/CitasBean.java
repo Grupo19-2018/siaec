@@ -97,12 +97,12 @@ public class CitasBean implements Serializable {
 //****************************************************************************//
 //Usado en:
     public List<Clinicas> todasClinicas() {
-        return getClinicasFacade().findAll();
+        return getClinicasFacade().clinicasDisponibles(true);
     }
 
 //Usado en:
     public List<Medicos> todoOdontologos() {
-        return getOdontologosFacade().findAll();
+        return getOdontologosFacade().medicosDisponibles(true);
     }
 
 //Metodos para mostrar las citas aprobadas, solo se mostraran las que no esten vencidas.

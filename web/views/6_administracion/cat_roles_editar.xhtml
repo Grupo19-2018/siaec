@@ -217,7 +217,7 @@
                             <p:outputLabel value="Gestionar Sucursales" rendered="#{AdministracionBean.getsGestionarSucursales()}"/>
                             <h:panelGroup styleClass="#{AdministracionBean.getsGestionarSucursales() ? 'showSmiling' : 'hideSmiling'}" >
                                 <p:selectManyCheckbox value="#{AdministracionBean.gestionarSucursales}" converter="#{privilegiosConvertidor}" layout="responsive" columns="3">
-                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(34)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
+                                    <f:selectItems value="#{AdministracionBean.permisosPorSubMenu(31)}" var="permisos" itemLabel="#{permisos.privilegioAccion}" itemValue="#{permisos}"/>
                                 </p:selectManyCheckbox>
                             </h:panelGroup>
 

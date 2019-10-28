@@ -968,6 +968,10 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
             usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
             usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
+            if (rolId == 2) {
+                usuarioNuevo.setMedicoId(new Medicos(medicoId));
+                medicoSeleccionado = getMedicosFacade().find(medicoId);
+            }
             if (rolId == 3) {
                 usuarioNuevo.setMedicoId(new Medicos(medicoId));
                 medicoSeleccionado = getMedicosFacade().find(medicoId);

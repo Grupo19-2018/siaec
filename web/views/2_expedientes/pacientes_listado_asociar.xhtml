@@ -63,7 +63,7 @@
                                             </td>
                                             <td align="center">
                                                 <h:commandLink class="btn btn-default glyphicon glyphicon-user btn-sm btn-tabla-expediente2" title="Asociar"
-                                                               pt:data-toggle="modal" pt:data-target="#eliminarPromocion">
+                                                               pt:data-toggle="modal" pt:data-target="#asociarPaciente">
                                                     <f:setPropertyActionListener value="#{paciente}" target="#{expedientesBean.pacienteEditar}"/>
                                                     <f:actionListener binding="#{expedientesBean.usuarioBuscar()}"/>
                                                     <p:ajax process="@this" update=":listaPacientes:asociar"/>
@@ -75,8 +75,8 @@
                             </table>
                         </div>
 
-                        <!-- Modal eliminarPromocion -->
-                        <div id="eliminarPromocion" class="modal">
+                        <!-- Modal asociarPaciente -->
+                        <div id="asociarPaciente" class="modal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
@@ -97,7 +97,10 @@
                                                 </div>
                                                 <div class="col-xs-12">
                                                     Expediente: #{expedientesBean.pacienteEditar.pacientePrimerNombre} #{expedientesBean.pacienteEditar.pacienteSegundoNombre} #{expedientesBean.pacienteEditar.pacientePrimerApellido} #{expedientesBean.pacienteEditar.pacienteSegundoApellido}<br/>
-                                                    Fecha nacimiento: #{expedientesBean.pacienteEditar.pacienteFechaNacimiento.date}/#{expedientesBean.pacienteEditar.pacienteFechaNacimiento.month + 1}/#{expedientesBean.pacienteEditar.pacienteFechaNacimiento.year}<br/>
+                                                    Fecha nacimiento:
+                                                    <h:outputText value="#{expedientesBean.pacienteEditar.pacienteFechaNacimiento}">
+                                                        <f:convertDateTime pattern="dd-MM-yyyy "/>
+                                                    </h:outputText><br/>
                                                     Correo: #{expedientesBean.pacienteEditar.pacienteCorreo} <br/>
                                                 </div>
                                                 <div class="col-xs-12" style="text-align: center">

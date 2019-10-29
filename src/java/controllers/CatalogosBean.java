@@ -1216,6 +1216,8 @@ public class CatalogosBean implements Serializable {
             usuarioNuevo.setUsuarioEstado(Boolean.TRUE);
             usuarioNuevo.setUsuarioBloqueado(Boolean.TRUE);
             usuarioNuevo.setUsuarioActivacion(Boolean.TRUE);
+            usuarioNuevo.setUsuarioCodigo((int) (Math.random() * 999) + 999);
+            usuarioNuevo.setUsuarioContrasenia(DigestUtils.md5Hex(usuarioNuevo.getUsuarioContrasenia()));
             if (rolId == 5) {
                 usuarioNuevo.setPacienteId(pacienteSeleccionado);
             }

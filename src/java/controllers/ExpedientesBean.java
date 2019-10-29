@@ -1809,7 +1809,7 @@ public class ExpedientesBean implements Serializable {
             imagenNueva.setImagenFechaCreacion(new Date());
             imagenNueva.setImagenUsuarioCreacion(appSession.getUsuario().getUsuarioUsuario());
             getImagenesFacade().create(imagenNueva);
-            guardarBitacora("Registró una imagen a paciente (" + imagenNueva.getPacienteId().getPacientePrimerNombre() + " " + imagenNueva.getPacienteId().getPacientePrimerApellido() + ").");
+            guardarBitacora("Registró una imagen a paciente (" + pacienteEditar.getPacientePrimerNombre() + " " + pacienteEditar.getPacientePrimerApellido() + ").");
             Thread.sleep(3000);
             imagenNueva = new Imagenes();
             this.setTabIndex(4);
